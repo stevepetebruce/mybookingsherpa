@@ -27,7 +27,18 @@ module Bookyourplace
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.generators do |g|
+      g.assets           false
+      g.channel          assets: false
+      g.controller_specs false
+      g.helper           false
+      g.helper_specs     false
+      g.javascripts      false
+      g.stylesheets      false
+      g.system_tests     nil
+      g.routing_specs    false
+      g.test_framework   false
+      g.view_specs       false
+    end
   end
 end
