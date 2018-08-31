@@ -26,7 +26,6 @@ module Bookyourplace
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-
     config.generators do |g|
       g.assets           false
       g.channel          assets: false
@@ -34,6 +33,7 @@ module Bookyourplace
       g.helper           false
       g.helper_specs     false
       g.javascripts      false
+      g.orm              :active_record, primary_key_type: :uuid
       g.stylesheets      false
       g.system_tests     nil
       g.routing_specs    false
