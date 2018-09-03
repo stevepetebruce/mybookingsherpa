@@ -40,5 +40,7 @@ module Bookyourplace
       g.test_framework   false
       g.view_specs       false
     end
+
+    config.autoload_paths += %W(#{config.root}/app/models/users)
   end
 end
