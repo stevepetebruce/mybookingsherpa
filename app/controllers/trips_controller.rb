@@ -55,6 +55,10 @@ class TripsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def trip_params
-      params.fetch(:trip, {})
+      params.require(:trip).permit(:name,
+                                    :start_date,
+                                    :end_date,
+                                    :minimum_number_of_guests,
+                                    :maximum_number_of_guests)
     end
 end
