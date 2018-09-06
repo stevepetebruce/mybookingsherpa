@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: [:show, :edit, :update, :destroy]
+  before_action :set_trip, only: [:show, :edit, :update] # TODO: destroy - see note below
 
   # GET /trips
   def index
@@ -32,6 +32,7 @@ class TripsController < ApplicationController
 
   # PATCH/PUT /trips/1
   def update
+    # TODO: who has authority to do this?
     if @trip.update(trip_params)
       redirect_to @trip, notice: 'Trip was successfully updated.'
     else
@@ -40,10 +41,11 @@ class TripsController < ApplicationController
   end
 
   # DELETE /trips/1
-  def destroy
-    @trip.destroy
-    redirect_to trips_url, notice: 'Trip was successfully destroyed.'
-  end
+  # TODO: who has authority to do this?
+  # def destroy
+  #   @trip.destroy
+  #   redirect_to trips_url, notice: 'Trip was successfully destroyed.'
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
