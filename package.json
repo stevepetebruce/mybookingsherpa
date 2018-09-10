@@ -2,7 +2,8 @@
   "name": "bookyourplace",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "3.5"
+    "@rails/webpacker": "3.5",
+    "material-icons": "^0.2.3"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
