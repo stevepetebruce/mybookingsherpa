@@ -8,4 +8,11 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import "../styles/application.scss";
-console.log('Hello World from Webpacker')
+import "bootstrap";
+import $ from "jquery";
+import "popper.js";
+
+require.context("../images/", true, /\.(gif|jpe?g|png|svg)$/i);
+
+window.jQuery = $;
+window.$ = $;

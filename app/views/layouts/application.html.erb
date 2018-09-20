@@ -10,6 +10,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container-scroller">
+      <%= render "layouts/nav_bar" %>
+      <%= yield %>
+    </div>
   </body>
 </html>
