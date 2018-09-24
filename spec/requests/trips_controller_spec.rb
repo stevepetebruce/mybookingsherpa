@@ -5,13 +5,13 @@ RSpec.describe 'TripsController', type: :request do
   # TODO: ** implement created_by and updated_by and test them here
 
   describe '#create POST /trips' do
+    # TODO: revisit when devise is installed
+    # TODO: * include_examples 'authentication' # signed out specs
     def do_request(url: "/trips", params: {})
       post url, params: params
     end
 
-    # TODO: * include_examples 'authentication' # signed out specs
-
-    context 'valid and succesful' do
+    context 'valid and successful' do
       let(:params) { { trip: { name: Faker::Name.name } } }
       let(:trip) { Trip.last }
 
@@ -22,56 +22,50 @@ RSpec.describe 'TripsController', type: :request do
         expect(response).to redirect_to(trip_path(trip))
 
         expect(trip.name).to eq params[:trip][:name]
-        # TODO: ** expect(clipping.created_by).to eq user
+        # TODO: ** expect(trip.created_by).to eq user
+        # TODO: ** expect(trip.updated_by).to eq user
       end
     end
   end
 
-  # TODO:
-  # describe '#destroy DELETE /clippings' do
-  #   let!(:clipping) { create(:clipping, workspace: workspace) }
+  describe '#destroy DELETE /trips' do
+  # TODO: revisit when devise is installed
+  # Soft delete?
+  # TODO: * include_examples 'authentication' # signed out specs
+  # let!(:trip) { create(:trip) }
 
-  #   def do_request(url: "/#{workspace.slug}/#{brand.to_param}/clippings/#{clipping.id}", params: {})
-  #     delete url, params: params
+  # def do_request(url: "/trips/#{trip.id}", params: {})
+  #   delete url, params: params
+  # end
+
+  # context 'signed in' do
+  #   before do
+  #     sign_in user
+  #     stub_vault_submission_post
   #   end
 
-  #   include_examples 'authentication'
-  #   include_examples 'authorised workspace'
+  #   context 'trip sucessfully deleted' do
+  #     it 'should be deleted' do
+  #       expect { do_request }.to change { trip.count }.by(-1)
 
-  #   context 'signed in' do
-  #     before do
-  #       sign_in user
-  #       stub_vault_submission_post
-  #     end
-
-  #     context 'draft clip belonging to correct workspace' do
-  #       it 'should be deleted' do
-  #         expect { do_request }.to change { Clipping.count }.by(-1)
-
-  #         expect(response.code).to eq '302'
-  #       end
-  #     end
-
-  #     context 'draft clip belonging to another workspace' do
-  #       let!(:clipping) { create(:clipping) }
-
-  #       it 'should not be deleted' do
-  #         expect { do_request }.to_not change { Clipping.count }
-  #         expect(response.code).to eq '404'
-  #       end
+  #       expect(response.code).to eq '302'
   #     end
   #   end
   # end
+  # TODO: ** expect(trip.updated_by).to eq user
+  end
 
   describe '#edit GET /trips/:id/edit' do
+    # TODO: revisit when devise is installed
+    # TODO: * include_examples 'authentication'
+    # Only a trip owner / guide who belongs to this trip's org can edit a trip?
     let(:trip) { FactoryBot.create(:trip) }
 
     def do_request(url: "/trips/#{trip.id}/edit", params: {})
       get url, params: params
     end
 
-    # TODO: * include_examples 'authentication'
-    context 'valid and succesful' do
+    context 'valid and successful' do
       it 'should successfully render' do
         do_request
 
@@ -80,16 +74,17 @@ RSpec.describe 'TripsController', type: :request do
     end
   end
 
-  describe '#update PATCH /clippings/:id' do
+  describe '#update PATCH /trips/:id' do
+    # TODO: revisit when devise is installed
+    # TODO: * include_examples 'authentication'
+    # Only a trip owner / guide who belongs to this trip's org can edit a trip?
     let(:trip) { FactoryBot.create(:trip) }
 
     def do_request(url: "/trips/#{trip.id}", params: {})
       patch url, params: params
     end
 
-    # TODO: * include_examples 'authentication'
-
-    context 'valid and succesful' do
+    context 'valid and successful' do
       let(:params) { { trip: { name: Faker::Name.name } } }
 
       it 'should update the trip name' do

@@ -16,7 +16,7 @@ describe User, type: :model do
     end
     context 'phone_number' do
       it { should allow_value(Faker::PhoneNumber.cell_phone).for(:phone_number) }
-      it { should_not allow_value(Faker::Lorem.word).for(:email) }
+      it { should_not allow_value(Faker::Lorem.word).for(:phone_number) }
     end
     context 'type' do
       it { should allow_values('Guide', 'Guest').for(:type) }
