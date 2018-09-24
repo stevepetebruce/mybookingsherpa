@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root 'trips#index'
 
   resources :trips
+  resources :guests, only: %i(create edit index new show update)
 end
