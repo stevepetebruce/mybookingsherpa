@@ -27,6 +27,7 @@ RSpec.describe 'GuestsController', type: :request do
       end
 
       it 'should create a new guest' do
+        pending 'Need to think about how guests are created: when they sign up to a trip, and when a guide adds them to a trip, etc'
         expect { do_request(params: params) }.to change { Guest.count }.by(1)
 
         expect(response.code).to eq '302'
@@ -72,6 +73,7 @@ RSpec.describe 'GuestsController', type: :request do
     
     context 'valid and successful' do
       it 'should successfully render' do
+        pending 'Need to make sure that only a signed in user can edit their OWN details, and that a guide can edit a users guest_trip details, etc'
         do_request
 
         expect(response).to be_successful
@@ -90,6 +92,7 @@ RSpec.describe 'GuestsController', type: :request do
 
     context 'valid and successful' do
       it 'should successfully render' do
+        pending 'see notes above'
         do_request
 
         expect(response).to be_successful
@@ -106,6 +109,7 @@ RSpec.describe 'GuestsController', type: :request do
     end
 
     it 'should successfully render' do
+      pending 'see notes above'
       do_request
 
       expect(response).to be_successful
@@ -124,6 +128,7 @@ RSpec.describe 'GuestsController', type: :request do
 
     context 'valid and successful' do
       it 'should successfully render' do
+        pending 'see notes above'
         do_request
 
         expect(response).to be_successful
@@ -155,6 +160,7 @@ RSpec.describe 'GuestsController', type: :request do
       }
 
       it 'should update the guest' do
+        pending 'See notes above'
         do_request(params: params)
 
         guest.reload

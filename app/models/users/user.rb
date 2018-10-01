@@ -6,4 +6,6 @@ class User < ApplicationRecord
   validates :type, inclusion: { in: %w(Guide Guest),
     message: "%{value} is not a valid type of user" }, presence: true
 
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 end
