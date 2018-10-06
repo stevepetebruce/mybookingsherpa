@@ -4,8 +4,8 @@ class Trip < ApplicationRecord
   validates :minimum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
 
-  has_and_belongs_to_many :guests, association_foreign_key: 'user_id'
-  has_and_belongs_to_many :guides, association_foreign_key: 'user_id'
+  has_and_belongs_to_many :guests
+  has_and_belongs_to_many :guides
  
   def valid_date_format
     # TODO: implement when we know the format of the date string we are receiving
