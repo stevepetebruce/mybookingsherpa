@@ -3,6 +3,11 @@
 ////////// Import variables //////////
 @import 'custom/variables';
 
+////////// Import content //////////
+@import 'custom/typography';
+@import 'custom/content';
+
 ////////// Import components //////////
 @import 'custom/components/dots';
+@import 'custom/components/cards';
 

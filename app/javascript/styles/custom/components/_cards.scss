@@ -1,0 +1,55 @@
+.card {
+  border: 0;
+  @include border-radius(2px);
+  .card-body {
+    padding: $card-padding-y $card-padding-x;
+    + .card-body {
+      padding-top: 0;
+    }
+    .border-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  }
+  .card-header {
+    padding: $cardheader-padding-y $cardheader-padding-x;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
+  .pointer {
+    cursor: pointer;
+  }
+  &.card-outline-success{
+		border: 1px solid theme-color("success");
+	}
+	&.card-outline-primary{
+		border: 1px solid theme-color("primary");
+	}
+	&.card-outline-warning{
+		border: 1px solid theme-color("warning");
+	}
+	&.card-outline-danger{
+		border: 1px solid theme-color("danger");
+	}
+	&.card-rounded{
+		@include border-radius(5px);
+	}
+
+  &.card-faded {
+    background: #b5b0b2;
+    border-color: #b5b0b2;
+  }
+  &.card-shadow {
+    box-shadow: 0 6px 14px 0px rgba(0, 0, 0, 0.1);
+  }
+}
+
+
+
+[data-toggle="collapse"] .mdi-calendar:before {  
+  content: "\F063";
+  font-size: 18px;
+}
+
+[data-toggle="collapse"].collapsed .mdi-calendar:before { 
+  content: "\F04B";
+}
+
