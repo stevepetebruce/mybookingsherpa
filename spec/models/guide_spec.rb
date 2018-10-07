@@ -1,9 +1,11 @@
 require 'rails_helper'
 
-describe User, type: :model do
-  context 'associations' do
+RSpec.describe Guide, type: :model do
+  describe 'associations' do
+    it { is_expected.to have_and_belong_to_many(:trips) }
   end
-  context 'validations' do
+
+  describe 'validations' do
     context 'email' do
       it { should allow_value(Faker::Internet.email).for(:email) }
       it { should_not allow_values(Faker::Lorem.word, Faker::PhoneNumber.cell_phone ).for(:email) }
@@ -17,11 +19,6 @@ describe User, type: :model do
     context 'phone_number' do
       it { should allow_value(Faker::PhoneNumber.cell_phone).for(:phone_number) }
       it { should_not allow_value(Faker::Lorem.word).for(:phone_number) }
-    end
-    context 'type' do
-      it { should allow_values('Guide', 'Guest').for(:type) }
-      it { should_not allow_values(Faker::Lorem.word).for(:type) }
-      it { should validate_presence_of(:type) }
     end
   end
 end
