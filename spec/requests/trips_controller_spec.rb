@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'TripsController', type: :request do
   # TODO: * need to test signed out users get redirected to sign in page/ public view of trip
+  # ... need to add a nested public scope to trips
   # TODO: ** implement created_by and updated_by and test them here
 
   describe '#create POST /trips' do
-    # TODO: revisit when devise is installed
-    # TODO: * include_examples 'authentication' # signed out specs
+    include_examples 'authentication'    
+
     def do_request(url: "/trips", params: {})
       post url, params: params
     end
@@ -17,6 +18,7 @@ RSpec.describe 'TripsController', type: :request do
 
       it 'should create a new trip' do
         pending 'only a signed in guide can create a trip'
+        # TODO: need to test that created trip is associated with current_guide
         expect { do_request(params: params) }.to change { Trip.count }.by(1)
 
         expect(response.code).to eq '302'
@@ -30,9 +32,8 @@ RSpec.describe 'TripsController', type: :request do
   end
 
   describe '#destroy DELETE /trips' do
-  # TODO: revisit when devise is installed
+  # include_examples 'authentication'
   # Soft delete?
-  # TODO: * include_examples 'authentication' # signed out specs
   # let!(:trip) { create(:trip) }
 
   # def do_request(url: "/trips/#{trip.id}", params: {})
@@ -57,8 +58,8 @@ RSpec.describe 'TripsController', type: :request do
   end
 
   describe '#edit GET /trips/:id/edit' do
-    # TODO: revisit when devise is installed
-    # TODO: * include_examples 'authentication'
+    include_examples 'authentication'
+
     # Only a trip owner / guide who belongs to this trip's org can edit a trip?
     let(:trip) { FactoryBot.create(:trip) }
 
@@ -77,8 +78,7 @@ RSpec.describe 'TripsController', type: :request do
   end
 
   describe '#update PATCH /trips/:id' do
-    # TODO: revisit when devise is installed
-    # TODO: * include_examples 'authentication'
+    include_examples 'authentication'
     # Only a trip owner / guide who belongs to this trip's org can edit a trip?
     let(:trip) { FactoryBot.create(:trip) }
 
