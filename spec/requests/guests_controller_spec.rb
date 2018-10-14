@@ -4,7 +4,9 @@ RSpec.describe 'GuestsController', type: :request do
   # TODO: ** implement created_by and updated_by and test them here
 
   describe '#create POST /guests' do
-    include_examples 'authentication'
+    # TODO: this is overridden by Devise::RegistrationsController#create
+    # Need to make other route to allow a guide to add/ create a guest...
+    # include_examples 'authentication'
 
     # TODO: need to test the sign up path rather than directly creating a guest
     # Only guests can create themselves? By signing up?
