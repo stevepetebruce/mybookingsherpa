@@ -12,6 +12,7 @@ gem 'puma', '~> 3.11'
 gem 'webpacker'
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry'
