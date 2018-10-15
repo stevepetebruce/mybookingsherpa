@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   devise_for :guides
 
   resources :trips
-  resources :guests, only: %i(create edit index new show update)
+  resources :guests, only: %i(edit index new show update)
 end
