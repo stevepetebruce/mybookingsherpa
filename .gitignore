@@ -9,6 +9,8 @@
 
 /coverage
 
+/.env
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
