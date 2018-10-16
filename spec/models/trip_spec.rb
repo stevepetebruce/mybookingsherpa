@@ -4,6 +4,7 @@ RSpec.describe Trip, type: :model do
   describe 'associations' do
     it { is_expected.to have_and_belong_to_many(:guests) }
     it { is_expected.to have_and_belong_to_many(:guides) }
+    it { is_expected.to have_many(:bookings) }
   end
 
   describe 'validations' do
