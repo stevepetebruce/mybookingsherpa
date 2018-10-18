@@ -1,0 +1,25 @@
+.flag-icon-background, .flag-icon {
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat; 
+  }
+
+.flag-icon {
+  position: relative;
+  display: inline-block;
+  width: 1.14286em;
+  line-height: 1em; 
+  }
+
+.flag-icon.flag-icon-circled {
+  border-radius: 50%;
+  border: solid 1px white;
+  width: 1.2286em;
+  line-height: 1.1em;
+  }
+
+.flag-icon-profile {
+  position: absolute;
+  left: 38px;
+  top: -8px;
+  }

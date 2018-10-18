@@ -44,12 +44,12 @@
 
 
 
-[data-toggle="collapse"] .mdi-calendar:before {  
-  content: "\F063";
-  font-size: 18px;
+[data-toggle="collapse"] .fa-chevron-circle-down:before {  
+  content: "\f183";
+  font-size: 20px;
 }
 
-[data-toggle="collapse"].collapsed .mdi-calendar:before { 
-  content: "\F04B";
+[data-toggle="collapse"].collapsed .fa-chevron-circle-down:before { 
+  content: "\f180";
 }
 
