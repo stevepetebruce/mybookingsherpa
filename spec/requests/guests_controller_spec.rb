@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'GuestsController', type: :request do
-  # TODO: * need to test signed out users get redirected to sign in page
   # TODO: ** implement created_by and updated_by and test them here
 
   describe '#create POST /guests' do
+    # TODO: this is overridden by Devise::RegistrationsController#create
+    # Need to make other route to allow a guide to add/ create a guest...
+    # include_examples 'authentication'
+
     # TODO: need to test the sign up path rather than directly creating a guest
     # Only guests can create themselves? By signing up?
-    # Revisit this when devise is installed
-    # TODO: * include_examples 'authentication' # signed out specs
+
     def do_request(url: "/guests", params: {})
       post url, params: params
     end
@@ -44,33 +46,21 @@ RSpec.describe 'GuestsController', type: :request do
     end
   end
 
-  describe '#destroy DELETE /guests/:id/' do
-    # TODO: DESTROY: who can do this?
-    # Soft delete?
-    # What do we really want to happen? - We prob only want to destroy the organisation_membership
-    # - by the owner of the organisation or the guest themselves.
-    # But allow a user to completely remove themselves and all their data from the system.
-    # let!(:guest) { create(:guest) }
-
-    # def do_request(url: "/guests/#{guest.id}", params: {})
-    #   delete url, params: params
-    # end
-  end
-
   describe '#edit GET /guests/:id/edit' do
+    include_examples 'authentication'
+
     # TODO: who can do this? A user can update their own details - need to scope this to current_user
     # A guide can edit a guests' organisation_membership but not the user details (email, etc).
     # Need to test that a guest / guide / public access - can not access this guest's edit page.
     # Need to scope so that only the current logged in user can update their own details.
     # Revisit when Devise is installed
-    # TODO: * include_examples 'authentication'
+
     let(:guest) { FactoryBot.create(:guest) }
 
     def do_request(url: "/guests/#{guest.id}/edit", params: {})
       get url, params: params
     end
 
-    
     context 'valid and successful' do
       it 'should successfully render' do
         pending 'Need to make sure that only a signed in user can edit their OWN details, and that a guide can edit a users guest_trip details, etc'
@@ -82,6 +72,8 @@ RSpec.describe 'GuestsController', type: :request do
   end
 
   describe '#index get /guests' do
+    include_examples 'authentication'
+
     # TODO: need to scope this to an organisation?
     # Test that current_user is organsation owner and they can only access their own organisation's users
     # All other cases, redirect to home page
@@ -101,6 +93,8 @@ RSpec.describe 'GuestsController', type: :request do
   end
 
   describe '#new get /guests/new' do
+    include_examples 'authentication'
+
     # TODO: This is the sign up page? Or is the creation of new guests done in the background
     # when a guest clicks on a guide's link to join a trip?
     # Revisit when Devise is installed
@@ -117,6 +111,8 @@ RSpec.describe 'GuestsController', type: :request do
   end
 
   describe '#show get /guests/:id' do
+    include_examples 'authentication'
+
     # TODO: Need to scope this to either a user, who can view ONLY their own details
     # OR: a guide who has a guest associated with their organisation
     # Revisit when Devise is installed
@@ -137,10 +133,11 @@ RSpec.describe 'GuestsController', type: :request do
   end
 
   describe '#update PATCH /guests/:id' do
+    include_examples 'authentication'
+
     # Need to scope so that only the current logged in user can update their own details.
     # An organisation owner, can update a user's other details, via their organisation_membership
     # Revist when Devise is installed
-    # TODO: * include_examples 'authentication'
     let!(:guest) { FactoryBot.create(:guest) }
 
     def do_request(url: "/guests/#{guest.id}", params: {})

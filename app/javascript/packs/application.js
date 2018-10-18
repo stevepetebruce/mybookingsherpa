@@ -7,12 +7,19 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+// CSS
 import "../styles/application.scss";
+
+// JS
 import "bootstrap";
 import $ from "jquery";
+import Rails from "rails-ujs";
 import "popper.js";
-
-require.context("../images/", true, /\.(gif|jpe?g|png|svg)$/i);
 
 window.jQuery = $;
 window.$ = $;
+
+Rails.start();
+
+// Assets
+require.context("../images/", true, /\.(gif|jpe?g|png|svg)$/i);

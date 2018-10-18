@@ -10,7 +10,8 @@
     "line-awesome": "^1.0.2",
     "material-icons": "^0.2.3",
     "popper.js": "^1.14.4",
-    "resolve-url-loader": "^3.0.0"
+    "resolve-url-loader": "^3.0.0",
+    "rails-ujs": "^5.2.1"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"

@@ -21,15 +21,16 @@ class GuestsController < ApplicationController
   end
 
   # POST /guests
-  def create
-    @guest = Guest.new(guest_params)
+  # TODO: This is overridden by Devise::RegistrationsController#create
+  # def create
+  #   @guest = Guest.new(guest_params)
 
-    if @guest.save
-      redirect_to @guest, notice: 'Guest was successfully created.'
-    else
-      render :new
-    end
-  end
+  #   if @guest.save
+  #     redirect_to @guest, notice: 'Guest was successfully created.'
+  #   else
+  #     render :new
+  #   end
+  # end
 
   # PATCH/PUT /guests/1
   def update
