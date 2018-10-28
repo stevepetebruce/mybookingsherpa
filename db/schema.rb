@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_15_081332) do
+ActiveRecord::Schema.define(version: 2018_10_28_115622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,6 +86,17 @@ ActiveRecord::Schema.define(version: 2018_10_15_081332) do
     t.index ["trip_id", "guide_id"], name: "index_guides_trips_on_trip_id_and_guide_id"
   end
 
+  create_table "organisations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.text "address"
+    t.string "stripe_account_id"
+    t.string "subdomain"
+    t.uuid "created_by_id"
+    t.uuid "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "trips", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "start_date"
@@ -100,4 +111,6 @@ ActiveRecord::Schema.define(version: 2018_10_15_081332) do
 
   add_foreign_key "bookings", "guests"
   add_foreign_key "bookings", "trips"
+  add_foreign_key "organisations", "guides", column: "created_by_id"
+  add_foreign_key "organisations", "guides", column: "updated_by_id"
 end
