@@ -16,6 +16,8 @@ import $ from "jquery";
 import Rails from "rails-ujs";
 import "popper.js";
 
+import "../javascript/custom.js";
+
 window.jQuery = $;
 window.$ = $;
 
