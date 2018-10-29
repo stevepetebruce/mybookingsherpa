@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_115622) do
+ActiveRecord::Schema.define(version: 2018_10_29_143353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,17 +45,6 @@ ActiveRecord::Schema.define(version: 2018_10_28_115622) do
     t.uuid "updated_by_id"
     t.index ["email"], name: "index_guests_on_email", unique: true
     t.index ["reset_password_token"], name: "index_guests_on_reset_password_token", unique: true
-  end
-
-  create_table "guests_trips", id: false, force: :cascade do |t|
-    t.uuid "guest_id", null: false
-    t.uuid "trip_id", null: false
-    t.uuid "created_by_id"
-    t.uuid "updated_by_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["guest_id", "trip_id"], name: "index_guests_trips_on_guest_id_and_trip_id"
-    t.index ["trip_id", "guest_id"], name: "index_guests_trips_on_trip_id_and_guest_id"
   end
 
   create_table "guides", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
