@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Guest, type: :model do
   describe 'associations' do
-    it { is_expected.to have_and_belong_to_many(:trips) }
+    it { should have_many(:bookings) }
+    it { should have_many(:trips).through(:bookings) }
   end
 
   describe 'validations' do
