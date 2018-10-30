@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :guests, only: %i(edit index new show update)
 
   namespace :public do
+    resources :guests, only: %i(edit update show)
     resources :trips, only: %i() do
       resources :bookings, only: %i(create edit new show update),
                            shallow: true, controller: '/public/trips/bookings'

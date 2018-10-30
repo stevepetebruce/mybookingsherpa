@@ -64,7 +64,7 @@ RSpec.describe 'Public::Trips::BookingsController', type: :request do
         expect(trip.guests).to include guest
 
         expect(response.code).to eq '302'
-        expect(response).to redirect_to(public_booking_path(booking))
+        expect(response).to redirect_to(edit_public_guest_path(guest))
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe 'Public::Trips::BookingsController', type: :request do
         expect(trip.guests).to include guest
 
         expect(response.code).to eq '302'
-        expect(response).to redirect_to(public_booking_path(booking))
+        expect(response).to redirect_to(edit_public_guest_path(guest))
       end
     end
   end
