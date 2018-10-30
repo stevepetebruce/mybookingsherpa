@@ -4,6 +4,7 @@ module Public
       skip_before_action :authenticate_guide!
       before_action :set_booking, only: [:show, :edit, :update]
       before_action :set_trip, only: [:create, :new]
+      before_action :set_guest, only: [:create]
 
       # GET /bookings/1
       def show
@@ -20,7 +21,7 @@ module Public
 
       # POST /bookings
       def create
-        @booking = @trip.bookings.new(booking_params)
+        @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
         if @booking.save
           redirect_to public_booking_path(@booking), notice: 'Booking was successfully created.'
@@ -44,6 +45,10 @@ module Public
         @booking = Booking.find(params[:id])
       end
 
+      def set_guest
+        @guest = Guest.find_or_create_by!(email: guest_params[:email])
+      end
+
       def set_trip
         @trip = Trip.find(params[:trip_id])
       end
@@ -51,6 +56,10 @@ module Public
       # Only allow a trusted parameter "white list" through.
       def booking_params
         params.require(:booking).permit()
+      end
+
+      def guest_params
+        params.require(:booking).permit(:email)
       end
     end
   end
