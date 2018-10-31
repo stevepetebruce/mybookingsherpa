@@ -24,7 +24,7 @@ module Public
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
         if @booking.save
-          redirect_to public_booking_path(@booking), notice: 'Booking was successfully created.'
+          redirect_to edit_public_guest_path(@guest), notice: 'Booking was successfully created.'
         else
           render :new
         end
