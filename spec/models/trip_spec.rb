@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Trip, type: :model do
   describe 'associations' do
+    it { should belong_to(:organisation) }
     it { should have_many(:bookings) }
     it { should have_many(:guests).through(:bookings) }
     it { should have_and_belong_to_many(:guides) }
