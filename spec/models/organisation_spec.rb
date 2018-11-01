@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Organisation, type: :model do
   describe 'associations' do
+    it { should have_many(:guides).through(:organisation_memberships) }
     # TODO: 
-    # has_many: memberships: organisation_guide join table
     # has_many: subscriptions (including one current_subscription)
     # has_many: accomodation_providers
   end

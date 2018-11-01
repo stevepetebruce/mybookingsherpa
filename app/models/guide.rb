@@ -4,6 +4,8 @@ class Guide < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :organisation_memberships
+  has_many :organisations, through: :organisation_memberships
   has_and_belongs_to_many :trips
 
   validates :email, format: /\A\w+@\w+\.{1}[a-zA-Z]{2,}\z/, presence: true, uniqueness: true

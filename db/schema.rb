@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_29_143353) do
+ActiveRecord::Schema.define(version: 2018_10_30_201440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -75,6 +75,16 @@ ActiveRecord::Schema.define(version: 2018_10_29_143353) do
     t.index ["trip_id", "guide_id"], name: "index_guides_trips_on_trip_id_and_guide_id"
   end
 
+  create_table "organisation_memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "owner", default: false
+    t.uuid "organisation_id"
+    t.uuid "guide_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guide_id"], name: "index_organisation_memberships_on_guide_id"
+    t.index ["organisation_id"], name: "index_organisation_memberships_on_organisation_id"
+  end
+
   create_table "organisations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "address"
@@ -100,6 +110,8 @@ ActiveRecord::Schema.define(version: 2018_10_29_143353) do
 
   add_foreign_key "bookings", "guests"
   add_foreign_key "bookings", "trips"
+  add_foreign_key "organisation_memberships", "guides"
+  add_foreign_key "organisation_memberships", "organisations"
   add_foreign_key "organisations", "guides", column: "created_by_id"
   add_foreign_key "organisations", "guides", column: "updated_by_id"
 end
