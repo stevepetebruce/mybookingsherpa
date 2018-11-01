@@ -2,7 +2,6 @@
   <% if booking.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-
       <ul>
       <% booking.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -10,12 +9,34 @@
       </ul>
     </div>
   <% end %>
-
-  <%= form.label(:email) %>
-  <%= form.text_field(:email) %>
-
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="firstName">First name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="lastName">Last name</label>
+      <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="email"><%= form.label(:email) %></label>
+    <%= form.text_field(:email, class: 'form-control') %>
+  </div>
+  <hr class="mb-5 mb-4">
+  <h4 class="mb-3">Payment</h4>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label for="card-element">Credit or debit card number</label>
+      <div id="card-element">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+      <!-- Used to display Element errors. -->
+      <div id="card-errors" role="alert"></div>
+    </div>
+  </div>
   <%= form.hidden_field(:status, value: :complete) %>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :class => 'btn btn-primary btn-lg btn-block mt-4' %>
   </div>
 <% end %>
