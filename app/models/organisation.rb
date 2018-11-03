@@ -5,5 +5,16 @@ class Organisation < ApplicationRecord
 
   has_many :organisation_memberships
   has_many :guides, through: :organisation_memberships
+  has_many :subscriptions
   has_many :trips
+
+  def plan
+    current_subscription&.plan
+  end
+
+  private
+
+  def current_subscription
+    subscriptions.created_at_desc&.first
+  end
 end
