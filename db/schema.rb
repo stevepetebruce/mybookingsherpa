@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_30_201440) do
+ActiveRecord::Schema.define(version: 2018_10_31_193044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 2018_10_30_201440) do
     t.uuid "updated_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "organisation_id"
+    t.index ["organisation_id"], name: "index_trips_on_organisation_id"
   end
 
   add_foreign_key "bookings", "guests"
@@ -114,4 +116,5 @@ ActiveRecord::Schema.define(version: 2018_10_30_201440) do
   add_foreign_key "organisation_memberships", "organisations"
   add_foreign_key "organisations", "guides", column: "created_by_id"
   add_foreign_key "organisations", "guides", column: "updated_by_id"
+  add_foreign_key "trips", "organisations"
 end

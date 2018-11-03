@@ -4,6 +4,7 @@ class Trip < ApplicationRecord
   validates :minimum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
 
+  belongs_to :organisation
   has_many :bookings
   has_many :guests, through: :bookings
   has_and_belongs_to_many :guides
