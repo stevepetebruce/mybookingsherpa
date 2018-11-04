@@ -5,7 +5,7 @@
 (function() {
   'use strict';
 
-  const stripe = Stripe('pk_test_mOBtxNpMht2po09RkLReWILl');
+  const stripe = Stripe('STRIPE_PUBLISHABLE_KEY');
   const elements = stripe.elements();
 
   // Custom styling can be passed to options when creating an Element.
