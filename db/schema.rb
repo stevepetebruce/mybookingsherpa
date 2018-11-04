@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_193044) do
+ActiveRecord::Schema.define(version: 2018_11_03_141301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -92,6 +92,15 @@ ActiveRecord::Schema.define(version: 2018_10_31_193044) do
     t.string "subdomain"
     t.uuid "created_by_id"
     t.uuid "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.float "flat_fee_amount"
+    t.float "percentage_amount"
+    t.integer "charge_type", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
