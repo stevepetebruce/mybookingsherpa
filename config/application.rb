@@ -42,5 +42,7 @@ module Bookyourplace
     end
 
     config.autoload_paths += %W(#{config.root}/app/models/users)
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
