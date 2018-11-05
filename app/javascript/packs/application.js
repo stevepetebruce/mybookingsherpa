@@ -23,5 +23,7 @@ window.$ = $;
 
 Rails.start();
 
+require("dotenv").config();
+
 // Assets
 require.context("../images/", true, /\.(gif|jpe?g|png|svg)$/i);
