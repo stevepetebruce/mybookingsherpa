@@ -1,6 +1,8 @@
 class Plan < ApplicationRecord
   enum charge_type: [ :flat_fee, :percentage ]
 
+  has_many :subscriptions
+
   validates :name, presence: true
   validate :charge_amount_present
 
