@@ -7,6 +7,14 @@
     "postdeploy": "bundle exec rake db:migrate"
   },
   "env": {
+    "STRIPE_SECRET_KEY": {
+      "description": "Secret key for Stripe API - used on the server",
+      "required": false
+    },
+    "STRIPE_PUBLISHABLE_KEY": {
+      "description": "Secret key for Stripe API - used in the front end (Stripe.js)",
+      "required": false
+    },
     "RAILS_ENV": "production",
     "RACK_ENV": "production",
     "RAILS_SERVE_STATIC_FILES": "true"
