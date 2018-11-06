@@ -6,7 +6,7 @@
   "use strict";
 
   document.addEventListener("DOMContentLoaded", function(){
-    const stripe = Stripe("STRIPE_PUBLISHABLE_KEY");
+    const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
     const elements = stripe.elements();
     const stripeTokenHandler = (token) => {
       // Insert the token ID into the form so it gets submitted to the server
