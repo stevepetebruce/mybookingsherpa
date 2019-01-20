@@ -1,14 +1,20 @@
 class Trip < ApplicationRecord
   validate :start_date_before_end_date
   validates :name, format: /\A[\sa-zA-Z0-9_.\-]+\z/, presence: true # TODO: make this unique within an organisation's scope
-  validates :minimum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
-  validates :maximum_number_of_guests, numericality: { only_integer: true }, allow_nil: true
+  validates :minimum_number_of_guests,
+            numericality: { only_integer: true },
+            allow_nil: true
+  validates :maximum_number_of_guests,
+            numericality: { only_integer: true },
+            allow_nil: true
 
   belongs_to :organisation
   has_many :bookings
   has_many :guests, through: :bookings
   has_and_belongs_to_many :guides
- 
+
+  delegate :name, to: :organisation, prefix: true
+
   def valid_date_format
     # TODO: implement when we know the format of the date string we are receiving
   end
