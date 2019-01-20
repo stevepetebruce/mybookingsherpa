@@ -19,7 +19,7 @@
     <div class="py-5 offset-md-1 col-md-7 order-md-2">
       <h4 class="mb-3 font-weight-bold">Your Details</h4>
       <% # TODO: this will post to Stripe API - remove this form when it does %>
-      <%= render 'form', booking: @booking, url: public_trip_bookings_path(@trip) %>
+      <%= render 'new_form', booking: @booking, url: public_trip_bookings_path(@trip) %>
     </div>
   </div>
 </div>

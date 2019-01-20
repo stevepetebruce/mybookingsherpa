@@ -22,7 +22,7 @@
   </div>
   <div class="mb-3">
     <label for="email"><%= form.label(:email) %></label>
-    <%= form.text_field(:email, class: 'form-control') %>
+    <%= form.text_field(:email, class: "form-control") %>
   </div>
   <hr class="mb-5 mb-4">
   <h4 class="mb-3 font-weight-bold">Payment</h4>
@@ -38,6 +38,6 @@
   </div>
   <%= form.hidden_field(:status, value: :complete) %>
   <div class="actions">
-    <%= form.submit :class => 'btn btn-primary btn-lg btn-block mt-4' %>
+    <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
   </div>
 <% end %>
