@@ -17,10 +17,18 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
   describe "#create POST /public/trips/:trip_id/bookings" do
     let(:booking) { Booking.last }
+    let!(:email) { Faker::Internet.email }
+    let(:first_name) { Faker::Name.first_name }
+    let(:last_name) { Faker::Name.last_name }
     let!(:trip) { FactoryBot.create(:trip) }
-    let(:params) do
+    let!(:params) do
       {
-        booking: { email: email },
+        booking:
+        {
+          email: email,
+          first_name: first_name,
+          last_name: last_name
+        },
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }
     end
@@ -55,6 +63,10 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect(trip.reload.bookings).to include booking
           expect(booking.guest).to eq guest
           expect(trip.guests).to include guest
+
+          expect(booking.email).to eq params[:booking][:email]
+          expect(booking.first_name).to eq params[:booking][:first_name]
+          expect(booking.last_name).to eq params[:booking][:last_name]
 
           expect(response.code).to eq "302"
           expect(response).to redirect_to(edit_public_booking_path(booking))
