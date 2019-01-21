@@ -16,7 +16,7 @@ module Public
 
       # POST /bookings
       def create
-        @guest = Guest.find_or_create_by!(email: booking_params[:email])
+        @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
         if @booking.save && create_charge
