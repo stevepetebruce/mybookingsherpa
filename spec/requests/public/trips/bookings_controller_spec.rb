@@ -17,13 +17,15 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
   describe "#create POST /public/trips/:trip_id/bookings" do
     let(:booking) { Booking.last }
-    let!(:email) { Faker::Internet.email }
     let!(:trip) { FactoryBot.create(:trip) }
     let(:params) do
       {
         booking: { email: email },
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }
+    end
+    let(:response_body) do
+      "#{file_fixture("stripe_api/successful_charge.json").read}"
     end
 
     before do
@@ -38,9 +40,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     end
 
     context "valid and successful" do
-      let(:response_body) do
-        "#{file_fixture("stripe_api/successful_charge.json").read}"
-      end
+      let!(:email) { Faker::Internet.email }
 
       context "a guest who does not yet exist" do
         let(:booking) { Booking.last }
@@ -78,7 +78,20 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     end
 
     context "unsuccesful" do
-      # TODO: Stripe / Card issue, invalid email address, ???
+      # TODO: Stripe / Card issue
+      context 'user enters an invalid email address' do
+        let(:email) { Faker::Lorem.word }
+
+        it 'should redirect back with error message' do
+          do_request(params: params)
+
+          expect(Guest.count).to eq 0
+          expect(Booking.count).to eq 0
+
+          expect(response.code).to eq "200"
+          expect(response.body).to include("Email is invalid")
+        end
+      end
     end
   end
 
@@ -110,34 +123,48 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
   end
 
   describe "#update PATCH /public/bookings/:id/update" do
-    let!(:email) { Faker::Internet.email }
     let(:params) { { booking: { email: email } } }
 
     def do_request(url: "/public/bookings/#{booking.id}", params: {})
       patch url, params: params
     end
 
-    context "within timeout window of booking being created" do
-      let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
+    context "valid and successful" do
+      let!(:email) { Faker::Internet.email }
 
-      it "should update the booking" do
-        do_request(params: params)
+      context "within timeout window of booking being created" do
+        let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
 
-        expect(response.code).to eq "302"
-        expect(response).to redirect_to(public_booking_path(booking))
+        it "should update the booking" do
+          do_request(params: params)
 
-        expect(booking.reload.email).to eq email
+          expect(response.code).to eq "302"
+          expect(response).to redirect_to(public_booking_path(booking))
+
+          expect(booking.reload.email).to eq email
+        end
+      end
+
+      context "timeout window of booking creation has expired" do
+        let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
+
+        it "should redirect to the public trip new booking path" do
+          do_request
+
+          expect(response.code).to eq "302"
+          expect(response).to redirect_to(new_public_trip_booking_path(booking.trip))
+        end
       end
     end
+    context "invalid and unsuccessful" do
+      let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
+      let(:email) { Faker::Lorem.word }
 
-    context "timeout window of booking creation has expired" do
-      let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
+      it 'should redirect back with error message' do
+        do_request(params: params)
 
-      it "should redirect to the public trip new booking path" do
-        do_request
-
-        expect(response.code).to eq "302"
-        expect(response).to redirect_to(new_public_trip_booking_path(booking.trip))
+        expect(response.code).to eq "200"
+        expect(response.body).to include("Email is invalid")
       end
     end
   end
