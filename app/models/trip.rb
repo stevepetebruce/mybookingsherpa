@@ -1,4 +1,6 @@
 class Trip < ApplicationRecord
+  enum currency: %i[eur gbp usd]
+
   validate :start_date_before_end_date
   validates :name, format: /\A[\sa-zA-Z0-9_.\-]+\z/, presence: true # TODO: make this unique within an organisation's scope
   validates :minimum_number_of_guests,
@@ -24,5 +26,9 @@ class Trip < ApplicationRecord
     return if start_date <= end_date
 
     errors.add(:base, :start_date_after_end_date, message: 'start date must be before end date')
+  end
+
+  def currency
+    self[:currency] || organisation.currency
   end
 end
