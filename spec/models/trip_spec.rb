@@ -9,6 +9,8 @@ RSpec.describe Trip, type: :model do
   end
 
   describe "validations" do
+    it { should validate_presence_of(:full_cost) }
+
     describe "name" do
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
       it { should allow_value(Faker::Lorem.word).for(:name) }

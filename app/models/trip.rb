@@ -1,6 +1,7 @@
 class Trip < ApplicationRecord
   enum currency: %i[eur gbp usd]
 
+  validates :full_cost, presence: true
   validate :start_date_before_end_date
   validates :name, format: /\A[\sa-zA-Z0-9_.\-]+\z/, presence: true # TODO: make this unique within an organisation's scope
   validates :minimum_number_of_guests,
