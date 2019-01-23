@@ -11,7 +11,7 @@ module Public
 
       # GET /bookings/new
       def new
-        @booking = Booking.new
+        @booking = @trip.bookings.new
       end
 
       # POST /bookings
