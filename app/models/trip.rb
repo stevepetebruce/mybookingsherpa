@@ -2,6 +2,7 @@ class Trip < ApplicationRecord
   enum currency: %i[eur gbp usd]
 
   validates :full_cost, presence: true
+  validates :maximum_number_of_guests, presence: true
   validate :start_date_before_end_date
   validates :name, format: /\A[\sa-zA-Z0-9_.\-]+\z/, presence: true # TODO: make this unique within an organisation's scope
   validates :minimum_number_of_guests,
@@ -9,7 +10,7 @@ class Trip < ApplicationRecord
             allow_nil: true
   validates :maximum_number_of_guests,
             numericality: { only_integer: true },
-            allow_nil: true
+            allow_nil: false
 
   belongs_to :organisation
   has_many :bookings
@@ -17,6 +18,14 @@ class Trip < ApplicationRecord
   has_and_belongs_to_many :guides
 
   delegate :name, to: :organisation, prefix: true
+
+  def guest_count
+    # TODO: need to look into this...
+    # A booking, in the future may have more than one guest.
+    # But guests.count (has_many :guests, through: :bookings)
+    # could be a circular reference.
+    bookings.count
+  end
 
   def valid_date_format
     # TODO: implement when we know the format of the date string we are receiving

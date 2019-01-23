@@ -10,6 +10,7 @@ RSpec.describe Trip, type: :model do
 
   describe "validations" do
     it { should validate_presence_of(:full_cost) }
+    it { should validate_presence_of(:maximum_number_of_guests) }
 
     describe "name" do
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
