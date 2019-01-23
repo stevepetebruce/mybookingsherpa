@@ -14,11 +14,18 @@ module Bookings
 
     def attributes
       {
-        amount: 999, # TODO: replace with: @booking.amount_due (4)
-        currency: "eur", # TODO: replace with: @booking.currency
-        description: "Example charge", # TODO: replace with: @booking.charge_description
+        amount: Bookings::CostCalculator.new(@booking).amount_due_in_cents,
+        currency: @booking.currency,
+        description: charge_description,
         token: @token
       }
+      # TODO: add platform fee and destination account
+    end
+
+    def charge_description
+      "#{Currency.iso_to_symbol(@booking.currency)}" \
+        "#{Bookings::CostCalculator.new(@booking).amount_due} " \
+        "paid to #{@booking.organisation_name} for #{@booking.trip_name}"
     end
   end
 end
