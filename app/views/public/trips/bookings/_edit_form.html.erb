@@ -1,26 +1,99 @@
 <%= form_with(model: booking, local: true, url: url) do |form| %>
   <% if booking.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-    <ul>
-    <% booking.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+      <ul>
+      <% booking.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
   <% end %>
-  <h4 class="mb-3 font-weight-bold">Contact Details</h4>
-  <div class="row">
-    <div class="col-md-6 mb-3">
-      <%= form.label :first_name %>
-      <%= form.text_field :first_name, class: "form-control" %>
-    </div>
-    <div class="col-md-6 mb-3">
-      <%= form.label :last_name %>
-      <%= form.text_field :last_name, class: "form-control" %>
-    </div>
-  </div>
-  <div class="actions">
-    <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
-  </div>
+  <ul class="formline">
+    <li>
+      <h4 class="font-weight-bold">Personal Details</h4>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="first_name"><%= form.label :first_name %></label>
+          <%= form.text_field :last_name, class: "form-control" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="last_name"><%= form.label :last_name %></label>
+          <%= form.text_field :last_name, class: "form-control" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="phonenumber">Phone Number</label>
+          <input type="number" class="form-control" name="phonenumber" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="dob">Date of Birth</label>
+          <input type="date" class="form-control" name="dob" placeholder="Date of Birth">
+        </div>
+        <div class="col-md-12 mb-3">
+         <hr class="mb-5">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" name="address" required>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="city">City</label>
+          <input type="text" class="form-control" name="city" required>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="county">County/State</label>
+          <input type="text" class="form-control" name="county" required>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="postcode">Postcode/Zip</label>
+          <input type="text" class="form-control" name="postcode" required>
+        </div>
+      </div>
+      <hr class="mb-5 mb-4">
+    </li>
+    <li>
+      <h4 class="font-weight-bold">Next of Kin</h4>
+      <div class="row">
+        <div class="col-md-5 mb-3">
+          <label for="nokname">Contact Name</label>
+          <input type="text" class="form-control" name="nokname" required>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="nokphone">Contact Phone Number</label>
+          <input type="number" class="form-control" name="nokphone" required>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="nok_relationship">Relationship to you</label>
+          <select class="form-control" name="nok_relationship">
+            <option value="parent">Parent</option>
+            <option value="sibling">Sibling</option>
+            <option value="friend">Friend</option>
+            <option value="family">Family</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <hr class="mb-5 mb-4">
+    </li>
+    <li>
+      <h4 class="mb-3 font-weight-bold">Dietry and Health Requirements</h4>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <input type="radio" name="diet" value="none" checked>
+          <label for="none" class="mr-4">None</label>
+          <input type="radio" name="diet" value="vegetarian">
+          <label for="vegetarian" class="mr-4">Vegetarian</label>
+          <input type="radio" name="diet" value="vegan">
+          <label for="vegan">Vegan</label>
+        </div>
+        <div class="col-md-12 mb-3">
+          <label for="allergies">Allergies</label>
+          <textarea class="form-control" name="allergies"></textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+          <label for="medical">Medical Conditions</label>
+          <textarea class="form-control" name="medical"></textarea>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
 <% end %>
