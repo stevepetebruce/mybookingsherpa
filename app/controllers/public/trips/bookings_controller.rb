@@ -20,6 +20,10 @@ module Public
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
         if @booking.save && create_charge
+          # TODO: Add background jobs with sidekiq and redis to allow sending of emails in background job
+          # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
+          # 10 min wait to let them fill in their details in booking edit page, then send updated email
+          # content based on that state...
           redirect_to edit_public_booking_path(@booking), notice: 'Booking was successfully created.'
         else
           render :new
