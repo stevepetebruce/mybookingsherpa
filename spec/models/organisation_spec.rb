@@ -9,6 +9,8 @@ RSpec.describe Organisation, type: :model do
     # has_many: accomodation_providers
   end
 
+  it { should define_enum_for(:currency).with(%i[eur gbp usd]) }
+
   describe "validations" do
     it { should validate_presence_of(:currency) }
 
@@ -29,17 +31,33 @@ RSpec.describe Organisation, type: :model do
   end
 
   describe "#plan" do
-    let(:organisation) { FactoryBot.create(:organisation) }
+    subject { organisation.plan }
 
+    let(:organisation) { FactoryBot.create(:organisation) }
     let!(:other_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
     let!(:other_subscription) { FactoryBot.create(:subscription,organisation: organisation, plan: other_plan, created_at: 10.days.ago) }
     let!(:current_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
     let!(:current_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: current_plan, created_at: Time.zone.now) }
 
     it "should be the plan associated with the most recently created subscription" do
-      expect(organisation.plan).to eq current_plan
+      expect(subject).to eq current_plan
     end
   end
 
-  it { should define_enum_for(:currency).with(%i[eur gbp usd]) }
+  describe "#owner" do
+    subject { organisation.owner }
+
+    let!(:not_owner) { FactoryBot.create(:guide) }
+    let(:organisation) { FactoryBot.create(:organisation) }
+    let!(:organisation_membership) do
+      FactoryBot.create(:organisation_membership,
+                        guide: owner,
+                        organisation: organisation,
+                        owner: true)
+    end
+    let!(:owner) { FactoryBot.create(:guide) }
+
+    it { expect(subject).to eq owner }
+    it { expect(subject).to_not eq not_owner }
+  end
 end
