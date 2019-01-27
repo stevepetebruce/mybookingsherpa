@@ -50,6 +50,12 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
 
+      xit 'should send out the new booking email to the guest and trip provider' do
+        # TODO: pending - need to set up background jobs and email.deliver_later
+        expect { do_request(params: params) }
+          .to change { ActionMailer::Base.deliveries.count }.by(2)
+      end
+
       context "a guest who does not yet exist" do
         let(:booking) { Booking.last }
         let(:guest) { Guest.last }

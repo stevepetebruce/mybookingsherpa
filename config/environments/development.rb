@@ -38,6 +38,16 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              ENV.fetch('SMTP_ADDRESS'), #'smtp.postmarkapp.com',
+    port:                 587,
+    domain:               URI.parse(ENV.fetch('BASE_DOMAIN')).host,
+    user_name:            ENV.fetch('SMTP_USER_NAME'),
+    password:             ENV.fetch('SMTP_PASSWORD'),
+    authentication:       :plain,
+    enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
