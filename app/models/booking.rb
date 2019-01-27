@@ -5,7 +5,9 @@ class Booking < ApplicationRecord
   belongs_to :trip
   belongs_to :guest, optional: true
 
-  delegate :currency, :deposit_cost, :full_cost,
+  delegate :name, :email, to: :guide, prefix: true
+
+  delegate :currency, :deposit_cost, :full_cost, :guide,
            :organisation_name, :start_date, :end_date, to: :trip
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true

@@ -4,8 +4,8 @@ class GuestBookingMailer < ApplicationMailer
     @booking = params[:booking]
 
     mail(to: @booking.email,
-         # TODO: from: "#{@booking.guide_name} <#{@booking.owner_email}>",
-         # TODO: reply_to: "#{@booking.owner_name} <#{@booking.owner_email}>"
+         from: "#{@booking.guide_name} <#{@booking.guide_email}>",
+         reply_to: "#{@booking.guide_name} <#{@booking.guide_email}>",
          subject: "Successful booking for #{@booking.trip_name}")
   end
 end
