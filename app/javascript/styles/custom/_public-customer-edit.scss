@@ -1,0 +1,38 @@
+ul.formline {
+  list-style-type: none;
+  position: relative;
+}
+
+ul.formline:before {
+  content: ' ';
+  background: #d4d9df;
+  display: inline-block;
+  position: absolute;
+  left: 29px;
+  width: 2px;
+  height: 100%;
+  z-index: 400;
+}
+
+ul.formline > li {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+ul.formline > li > h4 {
+  margin-bottom: 28px;
+  line-height: .8em;
+}
+
+ul.formline > li:before {
+  content: ' ';
+  background: #EFEFEF;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  z-index: 400;
+}

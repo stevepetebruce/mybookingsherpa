@@ -1,3 +1,23 @@
-<h1>Editing Booking</h1>
-
-<%= render "edit_form", booking: @booking, url: public_booking_path(@booking) %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 order-md-1">
+      <div class="pt-4 text-center">
+        <img class="d-block mx-auto mb-5" src="<%= asset_pack_path 'images/logos/alp-adventures-logo.png' %>" alt="logo" width="180" height="120">
+      </div>
+    </div>
+    <div class="py-5 col-md-8 order-md-2">
+      <h1 class="font-weight-bold">Alps Adventure</h1>
+      <h3 class="card-title">5 - 12 February 2019</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="offset-md-1 col-md-10">
+      <h3 class="font-weight-bold">Hi first_name, your booking is almost complete.</h3>
+      <h4 class="mb-5">To help your trip run smoothly, please fill in the details below...</h4>
+      <%= render "edit_form", booking: @booking, url: public_booking_path(@booking) %>
+    </div>
+  </div>
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1"><a href="">Terms and Conditions</a></p>
+  </footer>
+</div>
