@@ -6,5 +6,6 @@ FactoryBot.define do
     end_date { Date.today + 1.week }
     maximum_number_of_guests { 12 }
     organisation
+    guides { |t| [t.association(:guide)] }
   end
 end

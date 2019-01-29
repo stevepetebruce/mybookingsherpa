@@ -2,7 +2,7 @@ module Public
   module Trips
     class BookingsController < ApplicationController
       TIMEOUT_WINDOW_MINUTES = 30
-      skip_before_action :authenticate_guide! # / :authenticate_guest! ?
+
       before_action :set_booking, only: %i[edit update show]
       before_action :check_timeout, only: %i[edit update show]
       before_action :set_trip, only: %i[create new]
