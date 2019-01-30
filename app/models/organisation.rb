@@ -11,6 +11,10 @@ class Organisation < ApplicationRecord
   has_many :subscriptions
   has_many :trips
 
+  def owner
+    organisation_memberships.owners&.first&.guide
+  end
+
   def plan
     current_subscription&.plan
   end

@@ -16,8 +16,13 @@ class Trip < ApplicationRecord
   has_many :bookings
   has_many :guests, through: :bookings
   has_and_belongs_to_many :guides
+  has_many :organisation_memberships, through: :guides
 
   delegate :name, to: :organisation, prefix: true
+
+  def guide
+    organisation_memberships.owners&.first&.guide
+  end
 
   def guest_count
     # TODO: need to look into this...
