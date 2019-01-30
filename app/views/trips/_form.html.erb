@@ -2,7 +2,6 @@
   <% if trip.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
-
       <ul>
       <% trip.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -10,8 +9,70 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
+  <label for="tripname">Trip Name</label>
+  <input type="text" class="form-control" name="tripname" required>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <label for="startdate">Start date</label>
+      <input type="date" class="form-control" name="startdate" required>
+    </div>
+    <div class="col-md-6">
+      <label for="enddate">End date</label>
+      <input type="date" class="form-control" name="enddate" required>
+    </div>
+  </div>
+  <div class="mt-3 pb-1">
+    <label for="description">Description</label>
+    <textarea class="form-control" rows="4" name="description" required></textarea>
+  </div>
+  <div class="mt-3 pb-1">
+     <label for="tripname">Location</label>
+    <input type="text" class="form-control" name="location" required>
+  </div>
+  <h2 class="card-title font-weight-bold mt-5">
+    Guests
+  </h2>
+  <div class="row mt-3">
+    <div class="form-group row col-md-5">
+      <label for="minimum" class="col-auto col-form-label">Minimum People</label>
+      <div class="col-auto">
+        <input type="number" class="form-control" id="minimum">
+      </div>
+    </div>
+    <div class="form-group row col-md-5">
+      <label for="minimum" class="col-auto col-form-label">Maximum People</label>
+      <div class="col-auto">
+        <input type="number" class="form-control" id="maximum">
+      </div>
+    </div>
+  </div>
+  <h2 class="card-title font-weight-bold mt-5">
+    Price
+  </h2>
+  <div class="row mt-3">
+    <div class="form-group row col-md-5">
+      <label for="currency" class="col-auto col-form-label">Currency</label>
+      <div class="col-auto">
+        <select class="form-control mr-sm-2"  id="inlineFormCustomSelectPref" name="currency">
+          <option value="euros">Euros</option>
+          <option value="pounds">Pounds</option>
+          <option value="dollars">Dollars</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row col-md-5">
+      <label for="minimum" class="col-auto col-form-label">Total Cost per person</label>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend">€</span>
+          </div>
+          <input type="number" value="900" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5 mb-5 actions">
+    <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
   </div>
 <% end %>

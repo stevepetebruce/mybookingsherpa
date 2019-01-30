@@ -1,5 +1,19 @@
-<h1>New Trip</h1>
-
-<%= render 'form', trip: @trip %>
-
-<%= link_to 'Back', trips_path %>
+<div class="container-fluid page-body-wrapper content">
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="card card-shadow">
+        <div class="card-body">
+          <div class="row mb-4  justify-content-md-center">
+            <div class="col-10">
+              <h1 class="card-title font-weight-bold">
+                New Trip
+              </h1>
+              <%= render 'form', trip: @trip %>
+              <%= link_to 'Back', trips_path %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
