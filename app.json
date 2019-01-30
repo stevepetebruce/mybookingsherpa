@@ -7,6 +7,18 @@
     "postdeploy": "bundle exec rake db:migrate"
   },
   "env": {
+    "SMTP_ADDRESS": {
+      "description": "SMTP server, eg: smtp.postmarkapp.com",
+      "required": false
+    },
+    "SMTP_PASSWORD": {
+      "description": "Password for email/SMTP provider",
+      "required": false
+    },
+    "SMTP_USER_NAME": {
+      "description": "User name for email/SMTP provider",
+      "required": false
+    },
     "STRIPE_SECRET_KEY": {
       "description": "Secret key for Stripe API - used on the server",
       "required": false
