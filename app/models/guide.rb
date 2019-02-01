@@ -4,9 +4,10 @@ class Guide < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_and_belongs_to_many :trips
+  has_many :guests, through: :trips
   has_many :organisation_memberships
   has_many :organisations, through: :organisation_memberships
-  has_and_belongs_to_many :trips
 
   validates :email, format: /\A\w+@\w+\.{1}[a-zA-Z]{2,}\z/, presence: true, uniqueness: true
   validates :name, format: /\A[\sa-zA-Z0-9_.'\-]+\z/, allow_blank: true

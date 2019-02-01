@@ -8,9 +8,9 @@
               <h1 class="card-title font-weight-bold">
                 Edit Trip
               </h1>
-              <%= render 'form', trip: @trip %>
-              <%= link_to 'Show', @trip %> |
-              <%= link_to 'Back', trips_path %>
+              <%= render 'form', trip: @trip, url: guides_trip_path(@trip) %>
+              <%= link_to 'Show', guides_trip_path(@trip) %> |
+              <%= link_to 'Back', guides_trips_path %>
             </div>
           </div>
         </div>
