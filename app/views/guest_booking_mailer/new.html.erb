@@ -1,5 +1,5 @@
 <!-- TODO: need some design work on emails -->
-<h1>Hello  <!-- # TODO: @booking.guest_name --> Successful booking on <%= @booking.trip_name %></h1>
+<h1>Hello <%= @booking.guest.name %> Successful booking on <%= @booking.trip_name %></h1>
 
 <p>
   You have successfully joined <%= @booking.trip_name %>. Welcome!<br>
@@ -23,3 +23,26 @@
 <p>
   <!-- # TODO: @booking.itinerary -->
 </p>
+
+
+<!-- 
+
+Title: You’re booked on Val des Air Mountain Bike Trip, 12 - 15 Feb 2019.
+
+Hi Alan,
+Your payment of €500 has been successful and you’re booked on to the Val des Air Mountain Bike Trip, 12-15 Feb, 2019.
+To view your trip and update any of your details, please click this link: <TODO>.
+TODO: screen grab the guest show view and link to that image here....
+Else arno would need to log out as guide and log in as guest...
+
+If you need to contact me, my email is arno@alpadventures.com, or just hit reply.
+
+We'd like to thank you for joining us on this trip.
+
+If there's anything we can help you with, or if you have any questions, please let us know. 
+Thank you,
+
+Arno (AlpAdventures.com)
+
+
+ -->
