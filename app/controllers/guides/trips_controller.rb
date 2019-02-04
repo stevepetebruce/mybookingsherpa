@@ -4,7 +4,7 @@ module Guides
     before_action :set_trip, only: [:show, :edit, :update] # TODO: destroy - see note below
 
     def index
-      @trips = current_guide.trips
+      @trips = current_guide.trips.start_date_desc.map { |trip| TripDecorator.new(trip) }
     end
 
     def show
