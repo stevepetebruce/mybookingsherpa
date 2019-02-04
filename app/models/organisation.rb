@@ -2,7 +2,7 @@ class Organisation < ApplicationRecord
   enum currency: %i[eur gbp usd]
 
   validates :currency, presence: true
-  validates :name, format: /\A[\sa-zA-Z0-9_.'\-]+\z/, allow_blank: false
+  validates :name, format: /\A[\sa-zA-Z0-9_.'\-]+\z/, allow_blank: false, uniqueness: true
   validates :stripe_account_id, format: /\A[a-zA-Z0-9_\-]{5,50}\z/, allow_blank: true
   validates :subdomain, format: /\A([a-zA-Z0-9][a-zA-Z0-9_\-]{3,30})\z/, allow_blank: true
 
