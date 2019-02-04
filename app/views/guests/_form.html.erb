@@ -2,6 +2,7 @@
   <% if guest.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(guest.errors.count, "error") %> prohibited this guest from being saved:</h2>
+
       <ul>
       <% guest.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -9,89 +10,15 @@
       </ul>
     </div>
   <% end %>
-  <div class="row mb-4">
-    <div class="col col-md-5 col-lg-4">
-      <div class="card-body">
-        <h2 class="card-title font-weight-bold">Contact</h2>
-        <div class="media">
-          <div class="media-body">
-            <label for="address"><%= form.label :address %></label>
-            <%= form.text_field :address %>
-            <!-- <input type="text" class="form-control" name="address" value="Lorem Ipsum"> -->
-            <label for="city" class="mt-2">City</label>
-            <input type="text" class="form-control" name="city" value="Lorem Ipsum">
-            <label for="county" class="mt-2">County/State</label>
-            <input type="text" class="form-control" name="county" value="Lorem Ipsum">
-            <label for="postcode" class="mt-2">Postcode/Zip</label>
-            <input type="text" class="form-control" name="postcode" value="Lorem Ipsum">
-            <hr class="mb-4">
-            <label for="phonenumber">Phone Number</label>
-            <input type="number" class="form-control" name="phonenumber" value="123456789">
-            <label for="email" class="mt-2"><%= form.label :email %></label>
-            <%= form.text_field :email class="form-control" %>
-            <!-- <input type="email" class="form-control" name="email" value="LoremIpsum@fsfs.com"> -->
-            <label for="dob" class="mt-2">Date of Birth</label>
-            <input type="date" class="form-control" name="dob" placeholder="Date of Birth">
-            <label for="diet" class="mt-2">Dietry Requirements</label>
-            <select class="form-control" name="diet">
-              <option value="none">None</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="card-body">
-        <h2 class="card-title font-weight-bold">
-          Allergies &amp; Medical Conditions
-        </h2>
-        <div class="media">
-          <div class="media-body">
-            <div class="clearfix">
-              <div class="float-left">
-                <i class="mdi mdi-alert-octagon text-warning icon-md"></i>
-              </div>
-              <div class="col ml-4 pt-2">
-                <h2 class="font-weight-normal mb-0"><span class="text-warning">Allergy</span></h2>
-                <textarea class="form-control mt-1 mb-4" rows="4" name="allergies">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At officiis, inventore pariatur quas est in quibusdam tempora eius reiciendis, magni fugiat ut.</textarea>
-              </div>
-            </div>
-            <div class="clearfix">
-              <div class="float-left">
-                <i class="mdi mdi-alert-octagon text-danger icon-md"></i>
-              </div>
-              <div class="col ml-4 pt-2">
-                <h2 class="font-weight-normal mb-0"><span class="text-danger">Medical</span></h2>
-                <textarea class="form-control mt-1 mb-4" rows="4" name="medical">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At officiis, inventore pariatur quas est in quibusdam tempora eius reiciendis, magni fugiat ut.</textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <h2 class="card-title font-weight-bold">
-          Emergency Contact
-        </h2>
-        <div class="media">
-          <div class="media-body">
-            <label for="nokname">Contact Name</label>
-            <input type="text" class="form-control" name="nokname" value="hdf dhjsfs">
-            <label for="nokphone" class="mt-2">Contact Phone Number</label>
-            <input type="number" class="form-control" name="nokphone" value="251612345">
-            <label for="nokrelationship" class="mt-2">Relationship to you</label>
-            <select class="form-control" name="nokrelationship">
-              <option value="parent">Parent</option>
-              <option value="sibling">Sibling</option>
-              <option value="friend">Friend</option>
-              <option value="family">Family</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
-    </div>
+
+  <%= form.label :address %>
+  <%= form.text_field :address %>
+  <%= form.label :email %>
+  <%= form.text_field :email %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <div class="actions">
+    <%= form.submit %>
   </div>
 <% end %>
