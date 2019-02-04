@@ -6,6 +6,13 @@
   "scripts": {
     "postdeploy": "bundle exec rake db:migrate"
   },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    { "url": "heroku/nodejs" },
+    { "url": "heroku/ruby" }
+  ],
   "env": {
     "SMTP_ADDRESS": {
       "description": "SMTP server, eg: smtp.postmarkapp.com",
@@ -35,8 +42,20 @@
   "environments": {
     "test": {
       "addons": ["heroku-postgresql:in-dyno"],
+      "buildpacks": [
+        { "url": "heroku/nodejs" },
+        { "url": "heroku/ruby" }
+      ],
       "scripts": {
         "test": "rspec"
+      },
+      "env": {
+        "SMTP_ADDRESS": "SMTP-ADDRESS-OR-SERVER",
+        "BASE_DOMAIN": "https://example.com",
+        "SMTP_PASSWORD": "SMTP-PASSWORD",
+        "SMTP_USER_NAME": "SMTP-USER-NAME",
+        "STRIPE_SECRET_KEY": "STRIPE-SECRET-KEY",
+        "STRIPE_PUBLISHABLE_KEY": "STRIPE-PUBLISHABLE-KEY"
       }
     }
   }
