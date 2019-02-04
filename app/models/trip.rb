@@ -21,6 +21,8 @@ class Trip < ApplicationRecord
 
   delegate :name, to: :organisation, prefix: true
 
+  scope :start_date_desc, -> { order(start_date: :desc) }
+
   def currency
     self[:currency] || organisation.currency
   end
