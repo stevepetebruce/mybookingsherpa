@@ -5,6 +5,7 @@ RSpec.describe Organisation, type: :model do
     it { should have_many(:guides).through(:organisation_memberships) }
     it { should have_many(:subscriptions) }
     it { should have_many(:trips) }
+    it { should validate_uniqueness_of(:name) }
     # TODO: 
     # has_many: accomodation_providers
   end
@@ -17,6 +18,7 @@ RSpec.describe Organisation, type: :model do
     context "name" do
       it { should allow_value(Faker::Lorem.word).for(:name) }
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
+      it { should validate_uniqueness_of(:name) }
     end
     context "stripe_account_id" do
       it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id) }
