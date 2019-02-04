@@ -14,38 +14,43 @@
       <h4 class="font-weight-bold">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label for="first_name"><%= form.label :first_name %></label>
-          <%= form.text_field :last_name, class: "form-control" %>
+          <!-- TODO" swap with 'name' -->
+          <%= form.label :first_name, 'Name' %>
+          <%= form.text_field :first_name, class: "form-control" %>
         </div>
         <div class="col-md-6 mb-3">
-          <label for="last_name"><%= form.label :last_name %></label>
-          <%= form.text_field :last_name, class: "form-control" %>
+          <%= form.label :email %>
+          <%= form.text_field :email, class: "form-control" %>
         </div>
         <div class="col-md-6 mb-3">
-          <label for="phonenumber">Phone Number</label>
-          <input type="number" class="form-control" name="phonenumber" required>
+          <%= form.label :phone_number %>
+          <%= form.text_field :phone_number, class: "form-control", required: true %>
         </div>
         <div class="col-md-6 mb-3">
+          <!-- TODO: hook up the calendate widget with the rails form elemetn -->
           <label for="dob">Date of Birth</label>
           <input type="date" class="form-control" name="dob" placeholder="Date of Birth">
+          <% # form.label :date_of_birth %>
+          <% # form.text_field :date_of_birth, class: "form-control" %>
         </div>
         <div class="col-md-12 mb-3">
          <hr class="mb-5">
-          <label for="address">Address</label>
-          <input type="text" class="form-control" name="address" required>
+          <%= form.label :address %>
+          <%= form.text_field :address, class: "form-control", required: true %>
         </div>
         <div class="col-md-5 mb-3">
-          <label for="city">City</label>
-          <input type="text" class="form-control" name="city" required>
+          <%= form.label :city %>
+          <%= form.text_field :city, class: "form-control", required: true %>
         </div>
         <div class="col-md-4 mb-3">
-          <label for="county">County/State</label>
-          <input type="text" class="form-control" name="county" required>
+          <%= form.label :county_state, "County/State" %>
+          <%= form.text_field :county_state, class: "form-control", required: true %>
         </div>
         <div class="col-md-3 mb-3">
-          <label for="postcode">Postcode/Zip</label>
-          <input type="text" class="form-control" name="postcode" required>
+          <%= form.label :postcode_zip, "Post code/Zip code" %>
+          <%= form.text_field :postcode_zip, class: "form-control", required: true %>
         </div>
+        <!-- Country? -->
       </div>
       <hr class="mb-5 mb-4">
     </li>
@@ -53,14 +58,15 @@
       <h4 class="font-weight-bold">Next of Kin</h4>
       <div class="row">
         <div class="col-md-5 mb-3">
-          <label for="nokname">Contact Name</label>
-          <input type="text" class="form-control" name="nokname" required>
+          <%= form.label :next_of_kin_name, "Name" %>
+          <%= form.text_field :next_of_kin_name, class: "form-control", required: true %>
         </div>
         <div class="col-md-4 mb-3">
-          <label for="nokphone">Contact Phone Number</label>
-          <input type="number" class="form-control" name="nokphone" required>
+          <%= form.label :next_of_kin_phone_number, "Phone number" %>
+          <%= form.text_field :next_of_kin_phone_number, class: "form-control", required: true %>
         </div>
-        <div class="col-md-3 mb-3">
+        <!-- Do we need this? -->
+<!--         <div class="col-md-3 mb-3">
           <label for="nok_relationship">Relationship to you</label>
           <select class="form-control" name="nok_relationship">
             <option value="parent">Parent</option>
@@ -69,7 +75,7 @@
             <option value="family">Family</option>
             <option value="other">Other</option>
           </select>
-        </div>
+        </div> -->
       </div>
       <hr class="mb-5 mb-4">
     </li>
@@ -82,8 +88,11 @@
           <input type="radio" name="diet" value="vegetarian">
           <label for="vegetarian" class="mr-4">Vegetarian</label>
           <input type="radio" name="diet" value="vegan">
-          <label for="vegan">Vegan</label>
+          <label for="vegan" class="mr-4">Vegan</label>
+          <input type="radio" name="diet" value="other">
+          <label for="vegan">Other <i>(please add note below)</i></label>
         </div>
+        <!-- Maybe combine Allergies/ Medical conditions -->
         <div class="col-md-12 mb-3">
           <label for="allergies">Allergies</label>
           <textarea class="form-control" name="allergies"></textarea>
@@ -92,8 +101,9 @@
           <label for="medical">Medical Conditions</label>
           <textarea class="form-control" name="medical"></textarea>
         </div>
+        <!-- Other information? -->
       </div>
     </li>
   </ul>
-  <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
+  <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg btn-block mt-4" %>
 <% end %>

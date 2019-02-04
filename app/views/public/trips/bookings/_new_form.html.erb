@@ -1,3 +1,22 @@
+<!-- TODO: What do we want on this form?
+https://www.quora.com/Whats-the-bare-minimum-information-that-Stripe-requires-to-charge-a-credit-card
+The minimum you need to send Stripe in order to create a charge is:
+Card number
+Expiration date (month & year)
+Amount of the charge
+
+we recommend that you also send us the CVC
+
+You can also send us more data, such as billing address and cardholder name. 
+
+
+-->
+
+<!-- 
+Do we need a confirmation step - just before payment?
+ex: a modal with the summary payment to be made? 
+An extra step - but a definite confirmation from the user.
+-->
 <%= form_with(model: booking, local: true, url: url, html: { id: "payment-form" }) do |form| %>
   <% if booking.errors.any? %>
   <h4 class="mb-3 font-weight-bold">Contact Details</h4>
@@ -11,18 +30,18 @@
   </div>
   <% end %>
   <div class="row">
-    <div class="col-md-6 mb-3">
-      <label for="firstName">First name</label>
-      <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+    <div class="col-md-12 mb-3">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "form-control", required: true %>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="lastName">Last name</label>
-      <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
-    </div>
+    <!-- <div class="col-md-6 mb-3">
+      <% # form.label :last_name %>
+      <% # form.text_field :last_name, class: "form-control" %>
+    </div> -->
   </div>
   <div class="mb-3">
-    <label for="email"><%= form.label(:email) %></label>
-    <%= form.text_field(:email, class: "form-control") %>
+    <%= form.label :email %>
+    <%= form.text_field :email, class: "form-control", required: true %>
   </div>
   <hr class="mb-5 mb-4">
   <h4 class="mb-3 font-weight-bold">Payment</h4>
@@ -38,6 +57,6 @@
   </div>
   <%= form.hidden_field(:status, value: :complete) %>
   <div class="actions">
-    <%= form.submit class: "btn btn-primary btn-lg btn-block mt-4" %>
+    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4" %>
   </div>
 <% end %>

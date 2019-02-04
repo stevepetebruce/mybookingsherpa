@@ -10,15 +10,15 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% #TODO: replace with real data %>
           <span class="ml-1 d-md-down-none">Mountain Trek Ltd.</span>
-          <img src="<%= asset_pack_path 'images/faces/face1.jpg' %>" class="avatar avatar-sm" alt="logo">
+          <img src="<%= asset_pack_path 'images/logos/alp-adventures-logo.png' %>" class="avatar avatar-sm" alt="logo">
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a href="#" class="dropdown-item">
+          <!-- <a href="#" class="dropdown-item">
             <i class="fa fa-user"></i> Manage Account
           </a>
           <a href="#" class="dropdown-item">
             <i class="fa fa-wrench"></i> Add Trip
-          </a>
+          </a> -->
           <%= link_to(destroy_guide_session_path, method: :delete, class: "dropdown-item") do %>
             <i class="fa fa-lock"></i> Sign Out
           <% end %>
