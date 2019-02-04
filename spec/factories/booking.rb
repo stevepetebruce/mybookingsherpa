@@ -3,5 +3,6 @@ FactoryBot.define do
     email { Faker::Internet.email }
     status { :pending }
     association :trip, full_cost: 500
+    guest
   end
 end
