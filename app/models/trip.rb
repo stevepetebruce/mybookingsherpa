@@ -1,3 +1,4 @@
+# Represents a trip in the system.
 class Trip < ApplicationRecord
   enum currency: %i[eur gbp usd]
 
@@ -20,8 +21,10 @@ class Trip < ApplicationRecord
 
   delegate :name, to: :organisation, prefix: true
 
-  def guide
-    organisation_memberships.owners&.first&.guide
+  scope :start_date_desc, -> { order(start_date: :desc) }
+
+  def currency
+    self[:currency] || organisation.currency
   end
 
   def guest_count
@@ -32,18 +35,20 @@ class Trip < ApplicationRecord
     bookings.count
   end
 
-  def valid_date_format
-    # TODO: implement when we know the format of the date string we are receiving
+  def guide
+    organisation_memberships.owners&.first&.guide
   end
 
   def start_date_before_end_date
     return if start_date.nil? && end_date.nil?
     return if start_date <= end_date
 
-    errors.add(:base, :start_date_after_end_date, message: 'start date must be before end date')
+    errors.add(:base,
+               :start_date_after_end_date,
+               message: "start date must be before end date")
   end
 
-  def currency
-    self[:currency] || organisation.currency
+  def valid_date_format
+    # TODO: implement when we know the format of date string we are receiving
   end
 end
