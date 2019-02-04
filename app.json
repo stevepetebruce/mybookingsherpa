@@ -14,6 +14,10 @@
     { "url": "heroku/ruby" }
   ],
   "env": {
+    "BASE_DOMAIN": {
+      "description": "URL of the app",
+      "required": true
+    },
     "SMTP_ADDRESS": {
       "description": "SMTP server, eg: smtp.postmarkapp.com",
       "required": false
@@ -34,9 +38,15 @@
       "description": "Secret key for Stripe API - used in the front end (Stripe.js)",
       "required": false
     },
-    "RAILS_ENV": "production",
-    "RACK_ENV": "production",
-    "RAILS_SERVE_STATIC_FILES": "true"
+    "SUPPORT_EMAIL_ADDRESS": {
+      "description": "Email address that all system emails will be sent from",
+      "required": false,
+      "value": "support@mybookingsherpa.com"
+    },
+    "SUPPORT_EMAIL_NAME": {
+      "description": "Name used when sending system emails",
+      "required": false
+    }
   },
   "addons": ["heroku-postgresql"],
   "environments": {
