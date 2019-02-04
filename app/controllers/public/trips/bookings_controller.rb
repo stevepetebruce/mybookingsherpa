@@ -7,7 +7,7 @@ module Public
       before_action :check_timeout, only: %i[edit update show]
       before_action :set_trip, only: %i[create new]
 
-      layout 'public'
+      layout "public"
 
       # GET /bookings/new
       def new
@@ -24,7 +24,7 @@ module Public
           # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
           # 10 min wait to let them fill in their details in booking edit page, then send updated email
           # content based on that state...
-          redirect_to edit_public_booking_path(@booking), notice: 'Booking was successfully created.'
+          redirect_to edit_public_booking_path(@booking)
         else
           render :new
         end
@@ -38,7 +38,7 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params)
-          redirect_to public_booking_path(@booking), notice: 'Booking was successfully updated.'
+          redirect_to public_booking_path(@booking)
         else
           render :edit
         end
@@ -53,7 +53,7 @@ module Public
       def check_timeout
         return if newly_created?
 
-        @booking.errors.add(:base, :timeout, message: 'timed out please contact support')
+        @booking.errors.add(:base, :timeout, message: "timed out please contact support")
         redirect_back(fallback_location: new_public_trip_booking_path(@booking.trip))
       end
 
