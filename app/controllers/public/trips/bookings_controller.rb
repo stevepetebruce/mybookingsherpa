@@ -24,6 +24,9 @@ module Public
           # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
           # 10 min wait to let them fill in their details in booking edit page, then send updated email
           # content based on that state...
+          GuestBookingMailer.with(booking: @booking).new.deliver_later
+          GuideBookingMailer.with(booking: @booking).new.deliver_later
+
           redirect_to edit_public_booking_path(@booking)
         else
           render :new
