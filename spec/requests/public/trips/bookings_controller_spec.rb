@@ -19,8 +19,16 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let(:booking) { Booking.last }
     let!(:email) { Faker::Internet.email }
     let(:first_name) { Faker::Name.first_name }
+    let!(:guide) { FactoryBot.create(:guide) }
     let(:last_name) { Faker::Name.last_name }
-    let!(:trip) { FactoryBot.create(:trip) }
+    let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+    let(:organisation) { FactoryBot.create(:organisation) }
+    let!(:organisation_membership) do
+      FactoryBot.create(:organisation_membership,
+                        guide: guide,
+                        organisation: organisation,
+                        owner: true)
+    end
     let!(:params) do
       {
         booking:
@@ -50,10 +58,11 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
 
-      xit 'should send out the new booking email to the guest and trip provider' do
-        # TODO: pending - need to set up background jobs and email.deliver_later
-        expect { do_request(params: params) }
-          .to change { ActionMailer::Base.deliveries.count }.by(2)
+      it 'should send out the new booking email to the guest and trip provider' do
+        expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
+        # TODO: mock these out with doubles and then test again
+        # expect(GuestBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
+        # expect(GuideBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
       end
 
       context "a guest who does not yet exist" do

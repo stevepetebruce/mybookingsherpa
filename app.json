@@ -7,6 +7,7 @@
     "postdeploy": "bundle exec rake db:migrate"
   },
   "addons": [
+    "heroku-redis",
     "heroku-postgresql"
   ],
   "buildpacks": [
@@ -48,7 +49,7 @@
       "required": false
     }
   },
-  "addons": ["heroku-postgresql"],
+  "addons": ["heroku-postgresql:in-dyno", "heroku-redis:in-dyno"],
   "environments": {
     "test": {
       "addons": ["heroku-postgresql:in-dyno"],
