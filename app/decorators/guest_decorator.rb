@@ -21,8 +21,7 @@ class GuestDecorator < SimpleDelegator
   end
 
   def gravatar_fallback_image_url
-    # TODO: use real fallback img
-    "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0OTkwNDUxOTQ5MDUzNDQ3/kanye-west-attends-the-christian-dior-show-as-part-of-the-paris-fashion-week-womenswear-fall-winter-2015-2016-on-march-6-2015-in-paris-france-photo-by-dominique-charriau-wireimage-square.jpg"
+    "https://www.gravatar.com/avatar/?d=mp&s=200"
   end
 
   def gravatar_id
