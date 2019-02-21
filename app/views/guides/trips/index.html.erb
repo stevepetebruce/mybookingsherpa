@@ -27,8 +27,7 @@
                   aria-controls="collapseOne">
                   <div class="row">
                     <div class="col col-6 h4 font-weight-bold">
-                      <%= trip.name %> (!!!- <%= link_to( "New booking link", trip.new_public_booking_link, target: "_blank") %>-!!!)
-                      <!-- TODO: have a copy to clipboard icon and JS magic here? -->
+                      <%= trip.name %>
                     </div>
                     <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
                       <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
@@ -55,6 +54,15 @@
                   <div class="card-body">
 
                     <div class="fluid-container">
+                      <div class="row">
+                        <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
+                          <input class="form-control" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" data-clipboard-btn="<%= trip.id %>">Copy to Clipboard</button>
+                          </div>
+                        </div>
+                        <span class="copied mt-1"> Copied!</span>
+                      </div>
                       <!-- Loop throuh individual in trip -->
                       <% trip.guests.map { |g| GuestDecorator.new(g) }.each do |guest| %>
                       <div class="row ticket-card mt-3 pb-2 border-bottom">
@@ -124,9 +132,17 @@
 
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                   <div class="card-body">
-
                     <div class="fluid-container">
-
+                      <!-- Dummy input clipboard to test different data sources -->
+                      <div class="row">
+                        <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
+                          <input class="form-control" type="text" data-clipboard-source="123" value="54321" readonly>
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" data-clipboard-btn="123">Copy to Clipboard</button>
+                          </div>
+                        </div>
+                        <span class="copied mt-1"> Copied!</span>
+                      </div>
                       <div class="row ticket-card mt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face1.jpg' %>" alt="profile image">
