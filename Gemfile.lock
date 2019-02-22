@@ -152,6 +152,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    rb-readline (0.5.5)
     redis (4.0.3)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -238,6 +239,7 @@ DEPENDENCIES
   pry-byebug
   puma (~> 3.11)
   rails (~> 5.2.1)
+  rb-readline
   rspec-rails
   shoulda-matchers
   sidekiq
