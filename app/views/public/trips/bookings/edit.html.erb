@@ -12,7 +12,7 @@
   </div>
   <div class="row">
     <div class="offset-md-1 col-md-10">
-      <h3 class="font-weight-bold">Hi Alan<%= @booking.first_name %>, your payment was successful.</h3>
+      <h3 class="font-weight-bold">Hi Alan<%= @booking.name %>, your payment was successful.</h3>
       <h4 class="mb-5">Your booking is almost complete. <br>Please fill in your details below, to make sure your trip runs smoothly.</h4>
       <%= render "edit_form", booking: @booking, url: public_booking_path(@booking) %>
     </div>
