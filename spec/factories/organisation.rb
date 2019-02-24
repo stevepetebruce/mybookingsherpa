@@ -4,6 +4,9 @@ FactoryBot.define do
     currency { %w[eur gbp usd].sample }
     name { Faker::Name.name }
     stripe_account_id { "acct_#{Faker::Bank.account_number(16)}" }
-    subdomain { Faker::Internet.domain_word }
+    subdomain do 
+      domain_word = Faker::Internet.domain_word
+      domain_word.length.between?(3,30) ? domain_word : Faker::Internet.domain_word
+    end
   end
 end
