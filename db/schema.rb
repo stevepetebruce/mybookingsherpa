@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_22_052609) do
+ActiveRecord::Schema.define(version: 2019_02_23_115111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,8 +25,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_052609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
     t.index ["created_by_id"], name: "index_bookings_on_created_by_id"
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
     t.index ["trip_id"], name: "index_bookings_on_trip_id"
