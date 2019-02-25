@@ -57,7 +57,7 @@ module Public
         return if newly_created?
 
         @booking.errors.add(:base, :timeout, message: "timed out please contact support")
-        redirect_back(fallback_location: new_public_trip_booking_path(@booking.trip))
+        redirect_to new_public_trip_booking_path(@booking.trip)
       end
 
       def create_charge
