@@ -1,5 +1,7 @@
 # A join between a guest and a trip. A guest creates a booking on a trip.
 class Booking < ApplicationRecord
+  enum allergies: %i[dairy eggs nuts penicillin soya]
+  enum dietary_requirements: %i[other vegan vegetarian]
   enum status: %i[pending complete]
 
   belongs_to :trip

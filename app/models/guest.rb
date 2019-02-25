@@ -4,6 +4,9 @@ class Guest < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  enum allergies: %i[dairy eggs nuts penicillin soya]
+  enum dietary_requirements: %i[other vegan vegetarian]
+
   has_many :bookings
   has_many :trips, through: :bookings
 
