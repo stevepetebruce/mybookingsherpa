@@ -14,43 +14,42 @@
       <h4 class="font-weight-bold">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <!-- TODO" swap with 'name' -->
-          <%= form.label :first_name, 'Name' %>
-          <%= form.text_field :first_name, class: "form-control" %>
+          <%= form.label :name, 'Name' %>
+          <%= form.text_field :name, class: "form-control", required: true %>
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :email %>
-          <%= form.text_field :email, class: "form-control" %>
+          <%= form.text_field :email, class: "form-control", required: true %>
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :phone_number %>
           <%= form.text_field :phone_number, class: "form-control", required: true %>
         </div>
         <div class="col-md-6 mb-3">
-          <!-- TODO: hook up the calendate widget with the rails form elemetn -->
-          <label for="dob">Date of Birth</label>
-          <input type="date" class="form-control" name="dob" placeholder="Date of Birth">
-          <% # form.label :date_of_birth %>
-          <% # form.text_field :date_of_birth, class: "form-control" %>
+          <%= form.label :date_of_birth %>
+          <%= form.date_field :date_of_birth, class: "form-control" %>
         </div>
         <div class="col-md-12 mb-3">
          <hr class="mb-5">
           <%= form.label :address %>
           <%= form.text_field :address, class: "form-control", required: true %>
         </div>
-        <div class="col-md-5 mb-3">
+        <div class="col-md-3 mb-3">
           <%= form.label :city %>
           <%= form.text_field :city, class: "form-control", required: true %>
         </div>
-        <div class="col-md-4 mb-3">
-          <%= form.label :county_state, "County/State" %>
-          <%= form.text_field :county_state, class: "form-control", required: true %>
+        <div class="col-md-3 mb-3">
+          <%= form.label :county, "County/State" %>
+          <%= form.text_field :county, class: "form-control", required: true %>
         </div>
         <div class="col-md-3 mb-3">
-          <%= form.label :postcode_zip, "Post code/Zip code" %>
-          <%= form.text_field :postcode_zip, class: "form-control", required: true %>
+          <%= form.label :post_code, "Post code/Zip code" %>
+          <%= form.text_field :post_code, class: "form-control", required: true %>
         </div>
-        <!-- Country? -->
+        <div class="col-md-3 mb-3">
+          <%= form.label :country%>
+          <%= form.text_field :country, class: "form-control", required: true %>
+        </div>
       </div>
       <hr class="mb-5 mb-4">
     </li>
@@ -65,22 +64,12 @@
           <%= form.label :next_of_kin_phone_number, "Phone number" %>
           <%= form.text_field :next_of_kin_phone_number, class: "form-control", required: true %>
         </div>
-        <!-- Do we need this? -->
-<!--         <div class="col-md-3 mb-3">
-          <label for="nok_relationship">Relationship to you</label>
-          <select class="form-control" name="nok_relationship">
-            <option value="parent">Parent</option>
-            <option value="sibling">Sibling</option>
-            <option value="friend">Friend</option>
-            <option value="family">Family</option>
-            <option value="other">Other</option>
-          </select>
-        </div> -->
       </div>
       <hr class="mb-5 mb-4">
     </li>
     <li>
-      <h4 class="mb-3 font-weight-bold">Dietry and Health Requirements</h4>
+      <!-- TODO: plug in real data -->
+      <h4 class="mb-3 font-weight-bold">Dietary and Health Requirements (optional)</h4>
       <div class="row">
         <div class="col-md-12 mb-3">
           <input type="radio" name="diet" value="none" checked>
@@ -92,7 +81,6 @@
           <input type="radio" name="diet" value="other">
           <label for="vegan">Other <i>(please add note below)</i></label>
         </div>
-        <!-- Maybe combine Allergies/ Medical conditions -->
         <div class="col-md-12 mb-3">
           <label for="allergies">Allergies</label>
           <textarea class="form-control" name="allergies"></textarea>

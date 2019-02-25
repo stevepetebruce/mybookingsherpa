@@ -50,7 +50,11 @@ module Public
       private
 
       def booking_params
-        params.require(:booking).permit(:email, :name)
+        params.require(:booking).permit(:address, :allergies, :city, :country, :county,
+                                        :date_of_birth, :dietary_requirements,
+                                        :email, :medical_conditions, :name,
+                                        :next_of_kin_name, :next_of_kin_phone_number,
+                                        :phone_number, :post_code)
       end
 
       def check_timeout

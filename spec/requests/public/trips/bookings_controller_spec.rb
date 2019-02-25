@@ -19,7 +19,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let(:booking) { Booking.last }
     let!(:email) { Faker::Internet.email }
     let!(:guide) { FactoryBot.create(:guide) }
-    let(:name) { Faker::Name.name }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
     let(:organisation) { FactoryBot.create(:organisation) }
     let!(:organisation_membership) do
@@ -32,8 +31,20 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       {
         booking:
         {
+          address: Faker::Address.street_address,
+          allergies: %i[dairy eggs nuts penicillin soya].sample,
+          city: Faker::Address.city,
+          country: Faker::Address.country_code,
+          county: Faker::Address.state,
+          date_of_birth: Faker::Date.birthday(18, 65),
+          dietary_requirements: %i[other vegan vegetarian].sample,
           email: email,
-          name: name
+          medical_conditions: Faker::Lorem.sentence,
+          name: Faker::Name.name,
+          next_of_kin_name: Faker::Name.name,
+          next_of_kin_phone_number: Faker::PhoneNumber.cell_phone,
+          phone_number: Faker::PhoneNumber.cell_phone,
+          post_code: Faker::Address.postcode
         },
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }
@@ -77,8 +88,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect(booking.guest).to eq guest
           expect(trip.guests).to include guest
 
-          expect(booking.email).to eq params[:booking][:email]
-          expect(booking.name).to eq params[:booking][:name]
+          # Test all the params, email, name, etc
+          params[:booking].each { |k, v| expect(booking.send(k)).to eq v.to_s }
 
           expect(response.code).to eq "302"
           expect(response).to redirect_to(edit_public_booking_path(booking))
