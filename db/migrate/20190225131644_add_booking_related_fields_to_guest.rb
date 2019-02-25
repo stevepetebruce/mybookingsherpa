@@ -1,0 +1,42 @@
+class AddBookingRelatedFieldsToGuest < ActiveRecord::Migration[5.2]
+  def change
+    add_column :guests, :name_booking, :string
+    add_column :guests, :name_override, :string
+    add_column :guests, :email_booking, :string
+    add_column :guests, :email_override, :string
+    add_column :guests, :country, :string
+    add_column :guests, :country_booking, :string
+    add_column :guests, :country_override, :string
+    add_column :guests, :phone_number_booking, :string
+    add_column :guests, :phone_number_override, :string
+    add_column :guests, :date_of_birth, :datetime
+    add_column :guests, :date_of_birth_booking, :datetime
+    add_column :guests, :date_of_birth_override, :datetime
+    add_column :guests, :address_booking, :string
+    add_column :guests, :address_override, :string
+    add_column :guests, :city, :string
+    add_column :guests, :city_booking, :string
+    add_column :guests, :city_override, :string
+    add_column :guests, :county, :string
+    add_column :guests, :county_booking, :string
+    add_column :guests, :county_override, :string
+    add_column :guests, :post_code, :string
+    add_column :guests, :post_code_booking, :string
+    add_column :guests, :post_code_override, :string
+    add_column :guests, :next_of_kin_name, :string
+    add_column :guests, :next_of_kin_name_booking, :string
+    add_column :guests, :next_of_kin_name_override, :string
+    add_column :guests, :next_of_kin_phone_number, :string
+    add_column :guests, :next_of_kin_phone_number_booking, :string
+    add_column :guests, :next_of_kin_phone_number_override, :string
+    add_column :guests, :dietary_requirements, :integer
+    add_column :guests, :dietary_requirements_booking, :integer
+    add_column :guests, :dietary_requirements_override, :integer
+    add_column :guests, :allergies, :integer
+    add_column :guests, :allergies_booking, :integer
+    add_column :guests, :allergies_override, :integer
+    add_column :guests, :medical_conditions, :text
+    add_column :guests, :medical_conditions_booking, :text
+    add_column :guests, :medical_conditions_override, :text
+  end
+end
