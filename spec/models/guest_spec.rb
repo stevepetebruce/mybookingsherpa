@@ -22,4 +22,7 @@ RSpec.describe Guest, type: :model do
       it { should_not allow_value(Faker::Lorem.word).for(:phone_number) }
     end
   end
+
+  it { should define_enum_for(:allergies).with(%i[dairy eggs nuts penicillin soya]) }
+  it { should define_enum_for(:dietary_requirements).with(%i[other vegan vegetarian]) }
 end
