@@ -83,3 +83,41 @@ h6 {
   font-size: $default-font-size;
 }
 
+.text-gray {
+  color: $text-muted;
+}
+
+.display-1 {
+  font-size: 3.75rem;
+  @media (max-width: 991px) {
+    font-size: 3rem;
+  }
+}
+
+.display-2 {
+  font-size: 2.125rem;
+  @media (max-width: 991px) {
+    font-size: 2.5rem;
+  }
+}
+
+.display-3 {
+  font-size: 1.8rem;
+  @media (max-width: 991px) {
+    font-size: 2rem;
+  }
+}
+
+.display-4 {
+  font-size: 1.275rem;
+  @media (max-width: 991px) {
+    font-size: 1.1rem;
+  }
+}
+
+.display-5 {
+  font-size: 1.175rem;
+  @media (max-width: 991px) {
+    font-size: 1rem;
+  }
+}
