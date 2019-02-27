@@ -4,5 +4,22 @@ FactoryBot.define do
     status { :pending }
     association :trip, full_cost: 500
     guest
+
+    trait :all_fields_complete do
+      address { Faker::Address.street_address }
+      allergies { %i[dairy eggs nuts penicillin soya].sample }
+      city { Faker::Address.city }
+      country { Faker::Address.country_code }
+      county { Faker::Address.state }
+      date_of_birth { Faker::Date.birthday(18, 65) }
+      dietary_requirements { %i[other vegan vegetarian].sample }
+      email { Faker::Internet.email }
+      medical_conditions { Faker::Lorem.sentence }
+      name { Faker::Name.name }
+      next_of_kin_name { Faker::Name.name }
+      next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
+      phone_number { Faker::PhoneNumber.cell_phone }
+      post_code { Faker::Address.postcode }
+    end
   end
 end
