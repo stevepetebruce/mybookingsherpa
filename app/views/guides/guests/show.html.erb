@@ -5,7 +5,7 @@
         <div class="card card-shadow">
           <div class="card-body">
             <div class="row mb-4 border-bottom pb-4">
-              <div class="col-1 mr-4 d-sm-none d-md-block d-none">
+              <div class="col-1 ml-3 d-sm-none d-md-block d-none">
                 <img class="img-lg rounded-circle " src="<%= asset_pack_path 'images/faces/face1.jpg' %>" alt="profile image">
               </div>
               <div class="col-10">
@@ -28,10 +28,10 @@
                           <br> London, N12 4TH
                           <br> England
                         </h4>
-
                         <h4 class="display4 text-primary">
-                          <i class="mdi mdi-phone mr-2"></i> +44 34384 45354354
-                          <br><i class="mdi mdi-email mr-2"></i> <%= @guest.email %>
+                          <i class="fa fa-phone-square mr-1"></i> +44 34384 45354354
+                          <br>
+                          <i class="fa fa-envelope-o mr-1"></i> <%= @guest.email %>
                         </h4>
                       </address>
                       <h4 class="mt-3 mb-2">
@@ -41,7 +41,7 @@
                         <span class="font-weight-bold">Age:</span> 46 <span class="text-gray">(06/11/1972)</span>
                       </h4>
                       <h4>
-                        <i class="mdi mdi-alert-octagon text-warning icon-sm"></i> 
+                        <i class="fa fa-exclamation-circle fa-lg text-warning"></i> 
                         <span class="font-weight-bold">Vegetarian</span>
                       </h4>
                     </div>
@@ -53,26 +53,23 @@
                     <h2 class="card-title font-weight-bold">
                       Allergies &amp; Medical Conditions
                     </h2>
-                    
                     <div class="media">
                       <div class="media-body">
-
-                        <div class="clearfix border-bottom">
-                          <div class="float-left">
-                            <i class="mdi mdi-alert-octagon text-warning icon-md"></i>
-                          </div>
-                          <div class="col ml-4 pt-2">
-                              <div class="display-4 font-weight-normal mb-0"><span class="text-warning">Allergy:</span> Penecillin</div>
+                        <div class="clearfix border-bottom mb-3">
+                          <div class="col mb-3">
+                              <div class="display-4 font-weight-normal">
+                                <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                                <span class="text-warning">Allergy:</span> Penecillin
+                              </div>
                               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda accusamus reiciendis beatae, ipsa est nobis, maiores.</p>
                           </div>
                         </div>
-
-                        <div class="clearfix border-bottom">
-                          <div class="float-left">
-                            <i class="mdi mdi-alert-octagon text-danger icon-md"></i>
-                          </div>
-                          <div class="col ml-4 pt-2">
-                            <div class="display-4 font-weight-normal mb-0"><span class="text-danger">Medical:</span> Epilepsy</div>
+                        <div class="clearfix border-bottom mb-3">
+                          <div class="col">
+                            <div class="display-4 font-weight-normal">
+                              <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
+                              <span class="text-danger">Medical:</span> Epilepsy
+                            </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At officiis, inventore pariatur quas est in quibusdam tempora eius reiciendis, magni fugiat ut.</p>
                           </div>
                         </div>
@@ -90,7 +87,7 @@
                         </h4>
                         <address>
                           <h4 class="display4 text-primary">
-                            <i class="mdi mdi-phone mr-2"></i> +44 34384 445354
+                            <i class="fa fa-phone-square mr-1"></i> +44 34384 445354
                           </h4>
                         </address>
                         <h4 class="mt-3 mb-2">
