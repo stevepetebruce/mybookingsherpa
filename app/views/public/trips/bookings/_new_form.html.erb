@@ -34,10 +34,6 @@ An extra step - but a definite confirmation from the user.
       <%= form.label :name %>
       <%= form.text_field :name, class: "form-control", autofocus: true, required: true %>
     </div>
-    <!-- <div class="col-md-6 mb-3">
-      <% # form.label :last_name %>
-      <% # form.text_field :last_name, class: "form-control" %>
-    </div> -->
   </div>
   <div class="mb-3">
     <%= form.label :email %>
@@ -55,7 +51,6 @@ An extra step - but a definite confirmation from the user.
       <div id="card-errors" role="alert"></div>
     </div>
   </div>
-  <%= form.hidden_field(:status, value: :complete) %>
   <div class="actions">
     <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4" %>
   </div>
