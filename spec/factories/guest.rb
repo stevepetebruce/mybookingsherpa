@@ -23,6 +23,29 @@ FactoryBot.define do
       post_code_booking { Faker::Address.postcode }
     end
 
+    trait :all_override_fields_complete do
+      address_override { Faker::Address.street_address }
+      allergies_override { %i[dairy eggs nuts penicillin soya].sample }
+      city_override { Faker::Address.city }
+      country_override { Faker::Address.country_code }
+      county_override { Faker::Address.state }
+      date_of_birth_override { Faker::Date.birthday(18, 65) }
+      dietary_requirements_override { %i[other vegan vegetarian].sample }
+      email_override { Faker::Internet.email }
+      medical_conditions_override { Faker::Lorem.sentence }
+      name_override { Faker::Name.name }
+      next_of_kin_name_override { Faker::Name.name }
+      next_of_kin_phone_number_override { Faker::PhoneNumber.cell_phone }
+      phone_number_override { Faker::PhoneNumber.cell_phone }
+      post_code_override { Faker::Address.postcode }
+    end
+
+    trait :all_updatable_fields_empty do
+      address { nil }
+      name { nil }
+      phone_number { nil }
+    end
+
     trait :all_updatable_fields_complete do
       address { Faker::Address.street_address }
       allergies { %i[dairy eggs nuts penicillin soya].sample }

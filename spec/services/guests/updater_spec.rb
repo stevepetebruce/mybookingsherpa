@@ -1,31 +1,79 @@
 require "rails_helper"
 
 RSpec.describe Guests::Updater, type: :model do
-  describe "#copy_booking_values" do
-    subject { described_class.new(guest).copy_booking_values(booking) }
+  describe "#update_fields" do
+    subject { described_class.new(guest).update_fields }
 
-    context "a guest with no overriden values set" do
-      let!(:booking) { FactoryBot.build(:booking, :all_fields_complete) }
-      let!(:guest) { FactoryBot.create(:guest) }
-      let(:non_enum_updatable_fields) do
-        updatable_fields.reject do |field|
-          %i[allergies dietary_requirements].include?(field)
+    context "booking fields" do
+      context "with no cannonical fields with values" do
+        context "with no booking fields with values" do
+          let(:guest) { FactoryBot.create(:guest, :all_updatable_fields_empty) }
+
+          it "should not update the cannonical fields" do
+            expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+          end
+        end
+
+        context "with booking fields that have values" do
+          let(:guest) do
+            FactoryBot.create(:guest,
+                              :all_booking_fields_complete,
+                              :all_updatable_fields_empty)
+          end
+
+          it "should update the cannonical fields from the booking fields" do
+            guest.send(:set_updatable_fields)
+
+            Guests::Updater::UPDATABLE_FIELDS.each do |field|
+              expect(guest.send("#{field}")).to eq guest.send("#{field}_booking")
+            end
+          end
         end
       end
-      let(:updatable_fields) do
-        %i[address allergies city country county date_of_birth
-           dietary_requirements email medical_conditions name
-           next_of_kin_name next_of_kin_phone_number phone_number
-           post_code].freeze
+
+      context "with cannonical fields with pre-existing values" do
+        let(:guest) { FactoryBot.create(:guest, :all_updatable_fields_complete) }
+
+        it "should not update the cannonical fields" do
+          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+        end
+      end
+    end
+
+    context "override fields" do
+      context "with no override fields with values" do
+        let(:guest) { FactoryBot.create(:guest) }
+
+        it "should not update the cannonical fields" do
+          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+        end
       end
 
-      it "should update the guest's 'field'_booking and 'field' values" do
-        subject
+      context "with override fields that have values" do
+        let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
-        non_enum_updatable_fields.each do |field|
-          expect(guest.send("#{field}_booking")).to eq booking.send(field)
+        it "should update the cannonical fields from the override fields" do
+          guest.send(:set_updatable_fields)
+
+          Guests::Updater::UPDATABLE_FIELDS.each do |field|
+            expect(guest.send("#{field}")).to eq guest.send("#{field}_override")
+          end
+        end
+      end
+    end
+
+    context "booking and override fields" do
+      let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete, :all_booking_fields_complete) }
+
+      it "should let the override fields take precedence over the booking fields" do
+        guest.send(:set_updatable_fields)
+
+        Guests::Updater::UPDATABLE_FIELDS.each do |field|
+          expect(guest.send("#{field}")).to eq guest.send("#{field}_override")
         end
       end
     end
   end
 end
+
+
