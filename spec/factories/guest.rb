@@ -1,10 +1,13 @@
 FactoryBot.define do
   factory :guest do
     address { Faker::Address.full_address }
+    address_override { address }
     email { Faker::Internet.email }
     name { Faker::Name.name }
+    name_override { name }
     password { Faker::Internet.password } # TODO: can be blank - need to change
     phone_number { Faker::PhoneNumber.cell_phone }
+    phone_number_override { phone_number }
 
     trait :all_booking_fields_complete do
       address_booking { Faker::Address.street_address }
@@ -24,43 +27,39 @@ FactoryBot.define do
     end
 
     trait :all_override_fields_complete do
-      address_override { Faker::Address.street_address }
-      allergies_override { %i[dairy eggs nuts penicillin soya].sample }
-      city_override { Faker::Address.city }
-      country_override { Faker::Address.country_code }
-      county_override { Faker::Address.state }
-      date_of_birth_override { Faker::Date.birthday(18, 65) }
-      dietary_requirements_override { %i[other vegan vegetarian].sample }
-      email_override { Faker::Internet.email }
-      medical_conditions_override { Faker::Lorem.sentence }
-      name_override { Faker::Name.name }
-      next_of_kin_name_override { Faker::Name.name }
-      next_of_kin_phone_number_override { Faker::PhoneNumber.cell_phone }
-      phone_number_override { Faker::PhoneNumber.cell_phone }
-      post_code_override { Faker::Address.postcode }
+      address { Faker::Address.street_address }
+      address_override { address }
+      city { Faker::Address.city }
+      city_override { city }
+      country { Faker::Address.country_code }
+      country_override { country }
+      county { Faker::Address.state }
+      county_override { county }
+      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth_override { date_of_birth }
+      email { Faker::Internet.email }
+      email_override { email }
+      medical_conditions { Faker::Lorem.sentence }
+      medical_conditions_override { medical_conditions }
+      name { Faker::Name.name }
+      name_override { name }
+      next_of_kin_name { Faker::Name.name }
+      next_of_kin_name_override { next_of_kin_name }
+      next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
+      next_of_kin_phone_number_override { next_of_kin_phone_number }
+      phone_number { Faker::PhoneNumber.cell_phone }
+      phone_number_override { phone_number }
+      post_code { Faker::Address.postcode }
+      post_code_override { post_code }
     end
 
     trait :all_updatable_fields_empty do
       address { nil }
+      address_override { nil }
       name { nil }
+      name_override { nil }
       phone_number { nil }
-    end
-
-    trait :all_updatable_fields_complete do
-      address { Faker::Address.street_address }
-      allergies { %i[dairy eggs nuts penicillin soya].sample }
-      city { Faker::Address.city }
-      country { Faker::Address.country_code }
-      county { Faker::Address.state }
-      date_of_birth { Faker::Date.birthday(18, 65) }
-      dietary_requirements { %i[other vegan vegetarian].sample }
-      email { Faker::Internet.email }
-      medical_conditions { Faker::Lorem.sentence }
-      name { Faker::Name.name }
-      next_of_kin_name { Faker::Name.name }
-      next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
-      phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
+      phone_number_override { nil }
     end
   end
 end
