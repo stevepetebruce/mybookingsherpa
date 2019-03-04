@@ -29,7 +29,7 @@ RSpec.describe "GuestsController", type: :request do
   describe "#show get /guests/:id" do
     include_examples "authentication"
 
-    let!(:guest) { FactoryBot.create(:guest) }
+    let!(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
     def do_request(url: "/guests/#{guest.id}", params: {})
       get url, params: params
@@ -46,7 +46,7 @@ RSpec.describe "GuestsController", type: :request do
         end
 
         context "another guest" do
-          let!(:other_guest) { FactoryBot.create(:guest) }
+          let!(:other_guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should not be visible to another guide" do
             sign_out(guest)
@@ -80,12 +80,11 @@ RSpec.describe "GuestsController", type: :request do
         let!(:params) { 
           {
             guest: {
-              address: Faker::Address.full_address,
-              email: Faker::Internet.email,
-              name: Faker::Name.name,
-              phone_number: Faker::PhoneNumber.cell_phone
+              address_override: Faker::Address.full_address,
+              name_override: Faker::Name.name,
+              phone_number_override: Faker::PhoneNumber.cell_phone
             }
-          } 
+          }
         }
 
         it "should update the guest" do
@@ -93,20 +92,18 @@ RSpec.describe "GuestsController", type: :request do
 
           guest.reload
 
-          expect(guest.address).to eq params[:guest][:address]
-          expect(guest.email).to eq params[:guest][:email]
-          expect(guest.name).to eq params[:guest][:name]
-          expect(guest.phone_number).to eq params[:guest][:phone_number]
+          expect(guest.address).to eq params[:guest][:address_override]
+          expect(guest.name).to eq params[:guest][:name_override]
+          expect(guest.phone_number).to eq params[:guest][:phone_number_override]
 
           # TODO: ** expect(guest.updated_by).to eq user
         end
       end
 
       context "invalid and unsuccessful" do
-        # TODO: should we allow guests to update their emails this easily?
-        let!(:params) { { guest: { email: nil } } }
+        let!(:params) { { guest: { phone_number_override: Faker::Lorem.word } } }
 
-        it "should update the guest" do
+        it "should not update the guest" do
           do_request(params: params)
 
           expect(response.status).to eq(200)
