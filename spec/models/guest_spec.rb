@@ -12,7 +12,75 @@ RSpec.describe Guest, type: :model do
     it "should call #set_updatable_fields after_update" do
       expect(guest).to receive(:set_updatable_fields)
 
-      guest.update(email: Faker::Internet.email )
+      guest.update(email: Faker::Internet.email)
+    end
+  end
+
+  describe "#set_updatable_fields" do
+    subject { described_class.new(guest).update_fields }
+
+    context "booking fields" do
+      context "with no booking fields with values" do
+        let(:guest) { FactoryBot.create(:guest, :all_updatable_fields_empty) }
+
+        it "should not update the canonical fields" do
+          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+        end
+      end
+
+      context "with booking fields that have values" do
+        let(:guest) { FactoryBot.create(:guest, :all_booking_fields_complete, :all_updatable_fields_empty) }
+
+        it "should update the canonical fields from the booking fields" do
+          guest.send(:set_updatable_fields)
+
+          Guest::UPDATABLE_FIELDS.each do |field|
+            expect(guest.send("#{field}")).to eq guest.send("#{field}_booking")
+          end
+        end
+      end
+
+      context "with canonical fields with pre-existing values" do
+        let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
+
+        it "should not update the canonical fields" do
+          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+        end
+      end
+    end
+
+    context "override fields" do
+      context "with no override fields with values" do
+        let(:guest) { FactoryBot.create(:guest) }
+
+        it "should clear the canonical fields" do
+          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
+        end
+      end
+
+      context "with override fields that have values" do
+        let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
+
+        it "should update the canonical fields from the override fields" do
+          guest.send(:set_updatable_fields)
+
+          Guest::UPDATABLE_FIELDS.each do |field|
+            expect(guest.send("#{field}")).to eq guest.send("#{field}_override")
+          end
+        end
+      end
+    end
+
+    context "booking and override fields" do
+      let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete, :all_booking_fields_complete) }
+
+      it "should let the override fields take precedence over the booking fields" do
+        guest.send(:set_updatable_fields)
+
+        Guest::UPDATABLE_FIELDS.each do |field|
+          expect(guest.send("#{field}")).to eq guest.send("#{field}_override")
+        end
+      end
     end
   end
 
@@ -35,46 +103,4 @@ RSpec.describe Guest, type: :model do
 
   it { should define_enum_for(:allergies).with(%i[dairy eggs nuts penicillin soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[other vegan vegetarian]) }
-
-  describe "#set_updatable_fields" do
-    let(:updatable_fields) do
-      %i[address allergies city country county date_of_birth
-         dietary_requirements medical_conditions name next_of_kin_name
-         next_of_kin_phone_number phone_number post_code].freeze
-    end
-
-    context "with no cannonical fields with values" do
-      context "with no booking fields with values" do
-        let(:guest) { FactoryBot.create(:guest) }
-
-        it "should not update the cannonical fields" do
-          expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
-        end
-      end
-
-      context "with booking fields that have values" do
-        let(:guest) do
-          FactoryBot.create(:guest,
-                            :all_booking_fields_complete,
-                            address: nil, name: nil, phone_number: nil)
-        end
-
-        it "should update the cannonical fields from the booking fields" do
-          guest.send(:set_updatable_fields)
-
-          updatable_fields.each do |field|
-            expect(guest.send("#{field}")).to eq guest.send("#{field}_booking")
-          end
-        end
-      end
-    end
-
-    context "with cannonical fields with pre-existing values" do
-      let(:guest) { FactoryBot.create(:guest, :all_updatable_fields_complete) }
-
-      it "should not update the cannonical fields" do
-        expect { guest.send(:set_updatable_fields) }.to_not change { guest.attributes }
-      end
-    end
-  end
 end

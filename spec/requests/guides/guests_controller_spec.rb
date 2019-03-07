@@ -93,7 +93,7 @@ RSpec.describe "Guides::GuestsController", type: :request do
 
         context "a guest associated with one guide" do
           let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-          let!(:guest) { FactoryBot.create(:guest) }
+          let!(:guest) { FactoryBot.create(:guest, name: Faker::Name.name) }
           let!(:other_guide) { FactoryBot.create(:guide) }
           let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 

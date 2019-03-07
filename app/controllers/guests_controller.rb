@@ -27,10 +27,8 @@ class GuestsController < ApplicationController
   end
 
   def guest_params
-    params.require(:guest).permit(:address,
-                                  # TODO: we want to email new & old emails to let them know of change
-                                  :email,
-                                  :name,
-                                  :phone_number)
+    params.require(:guest).permit(:address_override,
+                                  :name_override,
+                                  :phone_number_override)
   end
 end
