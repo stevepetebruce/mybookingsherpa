@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Plain old routes
-  resources :guests, only: %i[edit show update]
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Devise routes
   devise_for :guests
   devise_for :guides
@@ -27,6 +23,10 @@ Rails.application.routes.draw do
       root 'devise/sessions#new', as: :unauthenticated_guide
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Plain old routes
+  resources :guests, only: %i[edit show update]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Nested resources
