@@ -8,7 +8,12 @@ module GuestCallbacks
                         phone_number post_code].freeze
 
   included do
+    before_create :set_one_time_login_token
     before_save :set_updatable_fields
+  end
+
+  def set_one_time_login_token
+    self[:one_time_login_token] = SecureRandom.hex(16)
   end
 
   def set_updatable_fields

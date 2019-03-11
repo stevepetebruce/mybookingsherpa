@@ -7,12 +7,17 @@ RSpec.describe Guest, type: :model do
   end
 
   describe "callbacks" do
-    let(:guest) { FactoryBot.create(:guest) }
+    let!(:guest) { FactoryBot.build(:guest) }
 
     it "should call #set_updatable_fields after_update" do
       expect(guest).to receive(:set_updatable_fields)
 
       guest.update(email: Faker::Internet.email)
+    end
+
+    it "should call #set_one_time_login_token" do
+      expect(guest).to receive(:set_one_time_login_token)
+      guest.save
     end
   end
 
