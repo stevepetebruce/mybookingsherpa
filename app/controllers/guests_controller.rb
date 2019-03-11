@@ -1,20 +1,15 @@
 class GuestsController < ApplicationController
+  OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME = "esuyp"
   before_action :set_guest, only: %i[show edit update]
-  before_action :authenticate_guest!
+  before_action :authenticate_guest_or_one_time_token!
 
   def edit; end
 
   def show; end
 
-  # TODO: This is overridden by Devise::RegistrationsController#create
-  # But we actually want to override that behaviour... we want to only create
-  # a guest when a new booking clicks on the link in their email.
-  # def create
-  # end
-
   def update
     if @guest.update(guest_params)
-      redirect_to @guest, notice: 'Guest was successfully updated.'
+      redirect_to @guest, notice: "Guest was successfully updated."
     else
       render :edit
     end
@@ -22,13 +17,32 @@ class GuestsController < ApplicationController
 
   private
 
-  def set_guest
-    @guest = current_guest
+  def authenticate_guest_or_one_time_token!
+    if one_time_login_token.present?
+      @guest = Guest.where(one_time_login_token: one_time_login_token,
+                           email: params[:email]).first
+      sign_in(@guest)
+      invalidate_one_time_login_token(@guest)
+    else
+      authenticate_guest!
+    end
+  end
+
+  def invalidate_one_time_login_token(guest)
+    guest.update(one_time_login_token: SecureRandom.hex(16))
   end
 
   def guest_params
     params.require(:guest).permit(:address_override,
                                   :name_override,
                                   :phone_number_override)
+  end
+
+  def one_time_login_token
+    params[OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME]
+  end
+
+  def set_guest
+    @guest = current_guest
   end
 end
