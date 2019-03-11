@@ -22,6 +22,10 @@ class Guest < ApplicationRecord
   has_many :bookings
   has_many :trips, through: :bookings
 
+  def most_recent_booking
+    bookings.most_recent.first
+  end
+
   def password_required?
     false
   end

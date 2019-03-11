@@ -1,5 +1,5 @@
 module Guests
-  # Updates a guest's fields based on what other model passed in ex: booking model.
+  # Update guest's booking fields based on most recent associated booking
   class BookingUpdater
     UPDATABLE_FIELDS = %w[address allergies city country county date_of_birth
                           dietary_requirements medical_conditions name
@@ -10,15 +10,16 @@ module Guests
       @guest = guest
     end
 
-    def copy_booking_values(booking)
-      @guest.update(updatable_booking_attributes(booking))
+    def copy_booking_values
+      @guest.update(updatable_booking_attributes)
     end
 
     private
 
-    def updatable_booking_attributes(booking)
-      booking.attributes.slice(*UPDATABLE_FIELDS)
-             .map { |k, v| ["#{k}_booking", v] }.to_h
+    def updatable_booking_attributes
+      @guest.most_recent_booking.attributes.
+        slice(*UPDATABLE_FIELDS).
+        map { |k, v| ["#{k}_booking", v] }.to_h
     end
   end
 end
