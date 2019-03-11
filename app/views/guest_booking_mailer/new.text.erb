@@ -1,12 +1,11 @@
-<!-- TODO: need some design work on emails -->
-Hello <!-- # TODO: @booking.guest_name --> Successful booking on <%= @booking.trip_name %>
+<!-- TODO: remove hard coded data and replace with real data: email, cost, etc -->
+Hello <%= @booking.name %>. Successful booking on <%= @booking.trip_name %>
 ===============================================
  
-Hi Alan,
+Hi <%= @booking.name %>,
+
 Your payment of €500 has been successful and you’re booked on to the Val des Air Mountain Bike Trip, 12-15 Feb, 2019.
-To view your trip and update any of your details, please click this link: <!--<TODO> -->.
-TODO: screen grab the guest show view and link to that image here....
-Else arno would need to log out as guide and log in as guest...
+To view your trip and update any of your details, please click this link: <%= guest_url(@booking.guest, "#{GuestsController::OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME}": @booking.guest.one_time_login_token, email: @booking.guest.email) %>.
 
 If you need to contact me, my email is arno@alpadventures.com, or just hit reply.
 
@@ -16,7 +15,3 @@ If there's anything we can help you with, or if you have any questions, please l
 Thank you,
 
 Arno (AlpAdventures.com)
-
-<!-- # TODO: @booking.trip_provider_name -->
-
-<!-- # TODO: @booking.itinerary -->
