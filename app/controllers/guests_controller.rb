@@ -19,10 +19,7 @@ class GuestsController < ApplicationController
 
   def authenticate_guest_or_one_time_token!
     if one_time_login_token.present?
-      @guest = Guest.where(one_time_login_token: one_time_login_token,
-                           email: params[:email]).first
-      sign_in(@guest)
-      invalidate_one_time_login_token(@guest)
+      one_time_login_process
     else
       authenticate_guest!
     end
@@ -36,6 +33,15 @@ class GuestsController < ApplicationController
     params.require(:guest).permit(:address_override,
                                   :name_override,
                                   :phone_number_override)
+  end
+  
+  def one_time_login_process
+    @guest = Guest.where(one_time_login_token: one_time_login_token,
+                         email: params[:email]).first
+
+    invalidate_one_time_login_token(@guest)
+    Guests::BookingUpdater.new(@guest).copy_booking_values
+    sign_in(@guest)
   end
 
   def one_time_login_token
