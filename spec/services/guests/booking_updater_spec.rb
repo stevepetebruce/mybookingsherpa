@@ -2,10 +2,10 @@ require "rails_helper"
 
 RSpec.describe Guests::BookingUpdater, type: :model do
   describe "#copy_booking_values" do
-    subject { described_class.new(guest).copy_booking_values(booking) }
+    subject { described_class.new(guest).copy_booking_values }
 
     context "a guest with no overriden values set" do
-      let!(:booking) { FactoryBot.build(:booking, :all_fields_complete) }
+      let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest) }
       let!(:guest) { FactoryBot.create(:guest) }
       let(:non_enum_updatable_fields) do
         updatable_fields.reject do |field|

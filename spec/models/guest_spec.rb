@@ -89,6 +89,28 @@ RSpec.describe Guest, type: :model do
     end
   end
 
+  describe "#most_recent_booking" do
+    subject { described_class.new(guest).most_recent_booking }
+
+    context "a guest with multiple bookings" do
+      let!(:guest) { FactoryBot.build(:guest) }
+      let!(:new_booking) { FactoryBot.create(:booking, created_at: Time.zone.now, guest: guest) }
+      let!(:old_booking) { FactoryBot.create(:booking, created_at: 2.days.ago, guest: guest) }
+
+      it "should return the most recently created booking" do
+        expect(guest.most_recent_booking).to eq(new_booking)
+      end
+    end
+
+    context "a guest with no bookings" do
+      let!(:guest) { FactoryBot.build(:guest) }
+
+      it "should return nil" do
+        expect(guest.most_recent_booking).to be_nil
+      end
+    end
+  end
+
   describe "validations" do
     context "email" do
       it { should allow_value(Faker::Internet.email).for(:email) }

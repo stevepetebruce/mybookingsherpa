@@ -17,4 +17,6 @@ class Booking < ApplicationRecord
   validates :email,
             format: %r(\A[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z),
             presence: true
+
+  scope :most_recent, -> { order(created_at: :desc) }
 end
