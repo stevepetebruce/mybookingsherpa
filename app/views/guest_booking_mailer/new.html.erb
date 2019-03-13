@@ -1,3 +1,5 @@
+<!-- TODO: remove hard coded data and replace with real data: email, cost, etc -->
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -480,10 +482,13 @@
                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
                         <div style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;line-height:150%; padding-right: 10px; padding-left: 10px; padding-top: 30px; padding-bottom: 10px;">
                           <div style="font-size:16px;line-height:26px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;text-align:left;">
-                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.guest.name %>,</p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.name %>,</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Your payment of €500 has been successful and you’re booked on to the <%= @booking.trip_name %>, 12-15 Feb, 2019.</p>
-                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">To view your trip and update any of your details, please click this link: <a href="" style="color: #0068A5; text-decoration: none;">View Trip</a>.</p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
+                              To view your trip and update any of your details, please click this link:
+                              <%= link_to "View Trip", guest_url(@booking.guest, "#{GuestsController::OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME}": @booking.guest.one_time_login_token, email: @booking.guest.email), style: "color: #0068A5; text-decoration: none;" %>.
+                            </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               If you need to contact me, my email is arno@alpadventures.com, or just hit reply.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
@@ -501,7 +506,13 @@
                         <a href="" style="text-decoration: none;">
                           <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:33pt; v-text-anchor:middle; width:106pt;" arcsize="0%" strokecolor="#DADADA" fillcolor="#0068A5"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#FFFFFF; font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
                           <div style="color: #FFFFFF; background-color: #0068A5; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 142px; width: 102px;width: auto;  padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
-                            <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;"><span style="font-size: 15px; line-height: 30px;"><strong>VIEW TRIP</strong></span></span>
+                            <%= link_to(guest_url(@booking.guest, "#{GuestsController::OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME}": @booking.guest.one_time_login_token, email: @booking.guest.email), style: "color: #0068A5; text-decoration: none;") do %>
+                              <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;">
+                                <span style="font-size: 15px; line-height: 30px; text-decoration: none; color: #FFFFFF">
+                                  <strong>VIEW TRIP</strong>
+                                </span>
+                              </span>
+                            <% end %>
                           </div>
                           <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                         </a>
@@ -590,28 +601,3 @@
   <!--[if (mso)|(IE)]></div><![endif]-->
 </body>
 </html>
-
-
-<!-- Do we really need to provide anything here other than the most simplest confirmation? Then let arno continue
-the email conversation... -->
-
-<!-- 
-
-Title: You’re booked on Val des Air Mountain Bike Trip, 12 - 15 Feb 2019.
-
-Hi Alan,
-Your payment of €500 has been successful and you’re booked on to the Val des Air Mountain Bike Trip, 12-15 Feb, 2019.
-To view your trip and update any of your details, please click this link: <TODO>.
-TODO: screen grab the guest show view and link to that image here....
-Else arno would need to log out as guide and log in as guest...
-
-If you need to contact me, my email is arno@alpadventures.com, or just hit reply.
-
-We'd like to thank you for joining us on this trip.
-
-If there's anything we can help you with, or if you have any questions, please let us know. 
-Thank you,
-
-Arno (AlpAdventures.com)
-
-

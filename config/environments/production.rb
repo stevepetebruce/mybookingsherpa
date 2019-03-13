@@ -51,8 +51,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "bookyourplace_#{Rails.env}"
 
-  # TODO: when we have .env
-  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: URI.parse(ENV.fetch("BASE_DOMAIN")).host }
 
   config.action_mailer.perform_caching = false
 
