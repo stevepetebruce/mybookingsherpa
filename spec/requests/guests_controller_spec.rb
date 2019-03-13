@@ -5,8 +5,10 @@ RSpec.describe "GuestsController", type: :request do
 
   describe "#edit GET /guests/:id/edit" do
     include_examples "authentication"
+    include_examples "one_time_login_token"
 
     let(:guest) { FactoryBot.create(:guest) }
+    let(:params) { {} }
 
     # TODO: Need to include tests for 1 time only token in the booking-to-guest email
     def do_request(url: "/guests/#{guest.id}/edit", params: {})
