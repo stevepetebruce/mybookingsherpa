@@ -7,19 +7,10 @@ module GuestValidations
   NAME_REGEX = %r{\A[\sa-zA-Z0-9_.'\-]+\z}.freeze
   PHONE_NUMBER_REGEX = %r{\A[0-9+.x()\-\s]{7,}\z}.freeze
 
-  POSSIBLE_ALLERGIES = %i[dairy eggs nuts penicillin soya].freeze
-  POSSIBLE_DIETARY_REQUIREMENTS = %i[other vegan vegetarian].freeze
-
   included do
-    validates :allergies, allow_blank: true, inclusion: { in: POSSIBLE_ALLERGIES }
-    validates :allergies_booking, allow_blank: true, inclusion: { in: POSSIBLE_ALLERGIES }
-    validates :allergies_override, allow_blank: true, inclusion: { in: POSSIBLE_ALLERGIES }
     validates :country, format: COUNTRY_REGEX, allow_blank: true
     validates :country_booking, format: COUNTRY_REGEX, allow_blank: true
     validates :country_override, format: COUNTRY_REGEX, allow_blank: true
-    validates :dietary_requirements, allow_blank: true, inclusion: { in: POSSIBLE_DIETARY_REQUIREMENTS }
-    validates :dietary_requirements_booking, allow_blank: true, inclusion: { in: POSSIBLE_DIETARY_REQUIREMENTS }
-    validates :dietary_requirements_override, allow_blank: true, inclusion: { in: POSSIBLE_DIETARY_REQUIREMENTS }
     validates :email, format: EMAIL_REGEX, presence: true, uniqueness: true
     validates :email_booking, format: EMAIL_REGEX, allow_blank: true, uniqueness: true
     validates :email_override, format: EMAIL_REGEX, allow_blank: true, uniqueness: true

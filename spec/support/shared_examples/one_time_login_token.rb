@@ -41,7 +41,6 @@ RSpec.shared_examples "one_time_login_token" do
       end
 
       it "should update the guest's booking fields" do
-        pending "Need to fix the enums (ex: dietary_requirements_booking) when copying data"
         do_request(params: params.merge(onetime_only_login_params))
 
         expect(guest.reload.address_booking).to eq booking.address
