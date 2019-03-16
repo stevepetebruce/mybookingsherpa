@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_11_055026) do
+ActiveRecord::Schema.define(version: 2019_03_16_115800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -151,6 +151,15 @@ ActiveRecord::Schema.define(version: 2019_03_11_055026) do
     t.integer "currency"
   end
 
+  create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "amount"
+    t.jsonb "raw_response"
+    t.uuid "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+  end
+
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.float "flat_fee_amount"
@@ -197,6 +206,7 @@ ActiveRecord::Schema.define(version: 2019_03_11_055026) do
   add_foreign_key "organisation_memberships", "organisations"
   add_foreign_key "organisations", "guides", column: "created_by_id"
   add_foreign_key "organisations", "guides", column: "updated_by_id"
+  add_foreign_key "payments", "bookings"
   add_foreign_key "subscriptions", "organisations"
   add_foreign_key "subscriptions", "plans"
   add_foreign_key "trips", "organisations"

@@ -6,6 +6,7 @@ class Booking < ApplicationRecord
 
   belongs_to :trip
   belongs_to :guest, optional: true
+  has_many :payments
 
   delegate :name, :email, to: :guide, prefix: true
 
