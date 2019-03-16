@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Nested resources
   namespace :guides, only: %i[] do # Devise handles all guest actions
-    resources :guests, only: %i[show index]
+    resources :guests, only: %i[show]
     resources :trips, only: %i[create edit index new show update]
   end
 
