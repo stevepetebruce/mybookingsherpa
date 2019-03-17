@@ -7,7 +7,8 @@ RSpec.describe "Guides::GuestsController", type: :request do
     include_examples "authentication"
 
     let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-    let!(:guest) { FactoryBot.create(:guest) }
+    let!(:guest_name) { Faker::Name.name }
+    let!(:guest) { FactoryBot.create(:guest, name: guest_name, name_override: guest_name) }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
     def do_request(url: "/guides/guests/#{guest.id}", params: {})
@@ -30,7 +31,7 @@ RSpec.describe "Guides::GuestsController", type: :request do
           it "should be visible to the guide" do
             do_request
 
-            expect(response.body).to include(guest.name)
+            expect(response.body).to include(guest_name)
           end
 
           it "should not be visible to another guide" do
