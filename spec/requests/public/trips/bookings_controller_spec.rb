@@ -18,6 +18,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
   describe "#create POST /public/trips/:trip_id/bookings" do
     let(:booking) { Booking.last }
     let!(:email) { Faker::Internet.email }
+    let(:guest) { Guest.last }
     let!(:guide) { FactoryBot.create(:guide) }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
     let(:organisation) { FactoryBot.create(:organisation) }
@@ -74,10 +75,14 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         # expect(GuideBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
       end
 
-      context "a guest who does not yet exist" do
-        let(:booking) { Booking.last }
-        let(:guest) { Guest.last }
+      it "should create a new booking and payment record" do
+        do_request(params: params)
 
+        expect(trip.bookings).not_to be_empty
+        expect(booking.payments).not_to be_empty
+      end
+
+      context "a guest who does not yet exist" do  
         it "should create the booking and the guest" do
           do_request(params: params)
 

@@ -19,7 +19,7 @@ module Public
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
-        if @booking.save && create_charge
+        if @booking.save && payment_successful?
           # TODO: Add background jobs with sidekiq and redis to allow sending of emails in background job
           # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
           # 10 min wait to let them fill in their details in booking edit page, then send updated email
@@ -29,6 +29,8 @@ module Public
 
           redirect_to edit_public_booking_path(@booking)
         else
+          # TODO: surface Stripe errors to the user
+          # https://stripe.com/docs/api/errors
           render :new
         end
       end
@@ -57,6 +59,10 @@ module Public
                                         :phone_number, :post_code)
       end
 
+      def charge
+        @charge ||= Bookings::Payment.new(@booking, stripe_token).charge
+      end
+
       def check_timeout
         return if newly_created?
 
@@ -64,12 +70,13 @@ module Public
         redirect_to new_public_trip_booking_path(@booking.trip)
       end
 
-      def create_charge
-        Bookings::Payment.new(@booking, stripe_token).charge
-      end
-
       def newly_created?
         @booking.created_at > TIMEOUT_WINDOW_MINUTES.minutes.ago
+      end
+
+      def payment_successful?
+        # TODO: surface Stripe errors to the user
+        Payments::Factory.new(@booking, charge).create
       end
 
       def set_booking
