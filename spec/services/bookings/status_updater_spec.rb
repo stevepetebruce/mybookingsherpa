@@ -12,20 +12,20 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
         context "a guest that has no other details added" do
           let(:guest) { FactoryBot.create(:guest) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
 
         context "a guest that has full details added (previously)" do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
       end
@@ -36,20 +36,20 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
         context "a guest that has no other details added" do
           let(:guest) { FactoryBot.create(:guest) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
 
         context "a guest that has full details added (previously)" do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
       end
@@ -64,20 +64,20 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
         context "a guest that has no other details added" do
           let(:guest) { FactoryBot.create(:guest) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
 
         context "a guest that has full details added (previously)" do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
       end
@@ -88,20 +88,20 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
         context "a guest that has no other details added" do
           let(:guest) { FactoryBot.create(:guest) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
 
         context "a guest that has full details added (previously)" do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
-          it "should set the booking's status to red" do
+          it "should set the booking's status to yellow" do
             update
 
-            expect(booking.reload.status).to eq "red"
+            expect(booking.reload.status).to eq "yellow"
           end
         end
       end

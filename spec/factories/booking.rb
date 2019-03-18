@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :booking do
     email { Faker::Internet.email }
-    status { :red }
+    status { :yellow }
     association :trip, full_cost: 500
     guest
 

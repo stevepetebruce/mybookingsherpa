@@ -1,7 +1,6 @@
 module Bookings
   # Updates a booking's status based on:
-  # red = Unpaid. Not paid the full amount. Either they have paid nothing or the deposit.
-  # yellow = Fully paid + basic personal details.
+  # yellow = Not fully paid or lacking full personal details.
   # green = Fully paid + full personal details.
   class StatusUpdater
     def initialize(booking)
@@ -26,7 +25,7 @@ module Bookings
     end
 
     def new_status
-      return :red if no_payments? || only_deposit_paid?
+      return :yellow if no_payments? || only_deposit_paid?
       return :yellow if full_amount_paid? && personal_details_incomplete?
 
       :green

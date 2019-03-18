@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :payment do
-    amount { booking.trip.full_cost * 10 }
+    amount { booking.trip.full_cost }
     raw_response { {} }
 
     booking
