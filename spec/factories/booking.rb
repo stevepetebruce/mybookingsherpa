@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :booking do
     email { Faker::Internet.email }
-    status { :pending }
+    status { :yellow }
     association :trip, full_cost: 500
     guest
 
@@ -20,6 +20,11 @@ FactoryBot.define do
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
       post_code { Faker::Address.postcode }
+    end
+
+    trait :basic_fields_complete do
+      email { Faker::Internet.email }
+      name { Faker::Name.name }
     end
   end
 end

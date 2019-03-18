@@ -2,6 +2,13 @@ class Guest < ApplicationRecord
   include GuestValidations
   include GuestCallbacks
 
+  REQUIRED_ADVANCED_PERSONAL_DETAILS = %i[address city country county
+                                          date_of_birth next_of_kin_name
+                                          next_of_kin_phone_number phone_number
+                                          post_code].freeze
+
+  REQUIRED_BASIC_PERSONAL_DETAILS = %i[email name].freeze
+
   UPDATABLE_FIELDS = %i[address allergies city country county
                         date_of_birth dietary_requirements
                         medical_conditions name

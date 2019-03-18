@@ -1,13 +1,7 @@
 FactoryBot.define do
   factory :guest do
-    address { Faker::Address.full_address }
-    address_override { address }
     email { Faker::Internet.email }
-    name { Faker::Name.name }
-    name_override { name }
     password { Faker::Internet.password } # TODO: can be blank - need to change
-    phone_number { Faker::PhoneNumber.cell_phone }
-    phone_number_override { phone_number }
 
     trait :all_booking_fields_complete do
       address_booking { Faker::Address.street_address }
