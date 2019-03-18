@@ -17,6 +17,13 @@ RSpec.describe Guest, type: :model do
 
     it "should call #set_one_time_login_token" do
       expect(guest).to receive(:set_one_time_login_token)
+
+      guest.save
+    end
+
+    it "should call #update_bookings_status" do
+      expect(guest).to receive(:update_bookings_status)
+
       guest.save
     end
   end
