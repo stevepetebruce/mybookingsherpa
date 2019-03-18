@@ -20,6 +20,12 @@ class GuestDecorator < SimpleDelegator
     "dot-success"
   end
 
+  # Dynamically create fallback methods for name, address, etc.
+  # For when guest has not confirmed email but guide still wants some info
+  Guest::UPDATABLE_FIELDS.each do |field|
+    define_method(field) { @guest.send(field).presence || @guest.most_recent_booking.send(field) }
+  end
+
   private
 
   def gravatar_base_url
