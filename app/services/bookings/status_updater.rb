@@ -11,6 +11,13 @@ module Bookings
       @booking.update(status: new_status)
     end
 
+    def new_status
+      return :yellow if no_payments? || only_deposit_paid?
+      return :yellow if full_amount_paid? && personal_details_incomplete?
+
+      :green
+    end
+
     private
 
     def details_incomplete?(attributes)
@@ -21,14 +28,7 @@ module Bookings
     end
 
     def full_amount_paid?
-      total_paid == @booking.full_cost
-    end
-
-    def new_status
-      return :yellow if no_payments? || only_deposit_paid?
-      return :yellow if full_amount_paid? && personal_details_incomplete?
-
-      :green
+      total_paid >= @booking.full_cost
     end
 
     def no_payments?
