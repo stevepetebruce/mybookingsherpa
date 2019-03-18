@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Bookings::StatusUpdater, type: :model do
-  describe "#update" do
-    subject(:update) { described_class.new(booking).update }
+  describe "#new_status" do
+    subject(:new_status) { described_class.new(booking).new_status }
 
     context "a booking that has not made any payment" do
       # This would be the case where the Guide has manually added a guest
@@ -13,9 +13,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
 
@@ -23,9 +21,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
       end
@@ -37,9 +33,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
 
@@ -47,9 +41,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
       end
@@ -65,9 +57,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
 
@@ -75,9 +65,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
       end
@@ -89,9 +77,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
 
@@ -99,9 +85,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
       end
@@ -116,9 +100,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to yellow" do
-            update
-
-            expect(booking.reload.status).to eq "yellow"
+            expect(new_status).to eq :yellow
           end
         end
 
@@ -126,9 +108,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to green" do
-            update
-
-            expect(booking.reload.status).to eq "green"
+            expect(new_status).to eq :green
           end
         end
       end
@@ -141,9 +121,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest) }
 
           it "should set the booking's status to green" do
-            update
-
-            expect(booking.reload.status).to eq "green"
+            expect(new_status).to eq :green
           end
         end
 
@@ -151,9 +129,7 @@ RSpec.describe Bookings::StatusUpdater, type: :model do
           let(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should set the booking's status to green" do
-            update
-
-            expect(booking.reload.status).to eq "green"
+            expect(new_status).to eq :green
           end
         end
       end

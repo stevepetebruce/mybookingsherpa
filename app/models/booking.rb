@@ -20,4 +20,12 @@ class Booking < ApplicationRecord
             presence: true
 
   scope :most_recent, -> { order(created_at: :desc) }
+
+  before_save :update_status
+
+  private
+
+  def update_status
+    self[:status] = Bookings::StatusUpdater.new(self).new_status
+  end
 end
