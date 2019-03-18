@@ -18,4 +18,14 @@ RSpec.describe Booking, type: :model do
   it { should define_enum_for(:allergies).with(%i[dairy eggs nuts penicillin soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[other vegan vegetarian]) }
   it { should define_enum_for(:status).with(%i[yellow green]) }
+
+  describe "callbacks" do
+    let!(:booking) { FactoryBot.build(:booking) }
+
+    it "should call #update_status after_save" do
+      expect(booking).to receive(:update_status)
+
+      booking.save
+    end
+  end
 end
