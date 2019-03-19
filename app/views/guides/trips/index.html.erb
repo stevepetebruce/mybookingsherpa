@@ -35,9 +35,8 @@
                     <div class="col d-sm-none d-md-block d-none d-sm-block">
                       <div>
                         <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
-                          <% if trip.guests[i] %>
-                            <!-- TODO: remove the status conditional below - just for illustrative purposes -->
-                            <span class="dot dot-sm <%= i.even? ? 'dot-warning' : 'dot-success' %>" data-toggle="tooltip" data-placement="top" title="<%= trip.guests[i].name %>"></span>
+                          <% if trip.decorated_guests[i] %>
+                            <span class="dot dot-sm <%= trip.decorated_guests[i].status(trip) %>" data-toggle="tooltip" data-placement="top" title="<%= trip.guests[i].name %>"></span>
                           <% else %>
                             <span class='dot dot-sm dot-grey'></span>
                           <% end %>
@@ -64,7 +63,7 @@
                         <span class="copied mt-1"> Copied!</span>
                       </div>
                       <!-- Loop throuh individual in trip -->
-                      <% trip.guests.map { |g| GuestDecorator.new(g) }.each do |guest| %>
+                      <% trip.decorated_guests.each do |guest| %>
                       <div class="row ticket-card mt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->

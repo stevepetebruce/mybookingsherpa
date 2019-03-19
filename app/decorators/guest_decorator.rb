@@ -14,6 +14,12 @@ class GuestDecorator < SimpleDelegator
       "s=#{size}&d=#{CGI.escape(gravatar_fallback_image_url)}"
   end
 
+  def status(trip)
+    return "dot-warning" if @guest.bookings.where(trip_id: trip.id).first.yellow?
+
+    "dot-success"
+  end
+
   private
 
   def gravatar_base_url

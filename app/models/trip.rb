@@ -35,6 +35,10 @@ class Trip < ApplicationRecord
     bookings.count
   end
 
+  def decorated_guests
+    guests.map { |guest| GuestDecorator.new(guest) }
+  end
+
   def guide
     organisation_memberships.owners&.first&.guide
   end
