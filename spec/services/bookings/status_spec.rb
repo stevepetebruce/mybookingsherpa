@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Bookings::StatusUpdater, type: :model do
+RSpec.describe Bookings::Status, type: :model do
   describe "#new_status" do
     subject(:new_status) { described_class.new(booking).new_status }
 
