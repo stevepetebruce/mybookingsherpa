@@ -1,7 +1,21 @@
 require "rails_helper"
 
 RSpec.describe GuestDecorator, type: :model do
-  let!(:guest) { FactoryBot.create(:guest) }
+  let(:guest) { FactoryBot.create(:guest) }
+
+  describe "#dynamically created fallback fields" do
+    subject(:dynamic_value) { described_class.new(guest).send(dynamically_created_field) }
+
+    let!(:dynamically_created_field) { Guest::UPDATABLE_FIELDS.sample }
+
+    context "a guest that does not have a name yet, but their most recent booking does" do
+      let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest) }
+
+      it "should return the booking name" do
+        expect(dynamic_value).to eq booking.send(dynamically_created_field)
+      end
+    end
+  end
 
   describe "#gravatar_url" do
     subject { described_class.new(guest).gravatar_url }
