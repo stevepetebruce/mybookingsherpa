@@ -24,7 +24,11 @@ class Guest < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum allergies: POSSIBLE_ALLERGIES
+  enum allergies_booking: POSSIBLE_ALLERGIES, _suffix: true
+  enum allergies_override: POSSIBLE_ALLERGIES, _suffix: true
   enum dietary_requirements: POSSIBLE_DIETARY_REQUIREMENTS
+  enum dietary_requirements_booking: POSSIBLE_DIETARY_REQUIREMENTS, _suffix: true
+  enum dietary_requirements_override: POSSIBLE_DIETARY_REQUIREMENTS, _suffix: true
 
   has_many :bookings
   has_many :trips, through: :bookings
