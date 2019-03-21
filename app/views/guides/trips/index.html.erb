@@ -73,9 +73,12 @@
                         <div class="col-9">
                           <div class="d-flex">
                             <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              <!-- TODO: need to get name (first and last) from booking and update -->
                               <%= guest.name %>
-                              <!-- TODO: if this guest's/ bookings details are incomplete - need to flag it here - missing name, phone number, etc-->
+                              <% if guest.status_alert?(trip) %>
+                                <div class="col ">
+                                  <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= guest.status_text(trip) %></a>
+                                </div>
+                              <% end %>
                             </p>
                           </div>
                         </div>

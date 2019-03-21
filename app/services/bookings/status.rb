@@ -5,19 +5,19 @@ module Bookings
       @booking = booking
     end
 
+    def allergies?
+      @booking.allergies.present? ||
+        @booking.guest.allergies.present?
+    end
+
     def dietary_requirements?
       @booking.dietary_requirements.present? ||
         @booking.guest.dietary_requirements.present?
     end
 
-    def medical_condition?
+    def medical_conditions?
       @booking.medical_conditions.present? ||
         @booking.guest.medical_conditions.present?
-    end
-
-    def payment_required?
-      # TODO: this will be true if they have paid over for extras...
-      !full_amount_paid?
     end
 
     def new_status
@@ -25,6 +25,10 @@ module Bookings
       return :yellow if full_amount_paid? && personal_details_incomplete?
 
       :green # fully paid and all personal details complete
+    end
+
+    def payment_required?
+      total_paid < @booking.full_cost
     end
 
     def personal_details_incomplete?
@@ -58,7 +62,7 @@ module Bookings
     end
 
     def total_paid
-      @booking.payments.pluck(:amount).reduce(:+)
+      @total_paid ||= @booking.payments.pluck(:amount).reduce(:+).presence || 0
     end
   end
 end
