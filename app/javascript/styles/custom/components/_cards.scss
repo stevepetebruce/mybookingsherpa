@@ -43,6 +43,7 @@
 }
 
 
+/*  Trips view accordian icons */
 
 [data-toggle="collapse"] .fa-chevron-circle-down:before {  
   content: "\f183";
@@ -53,3 +54,22 @@
   content: "\f180";
 }
 
+/*  Trips view accordian guest hover */
+
+.ticket-card {
+  &:hover { 
+    background-color: $ghost-white;
+    cursor: pointer;
+  }
+  &:active { 
+    background-color: $ghost-white;
+  }
+}
+
+.ticket-card:hover .avatar {
+  transform: scale(1.06);
+}
+
+.avatar {
+  transition: 0.2s;
+}
