@@ -86,9 +86,9 @@ guide.trips.create(name: "Trans74",
 # Guests:
 # Basic details:
 15.times.each do
-  guest = Guest.create(email: Faker::Internet.email,
-                       name: Faker::Name.name,
-                       name_booking: Faker::Name.name)
+  Guest.create(email: Faker::Internet.email,
+               name: Faker::Name.name,
+               name_booking: Faker::Name.name)
 
   puts "Guest errors: #{guest.errors.full_messages}" if guest.errors.full_messages.present?
 end
