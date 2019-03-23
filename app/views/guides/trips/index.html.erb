@@ -58,7 +58,7 @@
                           <span class="copied mt-1"> Copied!</span>
                         </div>
                         <% trip.decorated_bookings.each do |booking| %>
-                          <%= link_to guides_guest_path(guest) do %>
+                          <%= link_to guides_booking_path(booking) do %>
                             <div class="row ticket-card pt-3 pb-2 border-bottom">
                               <div class="col-1 d-sm-none d-md-block d-none">
                                 <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
@@ -67,7 +67,7 @@
                               <div class="col-9">
                                 <div class="d-flex">
                                   <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                                    <%= booking.guest_name %>
+                                    <%= booking.name %>
                                     <% if booking.status_alert? %>
                                       <div class="col ">
                                         <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></a>
@@ -75,11 +75,6 @@
                                     <% end %>
                                   </p>
                                 </div>
-                              </div>
-                              <div class="ticket-actions col-1">
-                                <button type="button" class="btn btn-primary">
-                                  <%= link_to "View Details", guides_booking_path(booking), class: "btn btn-primary" %>
-                                </button>
                               </div>
                             </div>
                           <% end %>
