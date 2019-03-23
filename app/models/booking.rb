@@ -26,6 +26,6 @@ class Booking < ApplicationRecord
   private
 
   def update_status
-    self[:status] = Bookings::StatusUpdater.new(self).new_status
+    self[:status] = Bookings::Status.new(self).new_status
   end
 end

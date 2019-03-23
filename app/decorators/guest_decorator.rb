@@ -15,9 +15,22 @@ class GuestDecorator < SimpleDelegator
   end
 
   def status(trip)
-    return "dot-warning" if @guest.bookings.where(trip_id: trip.id).first.yellow?
+    return "dot-warning" if most_recent_booking(trip).yellow?
 
     "dot-success"
+  end
+
+  def status_text(trip)
+    # TODO: what if there's more than one label? Guide would want to see Medical condition and dietary requirements
+    return "Incomplete booking details" if Bookings::Status.new(most_recent_booking(trip)).personal_details_incomplete?
+    return "Payment required" if Bookings::Status.new(most_recent_booking(trip)).payment_required?
+    return "Medical conditions" if Bookings::Status.new(most_recent_booking(trip)).medical_conditions?
+    return "Allergies" if Bookings::Status.new(most_recent_booking(trip)).allergies?
+    return "Dietary requirements" if Bookings::Status.new(most_recent_booking(trip)).dietary_requirements?
+  end
+
+  def status_alert?(trip)
+    status_text(trip).present?
   end
 
   # Dynamically create fallback methods for name, address, etc.
@@ -38,5 +51,9 @@ class GuestDecorator < SimpleDelegator
 
   def gravatar_id
     Digest::MD5.hexdigest(@guest.email).downcase
+  end
+
+  def most_recent_booking(trip)
+    @most_recent_booking ||= @guest.bookings.where(trip_id: trip.id).first
   end
 end

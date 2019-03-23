@@ -23,6 +23,8 @@ FactoryBot.define do
     trait :all_override_fields_complete do
       address { Faker::Address.street_address }
       address_override { address }
+      allergies { %i[dairy eggs nuts penicillin soya].sample }
+      allergies_override { allergies }
       city { Faker::Address.city }
       city_override { city }
       country { Faker::Address.country_code }
@@ -31,6 +33,8 @@ FactoryBot.define do
       county_override { county }
       date_of_birth { Faker::Date.birthday(18, 65) }
       date_of_birth_override { date_of_birth }
+      dietary_requirements { %i[other vegan vegetarian].sample }
+      dietary_requirements_override {dietary_requirements }
       email { Faker::Internet.email }
       email_override { email }
       medical_conditions { Faker::Lorem.sentence }
