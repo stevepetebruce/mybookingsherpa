@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe "Guides::GuestsController", type: :request do
+RSpec.describe "Guides::BookingsController", type: :request do
   let(:guide) { FactoryBot.create(:guide) }
 
-  describe "#show get /guides/guests/:id" do
+  describe "#show get /guides/bookings/:id" do
     include_examples "authentication"
 
     let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
@@ -11,7 +11,7 @@ RSpec.describe "Guides::GuestsController", type: :request do
     let!(:guest) { FactoryBot.create(:guest, name: guest_name, name_override: guest_name) }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
-    def do_request(url: "/guides/guests/#{guest.id}", params: {})
+    def do_request(url: "/guides/bookings/#{booking.id}", params: {})
       get url, params: params
     end
 
