@@ -2,7 +2,6 @@
 <!-- main -->
 <div class="main-panel">
   <div class="content-wrapper">
-
     <div class="row">
       <div class="col-12">
         <div class="card card-shadow">
@@ -12,9 +11,7 @@
             </h1>
             <div class="row">
               <div class="col col-6"></div>
-              <div class="col text-center d-sm-none d-md-block d-none d-sm-block">
-
-              </div>
+              <div class="col text-center d-sm-none d-md-block d-none d-sm-block"></div>
               <div class="col text-center d-sm-none d-md-block d-none d-sm-block">
                 <h4 class="ml-1">Places Filled</h4>
               </div>
@@ -48,10 +45,8 @@
                     </div>
                   </div>
                 </div>
-
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                   <div class="card-body">
-
                     <div class="fluid-container">
                       <div class="row">
                         <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
@@ -88,255 +83,14 @@
                       <% end %>
                       <!-- END Loop throuh individual in trip -->
                     </div>
-
                   </div>
                 </div>
               </div>
               <% end %>
-
-
-
-              <!-- Fake trips -->
-              <!-- Loop through Trips -->
-              <!-- END Loop through Trips -->
-              <div class="card">
-                <div class="card-header pointer collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                  aria-controls="collapseTwo">
-                  <div class="row">
-                    <div class="col col-6 h4 font-weight-bold">
-                      3 Peak Mountain Bike Challenge
-                    </div>
-                    <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
-                      22 - 27 June
-                    </div>
-                    <div class="col d-sm-none d-md-block d-none d-sm-block">
-                      <div>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" title="James Rogers"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" data-original-title="Sarah-Ann King"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" data-original-title="Jenny Smith"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" data-original-title="Fabio Toti"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" title="Marques Brownlee"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" title="Jenny Naismith"></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                      </div>
-                    </div>
-                    <div class="col col-lg-1 text-right">
-                      <i class="fa fa-chevron-circle-down md-20"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                  <div class="card-body">
-                    <div class="fluid-container">
-                      <!-- Dummy input clipboard to test different data sources -->
-                      <div class="row">
-                        <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
-                          <input class="form-control" type="text" data-clipboard-source="123" value="54321" readonly>
-                          <div class="input-group-append">
-                            <button type="button" class="btn btn-outline-secondary" data-clipboard-btn="123">Copy to Clipboard</button>
-                          </div>
-                        </div>
-                        <span class="copied mt-1"> Copied!</span>
-                      </div>
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face1.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              James Rogers
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face6.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-fr flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Sarah-Ann King 
-                            </p>
-                            <div class="col ">
-                              <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i> Incomplete booking details</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face2.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Jenny Smith
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face3.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-it flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Fabio Toti
-                            </p>
-                            <div class="col ">
-                              <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i> Medical Condition</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face4.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-de flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Marques Brownlee
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card pt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
-                          <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Jenny Naismith
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header pointer collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                  aria-controls="collapseThree">
-                  <div class="row">
-                    <div class="col col-6 h4 font-weight-bold">
-                      Mont Blanc Summer Trek
-                    </div>
-                    <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
-                      9 - 12 July
-                    </div>
-                    <div class="col d-sm-none d-md-block d-none d-sm-block">
-                      <div>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" title="Lindsey Parker"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" data-original-title="Marques Brownlee"></span>
-                        <span class='dot dot-sm dot-success' data-toggle="tooltip" data-placement="top" title="Jenny Smith"></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                        <span class='dot dot-sm dot-grey'></span>
-                      </div>
-                    </div>
-                    <div class="col col-lg-1 text-right">
-                      <i class="fa fa-chevron-circle-down md-20"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                  <div class="card-body">
-
-                    <div class="fluid-container">
-
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
-                          <span class="flag-icon flag-icon-gr flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Alan Naismith
-                            </p>
-                          </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-inverse-primary">
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face4.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-fr flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Marques Brownlee
-                            </p>
-                          </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-inverse-primary">
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face2.jpg' %>" alt="profile image">
-                          <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              Jenny Smith
-                            </p>
-                          </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-inverse-primary">
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
