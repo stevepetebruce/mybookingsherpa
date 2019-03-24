@@ -64,30 +64,27 @@
                       </div>
                       <!-- Loop throuh individual in trip -->
                       <% trip.decorated_guests.each do |guest| %>
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
-                          <%= image_tag guest.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
-                          <span class="flag-icon flag-icon-circled flag-icon-profile <%= guest.flag_icon %>"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              <%= guest.name %>
-                              <% if guest.status_alert?(trip) %>
-                                <div class="col ">
-                                  <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= guest.status_text(trip) %></a>
-                                </div>
-                              <% end %>
-                            </p>
+                        <%= link_to guides_guest_path(guest) do %>
+                          <div class="row ticket-card pt-3 pb-2 border-bottom">
+                            <div class="col-1 d-sm-none d-md-block d-none">
+                              <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
+                              <%= image_tag guest.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
+                              <span class="flag-icon flag-icon-circled flag-icon-profile <%= guest.flag_icon %>"></span>
+                            </div>
+                            <div class="col-10">
+                              <div class="d-flex">
+                                <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
+                                  <%= guest.name %>
+                                  <% if guest.status_alert?(trip) %>
+                                    <div class="col ">
+                                      <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= guest.status_text(trip) %></a>
+                                    </div>
+                                  <% end %>
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            <%= link_to "View Details", guides_guest_path(guest), class: "btn btn-primary" %>
-                          </button>
-                        </div>
-                      </div>
+                        <% end %>
                       <% end %>
                       <!-- END Loop throuh individual in trip -->
                     </div>
@@ -145,7 +142,7 @@
                         </div>
                         <span class="copied mt-1"> Copied!</span>
                       </div>
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face1.jpg' %>" alt="profile image">
                           <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
@@ -157,14 +154,9 @@
                             </p>
                           </div>
                         </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
-                        </div>
                       </div>
 
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face6.jpg' %>" alt="profile image">
                           <span class="flag-icon flag-icon-fr flag-icon-circled flag-icon-profile"></span>
@@ -179,14 +171,9 @@
                             </div>
                           </div>
                         </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
-                        </div>
                       </div>
 
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face2.jpg' %>" alt="profile image">
                           <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
@@ -198,14 +185,9 @@
                             </p>
                           </div>
                         </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
-                        </div>
                       </div>
 
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face3.jpg' %>" alt="profile image">
                           <span class="flag-icon flag-icon-it flag-icon-circled flag-icon-profile"></span>
@@ -220,14 +202,9 @@
                             </div>
                           </div>
                         </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
-                        </div>
                       </div>
 
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face4.jpg' %>" alt="profile image">
                           <span class="flag-icon flag-icon-de flag-icon-circled flag-icon-profile"></span>
@@ -239,14 +216,9 @@
                             </p>
                           </div>
                         </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
-                        </div>
                       </div>
 
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
+                      <div class="row ticket-card pt-3 pb-2 border-bottom">
                         <div class="col-1 d-sm-none d-md-block d-none">
                           <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
                           <span class="flag-icon flag-icon-gb flag-icon-circled flag-icon-profile"></span>
@@ -257,11 +229,6 @@
                               Jenny Naismith
                             </p>
                           </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            View Details
-                          </button>
                         </div>
                       </div>
 
