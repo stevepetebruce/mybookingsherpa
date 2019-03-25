@@ -125,9 +125,21 @@ RSpec.describe Guest, type: :model do
       it { should validate_presence_of(:email) }
       it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
     end
+    context "country" do
+      it { should allow_value(Faker::Address.country_code).for(:county) }
+      it { should_not allow_value(Faker::Lorem.word).for(:email) }
+    end
     context "name" do
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
       it { should allow_value(Faker::Lorem.word).for(:name) }
+    end
+    context "next_of_kin_name" do
+      it { should allow_value(Faker::Name.name).for(:next_of_kin_name) }
+      it { should_not allow_value("<SQL INJECTION;>").for(:next_of_kin_name) }
+    end
+    context "next_of_kin_phone_number" do
+      it { should allow_value(Faker::PhoneNumber.cell_phone).for(:next_of_kin_phone_number) }
+      it { should_not allow_value( Faker::Name.name).for(:next_of_kin_phone_number) }
     end
     context "phone_number" do
       it { should allow_value(Faker::PhoneNumber.cell_phone).for(:phone_number) }
