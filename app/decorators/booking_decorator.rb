@@ -35,6 +35,7 @@ class BookingDecorator < SimpleDelegator
 
   # Dynamically create fallback methods for name, address, etc.
   # For when guest has not confirmed email but guide still wants some info
+  # So will be referenced: booking.name // = booking.guest.name || booking.name
   Guest::UPDATABLE_FIELDS.each do |field|
     define_method(field) { @booking.guest.send(field).presence || @booking.send(field) }
   end
