@@ -20,7 +20,7 @@
             <div class="accordion" id="accordion">
               <% @trips.each do |trip| %>
               <div class="card">
-                <div class="card-header pointer collapsed" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+                <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
                   aria-controls="collapseOne">
                   <div class="row">
                     <div class="col col-6 h4 font-weight-bold">
@@ -45,7 +45,7 @@
                     </div>
                   </div>
                 </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                   <div class="card-body">
                     <div class="fluid-container">
                       <div class="row">
