@@ -5,7 +5,7 @@ Hello <%= @booking.name %>. Successful booking on <%= @booking.trip_name %>
 Hi <%= @booking.name %>,
 
 Your payment of €500 has been successful and you’re booked on to the Val des Air Mountain Bike Trip, 12-15 Feb, 2019.
-To view your trip and update any of your details, please click this link: <%= guest_url(@booking.guest, "#{GuestsController::OBFUSCATED_ONE_TIME_LOGIN_TOKEN_PARAM_NAME}": @booking.guest.one_time_login_token, email: @booking.guest.email) %>.
+To view your trip and update any of your details, please click this link: .
 
 If you need to contact me, my email is arno@alpadventures.com, or just hit reply.
 
