@@ -5,6 +5,7 @@ class Guide < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_and_belongs_to_many :trips
+  has_many :bookings, through: :trips
   has_many :guests, through: :trips
   has_many :organisation_memberships
   has_many :organisations, through: :organisation_memberships

@@ -9,6 +9,7 @@ class Booking < ApplicationRecord
   has_many :payments
 
   delegate :name, :email, to: :guide, prefix: true
+  delegate :name, :email, to: :guest, prefix: true
 
   delegate :currency, :deposit_cost, :full_cost, :guide,
            :organisation_name, :start_date, :end_date, to: :trip

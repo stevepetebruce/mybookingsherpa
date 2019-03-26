@@ -1,10 +1,11 @@
 require "rails_helper"
 
-RSpec.describe GuestDecorator, type: :model do
+RSpec.describe BookingDecorator, type: :model do
+  let!(:booking) { FactoryBot.create(:booking, guest: guest) }
   let(:guest) { FactoryBot.create(:guest) }
 
   describe "#dynamically created fallback fields" do
-    subject(:dynamic_value) { described_class.new(guest).send(dynamically_created_field) }
+    subject(:dynamic_value) { described_class.new(booking).send(dynamically_created_field) }
 
     let!(:dynamically_created_field) { Guest::UPDATABLE_FIELDS.sample }
 
@@ -18,9 +19,9 @@ RSpec.describe GuestDecorator, type: :model do
   end
 
   describe "#gravatar_url" do
-    subject { described_class.new(guest).gravatar_url }
+    subject { described_class.new(booking).gravatar_url }
 
-    let(:gravatar_id) { Digest::MD5.hexdigest(guest.email).downcase }
+    let(:gravatar_id) { Digest::MD5.hexdigest(booking.guest_email).downcase }
 
     it "should return expected URL" do
       expect(subject).to start_with "http://gravatar.com/avatar/#{gravatar_id}"
@@ -28,7 +29,7 @@ RSpec.describe GuestDecorator, type: :model do
   end
 
   describe "#flag_icon" do
-    subject { described_class.new(guest).flag_icon }
+    subject { described_class.new(booking).flag_icon }
 
     it "should return expected flag-icon class" do
       expect(["flag-icon-fr", "flag-icon-gb", "flag-icon-us"]).to include(subject)
@@ -36,7 +37,7 @@ RSpec.describe GuestDecorator, type: :model do
   end
 
   describe "#status" do
-    subject(:status) { described_class.new(guest).status(trip) }
+    subject(:status) { described_class.new(booking).status(trip) }
 
     let(:trip) { FactoryBot.create(:trip) }
 
@@ -61,7 +62,7 @@ RSpec.describe GuestDecorator, type: :model do
   end
 
   describe "#status_alert?" do
-    subject(:status_alert?) { described_class.new(guest).status_alert?(trip) }
+    subject(:status_alert?) { described_class.new(booking).status_alert? }
 
     let(:trip) { FactoryBot.create(:trip) }
 
@@ -107,7 +108,7 @@ RSpec.describe GuestDecorator, type: :model do
   end
 
   describe "#status_text" do
-    subject(:status_text) { described_class.new(guest).status_text(trip) }
+    subject(:status_text) { described_class.new(booking).status_text }
 
     let(:trip) { FactoryBot.create(:trip) }
 
