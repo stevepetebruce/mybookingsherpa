@@ -68,29 +68,46 @@
       <hr class="mb-5 mb-4">
     </li>
     <li>
-      <!-- TODO: plug in real data -->
       <h4 class="mb-3 font-weight-bold">Dietary and Health Requirements (optional)</h4>
+      <h5 class="pt-3">Dietary Requirements</h5>
       <div class="row">
         <div class="col-md-12 mb-3">
-          <input type="radio" name="diet" value="none" checked>
-          <label for="none" class="mr-4">None</label>
-          <input type="radio" name="diet" value="vegetarian">
-          <label for="vegetarian" class="mr-4">Vegetarian</label>
-          <input type="radio" name="diet" value="vegan">
-          <label for="vegan" class="mr-4">Vegan</label>
-          <input type="radio" name="diet" value="other">
-          <label for="vegan">Other <i>(please add note below)</i></label>
+          <%= form.radio_button(:dietary_requirements, :none, checked: true) %>
+          <%= form.label(:dietary_requirements, "None", class: "mr-4") %>
+          <%= form.radio_button(:dietary_requirements, :vegetarian) %>
+          <%= form.label(:dietary_requirements, "Vegetarian", class: "mr-4") %>
+          <%= form.radio_button(:dietary_requirements, :vegan) %>
+          <%= form.label(:dietary_requirements, "Vegan", class: "mr-4") %>
+          <%= form.radio_button(:dietary_requirements, :other) %>
+          <%= form.label(:dietary_requirements, "Other <i>(please add note below)</i>".html_safe, class: "mr-4") %>
         </div>
-        <div class="col-md-12 mb-3">
-          <label for="allergies">Allergies</label>
-          <textarea class="form-control" name="allergies"></textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-          <label for="medical">Medical Conditions</label>
-          <textarea class="form-control" name="medical"></textarea>
-        </div>
-        <!-- Other information? -->
       </div>
+      <h5 class="pt-3">Allergies</h5>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <%= form.radio_button(:allergies, :none, checked: true) %>
+          <%= form.label(:allergies, "None", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :dairy) %>
+          <%= form.label(:allergies, "Dairy", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :eggs) %>
+          <%= form.label(:allergies, "Eggs", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :nuts) %>
+          <%= form.label(:allergies, "Nuts", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :penicllin) %>
+          <%= form.label(:allergies, "Penicillin", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :soya) %>
+          <%= form.label(:allergies, "Soya", class: "mr-4") %>
+          <%= form.radio_button(:allergies, :other) %>
+          <%= form.label(:allergies, "Other <i>(please add note below)</i>".html_safe, class: "mr-4") %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <%= form.label(:medical_conditions) %>
+          <%= form.text_area(:medical_conditions, class: "form-control" ) %>
+        </div>
+      </div>
+      <!-- Other information? .. .where will they enter other/multiple dietary / allergies ?-->
     </li>
   </ul>
   <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg btn-block mt-4" %>
