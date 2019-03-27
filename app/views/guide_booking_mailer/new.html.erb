@@ -470,8 +470,8 @@
                         <div style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#0068A5;line-height:150%; padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
                           <div style="font-size:12px;line-height:18px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#0068A5;text-align:left;">
                             <p style="margin: 0;font-size: 12px;line-height: 21px;text-align: center"><span style="font-size: 20px; line-height: 39px; color:#555555;">New Booking for</span></p>
-                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center;"><span style="line-height: 39px; font-size: 34px;"><strong><%= @booking.trip_name %></strong></span></p>
-                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><strong><span style="font-size: 24px; line-height: 46px;">12 - 15 Feb 2019</span></strong></p>
+                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center;"><span style="line-height: 39px; font-size: 34px;"><strong><%= @booking.trip_name %>.</strong></span></p>
+                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><strong><span style="font-size: 24px; line-height: 46px;"><%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %></span></strong></p>
                           </div>
                         </div>
                         <!--[if mso]></td></tr></table><![endif]-->
@@ -480,21 +480,22 @@
                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
                         <div style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;line-height:150%; padding-right: 10px; padding-left: 10px; padding-top: 30px; padding-bottom: 10px;">
                           <div style="font-size:16px;line-height:26px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;text-align:left;">
-                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi Arno,</p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.guide_name %>,</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Good news.</p>
                                <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              You’re received a new booking from <Guest name/ email> for…. <trip name></p>
-                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;"><a href="" style="color: #0068A5; text-decoration: none;">Click here</a> to see val des air trip status <trip index> and <a href="" style="color: #0068A5; text-decoration: none;">click here</a> to see <guest name / email> details.</p>
+                              You've received a new booking from <%= @booking.name %> for <%= @booking.trip_name %></p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              They have successfully been charged €500 and you should see this (minus handling fee) within two working days.</p>
+                              <%= link_to "Click here", guides_trips_url, style: "color: #0068A5; text-decoration: none;" %> to see <%= @booking.trip_name %> status and <%= link_to "click here",guides_booking_url(@booking), style: "color: #0068A5; text-decoration: none;" %> to see guest details.</p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
+                              They have successfully been charged <%= "#{Currency.iso_to_symbol(@booking.currency)}#{number_with_precision(@booking.full_cost, precision: 0)}" %> and you should see this (minus handling fee) within two working days.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               We have emailed the guest the itinerary and your contact details.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left;  margin-bottom: 18px;">
                               If you have questions please contact: support@mybookingsherpa.com
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              Thank you from all at MyBookingSherpa team.</p>
+                              Thank you from all of the MyBookingSherpa team.</p>
                           </div>
                         </div>
                         <!--[if mso]></td></tr></table><![endif]-->
@@ -592,26 +593,3 @@
   <!--[if (mso)|(IE)]></div><![endif]-->
 </body>
 </html>
-
-
-
-<!--
-Title: New Booking for Val des Air Mountain Bike Trip, 12 - 15 Feb 2019.
-
-Hi Arno,
-
-Good news.
-
-You’re received a new booking from <Guest name/ email> for…. <trip name>
-
-Click here to see val des air trip status <trip index> and click here to see <guest name / email> details <link to guest show view>
-
-They successfully been charged €500 and you should see this (minus handling fee) within two working days.
-
-We have emailed the guest the itinerary and your contact details.
-
-If you have questions please contact: support@mybookingsherpa.com
-
-
-Thank you from all at MyBookingSherpa team.
--->

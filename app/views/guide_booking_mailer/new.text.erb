@@ -1,19 +1,20 @@
-Title: New Booking for Val des Air Mountain Bike Trip, 12 - 15 Feb 2019.
+New Booking for <%= @booking.trip_name %>, <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.
+===============================================
 
-Hi Arno,
+Hi <%= @booking.guide_name %>,
 
 Good news.
 
-You’re received a new booking from <Guest name/ email> for…. <trip name>
+You've received a new booking from <%= @booking.name %> for <%= @booking.trip_name %>.
 
-Click here to see val des air trip status <trip index> and click here to see <guest name / email> details <link to guest show view>
+<%= link_to guides_trips_url, "Click here" %> to see <%= @booking.trip_name %> status and <%= link_to guides_booking_url(@booking), "click here" %> to see <%= @booking.name %>'s details.
 
-They have successfully been charged €500 and you should see this (minus handling fee) within two working days.
+They have successfully been charged <%= "#{Currency.iso_to_symbol(@booking.currency)}#{number_with_precision(@booking.full_cost, precision: 0)}" %> and you should see this (minus handling fee) within two working days.
 
 We have emailed the guest the itinerary and your contact details.
 
 If you have questions please contact: support@mybookingsherpa.com
 
 
-Thank you from all at MyBookingSherpa team.
+Thank you from all at the MyBookingSherpa team.
 

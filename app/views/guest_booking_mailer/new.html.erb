@@ -471,9 +471,9 @@
                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;"><![endif]-->
                         <div style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#0068A5;line-height:150%; padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
                           <div style="font-size:12px;line-height:18px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#0068A5;text-align:left;">
-                            <p style="margin: 0;font-size: 12px;line-height: 21px;text-align: center"><span style="font-size: 20px; line-height: 39px; color:#555555;">You’re booked on</span></p>
+                            <p style="margin: 0;font-size: 12px;line-height: 21px;text-align: center"><span style="font-size: 20px; line-height: 39px; color:#555555;">You're booked on</span></p>
                             <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center;"><span style="line-height: 39px; font-size: 34px;"><strong><%= @booking.trip_name %></strong></span></p>
-                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><strong><span style="font-size: 24px; line-height: 46px;">12 - 15 Feb 2019</span></strong></p>
+                            <p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><strong><span style="font-size: 24px; line-height: 46px;"><%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %></span></strong></p>
                           </div>
                         </div>
                         <!--[if mso]></td></tr></table><![endif]-->
@@ -484,20 +484,23 @@
                           <div style="font-size:16px;line-height:26px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;text-align:left;">
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.name %>,</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              Your payment of €500 has been successful and you’re booked on to the <%= @booking.trip_name %>, 12-15 Feb, 2019.</p>
+                              Your payment of <%= "#{Currency.iso_to_symbol(@booking.currency)}#{number_with_precision(@booking.full_cost, precision: 0)}" %> has been successful and you're booked on to <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               To view your trip and update any of your details, please click this link:
                               <a href="#" style="color: #0068A5; text-decoration: none;">View Trip</a>.
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              If you need to contact me, my email is arno@alpadventures.com, or just hit reply.</p>
+                              If you need to contact me, my email is <%= @booking.guide_email %>, or just hit reply.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               We'd like to thank you for joining us on this trip.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left;  margin-bottom: 18px;">
                               If there's anything we can help you with, or if you have any questions, please let us know.
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              Thank you,<br>Arno (AlpAdventures.com).</p>
+                              Thank you,
+                              <br>
+                              <%= @booking.guide_name %>.
+                            </p>
                           </div>
                         </div>
                         <!--[if mso]></td></tr></table><![endif]-->
