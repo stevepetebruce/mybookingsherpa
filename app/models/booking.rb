@@ -16,9 +16,12 @@ class Booking < ApplicationRecord
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
 
-  validates :email,
-            format: %r(\A[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z),
-            presence: true
+  validates :country, format: GuestValidations::COUNTRY_REGEX, allow_blank: true
+  validates :email, format: GuestValidations::EMAIL_REGEX, presence: true
+  validates :name, format: GuestValidations::NAME_REGEX, allow_blank: true
+  validates :next_of_kin_name, format: GuestValidations::NAME_REGEX, allow_blank: true
+  validates :next_of_kin_phone_number, format: GuestValidations::PHONE_NUMBER_REGEX, allow_blank: true
+  validates :phone_number, format: GuestValidations::PHONE_NUMBER_REGEX, allow_blank: true
 
   scope :most_recent, -> { order(created_at: :desc) }
 
