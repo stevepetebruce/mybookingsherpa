@@ -19,76 +19,72 @@
             </div>
             <div class="accordion" id="accordion">
               <% @trips.each do |trip| %>
-              <div class="card">
-                <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
-                  aria-controls="collapseOne">
-                  <div class="row">
-                    <div class="col col-6 h4 font-weight-bold">
-                      <%= trip.name %>
+                <div class="card">
+                  <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
+                    aria-controls="collapseOne">
+                    <div class="row">
+                      <div class="col col-6 h4 font-weight-bold">
+                        <%= trip.name %>
+                      </div>
+                      <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
+                        <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
+                      </div>
+                      <div class="col d-sm-none d-md-block d-none d-sm-block">
+                        <div>
+                          <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
+                            <% if trip.decorated_bookings[i] %>
+                              <span class="dot dot-sm <%= trip.decorated_bookings[i].status(trip) %>" data-toggle="tooltip" data-placement="top" title="<%= trip.decorated_bookings[i].name %>"></span>
+                            <% else %>
+                              <span class='dot dot-sm dot-grey'></span>
+                            <% end %>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="col col-lg-1 text-right">
+                        <i class="fa fa-chevron-circle-down md-20"></i>
+                      </div>
                     </div>
-                    <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
-                      <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
-                    </div>
-                    <div class="col d-sm-none d-md-block d-none d-sm-block">
-                      <div>
-                        <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
-                          <% if trip.decorated_bookings[i] %>
-                            <span class="dot dot-sm <%= trip.decorated_bookings[i].status(trip) %>" data-toggle="tooltip" data-placement="top" title="<%= trip.decorated_bookings[i].name %>"></span>
-                          <% else %>
-                            <span class='dot dot-sm dot-grey'></span>
+                  </div>
+                  <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="fluid-container">
+                        <div class="row">
+                          <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
+                            <input class="form-control" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-outline-secondary" data-clipboard-btn="<%= trip.id %>">Copy to Clipboard</button>
+                            </div>
+                          </div>
+                          <span class="copied mt-1"> Copied!</span>
+                        </div>
+                        <!-- Loop throuh individual in trip -->
+                        <% trip.decorated_bookings.each do |booking| %>
+                          <%= link_to guides_booking_path(booking) do %>
+                            <div class="row ticket-card pt-3 pb-2 border-bottom">
+                              <div class="col-1 d-sm-none d-md-block d-none">
+                                <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
+                                <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
+                              </div>
+                              <div class="col-10">
+                                <div class="d-flex">
+                                  <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
+                                    <%= booking.name %>
+                                    <% if booking.status_alert? %>
+                                      <div class="col ">
+                                        <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></a>
+                                      </div>
+                                    <% end %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
                           <% end %>
                         <% end %>
+                        <!-- END Loop throuh individual in trip -->
                       </div>
-                    </div>
-                    <div class="col col-lg-1 text-right">
-                      <i class="fa fa-chevron-circle-down md-20"></i>
                     </div>
                   </div>
                 </div>
-                <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                  <div class="card-body">
-                    <div class="fluid-container">
-                      <div class="row">
-                        <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
-                          <input class="form-control" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
-                          <div class="input-group-append">
-                            <button type="button" class="btn btn-outline-secondary" data-clipboard-btn="<%= trip.id %>">Copy to Clipboard</button>
-                          </div>
-                        </div>
-                        <span class="copied mt-1"> Copied!</span>
-                      </div>
-                      <!-- Loop throuh individual in trip -->
-                      <% trip.decorated_bookings.each do |booking| %>
-                      <div class="row ticket-card mt-3 pb-2 border-bottom">
-                        <div class="col-1 d-sm-none d-md-block d-none">
-                          <!-- <img class="avatar avatar-sm" src="<%= asset_pack_path 'images/faces/face5.jpg' %>" alt="profile image"> -->
-                          <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
-                          <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
-                        </div>
-                        <div class="col-9">
-                          <div class="d-flex">
-                            <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
-                              <%= booking.name %>
-                              <% if booking.status_alert? %>
-                                <div class="col ">
-                                  <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></a>
-                                </div>
-                              <% end %>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="ticket-actions col-1">
-                          <button type="button" class="btn btn-primary">
-                            <%= link_to "View Details", guides_booking_path(booking), class: "btn btn-primary" %>
-                          </button>
-                        </div>
-                      </div>
-                      <% end %>
-                      <!-- END Loop throuh individual in trip -->
-                    </div>
-                  </div>
-                </div>
-              </div>
               <% end %>
             </div>
           </div>
