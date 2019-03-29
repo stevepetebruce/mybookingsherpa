@@ -41,7 +41,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch('SMTP_ADDRESS'), #'smtp.postmarkapp.com',
-    port:                 587,
+    port:                 25,
     domain:               URI.parse(ENV.fetch('BASE_DOMAIN')).host,
     user_name:            ENV.fetch('SMTP_USER_NAME'),
     password:             ENV.fetch('SMTP_PASSWORD'),

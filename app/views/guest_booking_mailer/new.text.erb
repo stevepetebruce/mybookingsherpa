@@ -1,17 +1,17 @@
-<!-- TODO: remove hard coded data and replace with real data: email, cost, etc -->
 Hello <%= @booking.name %>. Successful booking on <%= @booking.trip_name %>
 ===============================================
  
 Hi <%= @booking.name %>,
+<% # TODO: the payment will not always be the full cost - it might be the deposit... %>
+Your payment of <%= "#{Currency.iso_to_symbol(@booking.currency)} #{number_with_precision(@booking.full_cost, precision: 0)}" %> has been successful and you're booked on to the <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.
+<% # To view your trip and update any of your details, please click this link:  TODO .%>
 
-Your payment of €500 has been successful and you’re booked on to the Val des Air Mountain Bike Trip, 12-15 Feb, 2019.
-To view your trip and update any of your details, please click this link: .
-
-If you need to contact me, my email is arno@alpadventures.com, or just hit reply.
+If you need to contact me, my email is <%= @booking.guide_email %>, or just hit reply.
 
 We'd like to thank you for joining us on this trip.
 
 If there's anything we can help you with, or if you have any questions, please let us know. 
+
 Thank you,
 
-Arno (AlpAdventures.com)
+<%= @booking.guide_name %>
