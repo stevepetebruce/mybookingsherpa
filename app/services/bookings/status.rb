@@ -6,18 +6,15 @@ module Bookings
     end
 
     def allergies?
-      @booking.allergies.present? ||
-        @booking.guest.allergies.present?
+      @booking.allergies? || @booking.guest.allergies?
     end
 
     def dietary_requirements?
-      @booking.dietary_requirements.present? ||
-        @booking.guest.dietary_requirements.present?
+      @booking.dietary_requirements? || @booking.guest.dietary_requirements?
     end
 
     def medical_conditions?
-      @booking.medical_conditions.present? ||
-        @booking.guest.medical_conditions.present?
+      @booking.medical_conditions? || @booking.guest.medical_conditions?
     end
 
     def new_status
