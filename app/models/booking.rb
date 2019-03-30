@@ -1,7 +1,7 @@
 # A join between a guest and a trip. A guest creates a booking on a trip.
 class Booking < ApplicationRecord
-  enum allergies: %i[dairy eggs nuts penicillin soya]
-  enum dietary_requirements: %i[other vegan vegetarian]
+  enum allergies: Guest::POSSIBLE_ALLERGIES, _prefix: true
+  enum dietary_requirements: Guest::POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
   enum status: %i[yellow green]
 
   belongs_to :trip
@@ -26,8 +26,14 @@ class Booking < ApplicationRecord
   scope :most_recent, -> { order(created_at: :desc) }
 
   before_save :update_status
+  before_validation :enums_none_to_nil
 
   private
+
+  def enums_none_to_nil
+    self[:allergies] = nil if allergies&.to_sym == :none
+    self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
+  end
 
   def update_status
     self[:status] = Bookings::Status.new(self).new_status

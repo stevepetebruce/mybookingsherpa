@@ -10,7 +10,13 @@ module GuestCallbacks
   included do
     before_create :set_one_time_login_token
     before_save :set_updatable_fields
+    before_validation :enums_none_to_nil
     after_save :update_bookings_status
+  end
+
+  def enums_none_to_nil
+    self[:allergies] = nil if allergies&.to_sym == :none
+    self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
   end
 
   def set_one_time_login_token
