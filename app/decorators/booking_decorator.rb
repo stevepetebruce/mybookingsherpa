@@ -47,7 +47,7 @@ class BookingDecorator < SimpleDelegator
   end
 
   def gravatar_fallback_image_url
-    "https://www.gravatar.com/avatar/?d=mp&s=200"
+    "https://img.icons8.com/windows/512/f7fafc/contacts.png"
   end
 
   def gravatar_id
