@@ -15,6 +15,18 @@
     { "url": "heroku/ruby" }
   ],
   "env": {
+    "AWS_ACCESS_KEY_ID": {
+      "description": "ID for IAM user / AWS/S3 access",
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "Secret access key for IAM user / AWS/S3 access",
+      "required": true
+    },
+    "AWS_BUCKET": {
+      "description": "S3 bucket for saving user images",
+      "required": true
+    },
     "BASE_DOMAIN": {
       "description": "URL of the app",
       "required": true

@@ -5,6 +5,7 @@ ruby "2.5.1"
 
 gem "rails", "~> 5.2.1"
 
+gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.1.0", require: false
 gem "devise"
 gem "pg", ">= 0.18", "< 2.0"
