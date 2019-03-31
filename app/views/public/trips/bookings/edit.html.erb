@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-md-3 order-md-1">
       <div class="pt-4 text-center">
-        <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-5", width: "180", height: "120" %>
+        <% if @booking.organisation.logo_image.attached? %>
+          <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-5", width: "180", height: "120" %>
+        <% end %>
       </div>
     </div>
     <div class="py-5 col-md-8 order-md-2">

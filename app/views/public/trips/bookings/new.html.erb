@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-md-4 order-md-1 mb-4">
       <div class="py-4 text-center">
-        <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4", width: "60%" %>
+        <% if @booking.organisation.logo_image.attached? %>
+          <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4", width: "60%" %>
+        <% end %>
         <h1 class="font-weight-bold"><%= @booking.trip_name %></h1>
         <h3 class="mt-0">
           <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
