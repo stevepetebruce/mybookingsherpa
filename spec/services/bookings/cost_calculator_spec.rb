@@ -11,14 +11,4 @@ RSpec.describe Bookings::CostCalculator, type: :model do
       it { should eq 500 }
     end
   end
-
-  describe "#amount_due_in_cents" do
-    subject(:amount_due_in_cents) do
-      described_class.new(booking).amount_due_in_cents
-    end
-
-    context "valid and successful" do
-      it { should eq 50_000 }
-    end
-  end
 end
