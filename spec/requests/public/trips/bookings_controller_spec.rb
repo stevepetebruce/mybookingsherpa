@@ -40,7 +40,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           date_of_birth: Faker::Date.birthday(18, 65),
           dietary_requirements: %i[other vegan vegetarian].sample,
           email: email,
-          medical_conditions: Faker::Lorem.sentence,
+          other_information: Faker::Lorem.sentence,
           name: Faker::Name.name,
           next_of_kin_name: Faker::Name.name,
           next_of_kin_phone_number: Faker::PhoneNumber.cell_phone,

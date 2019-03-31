@@ -28,7 +28,7 @@ class BookingDecorator < SimpleDelegator
     # TODO: what if there's more than one label? Guide would want to see Medical condition and dietary requirements
     return "Incomplete booking details" if Bookings::Status.new(@booking).personal_details_incomplete?
     return "Payment required" if Bookings::Status.new(@booking).payment_required?
-    return "Medical conditions" if Bookings::Status.new(@booking).medical_conditions?
+    return "Other information" if Bookings::Status.new(@booking).other_information? # TODO: should this be here, or down the bottom?
     return "Allergies" if Bookings::Status.new(@booking).allergies?
     return "Dietary requirements" if Bookings::Status.new(@booking).dietary_requirements?
   end

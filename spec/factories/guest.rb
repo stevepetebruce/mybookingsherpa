@@ -12,7 +12,7 @@ FactoryBot.define do
       date_of_birth_booking { Faker::Date.birthday(18, 65) }
       dietary_requirements_booking { %i[other vegan vegetarian].sample }
       email_booking { Faker::Internet.email }
-      medical_conditions_booking { Faker::Lorem.sentence }
+      other_information_booking { Faker::Lorem.sentence }
       name_booking { Faker::Name.name }
       next_of_kin_name_booking { Faker::Name.name }
       next_of_kin_phone_number_booking { Faker::PhoneNumber.cell_phone }
@@ -37,8 +37,8 @@ FactoryBot.define do
       dietary_requirements_override {dietary_requirements }
       email { Faker::Internet.email }
       email_override { email }
-      medical_conditions { Faker::Lorem.sentence }
-      medical_conditions_override { medical_conditions }
+      other_information { Faker::Lorem.sentence }
+      other_information_override { other_information }
       name { Faker::Name.name }
       name_override { name }
       next_of_kin_name { Faker::Name.name }

@@ -13,8 +13,8 @@ module Bookings
       @booking.dietary_requirements? || @booking.guest.dietary_requirements?
     end
 
-    def medical_conditions?
-      @booking.medical_conditions? || @booking.guest.medical_conditions?
+    def other_information?
+      @booking.other_information? || @booking.guest.other_information?
     end
 
     def new_status

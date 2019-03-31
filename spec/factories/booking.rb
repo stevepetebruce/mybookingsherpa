@@ -14,7 +14,7 @@ FactoryBot.define do
       date_of_birth { Faker::Date.birthday(18, 65) }
       dietary_requirements { %i[other vegan vegetarian].sample }
       email { Faker::Internet.email }
-      medical_conditions { Faker::Lorem.sentence }
+      other_information { Faker::Lorem.sentence }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
@@ -57,14 +57,14 @@ FactoryBot.define do
       post_code { Faker::Address.postcode }
     end
 
-    trait :complete_with_medical_conditions do
+    trait :complete_with_other_information do
       address { Faker::Address.street_address }
       city { Faker::Address.city }
       country { Faker::Address.country_code }
       county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
-      medical_conditions { Faker::Lorem.sentence }
+      other_information { Faker::Lorem.sentence }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }

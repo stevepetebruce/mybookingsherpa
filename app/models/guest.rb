@@ -11,7 +11,7 @@ class Guest < ApplicationRecord
 
   UPDATABLE_FIELDS = %i[address allergies city country county
                         date_of_birth dietary_requirements
-                        medical_conditions name
+                        name other_information
                         next_of_kin_name next_of_kin_phone_number
                         phone_number post_code].freeze
 
