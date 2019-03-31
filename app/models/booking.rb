@@ -15,6 +15,7 @@ class Booking < ApplicationRecord
            :organisation_name, :start_date, :end_date, to: :trip
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
+  delegate :country, to: :guest, prefix: true
 
   validates :country, format: GuestValidations::COUNTRY_REGEX, allow_blank: true
   validates :email, format: GuestValidations::EMAIL_REGEX, presence: true

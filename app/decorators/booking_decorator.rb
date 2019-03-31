@@ -5,8 +5,8 @@ class BookingDecorator < SimpleDelegator
   end
 
   def flag_icon
-    # TODO: extract flag icon from guest data... ie: country they entered
-    ["flag-icon-fr", "flag-icon-gb", "flag-icon-us"].sample
+    return "flag-icon-#{@booking.guest_country&.downcase}" if @booking.guest_country.present?
+    "flag-icon-#{@booking.country&.downcase}" if @booking.country.present?
   end
 
   def gravatar_url(size = 36)
