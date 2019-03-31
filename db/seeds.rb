@@ -100,11 +100,11 @@ end
 15.times.each do
   show_allergies = [true, false].sample
   show_dietary_requirements = [true, false].sample
-  show_medical_conditions = [true, false].sample
+  show_other_information = [true, false].sample
 
   allergies = show_allergies ? %i[dairy eggs nuts penicillin soya].sample : nil
   dietary_requirements = show_dietary_requirements ? %i[other vegan vegetarian].sample : nil
-  medical_conditions = show_medical_conditions ? Faker::Lorem.sentence : nil
+  other_information = show_other_information ? Faker::Lorem.sentence : nil
 
   email = Faker::Internet.email
   name = Faker::Name.name
@@ -118,7 +118,7 @@ end
                        dietary_requirements: dietary_requirements,
                        email: email,
                        email_booking: email,
-                       medical_conditions_booking: medical_conditions,
+                       other_information_booking: other_information,
                        name: name,
                        name_booking: name,
                        next_of_kin_name_booking: Faker::Name.name,
