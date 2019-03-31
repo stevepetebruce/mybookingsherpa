@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_30_131144) do
-
+ActiveRecord::Schema.define(version: 2019_03_31_112406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -57,7 +56,7 @@ ActiveRecord::Schema.define(version: 2019_03_30_131144) do
     t.string "next_of_kin_phone_number"
     t.integer "dietary_requirements"
     t.integer "allergies"
-    t.text "medical_conditions"
+    t.text "other_information"
     t.index ["created_by_id"], name: "index_bookings_on_created_by_id"
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
     t.index ["trip_id"], name: "index_bookings_on_trip_id"
@@ -112,9 +111,9 @@ ActiveRecord::Schema.define(version: 2019_03_30_131144) do
     t.integer "allergies"
     t.integer "allergies_booking"
     t.integer "allergies_override"
-    t.text "medical_conditions"
-    t.text "medical_conditions_booking"
-    t.text "medical_conditions_override"
+    t.text "other_information"
+    t.text "other_information_booking"
+    t.text "other_information_override"
     t.string "one_time_login_token"
     t.index ["email"], name: "index_guests_on_email", unique: true
     t.index ["one_time_login_token"], name: "index_guests_on_one_time_login_token", unique: true
