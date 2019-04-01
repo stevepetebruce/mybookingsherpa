@@ -4,6 +4,9 @@ guide = Guide.create(email: "guide@bookyour.place", name: "Arno de Jong", passwo
 organisation = Organisation.create(currency: "eur", name: "Alp Adventures")
 OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
+# Organisation logo image
+organisation.logo_image.attach(io: File.open("app/javascript/images/logos/alp-adventures-logo.png"), filename: "alp-adventures-logo.png")
+
 # Trips
 guide.trips.create(name: "Rewild",
                    start_date: Time.new(2020, 2, 22),
@@ -86,9 +89,9 @@ guide.trips.create(name: "Trans74",
 # Guests:
 # Basic details:
 15.times.each do
-  Guest.create(email: Faker::Internet.email,
-               name: Faker::Name.name,
-               name_booking: Faker::Name.name)
+  guest = Guest.create(email: Faker::Internet.email,
+                       name: Faker::Name.name,
+                       name_booking: Faker::Name.name)
 
   puts "Guest errors: #{guest.errors.full_messages}" if guest.errors.full_messages.present?
 end

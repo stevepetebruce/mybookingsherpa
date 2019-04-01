@@ -11,6 +11,8 @@ class Organisation < ApplicationRecord
   has_many :subscriptions
   has_many :trips
 
+  has_one_attached :logo_image
+
   def owner
     organisation_memberships.owners&.first&.guide
   end

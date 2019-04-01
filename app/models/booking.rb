@@ -7,6 +7,7 @@ class Booking < ApplicationRecord
   belongs_to :trip
   belongs_to :guest, optional: true
   has_many :payments
+  has_one :organisation, through: :trip
 
   delegate :name, :email, to: :guide, prefix: true
   delegate :name, :email, to: :guest, prefix: true
@@ -15,6 +16,8 @@ class Booking < ApplicationRecord
            :organisation_name, :start_date, :end_date, to: :trip
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
+
+  delegate :logo_image, to: :organisation, prefix: true
 
   validates :country, format: GuestValidations::COUNTRY_REGEX, allow_blank: true
   validates :email, format: GuestValidations::EMAIL_REGEX, presence: true
