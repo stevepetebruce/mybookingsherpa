@@ -85,44 +85,44 @@ RSpec.describe Bookings::Status, type: :model do
     end
   end
 
-  describe "#medical_conditions?" do
-    subject(:medical_conditions?) { described_class.new(booking).medical_conditions? }
+  describe "#other_information?" do
+    subject(:other_information?) { described_class.new(booking).other_information? }
 
     let!(:medical_condition) { %w[asthma vertigo arthritis].sample }
 
-    context "a booking that has no medical_conditions" do
+    context "a booking that has no other_information" do
       let(:booking) { FactoryBot.create(:booking, guest: guest) }
 
-      context "a guest associated with the booking that has no medical_conditions" do
+      context "a guest associated with the booking that has no other_information" do
         let(:guest) { FactoryBot.create(:guest) }
 
-        it { expect(medical_conditions?).to eq false }
+        it { expect(other_information?).to eq false }
       end
 
-      context "a guest associated with the booking that has medical_conditions" do
+      context "a guest associated with the booking that has other_information" do
         let!(:guest) do
           FactoryBot.create(:guest, email: 'foo@blah.com',
-                            medical_conditions: medical_condition,
-                            medical_conditions_override: medical_condition)
+                            other_information: medical_condition,
+                            other_information_override: medical_condition)
         end
 
-        it { expect(medical_conditions?).to eq true }
+        it { expect(other_information?).to eq true }
       end
     end
 
-    context "a booking that has medical_conditions" do
-      let(:booking) { FactoryBot.create(:booking, guest: guest, medical_conditions: medical_condition) }
+    context "a booking that has other_information" do
+      let(:booking) { FactoryBot.create(:booking, guest: guest, other_information: medical_condition) }
 
-      context "a guest associated with the booking that has no medical_conditions" do
+      context "a guest associated with the booking that has no other_information" do
         let(:guest) { FactoryBot.create(:guest) }
 
-        it { expect(medical_conditions?).to eq true }
+        it { expect(other_information?).to eq true }
       end
 
-      context "a guest associated with the booking that has medical_conditions" do
-        let(:guest) { FactoryBot.create(:guest, medical_conditions: medical_condition) }
+      context "a guest associated with the booking that has other_information" do
+        let(:guest) { FactoryBot.create(:guest, other_information: medical_condition) }
 
-        it { expect(medical_conditions?).to eq true }
+        it { expect(other_information?).to eq true }
       end
     end
   end

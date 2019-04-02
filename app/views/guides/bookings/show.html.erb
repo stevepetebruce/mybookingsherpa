@@ -68,7 +68,7 @@
                 <div class="col-md">
                   <div class="card-body">
                     <h2 class="card-title font-weight-bold">
-                      Allergies &amp; Medical Conditions
+                      Allergies &amp; Other Information
                     </h2>
                     <div class="media">
                       <div class="media-body">
@@ -90,12 +90,12 @@
                           <div class="col">
                             <div class="display-4 font-weight-normal">
                               <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
-                              <span class="text-danger">Medical:</span>
+                              <span class="text-danger">Other information:</span>
                               <!-- TODO: be careful here - allowing users to enter free text -->
-                              <% if Bookings::Status.new(@booking).medical_conditions? %>
-                                <%= @booking.medical_conditions %>
+                              <% if Bookings::Status.new(@booking).other_information? %>
+                                <%= @booking.other_information %>
                               <% else %>
-                                No medical conditions.
+                                No other information.
                               <% end %>
                             </div>
                           </div>

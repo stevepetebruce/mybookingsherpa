@@ -119,8 +119,8 @@ RSpec.describe BookingDecorator, type: :model do
         it { expect(status_alert?).to eq true }
       end
 
-      context "booking has complete booking details and has medical_conditions" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_medical_conditions, guest: guest, trip: trip) }
+      context "booking has complete booking details and has other_information" do
+        let(:booking) { FactoryBot.create(:booking, :complete_with_other_information, guest: guest, trip: trip) }
 
         it { expect(status_alert?).to eq true }
       end
@@ -165,10 +165,10 @@ RSpec.describe BookingDecorator, type: :model do
         it { expect(status_text).to eq "Dietary requirements" }
       end
 
-      context "booking has complete booking details and has medical_conditions" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_medical_conditions, guest: guest, trip: trip) }
+      context "booking has complete booking details and has other_information" do
+        let(:booking) { FactoryBot.create(:booking, :complete_with_other_information, guest: guest, trip: trip) }
 
-        it { expect(status_text).to eq "Medical conditions" }
+        it { expect(status_text).to eq "Other information" }
       end
     end
   end

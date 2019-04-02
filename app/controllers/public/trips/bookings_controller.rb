@@ -48,7 +48,7 @@ module Public
       def booking_params
         params.require(:booking).permit(:address, :allergies, :city, :country, :county,
                                         :date_of_birth, :dietary_requirements,
-                                        :email, :medical_conditions, :name,
+                                        :email, :name, :other_information,
                                         :next_of_kin_name, :next_of_kin_phone_number,
                                         :phone_number, :post_code)
       end
