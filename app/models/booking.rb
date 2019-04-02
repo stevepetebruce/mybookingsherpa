@@ -16,6 +16,7 @@ class Booking < ApplicationRecord
            :organisation_name, :start_date, :end_date, to: :trip
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
+  delegate :country, to: :guest, prefix: true
 
   delegate :logo_image, to: :organisation, prefix: true
 

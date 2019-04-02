@@ -31,8 +31,28 @@ RSpec.describe BookingDecorator, type: :model do
   describe "#flag_icon" do
     subject { described_class.new(booking).flag_icon }
 
-    it "should return expected flag-icon class" do
-      expect(["flag-icon-fr", "flag-icon-gb", "flag-icon-us"]).to include(subject)
+    let!(:country_code) { Faker::Address.country_code }
+
+    context "a booking with a country code" do
+      before { allow(booking).to receive(:country).and_return(country_code) }
+
+      it "should return expected flag-icon class" do
+        expect(subject).to eq "flag-icon-#{country_code.downcase}"
+      end
+    end
+
+    context "a booking with a guest with a country code" do
+      before { allow(guest).to receive(:country).and_return(country_code) }
+
+      it "should return expected flag-icon class" do
+        expect(subject).to eq "flag-icon-#{country_code.downcase}"
+      end
+    end
+
+    context "a booking and guest without a country code" do
+      it "should return nil" do
+        expect(subject).to be_nil
+      end
     end
   end
 

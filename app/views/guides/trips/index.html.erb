@@ -63,7 +63,9 @@
                             <div class="row ticket-card pt-3 pb-2 border-bottom">
                               <div class="col-1 d-sm-none d-md-block d-none">
                                 <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
-                                <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
+                                <% if booking.flag_icon.present? %>
+                                  <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
+                                <% end %>
                               </div>
                               <div class="col-10">
                                 <div class="d-flex">
