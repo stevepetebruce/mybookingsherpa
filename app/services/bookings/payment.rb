@@ -12,9 +12,13 @@ module Bookings
 
     private
 
+    def amount_due
+      @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
+    end
+
     def attributes
       {
-        amount: Bookings::CostCalculator.new(@booking).amount_due_in_cents,
+        amount: amount_due,
         currency: @booking.currency,
         description: charge_description,
         token: @token
@@ -24,7 +28,7 @@ module Bookings
 
     def charge_description
       "#{Currency.iso_to_symbol(@booking.currency)}" \
-        "#{Bookings::CostCalculator.new(@booking).amount_due} " \
+        "#{Currency.human_readable(amount_due)} " \
         "paid to #{@booking.organisation_name} for #{@booking.trip_name}"
     end
   end

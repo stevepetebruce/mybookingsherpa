@@ -6,10 +6,6 @@ module Bookings
       @booking = booking
     end
 
-    def amount_due_in_cents
-      (amount_due * 100).to_i
-    end
-
     def amount_due
       calculate_amount_due
     end

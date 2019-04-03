@@ -490,7 +490,7 @@
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               <%= link_to "Click here", guides_trips_url, style: "color: #0068A5; text-decoration: none;" %> to see <%= @booking.trip_name %> status and <%= link_to "click here",guides_booking_url(@booking), style: "color: #0068A5; text-decoration: none;" %> to see guest details.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              They have successfully been charged <%= "#{Currency.iso_to_symbol(@booking.currency)}#{number_with_precision(@booking.full_cost, precision: 0)}" %> and you should see this (minus handling fee) within two working days.</p>
+                              They have successfully been charged <%= "#{Currency.iso_to_symbol(@booking.currency)}#{Currency.human_readable(@booking.full_cost)}" %> and you should see this (minus handling fee) within two working days.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               We have emailed the guest the itinerary and your contact details.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left;  margin-bottom: 18px;">
