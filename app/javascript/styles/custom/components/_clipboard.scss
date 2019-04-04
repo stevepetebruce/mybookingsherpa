@@ -1,0 +1,11 @@
+input[type=text].clipboard-input {
+  border: 1px solid $white-smoke;
+  background-color: $white;
+  width: 130px;
+}
+
+@include media-breakpoint-down(md) {
+  .input-group-append {
+  	margin-top: 10px
+  }
+}

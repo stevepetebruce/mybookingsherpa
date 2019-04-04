@@ -23,16 +23,19 @@
                   <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
                     aria-controls="collapseOne">
                     <div class="row">
-                      <div class="col col-6 h4 font-weight-bold">
-                        <%= trip.name %>
-                        <div class="input-group pb-2 col-md-6 col-sm-10 col-8">
-                            <input class="form-control form-control-sm" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
-                            <div class="input-group-append">
-                              <a class="btn btn-outline-secondary" data-clipboard-btn="<%= trip.id %>">C</a>
-                              <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-outline-secondary">L</a>
-                            </div>
+                      <div class="row col col-10 col-sm-5 h4 font-weight-bold  no-gutters">
+                        <div class="col col-lg-7 col-12">
+                          <%= trip.name %>
+                        </div>
+                        <div class="col col-lg-5 col-12">
+                          <div class="input-group-append">
+                            <input class="form-control form-control-sm clipboard-input" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
+                            <button class="btn btn-sm btn-light" title="Copy to Clipboard" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
+                            <a href="<%= trip.new_public_booking_link %>" title="Link to Trip Booking" target="_blank" class="btn btn-sm btn-light" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-external-link"></i></a>
                           </div>
+                        </div>
                       </div>
+                      
                       <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
                         <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                       </div>
