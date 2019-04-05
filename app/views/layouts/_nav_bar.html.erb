@@ -12,6 +12,9 @@
     <% end %>
   <% if guide_signed_in? %>
     <ul class="navbar-nav ml-auto">
+      <%= link_to(guides_trips_path, class: "dropdown-item mr-2") do %>
+        My Trips
+      <% end %>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% #TODO: replace with real data %>
