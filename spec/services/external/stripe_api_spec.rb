@@ -7,14 +7,22 @@ RSpec.describe External::StripeApi, type: :model do
     let(:attributes) do
       {
         amount: rand(5000...10_000),
+        application_fee_amount: rand(100...10_000),
         currency: %w[eur usd gbp].sample,
         description: Faker::Lorem.sentence,
+        transfer_data: transfer_data,
         token: "tok_#{Faker::Crypto.md5}"
       }
     end
 
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_charge.json").read}"
+    end
+
+    let(:transfer_data) do
+      {
+        destination: "acct_#{Faker::Bank.account_number(16)}"
+      }
     end
 
     before do

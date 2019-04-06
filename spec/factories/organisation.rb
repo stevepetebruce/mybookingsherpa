@@ -8,5 +8,9 @@ FactoryBot.define do
       domain_word = Faker::Internet.domain_word
       domain_word.length.between?(3,30) ? domain_word : Faker::Internet.domain_word
     end
+
+    trait :without_stripe_account_id do
+      stripe_account_id { nil }
+    end
   end
 end

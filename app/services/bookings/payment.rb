@@ -7,6 +7,7 @@ module Bookings
     end
 
     def charge
+      raise NoOrganisationStripeAccountIdError if @booking.organisation_stripe_account_id.nil?
       External::StripeApi.new(attributes).charge
     end
 
@@ -16,20 +17,31 @@ module Bookings
       @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
+    def application_fee_amount
+      400 # TODO: Currently €4. But need to calculate this from the plan the @booking.organisation is on
+    end
+
     def attributes
       {
         amount: amount_due,
+        application_fee_amount: application_fee_amount,
         currency: @booking.currency,
         description: charge_description,
+        transfer_data: transfer_data,
         token: @token
       }
-      # TODO: add platform fee and destination account
     end
 
     def charge_description
       "#{Currency.iso_to_symbol(@booking.currency)}" \
         "#{Currency.human_readable(amount_due)} " \
         "paid to #{@booking.organisation_name} for #{@booking.trip_name}"
+    end
+
+    def transfer_data
+      {
+        destination: @booking.organisation_stripe_account_id
+      }
     end
   end
 end

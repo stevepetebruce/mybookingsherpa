@@ -19,7 +19,7 @@ class Trip < ApplicationRecord
   has_and_belongs_to_many :guides
   has_many :organisation_memberships, through: :guides
 
-  delegate :name, to: :organisation, prefix: true
+  delegate :name, :stripe_account_id, to: :organisation, prefix: true
 
   scope :start_date_desc, -> { order(start_date: :desc) }
 

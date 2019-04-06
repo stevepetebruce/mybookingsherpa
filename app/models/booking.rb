@@ -13,7 +13,8 @@ class Booking < ApplicationRecord
   delegate :name, :email, to: :guest, prefix: true
 
   delegate :currency, :deposit_cost, :full_cost, :guide,
-           :organisation_name, :start_date, :end_date, to: :trip
+           :organisation_name, :organisation_stripe_account_id,
+           :start_date, :end_date, to: :trip
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
   delegate :country, to: :guest, prefix: true
