@@ -3,7 +3,7 @@ module Guides
     before_action :authenticate_guide!
 
     def index
-      @trips = current_guide.trips.start_date_desc.map do |trip|
+      @trips = current_guide.trips.start_date_asc.map do |trip|
         TripDecorator.new(trip)
       end
     end
