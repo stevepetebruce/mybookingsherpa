@@ -1,70 +1,82 @@
 <div class="container-fluid page-body-wrapper content">
   <div class="main-panel">
     <div class="content-wrapper">
-      <div class="col-12">
-        <div class="card card-shadow">
-          <div class="card-body">
-            <div class="row mb-4 border-bottom pb-4">
-              <div class="col-1 ml-3 d-sm-none d-md-block d-none">
-                <!-- TODO: Pete needs to look at this... -->
-                <%= image_tag @booking.gravatar_url, class: "avatar avatar-sm rounded-circle", alt: "guest profile image" %>
-                <!-- <img class="img-lg rounded-circle " src="<%= asset_pack_path 'images/faces/face1.jpg' %>" alt="profile image"> -->
-              </div>
-              <div class="col-10">
-                <h1 class="card-title font-weight-bold mb-1 mt-1"><%= @booking.name %></h1>
-                <div class="display-4 font-weight-normal">
-                  <%= @booking.trip_name %>:
-                  <span class="text-gray">
-                    <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
-                  </span>
-                  <%= link_to "View all trips", guides_trips_path, class: "btn btn-primary btn-sm float-right" %>
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-shadow">
+            <div class="card-body">
+              <div class="row mb-2 border-bottom pb-4">
+                <div class="col-1 ml-3 d-md-none d-lg-block d-none">
+                  <%= image_tag @booking.gravatar_url, class: "avatar avatar-lg rounded-circle", alt: "guest profile image" %>
                 </div>
-              </div>
-            </div>
-            <div class="row mb-4">
-              <div class="col col-md-4 col-lg-3">
-                <div class="card-body">
-                  <h2 class="card-title font-weight-bold">Contact</h2>
-                  <div class="media">
-                    <div class="media-body">
-                      <address>
-                        <h4 class="display4 mb-4">
-                          <%= @booking.address %>
-                          <br> 
-                          <%= @booking.city %>
-                          <br>
-                          <%= @booking.post_code %>
-                          <br>
-                          <%= @booking.country %>
-                        </h4>
-                        <h4 class="display4 text-primary">
-                          <i class="fa fa-phone-square mr-1"></i> <%= @booking.phone_number %>
-                          <br>
-                          <i class="fa fa-envelope-o mr-1"></i> <%= @booking.email %>
-                        </h4>
-                      </address>
-                      <h4 class="mt-3 mb-2">
-                        <span class="font-weight-bold">Booked:</span> <%= @booking.created_at.strftime("%d %b %Y") %>
-                      </h4>
-                      <h4 class="mb-4">
-                        <span class="font-weight-bold">Age:</span>
-                        <% if @booking.date_of_birth.present? %>
-                          <%= Time.zone.now.year - @booking.date_of_birth.year %>
-                          <span class="text-gray">(<%= @booking.date_of_birth.strftime("%d %b %Y") %>)</span>
-                        <% else %>
-                          Unknown
-                        <% end %>
-                      </h4>
-                      <% if Bookings::Status.new(@booking).dietary_requirements? %>
-                        <h4>
-                          <i class="fa fa-exclamation-circle fa-lg text-warning"></i> 
-                          <span class="font-weight-bold"><%= @booking.dietary_requirements %></span>
-                        </h4>
-                      <% end %>
-                    </div>
+                <div class="col-10">
+                  <h1 class="card-title font-weight-bold mb-0 mr-3 d-inline-block"><%= @booking.name %></h1>
+                  <div class="display-4 font-weight-normal mt-1">
+                    <%= @booking.trip_name %>:
+                    <span class="text-gray">
+                      <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
+                    </span>
                   </div>
                 </div>
               </div>
+              <div class="row mb-4">
+                <div class="col col-md-5 col-lg-4">
+                  <div class="card-body">
+                    <h2 class="card-title font-weight-bold">Contact</h2>
+                    <div class="media">
+                      <div class="media-body">
+                        <address>
+                          <p class="display4 mb-2">
+                            <%= @booking.address %>
+                            <br> 
+                            <%= @booking.city %>
+                            <br>
+                            <%= @booking.post_code %>
+                            <br>
+                            <%= @booking.country %>
+                          </p>
+                          <p class="display4 text-primary">
+                            <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
+                            <br>
+                            <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
+                          </p>
+                        </address>
+                        <h4 class="mt-3 mb-2">
+                          <span class="font-weight-bold">Booked:</span> <%= @booking.created_at.strftime("%d %b %Y") %>
+                        </h4>
+                        <h4 class="mb-5">
+                          <span class="font-weight-bold">Age:</span>
+                          <% if @booking.date_of_birth.present? %>
+                            <%= Time.zone.now.year - @booking.date_of_birth.year %>
+                            <span class="text-gray">(<%= @booking.date_of_birth.strftime("%d %b %Y") %>)</span>
+                          <% else %>
+                            Unknown
+                          <% end %>
+                        </h4>
+                        <% if Bookings::Status.new(@booking).dietary_requirements? %>
+                          <h4>
+                            <i class="fa fa-exclamation-circle fa-lg text-warning"></i> 
+                            <span class="font-weight-bold"><%= @booking.dietary_requirements %></span>
+                          </h4>
+                        <% end %>
+                        <h2 class="card-title font-weight-bold">Emergency Contact</h2>
+                        <div class="media">
+                          <div class="media-body">
+                            <p class="display4 mb-1">
+                              <%= @booking.next_of_kin_name %>
+                            </p>
+                            <address>
+                              <p class="display4 text-primary">
+                                <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
+                              </p>
+                            </address>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="col-md">
                   <div class="card-body">
                     <h2 class="card-title font-weight-bold">
@@ -86,7 +98,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="clearfix border-bottom mb-3">
+                        <div class="clearfix mb-3">
                           <div class="col">
                             <div class="display-4 font-weight-normal">
                               <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
@@ -103,23 +115,6 @@
                       </div>
                     </div>
                   </div>
-                  <div class="card-body">
-                    <h2 class="card-title font-weight-bold">
-                      Emergency Contact
-                    </h2>
-                    <div class="media">
-                      <div class="media-body">
-                        <h4 class="display4 mb-4">
-                          <%= @booking.next_of_kin_name %>
-                        </h4>
-                        <address>
-                          <h4 class="display4 text-primary">
-                            <i class="fa fa-phone-square mr-1"></i> <%= @booking.next_of_kin_phone_number %>
-                          </h4>
-                        </address>
-                      </div>
-                    </div>
-                  </div>    
                 </div>
               </div>
             </div>
@@ -129,3 +124,4 @@
     </div>
   </div>
 </div>
+
