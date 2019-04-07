@@ -1,6 +1,6 @@
 return unless Rails.env.development?
 
-guide = Guide.create(email: "guide@bookyour.place", name: "Arno de Jong", password: "password")
+guide = Guide.create(email: "guide@mybookingsherpa.com", name: "Arno de Jong", password: "password")
 organisation = Organisation.create(currency: "eur", name: "Alp Adventures")
 OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
@@ -148,4 +148,4 @@ end
 
 # Developer friendly logging
 Trip.all.each { |trip| puts "Trip id: #{trip.id}" }
-puts "Guide details: email: guide@bookyour.place. Password: password"
+puts "Guide details: email: guide@mybookingsherpa.com. Password: password"

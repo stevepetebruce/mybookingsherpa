@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'bookings@bookyour.place'
-  layout 'mailer'
+  default from: "bookings@mybookingsherpa.com"
+  layout "mailer"
 end
