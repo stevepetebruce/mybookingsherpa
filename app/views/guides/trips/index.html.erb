@@ -73,8 +73,8 @@
                                   <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
                                     <%= booking.name %>
                                     <% if booking.status_alert? %>
-                                      <div class="col ">
-                                        <a href="#" class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></a>
+                                      <div class="col">
+                                        <span class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></span>
                                       </div>
                                     <% end %>
                                   </p>
