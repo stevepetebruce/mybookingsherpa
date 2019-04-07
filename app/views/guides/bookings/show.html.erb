@@ -27,16 +27,26 @@
                       <div class="media-body">
                         <address>
                           <p class="display4 mb-2">
-                            <%= @booking.address %>
-                            <br> 
-                            <%= @booking.city %>
-                            <br>
-                            <%= @booking.post_code %>
-                            <br>
-                            <%= @booking.country %>
+                            <% if @booking.address %>
+                              <%= @booking.address %>
+                              <br> 
+                              <%= @booking.city %>
+                              <br>
+                              <%= @booking.post_code %>
+                              <br>
+                              <%= @booking.country %>
+                            <% else %>
+                              Guest has not entered their address. <br> Please email them if you need this data.
+                            <% end %>
                           </p>
-                          <p class="display4 text-primary">
-                            <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
+                          <p class="display4">
+                            <i class="fa fa-phone-square mr-1"></i>
+                            <% if @booking.phone_number %>
+                              <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
+                            <% else %>
+                              <!-- <br> -->
+                              Guest has not entered their phone number.
+                            <% end %>
                             <br>
                             <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
                           </p>
@@ -62,14 +72,18 @@
                         <h2 class="card-title font-weight-bold">Emergency Contact</h2>
                         <div class="media">
                           <div class="media-body">
-                            <p class="display4 mb-1">
-                              <%= @booking.next_of_kin_name %>
-                            </p>
-                            <address>
-                              <p class="display4 text-primary">
-                                <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
+                            <% if @booking.next_of_kin_name %>
+                              <p class="display4 mb-1">
+                                <%= @booking.next_of_kin_name %>
                               </p>
-                            </address>
+                              <address>
+                                <p class="display4">
+                                  <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
+                                </p>
+                              </address>
+                            <% else %>
+                              Guest has not entered emergency contact details.
+                            <% end %>
                           </div>
                         </div>
 
@@ -87,8 +101,8 @@
                         <div class="clearfix border-bottom mb-3">
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
-                              <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
-                              <span class="text-warning">Allergy:</span>
+                              <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
+                              <span class="text-danger">Allergies:</span>
                               <!-- TODO: how to handle multiple allergies? -->
                               <% if Bookings::Status.new(@booking).allergies? %>
                                 <%= @booking.allergies.capitalize %>
@@ -98,11 +112,24 @@
                             </div>
                           </div>
                         </div>
+                        <div class="clearfix border-bottom mb-3">
+                          <div class="col mb-3">
+                            <div class="display-4 font-weight-normal">
+                              <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                              <span class="text-warning">Dietary Requirements:</span>
+                              <% if Bookings::Status.new(@booking).dietary_requirements? %>
+                                <%= @booking.dietary_requirements.capitalize %>
+                              <% else %>
+                                No dietary requirements.
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
                         <div class="clearfix mb-3">
                           <div class="col">
                             <div class="display-4 font-weight-normal">
-                              <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
-                              <span class="text-danger">Other information:</span>
+                              <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                              <span class="text-warning">Other information:</span>
                               <!-- TODO: be careful here - allowing users to enter free text -->
                               <% if Bookings::Status.new(@booking).other_information? %>
                                 <%= @booking.other_information %>

@@ -21,7 +21,7 @@ class Trip < ApplicationRecord
 
   delegate :name, :stripe_account_id, to: :organisation, prefix: true
 
-  scope :start_date_desc, -> { order(start_date: :desc) }
+  scope :start_date_asc, -> { order(start_date: :asc) }
 
   def currency
     self[:currency] || organisation.currency
@@ -36,7 +36,7 @@ class Trip < ApplicationRecord
   end
 
   def decorated_bookings
-    bookings.map { |booking| BookingDecorator.new(booking) }
+    bookings.most_recent.map { |booking| BookingDecorator.new(booking) }
   end
 
   def guide
