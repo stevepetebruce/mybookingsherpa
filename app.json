@@ -1,8 +1,8 @@
 {
-  "name": "BookYourPlace",
+  "name": "MyBookingSherpa",
   "description": "A Trip Management and Booking Site for Independant Trip Guides",
-  "website": "http://bookyour.place",
-  "repository": "https://github.com/Book-Your-Place/bookyourplace",
+  "website": "https://app.mybookingsherpa.com/",
+  "repository": "https://github.com/AlanDonohoe/mybookingsherpa",
   "scripts": {
     "postdeploy": "bundle exec rake db:migrate"
   },

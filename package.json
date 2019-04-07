@@ -1,5 +1,5 @@
 {
-  "name": "bookyourplace",
+  "name": "mybookingsherpa",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
