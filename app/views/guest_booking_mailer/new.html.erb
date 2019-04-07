@@ -488,8 +488,6 @@
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Your payment of <%= "#{Currency.iso_to_symbol(@booking.currency)}#{Currency.human_readable(@booking.full_cost)}" %> has been successful and you're booked on to <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              To view your trip and update any of your details, please click this link:
-                              <a href="#" style="color: #0068A5; text-decoration: none;">View Trip</a>.
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               If you need to contact me, my email is <%= @booking.guide_email %>, or just hit reply.</p>
@@ -510,15 +508,6 @@
                       <div align="center" class="button-container center " style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;">
                         <a href="" style="text-decoration: none;">
                           <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:33pt; v-text-anchor:middle; width:106pt;" arcsize="0%" strokecolor="#DADADA" fillcolor="#0068A5"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#FFFFFF; font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
-                          <div style="color: #FFFFFF; background-color: #0068A5; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 142px; width: 102px;width: auto;  padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
-                            <a href="#" style="color: #0068A5; text-decoration: none;">
-                              <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;">
-                                <span style="font-size: 15px; line-height: 30px; text-decoration: none; color: #FFFFFF">
-                                  <strong>VIEW TRIP</strong>
-                                </span>
-                              </span>
-                            </a>
-                          </div>
                           <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                         </a>
                       </div>
