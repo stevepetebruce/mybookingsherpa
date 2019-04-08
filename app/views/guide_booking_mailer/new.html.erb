@@ -395,7 +395,7 @@
               </div>
             </div>
           </div>
-          <div style="background-image:url('https://mybookingsherpa.com/img/email/mountains-bg.jpg');background-position:center center;background-repeat:no-repeat;;background-color:#efefef">
+          <div style="background-image:url(<%= ENV.fetch('EMAIL_MOUNTAINS_BACKGROUND_IMAGE_URL') %>);background-position:center center;background-repeat:no-repeat;;background-color:#efefef">
             <div style="Margin: 0 auto;min-width: 320px;max-width: 650px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
               <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
                 <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-image:url('https://mybookingsherpa.com/img/email/mountains-bg.jpg');background-position:center center;background-repeat:no-repeat;;background-color:#efefef" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 650px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
@@ -568,7 +568,7 @@
                       <!--<![endif]-->
                       <div align="center" class="img-container center  autowidth  " style="padding-right: 0px;  padding-left: 0px; ">
                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                        <img class="center  autowidth " align="center" border="0" src="https://mybookingsherpa.com/img/email/mybookinsherpa-logo.png" alt="Image" title="Logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 140px" width="140">
+                        <img class="center autowidth " align="center" border="0" src="<%= ENV.fetch("MYBOOKINGSHERPA_LOGO_URL")%>" alt="Image" title="Logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 140px" width="140">
                         <!--[if mso]></td></tr></table><![endif]-->
                       </div>
                       <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
