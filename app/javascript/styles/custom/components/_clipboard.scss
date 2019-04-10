@@ -4,8 +4,21 @@ input[type=text].clipboard-input {
   width: 130px;
 }
 
+.message {
+  font-size: 12px;
+  display: flex;
+  align-items: center; 
+  opacity: 0; 
+  transition: .3s ease-in;
+}
+
+.copied {
+  opacity: 1;
+  animation: opacity linear 1s;
+}
+
 @include media-breakpoint-down(md) {
   .input-group-append {
-  	margin-top: 10px
+    margin-top: 10px
   }
 }
