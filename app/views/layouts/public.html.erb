@@ -4,16 +4,12 @@
     <title><%= @trip&.organisation_name || @booking.organisation_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script src="https://js.stripe.com/v3/"></script>
   </head>
-
   <body class="header-fixed">
     <div class="page-wrapper">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
       <%= yield %>
     </div>
   </body>

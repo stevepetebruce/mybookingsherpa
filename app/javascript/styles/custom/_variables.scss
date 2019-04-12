@@ -17,7 +17,7 @@ $violet: #41478a;
 $darkslategray: #2e383e;
 $dodger-blue: #3498db;
 $blue-teal-gradient: linear-gradient(88deg, #318be3, #04befe);
-$blue: #1991EB;
+$blue: #0a65ba;
 $indigo: #6610f2;
 $purple: #745af2;
 $pink: #e83e8c;
@@ -83,5 +83,13 @@ $card-padding-x: 1.01rem;
 $cardheader-padding-y: .48rem;
 $cardheader-padding-x: .41rem;
 ////////// CARDS //////////
+
+
+////////// Responsive sizes //////////
+$large-device-width: 1199px; // Large devices (desktops, less than 1200px)
+$medium-device-width: 991px; // Medium devices (tablets, less than 992px)
+$small-device-width: 767px; // Small devices (landscape phones, less than 768px)
+$extra-small-device-width: 575px; // Extra small devices (portrait phones, less than 576px)
+
 
 

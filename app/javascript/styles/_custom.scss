@@ -1,11 +1,13 @@
 // Bootstrap overrides
 
-////////// Import variables //////////
+////////// Import variables and mixins //////////
 @import 'custom/variables';
+@import 'custom/mixin';
 
 ////////// Import content //////////
 @import 'custom/typography';
 @import 'custom/content';
+@import 'custom/public-customer';
 @import 'custom/public-customer-edit';
 
 ////////// Import components //////////
