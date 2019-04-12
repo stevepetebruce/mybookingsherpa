@@ -23,7 +23,7 @@
                   <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
                     aria-controls="collapseOne">
                     <div class="row">
-                      <div class="row col col-10 col-sm-5 h4 font-weight-bold  no-gutters">
+                      <div class="row col col-10 col-sm-6 h4 font-weight-bold  no-gutters">
                         <div class="col col-lg-7 col-12">
                           <%= trip.name %>
                         </div>
@@ -32,7 +32,9 @@
                             <input class="form-control form-control-sm clipboard-input" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
                             <button class="btn btn-sm btn-light" title="Copy New Booking Link to Clipboard" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
                             <a href="<%= trip.new_public_booking_link %>" title="Open New Booking Link" target="_blank" class="btn btn-sm btn-light" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-external-link"></i></a>
+                            <span data-clipboard-message="<%= trip.id %>" class="small ml-1 message">Copied</span>
                           </div>
+                          
                         </div>
                       </div>
                       
