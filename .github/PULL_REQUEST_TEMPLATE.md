@@ -4,6 +4,9 @@
 ##### Background context
 
 
+##### What's the goal?
+
+
 #### Where should the reviewer start?
 
 
@@ -15,11 +18,6 @@
 
 ---
 
-#### Migrations
+#### Additional deployment instructions (Migrations / ENV Vars / etc)
 
-
-#### Additional deployment instructions
-
-
-#### Additional ENV Vars
 
