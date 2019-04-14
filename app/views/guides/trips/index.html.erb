@@ -29,15 +29,15 @@
                         </div>
                         <div class="col col-lg-5 col-12">
                           <div class="input-group-append">
-                            <input class="form-control form-control-sm clipboard-input" type="text" data-clipboard-source="<%= trip.id %>" value="<%= trip.new_public_booking_link %>" readonly>
+                            <div class="outer-text-wrapper">
+                              <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
+                            </div>
                             <button class="btn btn-sm btn-light" title="Copy New Booking Link to Clipboard" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
                             <a href="<%= trip.new_public_booking_link %>" title="Open New Booking Link" target="_blank" class="btn btn-sm btn-light" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-external-link"></i></a>
                             <span data-clipboard-message="<%= trip.id %>" class="small ml-1 message">Copied</span>
                           </div>
-                          
                         </div>
                       </div>
-                      
                       <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
                         <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                       </div>
