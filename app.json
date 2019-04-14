@@ -74,6 +74,7 @@
       },
       "env": {
         "SMTP_ADDRESS": "SMTP-ADDRESS-OR-SERVER",
+        "EMAIL_MOUNTAINS_BACKGROUND_IMAGE_URL": "EMAIL-MOUNTAINS-BACKGROUND-IMAGE-URL",
         "BASE_DOMAIN": "https://example.com",
         "SMTP_PASSWORD": "SMTP-PASSWORD",
         "SMTP_USER_NAME": "SMTP-USER-NAME",
