@@ -4,7 +4,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
   describe "#new GET /public/bookings/new" do
     let(:trip) { FactoryBot.create(:trip) }
 
-    def do_request(url: "/public/trips/#{trip.id}/bookings/new", params: {})
+    def do_request(url: "/public/trips/#{trip.slug}/bookings/new", params: {})
       get url, params: params
     end
 
@@ -61,7 +61,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
                    headers: {})
     end
 
-    def do_request(url: "/public/trips/#{trip.id}/bookings", params: {})
+    def do_request(url: "/public/trips/#{trip.slug}/bookings", params: {})
       post url, params: params
     end
 

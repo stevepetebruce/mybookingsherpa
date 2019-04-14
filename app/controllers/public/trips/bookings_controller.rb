@@ -78,7 +78,7 @@ module Public
       end
 
       def set_trip
-        @trip = Trip.find(params[:trip_id])
+        @trip = Trip.find_by_slug(params[:trip_id])
       end
 
       def stripe_token
