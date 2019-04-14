@@ -13,6 +13,8 @@ class Trip < ApplicationRecord
             numericality: { only_integer: true },
             allow_nil: false
 
+  validates :slug, uniqueness: true
+
   belongs_to :organisation
   has_many :bookings
   has_many :guests, through: :bookings
@@ -22,6 +24,8 @@ class Trip < ApplicationRecord
   delegate :name, :stripe_account_id, to: :organisation, prefix: true
 
   scope :start_date_asc, -> { order(start_date: :asc) }
+
+  before_create :set_slug
 
   def currency
     self[:currency] || organisation.currency
@@ -54,5 +58,19 @@ class Trip < ApplicationRecord
 
   def valid_date_format
     # TODO: implement when we know the format of date string we are receiving
+  end
+
+  private
+
+  def set_slug
+    if Trip.find_by_slug(generated_slug)
+      self[:slug] = "#{SecureRandom.hex(8)}_#{generated_slug}"
+    else
+      self[:slug] = generated_slug
+    end
+  end
+
+  def generated_slug
+    @generated_slug ||= name.parameterize(separator: "_").truncate(80, omission: "")
   end
 end
