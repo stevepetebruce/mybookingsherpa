@@ -6,7 +6,7 @@ class TripDecorator < SimpleDelegator
 
   def new_public_booking_link
     # TODO: add organisation's subdomain
-    "#{ENV.fetch('BASE_DOMAIN')}#{paths.new_public_trip_booking_path(@trip)}"
+    "#{ENV.fetch('BASE_DOMAIN')}#{paths.new_public_trip_booking_path(@trip.slug)}"
   end
 
   private

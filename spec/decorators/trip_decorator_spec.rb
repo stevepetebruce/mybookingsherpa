@@ -8,7 +8,7 @@ RSpec.describe TripDecorator, type: :model do
 
     it "should return expected URL" do
       expect(subject).to eq "#{ENV.fetch('BASE_DOMAIN')}/public"\
-        "/trips/#{trip.id}/bookings/new"
+        "/trips/#{trip.slug}/bookings/new"
     end
   end
 end
