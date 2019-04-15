@@ -8,7 +8,9 @@
     <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
     <%= stylesheet_pack_tag "application", "data-turbolinks-track": "reload" %>
     <script src="https://js.stripe.com/v3/"></script>
-    <%= render "layouts/vendor_code/drift" %>
+    <% if Rails.env.production?  %>
+      <%= render "layouts/vendor_code/drift" %>
+    <% end %>
     <!-- TODO: Add Google Tag Manager -->
   </head>
 
