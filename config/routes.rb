@@ -4,23 +4,23 @@ Rails.application.routes.draw do
   devise_for :guests
   devise_for :guides
 
-  devise_scope :guest do
-    authenticated :guest do
-      root 'home#index', as: :authenticated_guest
+  devise_scope :guide do
+    authenticated :guide do
+      root "home#index", as: :authenticated_guide
     end
 
     unauthenticated do
-      root 'devise/sessions#new', as: :unauthenticated_guest
+      root "devise/sessions#new", as: :unauthenticated_guide
     end
   end
 
-  devise_scope :guide do
-    authenticated :guide do
-      root 'home#index', as: :authenticated_guide
+  devise_scope :guest do
+    authenticated :guest do
+      root "home#index", as: :authenticated_guest
     end
 
     unauthenticated do
-      root 'devise/sessions#new', as: :unauthenticated_guide
+      root "devise/sessions#new", as: :unauthenticated_guest
     end
   end
 
