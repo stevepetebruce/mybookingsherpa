@@ -1,21 +1,30 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-3 order-md-1">
-      <div class="pt-4 text-center">
-        <% if @booking.organisation.logo_image.attached? %>
-          <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-5", width: "180", height: "120" %>
-        <% end %>
+  <div class="container-fluid full-height">
+    <div class="row row-height">
+      <div class="col-lg-4 content-left" style="">
+        <div class="content-left-wrapper bg_img">
+          <div class="wrapper">
+            <div class="py-4 text-center">
+              <% if @booking.organisation.logo_image.attached? %>
+                <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
+              <% end %>
+              <h1 class="font-weight-bold mb-0"><%= @booking.trip_name %></h1>
+              <h3>
+                <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
+              </h3>
+              <p class="collapse" id="collapseSummary">
+                <%= @booking.trip_description %>
+              </p>
+              <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="py-5 col-md-8 order-md-2">
-      <h1 class="font-weight-bold"><%= @booking.trip_name %></h1>
-      <h3><%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %></h3>
-    </div>
-  </div>
-  <div class="row">
-    <div class="offset-md-1 col-md-10">
-      <h2 class="font-weight-bold">Congratulations <%= @booking.name %>, your booking is complete.</h2>
-      <h4 class="mb-5">You will receive a confirmation email with your booking details and itinerary.</h4>
+      <div class="col-lg-7 content-right">
+        <div class="mt-4">
+          <h2 class="font-weight-bold">Congratulations <%= @booking.name %>, your booking is complete.</h2>
+          <h4 class="mt-4">You will receive a confirmation email with your booking details shortly.</h4>
+        </div>
+      </div>
     </div>
   </div>
 </div>
