@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_31_124600) do
+ActiveRecord::Schema.define(version: 2019_04_14_114653) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -216,7 +217,9 @@ ActiveRecord::Schema.define(version: 2019_03_31_124600) do
     t.text "description"
     t.integer "full_cost"
     t.integer "deposit_cost"
+    t.string "slug"
     t.index ["organisation_id"], name: "index_trips_on_organisation_id"
+    t.index ["slug"], name: "index_trips_on_slug", unique: true
   end
 
   add_foreign_key "bookings", "guests"

@@ -8,6 +8,32 @@ RSpec.describe Trip, type: :model do
     it { should have_and_belong_to_many(:guides) }
   end
 
+  describe "callbacks" do
+    let!(:trip) { FactoryBot.build(:trip) }
+
+    it "should call #set_slug" do
+      expect(trip).to receive(:set_slug)
+
+      trip.save
+    end
+
+    it "should have a slug based on the trip name" do
+      trip.save
+
+      expect(trip.slug).to eq trip.name.parameterize(separator: "_")
+    end
+
+    context "a trip with the same name already exists" do
+      let!(:trip_with_same_name) { FactoryBot.create(:trip, name: trip.name) }
+
+      it "should not create the same slug" do
+        trip.save
+
+        expect(trip_with_same_name.slug).to_not eq(trip.slug)
+      end
+    end
+  end
+
   describe "validations" do
     it { should validate_presence_of(:full_cost) }
     it { should validate_presence_of(:maximum_number_of_guests) }
@@ -48,6 +74,27 @@ RSpec.describe Trip, type: :model do
 
           it { should be false }
         end
+      end
+    end
+
+    describe "#guest_count" do
+      subject(:guest_count) { trip.guest_count }
+      # TODO: need to look into this...
+      # A booking, in the future may have more than one guest.
+      # But guests.count (has_many :guests, through: :bookings)
+      # could be a circular reference.
+
+      context "a trip without any bookings" do
+        let!(:trip) { FactoryBot.build(:trip) }
+
+        it { expect(guest_count).to eq 0 }
+      end
+
+      context "a trip with bookings" do
+        let!(:trip) { FactoryBot.create(:trip) }
+        let!(:booking) { FactoryBot.create(:booking, trip: trip) }
+
+        it { expect(guest_count).to eq 1 }
       end
     end
   end
