@@ -18,8 +18,9 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 <%= form_with(model: booking, local: true, url: url, html: { id: "payment-form" }) do |form| %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
   <% if booking.errors.any? %>
-  <h4 class="mb-3 font-weight-bold">Contact Details</h4>
   <div id="error_explanation">
     <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
     <ul>
@@ -29,6 +30,7 @@ An extra step - but a definite confirmation from the user.
     </ul>
   </div>
   <% end %>
+  <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name %>
@@ -52,6 +54,6 @@ An extra step - but a definite confirmation from the user.
     </div>
   </div>
   <div class="actions">
-    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4" %>
+    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
   </div>
 <% end %>
