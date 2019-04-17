@@ -1,7 +1,7 @@
 return unless Rails.env.development?
 
 guide = Guide.create(email: "guide@mybookingsherpa.com", name: "Arno de Jong", password: "password")
-organisation = Organisation.create(currency: "eur", name: "Alp Adventures", stripe_account_id: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER") )
+organisation = Organisation.create(currency: "eur", name: "Alp Adventures", stripe_account_id: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER"), subdomain: "alpadventures" )
 OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
 # Organisation logo image
