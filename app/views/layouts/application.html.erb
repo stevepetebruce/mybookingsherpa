@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <% if Rails.env.production? %>
+      <%= render "layouts/vendor_code/google_tag_manager_head" %>
+    <% end %>
     <title>MyBookingSherpa</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,10 +14,12 @@
     <% if Rails.env.production?  %>
       <%= render "layouts/vendor_code/drift" %>
     <% end %>
-    <!-- TODO: Add Google Tag Manager -->
   </head>
 
   <body class="header-fixed">
+    <% if Rails.env.production? %>
+      <%= render "layouts/vendor_code/google_tag_manager_body" %>
+    <% end %>
     <div class="page-wrapper">
       <%= render "layouts/nav_bar" %>
       <p class="notice"><%= notice %></p>
