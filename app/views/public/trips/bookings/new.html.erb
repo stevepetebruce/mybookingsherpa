@@ -12,9 +12,12 @@
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
               <h1>Total: <%= "#{Currency.iso_to_symbol(@booking.currency)} #{Currency.human_readable(@booking.full_cost)}" %></h1>
-              <p>
-                <i><%= @booking.trip_description %></i>
-              </p> 
+              <div id="summary">
+                <p class="collapse" id="collapseSummary">
+                  <%= @booking.trip_description %>
+                </p>
+                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+              </div>
             </div>
             <h4 class="d-flex justify-content-between align-items-center mb-3">
               <!-- TODO: do we really need this info (below) ? -->
