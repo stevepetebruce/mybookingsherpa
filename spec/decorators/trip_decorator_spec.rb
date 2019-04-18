@@ -10,7 +10,7 @@ RSpec.describe TripDecorator, type: :model do
       expect(subject).to eq "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').first}"\
         "//#{trip.organisation_subdomain}."\
         "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').last}"\
-        "/public/trips/#{trip.id}/bookings/new"
+        "/public/trips/#{trip.slug}/bookings/new"
     end
   end
 end

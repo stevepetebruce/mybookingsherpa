@@ -5,7 +5,7 @@ class TripDecorator < SimpleDelegator
   end
 
   def new_public_booking_link
-    "#{base_domain_and_subdomain}#{paths.new_public_trip_booking_path(@trip)}"
+    "#{base_domain_and_subdomain}#{paths.new_public_trip_booking_path(@trip.slug)}"
   end
 
   private
