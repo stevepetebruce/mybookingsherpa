@@ -42,7 +42,6 @@
       opacity: .85; 
     }
   }
-
   .wrapper {
     position: relative;
     height: 100%;
@@ -101,6 +100,33 @@
     padding: 15px 15px 0 15px;
   }
   @include mobile {padding: 0 15px 0 15px;}
+}
+
+#summary {
+  p {
+    &.collapse:not(.show) {
+      height: 96px !important;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+    &.collapsing {
+      min-height: 96px !important;
+    }
+  }
+  a {
+    &.collapsed:after {
+      content: '+ Read More';
+      color: $white;
+      font-weight: bold;
+    }
+    &:not(.collapsed):after {
+      content: '- Read Less';
+      color: $white;
+      font-weight: bold;
+    }
+  }
 }
 
 #payment-form {

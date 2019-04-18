@@ -11,10 +11,12 @@
               <h3>
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
-              <p class="collapse" id="collapseSummary">
-                <%= @booking.trip_description %>
-              </p>
-              <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+              <div id="summary">
+                <p class="collapse" id="collapseSummary">
+                  <%= @booking.trip_description %>
+                </p>
+                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+              </div>
             </div>
           </div>
         </div>
