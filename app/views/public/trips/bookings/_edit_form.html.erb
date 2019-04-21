@@ -74,33 +74,66 @@
       <h5 class="pt-3">Dietary Requirements</h5>
       <div class="row">
         <div class="col-md-12 mb-3">
-          <%= form.radio_button(:dietary_requirements, :none, checked: true) %>
-          <%= form.label(:dietary_requirements, "None", class: "mr-4") %>
-          <%= form.radio_button(:dietary_requirements, :vegetarian) %>
-          <%= form.label(:dietary_requirements, "Vegetarian", class: "mr-4") %>
-          <%= form.radio_button(:dietary_requirements, :vegan) %>
-          <%= form.label(:dietary_requirements, "Vegan", class: "mr-4") %>
-          <%= form.radio_button(:dietary_requirements, :other) %>
-          <%= form.label(:dietary_requirements, "Other <i>(please add note below)</i>".html_safe, class: "mr-4") %>
+          <label class="radiocontainer">
+            <%= form.radio_button(:dietary_requirements, :none, checked: true) %>
+            None
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:dietary_requirements, :vegetarian) %>
+            Vegetarian
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:dietary_requirements, :vegan) %>
+            Vegan
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:dietary_requirements, :other) %>
+            Other <i>(please add note below)</i>
+            <span class="customradio"></span>
+          </label>
         </div>
       </div>
       <h5 class="pt-3">Allergies</h5>
       <div class="row">
         <div class="col-md-12 mb-3">
-          <%= form.radio_button(:allergies, :none, checked: true) %>
-          <%= form.label(:allergies, "None", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :dairy) %>
-          <%= form.label(:allergies, "Dairy", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :eggs) %>
-          <%= form.label(:allergies, "Eggs", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :nuts) %>
-          <%= form.label(:allergies, "Nuts", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :penicllin) %>
-          <%= form.label(:allergies, "Penicillin", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :soya) %>
-          <%= form.label(:allergies, "Soya", class: "mr-4") %>
-          <%= form.radio_button(:allergies, :other) %>
-          <%= form.label(:allergies, "Other <i>(please add note below)</i>".html_safe, class: "mr-4") %>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :none, checked: true) %>
+            None
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :dairy) %>
+            Dairy
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :eggs) %>
+            Eggs
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :nuts) %>
+            Nuts
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :penicllin) %>
+            Penicillin
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :soya) %>
+            Soya
+            <span class="customradio"></span>
+          </label>
+          <label class="radiocontainer">
+            <%= form.radio_button(:allergies, :other) %>
+            Other <i>(please add note below)</i>
+            <span class="customradio"></span>
+          </label>
         </div>
       </div>
       <div class="row">
