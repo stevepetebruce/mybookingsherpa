@@ -27,6 +27,11 @@
       "description": "S3 bucket for saving user images",
       "required": true
     },
+    "AWS_BUCKET_REGION": {
+      "description": "S3 bucket region for saving user images",
+      "required": true,
+      "value": "eu-west-2"
+    },
     "BASE_DOMAIN": {
       "description": "URL of the app",
       "required": true
