@@ -30,9 +30,72 @@ ul.formline > li:before {
   display: inline-block;
   position: absolute;
   border-radius: 50%;
-  border: 3px solid #007bff;
+  border: 3px solid $light-gray;
   left: 20px;
   width: 20px;
   height: 20px;
   z-index: 400;
 }
+
+.radiocontainer {
+  display: inline-block;
+  position: relative;
+  padding: 5px 5px 5px 32px;
+  margin-right: 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px #eee solid;
+  border-radius: 5px;
+  &:hover {
+    border: 1px $light-gray solid;
+  }
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.radiocontainer {
+  &:hover input ~ .customradio {
+    background-color: $light-gray;
+  }
+  input:checked ~ .customradio {
+    background-color: $dodger-blue;
+  }
+}
+
+.radiocontainer {
+  input:checked ~ .customradio:after {
+    display: block;
+  }
+  .customradio:after {
+    top: 6px;
+    left: 6px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $white;
+  }
+}
+
+.customradio {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  height: 21px;
+  width: 21px;
+  background-color: $white;
+  border-radius: 50%;
+  border: 1px solid $light-gray;
+}
+
+.customradio:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
