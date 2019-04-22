@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   devise_scope :guide do
     authenticated :guide do
-      root "home#index", as: :authenticated_guide
+      root "guides/trips#index", as: :authenticated_guide
     end
 
     unauthenticated do
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   devise_scope :guest do
     authenticated :guest do
-      root "home#index", as: :authenticated_guest
+      root "guests/trips#index", as: :authenticated_guest
     end
 
     unauthenticated do
