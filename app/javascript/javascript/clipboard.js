@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function copyToClipboard(e) {
-    const clipboardId = e.srcElement.dataset.clipboardBtn;
+    const clipboardId = e.srcElement.dataset.clipboardBtn || e.srcElement.dataset.clipboardSource;
     const clipboardInput = document.querySelector(`small[data-clipboard-source="${clipboardId}"]`);
     const clipboardMessage = document.querySelector(`span[data-clipboard-message="${clipboardId}"]`);
 
@@ -32,5 +32,5 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   clipboardButtons.forEach(clipboardButton => clipboardButton.addEventListener("click", copyToClipboard));
-  clipboardInputForms.forEach(clipboardInputForm => clipboardInputForm.addEventListener("click", event => event.stopPropagation()));
+  clipboardInputForms.forEach(clipboardInputForm => clipboardInputForm.addEventListener("click", copyToClipboard));
 });
