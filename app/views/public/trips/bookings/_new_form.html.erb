@@ -3,29 +3,36 @@ Do we need a confirmation step - just before payment?
 ex: a modal with the summary payment to be made? 
 An extra step - but a definite confirmation from the user.
 -->
-<%= form_with(model: booking, local: true, url: url, html: { id: "payment-form" }) do |form| %>
+
+<%= form_with(model: booking, local: true, url: url, class: "needs-validation", html: { id: "payment-form", novalidate: :novalidate }) do |form| %>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
-  <% if booking.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-    <ul>
-    <% booking.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
-  <% end %>
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name %>
       <%= form.text_field :name, class: "form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true %>
+      <div class="invalid-feedback">
+        <%= "Please enter your name" %>
+      </div>
+      <% if @booking.errors[:name].present? %>
+      <div class="invalid-feedback" style="display: block;">
+        Please enter a valid name
+      </div>
+    <% end %>
     </div>
   </div>
   <div class="mb-3">
     <%= form.label :email %>
     <%= form.text_field :email, class: "form-control", autofocus: auto_focus(booking, form_field: :email), required: true %>
+    <div class="invalid-feedback">
+      Please enter a valid email
+    </div>
+    <% if @booking.errors[:email].present? %>
+      <div class="invalid-feedback" style="display: block;">
+        Please enter a valid email
+      </div>
+    <% end %>
   </div>
   <hr class="mb-5 mb-4">
   <h4 class="mb-3 font-weight-bold">Payment</h4>

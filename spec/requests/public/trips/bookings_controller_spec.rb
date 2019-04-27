@@ -138,7 +138,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect(Booking.count).to eq 0
 
           expect(response.code).to eq "200"
-          expect(response.body).to include("Email is invalid")
+          expect(response.body).to include("Please enter a valid email")
         end
       end
     end

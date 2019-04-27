@@ -5,6 +5,21 @@
 (function() {
   "use strict";
 
+  // Bootstrap form validation
+  var forms = document.getElementsByClassName("needs-validation");
+  // Loop over forms and prevent submission
+  var validation = Array.prototype.filter.call(forms, function(form) {
+    form.addEventListener("submit", function(event) {
+      if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add("was-validated");
+      document.querySelectorAll("input[type='submit']")[0].disabled = false;
+    }, false);
+  });
+
+  // Stripe JS:
   document.addEventListener("DOMContentLoaded", function(){
     const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
     const elements = stripe.elements();
@@ -16,6 +31,7 @@
       hiddenInput.setAttribute("name", "stripeToken");
       hiddenInput.setAttribute("value", token.id);
       form.appendChild(hiddenInput);
+
       // Submit the form
       form.submit();
     };
@@ -66,9 +82,12 @@
         errorElement.textContent = error.message;
       } else {
         // Send the token to your server.
-        stripeTokenHandler(token);
+        if (form.checkValidity() === true) {
+          stripeTokenHandler(token);
+        }
+        form.classList.add("was-validated");
       }
+      document.querySelectorAll("input[type='submit']")[0].disabled = false;
     });
-
   });
 }());
