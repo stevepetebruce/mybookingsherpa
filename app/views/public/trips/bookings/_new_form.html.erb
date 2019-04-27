@@ -1,17 +1,3 @@
-<!-- TODO: What do we want on this form?
-https://www.quora.com/Whats-the-bare-minimum-information-that-Stripe-requires-to-charge-a-credit-card
-The minimum you need to send Stripe in order to create a charge is:
-Card number
-Expiration date (month & year)
-Amount of the charge
-
-we recommend that you also send us the CVC
-
-You can also send us more data, such as billing address and cardholder name. 
-
-
--->
-
 <!-- 
 Do we need a confirmation step - just before payment?
 ex: a modal with the summary payment to be made? 
@@ -34,12 +20,12 @@ An extra step - but a definite confirmation from the user.
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name %>
-      <%= form.text_field :name, class: "form-control", autofocus: true, required: true %>
+      <%= form.text_field :name, class: "form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true %>
     </div>
   </div>
   <div class="mb-3">
     <%= form.label :email %>
-    <%= form.text_field :email, class: "form-control", required: true %>
+    <%= form.text_field :email, class: "form-control", autofocus: auto_focus(booking, form_field: :email), required: true %>
   </div>
   <hr class="mb-5 mb-4">
   <h4 class="mb-3 font-weight-bold">Payment</h4>
