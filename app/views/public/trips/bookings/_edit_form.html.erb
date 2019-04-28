@@ -4,7 +4,7 @@
       <h4 class="font-weight-bold">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :name, "Name" %>
+          <%= form.label :name, "Full Name" %>
           <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name) %>
           <div class="invalid-feedback">
             <%= "Please enter your name" %>
