@@ -1,56 +1,108 @@
-<%= form_with(model: booking, local: true, url: url) do |form| %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <% if booking.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-      <ul>
-      <% booking.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: booking, local: true, url: url, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
   <ul class="formline">
     <li>
       <h4 class="font-weight-bold">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :name, 'Name' %>
-          <%= form.text_field :name, class: "form-control", required: true %>
+          <%= form.label :name, "Name" %>
+          <%= form.text_field :name, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :name) %>
+          <div class="invalid-feedback">
+            <%= "Please enter your name" %>
+          </div>
+          <% if @booking.errors[:name].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid name
+            </div>
+          <% end %>
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :email %>
-          <%= form.text_field :email, class: "form-control", required: true %>
+          <%= form.text_field :email, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :email) %>
+          <div class="invalid-feedback">
+            <%= "Please enter a valid email" %>
+          </div>
+          <% if @booking.errors[:email].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid email
+            </div>
+          <% end %>
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :phone_number %>
-          <%= form.text_field :phone_number, class: "form-control", required: true %>
+          <%= form.text_field :phone_number, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true) %>
+          <div class="invalid-feedback">
+            <%= "Please enter your phone number" %>
+          </div>
+          <% if @booking.errors[:phone_number].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid phone number
+            </div>
+          <% end %>
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :date_of_birth %>
-          <%= form.date_field :date_of_birth, class: "form-control" %>
+          <%= form.date_field :date_of_birth, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth) %>
+          <div class="invalid-feedback">
+            <%= "Please enter your date my birth" %>
+          </div>
+          <% if @booking.errors[:date_of_birth].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid date of birth
+            </div>
+          <% end %>
         </div>
         <div class="col-md-12 mb-3">
          <hr class="mb-5">
           <%= form.label :address %>
-          <%= form.text_field :address, class: "form-control", required: true %>
+          <%= form.text_field :address, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :address) %>
+          <div class="invalid-feedback">
+            Please enter a valid address
+          </div>
+          <% if @booking.errors[:address].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter your address
+            </div>
+          <% end %>
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :city %>
-          <%= form.text_field :city, class: "form-control", required: true %>
+          <%= form.text_field :city, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :city) %>
+          <div class="invalid-feedback">
+            Please enter your city
+          </div>
+          <% if @booking.errors[:date_of_birth].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid date of birth
+            </div>
+          <% end %>
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :county, "County/State" %>
-          <%= form.text_field :county, class: "form-control", required: true %>
+          <%= form.text_field :county, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :county) %>
+          <div class="invalid-feedback">
+            Please enter your county/state
+          </div>
+          <% if @booking.errors[:county].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter your county/state
+            </div>
+          <% end %>
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :post_code, "Post code/Zip code" %>
-          <%= form.text_field :post_code, class: "form-control", required: true %>
+          <%= form.text_field :post_code, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :post_code) %>
+          <div class="invalid-feedback">
+            Please enter your post/zip code
+          </div>
+          <% if @booking.errors[:post_code].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter your post/zip code
+            </div>
+          <% end %>
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :country %>
-          <%= form.country_select :country, { priority_countries: ["AD", "AT", "BE", "BG", "HR", "CZ", "DK", "EE", "FR", "FI", "DE", "GI", "GR", "HU", "IS", "IE", "IT", "LV", "LU", "ME", "NL", "NO", "PL", "PT", "RO", "RS", "SK", "SI", "ES", "SE", "CH", "GB"]}, { class: "form-control customSelect" }, required: true %>
+          <%= form.country_select :country, { priority_countries: ["AD", "AT", "BE", "BG", "HR", "CZ", "DK", "EE", "FR", "FI", "DE", "GI", "GR", "HU", "IS", "IE", "IT", "LV", "LU", "ME", "NL", "NO", "PL", "PT", "RO", "RS", "SK", "SI", "ES", "SE", "CH", "GB"]}, { class: "form-control customSelect" }, required: true, autofocus: auto_focus(booking, form_field: :country)  %>
         </div>
       </div>
       <hr class="mb-5 mb-4">
@@ -60,11 +112,27 @@
       <div class="row">
         <div class="col-md-5 mb-3">
           <%= form.label :next_of_kin_name, "Name" %>
-          <%= form.text_field :next_of_kin_name, class: "form-control", required: true %>
+          <%= form.text_field :next_of_kin_name, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name) %>
+          <div class="invalid-feedback">
+            Please enter next of kin name
+          </div>
+          <% if @booking.errors[:next_of_kin_name].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter next of kin name
+            </div>
+          <% end %>
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :next_of_kin_phone_number, "Phone number" %>
-          <%= form.text_field :next_of_kin_phone_number, class: "form-control", required: true %>
+          <%= form.text_field :next_of_kin_phone_number, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number) %>
+          <div class="invalid-feedback">
+            Please enter valid phone number
+          </div>
+          <% if @booking.errors[:next_of_kin_phone_number].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter valid phone number
+            </div>
+          <% end %>
         </div>
       </div>
       <hr class="mb-5 mb-4">

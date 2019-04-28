@@ -5,22 +5,23 @@
 (function() {
   "use strict";
 
-  // Bootstrap form validation
-  var forms = document.getElementsByClassName("needs-validation");
-  // Loop over forms and prevent submission
-  var validation = Array.prototype.filter.call(forms, function(form) {
-    form.addEventListener("submit", function(event) {
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add("was-validated");
-      document.querySelectorAll("input[type='submit']")[0].disabled = false;
-    }, false);
-  });
-
-  // Stripe JS:
   document.addEventListener("DOMContentLoaded", function(){
+
+    // Bootstrap form validation
+    const forms = document.getElementsByClassName("needs-validation");
+    // Loop over them and prevent submission
+    Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener("submit", function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add("was-validated");
+        document.querySelectorAll("input[type='submit']")[0].disabled = false;
+      }, false);
+    });
+
+    // Stripe JS:
     const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
     const elements = stripe.elements();
     const stripeTokenHandler = (token) => {
