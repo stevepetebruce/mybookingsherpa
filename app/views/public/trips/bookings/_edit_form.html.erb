@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :name, "Name" %>
-          <%= form.text_field :name, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :name) %>
+          <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name) %>
           <div class="invalid-feedback">
             <%= "Please enter your name" %>
           </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :email %>
-          <%= form.text_field :email, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :email) %>
+          <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :email) %>
           <div class="invalid-feedback">
             <%= "Please enter a valid email" %>
           </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :phone_number %>
-          <%= form.text_field :phone_number, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true) %>
+          <%= form.text_field :phone_number, class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true) %>
           <div class="invalid-feedback">
             <%= "Please enter your phone number" %>
           </div>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :date_of_birth %>
-          <%= form.date_field :date_of_birth, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth) %>
+          <%= form.date_field :date_of_birth, class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth) %>
           <div class="invalid-feedback">
             <%= "Please enter your date my birth" %>
           </div>
@@ -54,7 +54,7 @@
         <div class="col-md-12 mb-3">
          <hr class="mb-5">
           <%= form.label :address %>
-          <%= form.text_field :address, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :address) %>
+          <%= form.text_field :address, class: "#{'is-invalid' if @booking.errors[:address].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :address) %>
           <div class="invalid-feedback">
             Please enter a valid address
           </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :city %>
-          <%= form.text_field :city, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :city) %>
+          <%= form.text_field :city, class: "#{'is-invalid' if @booking.errors[:city].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :city) %>
           <div class="invalid-feedback">
             Please enter your city
           </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :county, "County/State" %>
-          <%= form.text_field :county, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :county) %>
+          <%= form.text_field :county, class: "#{'is-invalid' if @booking.errors[:county].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :county) %>
           <div class="invalid-feedback">
             Please enter your county/state
           </div>
@@ -90,7 +90,7 @@
         </div>
         <div class="col-md-3 mb-3">
           <%= form.label :post_code, "Post code/Zip code" %>
-          <%= form.text_field :post_code, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :post_code) %>
+          <%= form.text_field :post_code, class: "#{'is-invalid' if @booking.errors[:post_code].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :post_code) %>
           <div class="invalid-feedback">
             Please enter your post/zip code
           </div>
@@ -112,7 +112,7 @@
       <div class="row">
         <div class="col-md-5 mb-3">
           <%= form.label :next_of_kin_name, "Name" %>
-          <%= form.text_field :next_of_kin_name, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name) %>
+          <%= form.text_field :next_of_kin_name, class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name) %>
           <div class="invalid-feedback">
             Please enter next of kin name
           </div>
@@ -124,7 +124,7 @@
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :next_of_kin_phone_number, "Phone number" %>
-          <%= form.text_field :next_of_kin_phone_number, class: "form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number) %>
+          <%= form.text_field :next_of_kin_phone_number, class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number) %>
           <div class="invalid-feedback">
             Please enter valid phone number
           </div>
