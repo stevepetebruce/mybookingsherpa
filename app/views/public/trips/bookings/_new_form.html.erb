@@ -10,7 +10,7 @@ An extra step - but a definite confirmation from the user.
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <div class="row">
     <div class="col-md-12 mb-3">
-      <%= form.label :name %>
+      <%= form.label :name, "Full Name" %>
       <%= form.text_field :name, class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true %>
       <div class="invalid-feedback">
         <%= "Please enter your name" %>
