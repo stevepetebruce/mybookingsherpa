@@ -21,12 +21,12 @@ class Booking < ApplicationRecord
 
   delegate :logo_image, to: :organisation, prefix: true
 
-  validates :country, format: GuestValidations::COUNTRY_REGEX, allow_blank: true
-  validates :email, format: GuestValidations::EMAIL_REGEX, presence: true
-  validates :name, format: GuestValidations::NAME_REGEX, allow_blank: true
-  validates :next_of_kin_name, format: GuestValidations::NAME_REGEX, allow_blank: true
-  validates :next_of_kin_phone_number, format: GuestValidations::PHONE_NUMBER_REGEX, allow_blank: true
-  validates :phone_number, format: GuestValidations::PHONE_NUMBER_REGEX, allow_blank: true
+  validates :country, format: Regex::COUNTRY, allow_blank: true
+  validates :email, format: Regex::EMAIL, presence: true
+  validates :name, format: Regex::NAME, allow_blank: true
+  validates :next_of_kin_name, format: Regex::NAME, allow_blank: true
+  validates :next_of_kin_phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
+  validates :phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
 
   scope :most_recent, -> { order(created_at: :desc) }
 
