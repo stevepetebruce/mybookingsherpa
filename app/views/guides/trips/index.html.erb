@@ -78,7 +78,7 @@
                                     <%= booking.name %>
                                     <% if booking.status_alert? %>
                                       <div class="col">
-                                        <span class="badge badge-warning d-none d-sm-none d-md-inline align-middle"><i class="fa fa-exclamation-circle"></i><%= booking.status_text %></span>
+                                        <span class='dot dot-sm dot-warning'></span> <%= booking.status_text %>
                                       </div>
                                     <% end %>
                                   </p>
