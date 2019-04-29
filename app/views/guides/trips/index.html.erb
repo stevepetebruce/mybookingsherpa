@@ -6,7 +6,8 @@
       <div class="col-12">
         <div class="card card-shadow">
           <div class="card-body">
-            <h1 class="card-title font-weight-bold mb-4">My Trips
+            <h1 class="card-title font-weight-bold mb-4">
+              <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
               <!-- <button type="button" class="btn btn-inverse-primary btn-md float-right mt-2 d-sm-none d-md-block d-none d-sm-block">Add a Trip</button> -->
             </h1>
             <div class="row">
@@ -94,6 +95,14 @@
                 </div>
               <% end %>
             </div>
+          </div>
+          <% # TODO: Pete could have a look at this. Not sure if it's in keeping with our style. %>
+          <div class="col-md-12 pb-4 text-center">
+            <% if @show_past_trips %>
+              <%= link_to "My Trips", guides_trips_path, class: "btn btn-primary" %>
+            <% else %>
+              <%= link_to "My Past Trips", guides_trips_path(past_trips: true), class: "btn btn-primary" %>
+            <% end %>
           </div>
         </div>
       </div>
