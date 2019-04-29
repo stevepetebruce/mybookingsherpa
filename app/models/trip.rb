@@ -23,7 +23,10 @@ class Trip < ApplicationRecord
 
   delegate :name, :stripe_account_id, :subdomain, to: :organisation, prefix: true
 
-  scope :start_date_asc, -> { order(start_date: :asc) }
+  scope :future_trips, -> { end_date_asc.where("end_date > ?", Time.zone.now) }
+  scope :past_trips, -> { end_date_desc.where("end_date < ?", Time.zone.now) }
+  scope :end_date_asc, -> { order(end_date: :asc) }
+  scope :end_date_desc, -> { order(end_date: :desc) }
 
   before_create :set_slug
 

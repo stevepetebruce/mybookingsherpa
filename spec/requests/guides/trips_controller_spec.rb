@@ -45,6 +45,52 @@ RSpec.describe "Guides::TripsController", type: :request do
             expect(response.body).to_not include(trip.name)
           end
         end
+
+        context "past vs future trips" do
+          context "a trip with an end_date in the past" do
+            let!(:trip) { FactoryBot.create(:trip, guides: [guide], start_date: 2.weeks.ago, end_date: 1.week.ago) }
+
+            context "without any other params" do
+              it "should not be visible" do
+                do_request
+
+                expect(response.body).to_not include(trip.name)
+              end
+            end
+
+            context "with past_trips=true" do
+              let(:params) { { past_trips: true } }
+
+              it "should be visible" do
+                do_request(params: params)
+
+                expect(response.body).to include(trip.name)
+              end
+            end
+          end
+
+          context "a trip with an end_date in the future" do
+            let!(:trip) { FactoryBot.create(:trip, guides: [guide], start_date: 2.weeks.from_now, end_date: 3.weeks.from_now) }
+
+            context "without any other params" do
+              it "should be visible" do
+                do_request
+
+                expect(response.body).to include(trip.name)
+              end
+            end
+
+            context "with past_trips=true" do
+              let(:params) { { past_trips: true } }
+
+              it "should not be visible" do
+                do_request(params: params)
+
+                expect(response.body).to_not include(trip.name)
+              end
+            end
+          end
+        end
       end
     end
   end
