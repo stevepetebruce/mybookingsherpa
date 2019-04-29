@@ -152,6 +152,7 @@ RSpec.describe Guest, type: :model do
   describe "validations" do
     context "email" do
       it { should allow_value(Faker::Internet.email).for(:email) }
+      it { should allow_value("alan.donohoe@mybookingsherpa.com").for(:email) }
       it { should_not allow_values(Faker::Lorem.word, Faker::PhoneNumber.cell_phone ).for(:email) }
       it { should validate_presence_of(:email) }
       it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
