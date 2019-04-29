@@ -12,6 +12,7 @@ gem "devise"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "sidekiq"
+gem "skylight"
 gem "stripe"
 gem "webpacker"
 

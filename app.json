@@ -36,6 +36,10 @@
       "description": "URL of the app",
       "required": true
     },
+    "SKYLIGHT_AUTHENTICATION": {
+      "description": "Key for Skylight monitoring service",
+      "required": false
+    },
     "SMTP_ADDRESS": {
       "description": "SMTP server, eg: smtp.postmarkapp.com",
       "required": false
