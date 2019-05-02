@@ -35,7 +35,7 @@ An extra step - but a definite confirmation from the user.
     <% end %>
   </div>
   <hr class="mb-5 mb-4">
-  <h4 class="mb-3 font-weight-bold">Payment</h4>
+  <h4 class="mb-3 font-weight-bold">Payment of <%= "#{Currency.iso_to_symbol(@booking.currency)} #{Currency.human_readable(@booking.full_cost)}" %></h4>
   <div class="row">
     <div class="col-md-12 mb-3">
       <label for="card-element">Credit or debit card</label>
