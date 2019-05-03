@@ -32,16 +32,10 @@
                       <div class="media-body">
                         <address>
                           <p class="display4 mb-2">
-                            <% if @booking.address %>
-                              <%= @booking.address %>
-                              <br> 
-                              <%= @booking.city %>
-                              <br>
-                              <%= @booking.post_code %>
-                              <br>
-                              <%= @booking.country %>
+                            <% if @booking.country %>                           
+                              Country: <%= @booking.country %>
                             <% else %>
-                              Guest has not entered their address. <br> Please email them if you need this data.
+                              Guest has not entered the country they are from.
                             <% end %>
                           </p>
                           <p class="display4">
