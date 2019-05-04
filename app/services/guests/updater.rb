@@ -1,9 +1,9 @@
 module Guests
   # Updates a guest's fields based on what other model passed in ex: booking model.
   class Updater
-    UPDATABLE_FIELDS = %w[address allergies city country county date_of_birth
-                          dietary_requirements name other_information next_of_kin_name
-                          next_of_kin_phone_number phone_number post_code].freeze
+    UPDATABLE_FIELDS = %w[allergies country date_of_birth dietary_requirements
+                          name other_information next_of_kin_name
+                          next_of_kin_phone_number phone_number].freeze
 
     def initialize(guest)
       @guest = guest

@@ -14,7 +14,7 @@ RSpec.describe Booking, type: :model do
       it { should validate_presence_of(:email) }
     end
     context "country" do
-      it { should allow_value(Faker::Address.country_code).for(:county) }
+      it { should allow_value(Faker::Address.country_code).for(:country) }
       it { should_not allow_value(Faker::Lorem.word).for(:email) }
     end
     context "name" do

@@ -13,9 +13,9 @@ RSpec.describe Guests::Updater, type: :model do
         end
       end
       let(:updatable_fields) do
-        %i[address allergies city country county date_of_birth
-           dietary_requirements name other_information next_of_kin_name
-           next_of_kin_phone_number phone_number post_code].freeze
+        %i[allergies country date_of_birth dietary_requirements name
+          other_information next_of_kin_name
+          next_of_kin_phone_number phone_number].freeze
       end
 
       it "should update the guest's 'field'_booking and 'field' values" do

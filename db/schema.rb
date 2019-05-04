@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_14_114653) do
+ActiveRecord::Schema.define(version: 2019_05_04_052102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -49,10 +49,6 @@ ActiveRecord::Schema.define(version: 2019_04_14_114653) do
     t.string "country"
     t.string "phone_number"
     t.datetime "date_of_birth"
-    t.string "address"
-    t.string "city"
-    t.string "county"
-    t.string "post_code"
     t.string "next_of_kin_name"
     t.string "next_of_kin_phone_number"
     t.integer "dietary_requirements"
@@ -89,17 +85,9 @@ ActiveRecord::Schema.define(version: 2019_04_14_114653) do
     t.datetime "date_of_birth"
     t.datetime "date_of_birth_booking"
     t.datetime "date_of_birth_override"
-    t.string "address_booking"
-    t.string "address_override"
     t.string "city"
-    t.string "city_booking"
-    t.string "city_override"
     t.string "county"
-    t.string "county_booking"
-    t.string "county_override"
     t.string "post_code"
-    t.string "post_code_booking"
-    t.string "post_code_override"
     t.string "next_of_kin_name"
     t.string "next_of_kin_name_booking"
     t.string "next_of_kin_name_override"

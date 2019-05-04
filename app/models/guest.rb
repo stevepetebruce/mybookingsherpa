@@ -2,18 +2,16 @@ class Guest < ApplicationRecord
   include GuestValidations
   include GuestCallbacks
 
-  REQUIRED_ADVANCED_PERSONAL_DETAILS = %i[address city country county
-                                          date_of_birth next_of_kin_name
-                                          next_of_kin_phone_number phone_number
-                                          post_code].freeze
+  REQUIRED_ADVANCED_PERSONAL_DETAILS = %i[country date_of_birth next_of_kin_name
+                                          next_of_kin_phone_number phone_number].freeze
 
   REQUIRED_BASIC_PERSONAL_DETAILS = %i[email name].freeze
 
-  UPDATABLE_FIELDS = %i[address allergies city country county
+  UPDATABLE_FIELDS = %i[allergies country
                         date_of_birth dietary_requirements
                         name other_information
                         next_of_kin_name next_of_kin_phone_number
-                        phone_number post_code].freeze
+                        phone_number].freeze
 
   POSSIBLE_ALLERGIES = %i[none other dairy eggs nuts penicillin soya]
   POSSIBLE_DIETARY_REQUIREMENTS = %i[none other vegan vegetarian]

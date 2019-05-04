@@ -32,11 +32,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       {
         booking:
         {
-          address: Faker::Address.street_address,
           allergies: %i[dairy eggs nuts penicillin soya].sample,
-          city: Faker::Address.city,
           country: Faker::Address.country_code,
-          county: Faker::Address.state,
           date_of_birth: Faker::Date.birthday(18, 65),
           dietary_requirements: %i[other vegan vegetarian].sample,
           email: email,
@@ -44,8 +41,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           name: Faker::Name.name,
           next_of_kin_name: Faker::Name.name,
           next_of_kin_phone_number: Faker::PhoneNumber.cell_phone,
-          phone_number: Faker::PhoneNumber.cell_phone,
-          post_code: Faker::Address.postcode
+          phone_number: Faker::PhoneNumber.cell_phone
         },
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }

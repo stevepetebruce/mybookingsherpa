@@ -82,7 +82,6 @@ RSpec.describe "GuestsController", type: :request do
         let!(:params) { 
           {
             guest: {
-              address_override: Faker::Address.full_address,
               name_override: Faker::Name.name,
               phone_number_override: Faker::PhoneNumber.cell_phone
             }
@@ -94,7 +93,6 @@ RSpec.describe "GuestsController", type: :request do
 
           guest.reload
 
-          expect(guest.address).to eq params[:guest][:address_override]
           expect(guest.name).to eq params[:guest][:name_override]
           expect(guest.phone_number).to eq params[:guest][:phone_number_override]
 

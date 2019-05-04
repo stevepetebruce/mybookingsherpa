@@ -6,11 +6,8 @@ FactoryBot.define do
     guest
 
     trait :all_fields_complete do
-      address { Faker::Address.street_address }
       allergies { %i[dairy eggs nuts penicillin soya].sample }
-      city { Faker::Address.city }
       country { Faker::Address.country_code }
-      county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       dietary_requirements { %i[other vegan vegetarian].sample }
       email { Faker::Internet.email }
@@ -19,7 +16,6 @@ FactoryBot.define do
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
     end
 
     trait :basic_fields_complete do
@@ -28,25 +24,18 @@ FactoryBot.define do
     end
 
     trait :complete_with_allergies do
-      address { Faker::Address.street_address }
       allergies { %i[dairy eggs nuts penicillin soya].sample }
-      city { Faker::Address.city }
       country { Faker::Address.country_code }
-      county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
     end
 
     trait :complete_with_dietary_requirements do
-      address { Faker::Address.street_address }
-      city { Faker::Address.city }
       country { Faker::Address.country_code }
-      county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       dietary_requirements { %i[other vegan vegetarian].sample }
       email { Faker::Internet.email }
@@ -54,14 +43,10 @@ FactoryBot.define do
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
     end
 
     trait :complete_with_other_information do
-      address { Faker::Address.street_address }
-      city { Faker::Address.city }
       country { Faker::Address.country_code }
-      county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
       other_information { Faker::Lorem.sentence }
@@ -69,21 +54,16 @@ FactoryBot.define do
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
     end
 
     trait :complete_without_any_issues do
-      address { Faker::Address.street_address }
-      city { Faker::Address.city }
       country { Faker::Address.country_code }
-      county { Faker::Address.state }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
-      post_code { Faker::Address.postcode }
     end
   end
 end
