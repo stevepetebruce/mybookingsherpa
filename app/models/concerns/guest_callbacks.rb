@@ -1,11 +1,9 @@
 module GuestCallbacks
   extend ActiveSupport::Concern
 
-  UPDATABLE_FIELDS = %i[address allergies city country county
-                        date_of_birth dietary_requirements
-                        name other_information
-                        next_of_kin_name next_of_kin_phone_number
-                        phone_number post_code].freeze
+  UPDATABLE_FIELDS = %i[allergies country date_of_birth dietary_requirements
+                        name other_information next_of_kin_name
+                        next_of_kin_phone_number phone_number].freeze
 
   included do
     before_create :set_one_time_login_token

@@ -43,7 +43,7 @@ RSpec.shared_examples "one_time_login_token" do
       it "should update the guest's booking fields" do
         do_request(params: params.merge(onetime_only_login_params))
 
-        expect(guest.reload.address_booking).to eq booking.address
+        expect(guest.reload.country).to eq booking.country
       end
     end
   end
