@@ -48,6 +48,12 @@ RSpec.describe Booking, type: :model do
       booking.save
     end
 
+    it "should call #update_priority after_save" do
+      expect(booking).to receive(:update_priority)
+
+      booking.save
+    end
+
     it "should call #update_status after_save" do
       expect(booking).to receive(:update_status)
 
