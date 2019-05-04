@@ -118,11 +118,8 @@ end
   email = Faker::Internet.email
   name = Faker::Name.name
 
-  guest = Guest.create(address_booking: Faker::Address.street_address,
-                       allergies_booking: allergies,
-                       city_booking: Faker::Address.city,
+  guest = Guest.create(allergies_booking: allergies,
                        country_booking: Faker::Address.country_code,
-                       county_booking: Faker::Address.state,
                        date_of_birth_booking: Faker::Date.birthday(18, 65),
                        dietary_requirements: dietary_requirements,
                        email: email,
@@ -132,8 +129,7 @@ end
                        name_booking: name,
                        next_of_kin_name_booking: Faker::Name.name,
                        next_of_kin_phone_number_booking: Faker::PhoneNumber.cell_phone,
-                       phone_number_booking: Faker::PhoneNumber.cell_phone,
-                       post_code_booking: Faker::Address.postcode)
+                       phone_number_booking: Faker::PhoneNumber.cell_phone)
 
   puts "Guest errors: #{guest.errors.full_messages}" if guest.errors.full_messages.present?
 end
