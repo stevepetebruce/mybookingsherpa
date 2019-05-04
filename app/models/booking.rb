@@ -29,6 +29,7 @@ class Booking < ApplicationRecord
   validates :phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
 
   scope :most_recent, -> { order(created_at: :desc) }
+  scope :highest_priority, -> { order(priority: :desc) }
 
   before_save :update_priority
   before_save :update_status

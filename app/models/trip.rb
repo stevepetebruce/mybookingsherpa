@@ -43,7 +43,7 @@ class Trip < ApplicationRecord
   end
 
   def decorated_bookings
-    bookings.most_recent.map { |booking| BookingDecorator.new(booking) }
+    bookings.highest_priority.map { |booking| BookingDecorator.new(booking) }
   end
 
   def guide
