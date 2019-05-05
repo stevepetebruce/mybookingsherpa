@@ -79,7 +79,7 @@
                                     <%= booking.name %>
                                     <% if booking.status_alert? %>
                                       <div class="col">
-                                        <span class='dot dot-sm dot-warning'></span> <%= booking.status_text %>
+                                        <span class="dot dot-sm <%= booking.status(trip) %>"></span> <%= booking.status_text %>
                                       </div>
                                     <% end %>
                                   </p>
