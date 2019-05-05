@@ -132,20 +132,28 @@ RSpec.describe BookingDecorator, type: :model do
 
     let(:trip) { FactoryBot.create(:trip) }
 
-    context "booking has incomplete personal details" do
-      let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
+    context "payment required" do
+      context "booking has incomplete personal details" do
+        let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
 
-      it { expect(status_text).to eq "Incomplete booking details" }
-    end
+        it { expect(status_text).to eq "Payment required" }
+      end
 
-    context "booking has complete booking details but requires payment" do
-      let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest, trip: trip) }
+      context "booking has complete booking details but requires payment" do
+        let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest, trip: trip) }
 
-      it { expect(status_text).to eq "Payment required" }
+        it { expect(status_text).to eq "Payment required" }
+      end
     end
 
     context "payment complete" do
       let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
+
+      context "booking has incomplete personal details" do
+        let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
+
+        it { expect(status_text).to eq "Incomplete booking details" }
+      end
 
       context "booking has complete booking details" do
         let(:booking) { FactoryBot.create(:booking, :complete_without_any_issues, guest: guest, trip: trip) }
