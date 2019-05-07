@@ -1,6 +1,9 @@
 module Bookings
   # Handles all bookings' payment business logic.
   class Payment
+    MINIMUM_FREE_TRIP_COST = 20_000
+    DESTINATION_FEE = 400
+
     def initialize(booking, token)
       @booking = booking
       @token = token
@@ -18,7 +21,8 @@ module Bookings
     end
 
     def application_fee_amount
-      400 # TODO: Currently €4. But need to calculate this from the plan the @booking.organisation is on
+      # TODO: DESTINATION_FEE is currently €4. But need to calculate this from the plan the @booking.organisation is on
+      @booking.full_cost > MINIMUM_FREE_TRIP_COST ? DESTINATION_FEE : 0
     end
 
     def attributes

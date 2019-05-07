@@ -9,10 +9,10 @@ module External
       @description = description
       @transfer_data = transfer_data
       @token = token
+      Stripe.api_key ||= ENV.fetch("STRIPE_SECRET_KEY")
     end
 
     def charge
-      initialize_api_key
       Stripe::Charge.create(attributes)
     end
 
@@ -27,10 +27,6 @@ module External
         source: @token,
         transfer_data: @transfer_data
       }
-    end
-
-    def initialize_api_key
-      Stripe.api_key ||= ENV.fetch("STRIPE_SECRET_KEY")
     end
   end
 end
