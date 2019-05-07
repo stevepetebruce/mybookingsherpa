@@ -21,8 +21,8 @@ RSpec.describe GuestBookingMailer, type: :mailer do
       expect(mail.subject).to eq("Successful booking for #{booking.trip_name}")
       expect(mail.to).to eq([booking.email])
       # Isn't picking up the actual format used in mailer - with guide's name, etc.
-      expect(mail.from).to eq([guide_email])
-      expect(mail.reply_to).to eq([guide_email])
+      expect(mail.from).to eq([ENV.fetch("DEFAULT_GUIDE_FROM_EMAIL")])
+      expect(mail.reply_to).to eq([ENV.fetch("DEFAULT_GUIDE_FROM_EMAIL")])
     end
 
     it "renders the body" do

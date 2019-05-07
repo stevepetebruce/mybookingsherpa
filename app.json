@@ -36,6 +36,11 @@
       "description": "URL of the app",
       "required": true
     },
+    "DEFAULT_GUIDE_FROM_EMAIL": {
+      "description": "The email address that be shown to guests when we send an email on behalf of a guide",
+      "required": true,
+      "value": "no-reply@bookyour.place"
+    },
     "SKYLIGHT_AUTHENTICATION": {
       "description": "Key for Skylight monitoring service",
       "required": false
@@ -85,6 +90,7 @@
         "SMTP_ADDRESS": "SMTP-ADDRESS-OR-SERVER",
         "EMAIL_MOUNTAINS_BACKGROUND_IMAGE_URL": "EMAIL-MOUNTAINS-BACKGROUND-IMAGE-URL",
         "BASE_DOMAIN": "https://example.com",
+        "DEFAULT_GUIDE_FROM_EMAIL": "no-reply@bookyour.place",
         "PUBLIC_BOOKING_DOMAIN": "https://example.com",
         "SMTP_PASSWORD": "SMTP-PASSWORD",
         "SMTP_USER_NAME": "SMTP-USER-NAME",

@@ -4,8 +4,8 @@ class GuestBookingMailer < ApplicationMailer
     @booking = params[:booking]
 
     mail(to: @booking.email,
-         from: "#{@booking.guide_name} <#{@booking.guide_email}>",
-         reply_to: "#{@booking.guide_name} <#{@booking.guide_email}>",
+         from: "#{@booking.guide_name} <#{ENV.fetch('DEFAULT_GUIDE_FROM_EMAIL')}>",
+         reply_to: "#{@booking.guide_name} <#{ENV.fetch('DEFAULT_GUIDE_FROM_EMAIL')}>",
          subject: "Successful booking for #{@booking.trip_name}")
   end
 end
