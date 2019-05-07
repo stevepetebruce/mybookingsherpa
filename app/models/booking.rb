@@ -30,6 +30,7 @@ class Booking < ApplicationRecord
 
   scope :most_recent, -> { order(created_at: :desc) }
 
+  before_save :update_priority
   before_save :update_status
   before_validation :enums_none_to_nil
 
@@ -38,6 +39,10 @@ class Booking < ApplicationRecord
   def enums_none_to_nil
     self[:allergies] = nil if allergies&.to_sym == :none
     self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
+  end
+
+  def update_priority
+    self[:priority] = Bookings::Priority.new(self).new_priority
   end
 
   def update_status
