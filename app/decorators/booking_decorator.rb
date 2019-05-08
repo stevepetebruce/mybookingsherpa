@@ -26,8 +26,8 @@ class BookingDecorator < SimpleDelegator
 
   def status_text
     # TODO: what if there's more than one label? Guide would want to see Medical condition and dietary requirements
-    return "Incomplete booking details" if Bookings::Status.new(@booking).personal_details_incomplete?
     return "Payment required" if Bookings::Status.new(@booking).payment_required?
+    return "Incomplete booking details" if Bookings::Status.new(@booking).personal_details_incomplete?
     return "Allergies" if Bookings::Status.new(@booking).allergies?
     return "Dietary requirements" if Bookings::Status.new(@booking).dietary_requirements?
     return "Other information" if Bookings::Status.new(@booking).other_information?
