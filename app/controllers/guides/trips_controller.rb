@@ -1,6 +1,7 @@
 module Guides
   class TripsController < ApplicationController
     before_action :authenticate_guide!
+    before_action :set_trip, only: %i[edit update]
 
     def create
       @trip = current_organisation.trips.new(trip_params)
@@ -12,6 +13,8 @@ module Guides
       end
     end
 
+    def edit; end
+
     def index
       @trips = if show_past_trips?
                  current_guide.trips.past_trips.map { |trip| TripDecorator.new(trip) }
@@ -22,11 +25,23 @@ module Guides
 
     def new; end
 
+    def update
+      if @trip.update(trip_params)
+        redirect_to guides_trip_path(@trip)
+      else
+        render :edit
+      end
+    end
+
     private
 
     def current_organisation
       # TODO: when a Guide owns more than one organisation, will need a way to choose btwn them.
       current_guide.organisation_memberships.owners.first.organisation
+    end
+
+    def set_trip
+      @trip = current_guide.trips.find(params[:id])
     end
 
     def show_past_trips?
