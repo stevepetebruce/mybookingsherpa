@@ -6,7 +6,68 @@ RSpec.describe "Guides::TripsController", type: :request do
   let!(:organisation_membership) do
     FactoryBot.create(:organisation_membership,
                       guide: guide,
-                      organisation: organisation)
+                      organisation: organisation,
+                      owner: true)
+  end
+
+  describe "#create POST /guides/trips/" do
+    include_examples "authentication"
+
+    def do_request(url: "/guides/trips", params: {})
+      post url, params: params
+    end
+
+    context "signed in" do
+      before { sign_in(guide) }
+
+      context "valid and successful" do
+        let!(:params) do
+          {
+            trip:
+            {
+              full_cost: rand(10_000...50_000),
+              name: Faker::Name.name,
+              start_date: 4.weeks.from_now,
+              end_date: 5.weeks.from_now,
+              minimum_number_of_guests: rand(1...5),
+              maximum_number_of_guests: rand(5...10)
+            }
+          }
+        end
+
+        it "creates a new trip" do
+          expect { do_request(params: params) }.
+            to change { guide.trips.reload.count }.
+            from(0).to(1)
+        end
+      end
+
+      context "unsuccesful" do
+        context "guide fails to add a full_cost" do
+          let!(:params) do
+            {
+              trip:
+              {
+                full_cost: nil,
+                name: Faker::Name.name,
+                start_date: 4.weeks.from_now,
+                end_date: 5.weeks.from_now,
+                minimum_number_of_guests: rand(1...5),
+                maximum_number_of_guests: rand(5...10)
+              }
+            }
+          end
+
+          it 'should redirect back with error message' do
+            do_request(params: params)
+
+            expect(response.code).to eq "200"
+            #TODO: Pending... need to surface the error message in the view
+            # expect(response.body).to include("Please enter a valid email")
+          end
+        end
+      end
+    end
   end
 
   describe "#index get /guides/trips" do
@@ -90,6 +151,26 @@ RSpec.describe "Guides::TripsController", type: :request do
               end
             end
           end
+        end
+      end
+    end
+  end
+
+  describe "#new" do
+    include_examples "authentication"
+
+    def do_request(url: "/guides/trips/new", params: {})
+      get url, params: params
+    end
+
+    context "signed in" do
+      before { sign_in(guide) }
+
+      context "valid and successful" do
+        it "should successfully render" do
+          do_request
+
+          expect(response).to be_successful
         end
       end
     end
