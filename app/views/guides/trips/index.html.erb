@@ -78,11 +78,15 @@
                                   <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
                                     <%= booking.name %>
                                     <% if booking.status_alert? %>
-                                      <div class="col">
+                                      <div class="col pl-0">
                                         <span class="dot dot-sm <%= booking.status(trip) %>"></span> <%= booking.status_text %>
                                       </div>
+                                    <% else %>
+                                      <div class="col pl-0">
+                                        <span class="dot dot-sm dot-success"></span>
+                                      </div>
                                     <% end %>
-                                  </p>
+                                  </p> 
                                 </div>
                               </div>
                             </div>
