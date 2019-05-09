@@ -70,6 +70,28 @@ RSpec.describe "Guides::TripsController", type: :request do
     end
   end
 
+  describe "#edit GET /guides/trips/:id/edit" do
+    include_examples "authentication"
+
+    let(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+
+    def do_request(url: "/guides/trips/#{trip.id}/edit", params: {})
+      get url, params: params
+    end
+
+    context "signed in" do
+      before { sign_in(guide) }
+
+      context "valid and successful" do
+        it "should render successfully" do
+          do_request
+
+          expect(response).to be_successful
+        end
+      end
+    end
+  end
+
   describe "#index get /guides/trips" do
     include_examples "authentication"
 
@@ -171,6 +193,50 @@ RSpec.describe "Guides::TripsController", type: :request do
           do_request
 
           expect(response).to be_successful
+        end
+      end
+    end
+  end
+
+  describe "#update PATCH /guides/trips/:id" do
+    include_examples "authentication"
+
+    let(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+
+    def do_request(url: "/guides/trips/#{trip.id}", params: {})
+      patch url, params: params
+    end
+
+    context "signed in" do
+      before { sign_in(guide) }
+
+      context "valid and successful" do
+        let!(:params) { 
+          {
+            trip: {
+              name: Faker::Name.name
+            }
+          }
+        }
+
+        it "should update the trip" do
+          do_request(params: params)
+
+          expect(response.status).to eq(302)
+
+          expect(trip.reload.name).to eq params[:trip][:name]
+        end
+      end
+
+      context "invalid and unsuccessful" do
+        let!(:params) { { trip: { name: "https://hacker.com" } } }
+
+        it "should not update the guest" do
+          do_request(params: params)
+
+          expect(response.status).to eq(200)
+
+          expect(trip.reload.name).to_not eq(params[:trip][:name])
         end
       end
     end
