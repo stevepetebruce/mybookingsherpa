@@ -19,7 +19,7 @@ class Booking < ApplicationRecord
            :guest_count, to: :trip, prefix: true
   delegate :country, to: :guest, prefix: true
 
-  delegate :logo_image, to: :organisation, prefix: true
+  delegate :logo_image, :subdomain, to: :organisation, prefix: true
 
   validates :country, format: Regex::COUNTRY, allow_blank: true
   validates :email, format: Regex::EMAIL, presence: true
