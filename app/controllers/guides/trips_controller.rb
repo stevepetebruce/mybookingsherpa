@@ -2,6 +2,7 @@ module Guides
   class TripsController < ApplicationController
     before_action :authenticate_guide!
     before_action :set_trip, only: %i[edit update]
+    before_action :set_show_past_trips, only: %i[index]
 
     def create
       @trip = current_organisation.trips.new(trip_params)
@@ -16,7 +17,7 @@ module Guides
     def edit; end
 
     def index
-      @trips = if show_past_trips?
+      @trips = if @show_past_trips
                  current_guide.trips.past_trips.map { |trip| TripDecorator.new(trip) }
                else
                  current_guide.trips.future_trips.map { |trip| TripDecorator.new(trip) }
@@ -44,8 +45,8 @@ module Guides
       @trip = current_guide.trips.find(params[:id])
     end
 
-    def show_past_trips?
-      params[:past_trips].presence == "true"
+    def set_show_past_trips
+      @show_past_trips = params[:past_trips].presence == "true" ? true : false
     end
 
     def trip_params
