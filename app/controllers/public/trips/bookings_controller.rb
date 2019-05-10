@@ -21,7 +21,7 @@ module Public
 
         if @booking.save && payment_successful?
           successful_booking_jobs
-          redirect_to edit_public_booking_path(@booking)
+          redirect_to edit_public_booking_path(@booking, subdomain: @booking.organisation_subdomain)
         else
           # TODO: surface Stripe errors to the user
           # https://stripe.com/docs/api/errors
@@ -37,7 +37,7 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params)
-          redirect_to public_booking_path(@booking)
+          redirect_to public_booking_path(@booking, subdomain: @booking.organisation_subdomain)
         else
           render :edit
         end
