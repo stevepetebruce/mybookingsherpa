@@ -24,7 +24,7 @@ RSpec.describe BookingDecorator, type: :model do
     let(:gravatar_id) { Digest::MD5.hexdigest(booking.guest_email).downcase }
 
     it "should return expected URL" do
-      expect(subject).to start_with "http://gravatar.com/avatar/#{gravatar_id}"
+      expect(subject).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
     end
   end
 

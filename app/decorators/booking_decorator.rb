@@ -43,7 +43,7 @@ class BookingDecorator < SimpleDelegator
   private
 
   def gravatar_base_url
-    "http://gravatar.com/avatar"
+    "https://gravatar.com/avatar"
   end
 
   def gravatar_fallback_image_url
