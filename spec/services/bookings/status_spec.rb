@@ -4,7 +4,7 @@ RSpec.describe Bookings::Status, type: :model do
   describe "#allergies?" do
     subject(:allergies?) { described_class.new(booking).allergies? }
 
-    let!(:allergy) { %i[dairy eggs nuts penicillin soya].sample }
+    let!(:allergy) { %i[dairy eggs nuts soya].sample }
 
     context "a booking that has no allergies" do
       let(:booking) { FactoryBot.create(:booking, guest: guest) }

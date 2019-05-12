@@ -46,7 +46,7 @@ RSpec.describe Guest, type: :model do
     end
 
     context "a guest with allergies and dietary_requirements values" do
-      let!(:allergies) { %i[dairy eggs nuts penicillin soya].sample }
+      let!(:allergies) { %i[dairy eggs nuts soya].sample }
       let!(:dietary_requirements) { %i[other vegan vegetarian].sample }
       let(:guest) { FactoryBot.build(:guest, allergies: allergies, dietary_requirements: dietary_requirements) }
 
@@ -179,6 +179,6 @@ RSpec.describe Guest, type: :model do
     end
   end
 
-  it { should define_enum_for(:allergies).with(%i[none other dairy eggs nuts penicillin soya]) }
+  it { should define_enum_for(:allergies).with(%i[none other dairy eggs nuts soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
 end

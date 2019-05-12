@@ -6,7 +6,7 @@ FactoryBot.define do
     guest
 
     trait :all_fields_complete do
-      allergies { %i[dairy eggs nuts penicillin soya].sample }
+      allergies { %i[dairy eggs nuts soya].sample }
       country { Faker::Address.country_code }
       date_of_birth { Faker::Date.birthday(18, 65) }
       dietary_requirements { %i[other vegan vegetarian].sample }
@@ -24,7 +24,7 @@ FactoryBot.define do
     end
 
     trait :complete_with_allergies do
-      allergies { %i[dairy eggs nuts penicillin soya].sample }
+      allergies { %i[dairy eggs nuts soya].sample }
       country { Faker::Address.country_code }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
