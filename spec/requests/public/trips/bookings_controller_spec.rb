@@ -20,7 +20,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let!(:email) { Faker::Internet.email }
     let(:guest) { Guest.last }
     let!(:guide) { FactoryBot.create(:guide) }
-    let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+    let!(:trip) { FactoryBot.create(:trip, guides: [guide], organisation: organisation)}
     let(:organisation) { FactoryBot.create(:organisation) }
     let!(:organisation_membership) do
       FactoryBot.create(:organisation_membership,
@@ -49,6 +49,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_charge.json").read}"
     end
+    let!(:subdomain) { organisation.subdomain }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/charges")
@@ -102,22 +103,22 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           params[:booking].each { |k, v| expect(booking.send(k)).to eq v.to_s }
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to(edit_public_booking_path(booking))
+          edit_public_booking_url(booking, subdomain: subdomain)
         end
       end
 
       context "a guest who does already exist (via their email address)" do
-        let!(:guest) { FactoryBot.create(:guest, email: email) }
+        let!(:pre_existing_guest) { FactoryBot.create(:guest, email: email) }
 
         it "should create the booking but not the guest" do
           expect { do_request(params: params) }.not_to change { Guest.count }
 
           expect(trip.reload.bookings).to include booking
-          expect(booking.guest).to eq guest
-          expect(trip.guests).to include guest
+          expect(booking.guest).to eq pre_existing_guest
+          expect(trip.guests).to include pre_existing_guest
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to(edit_public_booking_path(booking))
+          expect(response).to redirect_to edit_public_booking_url(booking, subdomain: subdomain)
         end
       end
     end
@@ -157,12 +158,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
     context "timeout window of booking creation has expired" do
       let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
+      let(:subdomain) { booking.organisation_subdomain }
 
       it "should redirect to the public trip new booking path" do
         do_request
 
         expect(response.code).to eq "302"
-        expect(response).to redirect_to(new_public_trip_booking_path(booking.trip))
+        expect(response).to redirect_to new_public_trip_booking_url(booking.trip, subdomain: subdomain)
       end
     end
   end
@@ -178,13 +180,14 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:email) { Faker::Internet.email }
 
       context "within timeout window of booking being created" do
-        let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
+        let!(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
+        let!(:subdomain) { booking.organisation_subdomain }
 
         it "should update the booking" do
           do_request(params: params)
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to(public_booking_path(booking))
+          expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain)
 
           expect(booking.reload.email).to eq email
         end
@@ -192,12 +195,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
       context "timeout window of booking creation has expired" do
         let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
+        let!(:subdomain) { booking.organisation_subdomain }
 
         it "should redirect to the public trip new booking path" do
           do_request
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to(new_public_trip_booking_path(booking.trip))
+          expect(response).to redirect_to(new_public_trip_booking_url(booking.trip, subdomain: subdomain))
         end
       end
     end
@@ -231,6 +235,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
     context "timeout window of booking creation has expired" do
       let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
+      let!(:subdomain) { booking.organisation_subdomain }
+
 
       def do_request(url: "/public/bookings/#{booking.id}", params: {})
         get url, params: params
@@ -240,7 +246,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         do_request
 
         expect(response.code).to eq "302"
-        expect(response).to redirect_to(new_public_trip_booking_path(booking.trip))
+        expect(response).to redirect_to(new_public_trip_booking_url(booking.trip, subdomain: subdomain))
       end
     end
   end
