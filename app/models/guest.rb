@@ -13,7 +13,7 @@ class Guest < ApplicationRecord
                         next_of_kin_name next_of_kin_phone_number
                         phone_number].freeze
 
-  POSSIBLE_ALLERGIES = %i[none other dairy eggs nuts penicillin soya]
+  POSSIBLE_ALLERGIES = %i[none other dairy eggs nuts soya]
   POSSIBLE_DIETARY_REQUIREMENTS = %i[none other vegan vegetarian]
 
   # Include default devise modules. Others available are:
