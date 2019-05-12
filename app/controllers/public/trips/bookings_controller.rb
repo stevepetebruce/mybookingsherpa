@@ -21,7 +21,7 @@ module Public
 
         if @booking.save && payment_successful?
           successful_booking_jobs
-          redirect_to edit_public_booking_path(@booking, subdomain: @booking.organisation_subdomain)
+          redirect_to url_for(controller: "bookings", action: "edit", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
           # TODO: surface Stripe errors to the user
           # https://stripe.com/docs/api/errors
@@ -37,7 +37,7 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params)
-          redirect_to public_booking_path(@booking, subdomain: @booking.organisation_subdomain)
+          redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
           render :edit
         end
@@ -61,7 +61,7 @@ module Public
         return if newly_created?
 
         @booking.errors.add(:base, :timeout, message: "timed out please contact support")
-        redirect_to new_public_trip_booking_path(@booking.trip)
+        redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_id)
       end
 
       def newly_created?
