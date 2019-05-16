@@ -94,13 +94,13 @@
                         <div class="clearfix border-bottom mb-3">
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
-                              <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
-                              <span class="text-danger">Allergies:</span>
-                              <!-- TODO: how to handle multiple allergies? -->
                               <% if Bookings::Status.new(@booking).allergies? %>
+                                <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
+                                <span class="text-danger">Allergies:</span>
+                                <!-- TODO: how to handle multiple allergies? -->
                                 <%= @booking.allergies.capitalize %>
                               <% else %>
-                                No allergies.
+                                <span class="text-gray">Allergies:</span> No allergies.
                               <% end %>
                             </div>
                           </div>
@@ -108,12 +108,12 @@
                         <div class="clearfix border-bottom mb-3">
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
-                              <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
-                              <span class="text-warning">Dietary Requirements:</span>
                               <% if Bookings::Status.new(@booking).dietary_requirements? %>
+                                <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                                <span class="text-warning">Dietary Requirements:</span>
                                 <%= @booking.dietary_requirements.capitalize %>
                               <% else %>
-                                No dietary requirements.
+                                <span class="text-gray">Dietary Requirements:</span> No dietary requirements.
                               <% end %>
                             </div>
                           </div>
@@ -121,13 +121,13 @@
                         <div class="clearfix mb-3">
                           <div class="col">
                             <div class="display-4 font-weight-normal">
-                              <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
-                              <span class="text-warning">Other information:</span>
-                              <!-- TODO: be careful here - allowing users to enter free text -->
                               <% if Bookings::Status.new(@booking).other_information? %>
+                                <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                                <span class="text-warning">Other information:</span>
+                                <!-- TODO: be careful here - allowing users to enter free text -->
                                 <%= @booking.other_information %>
                               <% else %>
-                                No other information.
+                                <span class="text-gray">Other information:</span> No other information.
                               <% end %>
                             </div>
                           </div>
