@@ -13,6 +13,10 @@ class Organisation < ApplicationRecord
 
   has_one_attached :logo_image
 
+  def on_trial?
+    current_subscription.nil?
+  end
+
   def owner
     organisation_memberships.owners&.first&.guide
   end

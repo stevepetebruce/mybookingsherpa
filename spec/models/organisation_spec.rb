@@ -32,17 +32,20 @@ RSpec.describe Organisation, type: :model do
     end
   end
 
-  describe "#plan" do
-    subject { organisation.plan }
+  describe "#on_trial?" do
+    subject(:on_trial?) { organisation.on_trial? }
 
     let(:organisation) { FactoryBot.create(:organisation) }
-    let!(:other_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
-    let!(:other_subscription) { FactoryBot.create(:subscription,organisation: organisation, plan: other_plan, created_at: 10.days.ago) }
-    let!(:current_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
-    let!(:current_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: current_plan, created_at: Time.zone.now) }
 
-    it "should be the plan associated with the most recently created subscription" do
-      expect(subject).to eq current_plan
+    context "organisation on a plan" do
+      let!(:current_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
+      let!(:current_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: current_plan, created_at: Time.zone.now) }
+
+      it { expect(on_trial?).to be false }
+    end
+
+    context "organisation not on a plan" do
+      it { expect(on_trial?).to be true }
     end
   end
 
@@ -61,5 +64,23 @@ RSpec.describe Organisation, type: :model do
 
     it { expect(subject).to eq owner }
     it { expect(subject).to_not eq not_owner }
+  end
+
+  describe "#plan" do
+    subject(:plan) { organisation.plan }
+
+    let(:organisation) { FactoryBot.create(:organisation) }
+  
+    context "organisation on a plan" do
+      let!(:other_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
+      let!(:other_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: other_plan, created_at: 10.days.ago) }
+      let!(:current_plan) { FactoryBot.create(:plan, flat_fee_amount: Faker::Number.decimal(2)) }
+      let!(:current_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: current_plan, created_at: Time.zone.now) }
+    
+      it "should be the plan associated with the most recently created subscription" do
+        # TODO: should only have one subscription... need to delete the old one... when a new one is created
+        expect(plan).to eq current_plan
+      end
+    end
   end
 end
