@@ -1,0 +1,9 @@
+.alert {
+  border: $alert-border-width solid;
+  margin-bottom: 2rem;
+  &.alert-warning {
+    color: darken( $yellow, 10% );
+    background-color: lighten( $yellow, 40% );
+    border-color: $yellow;
+  }
+}

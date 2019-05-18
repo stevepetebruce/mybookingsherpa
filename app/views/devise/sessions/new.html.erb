@@ -4,12 +4,14 @@
       <div class="col-md-5">
         <div class="card p-4">
           <div class="card-header text-center text-uppercase h4 font-weight-light">
-            Log in
+            Sign in
           </div>
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="card-body">
               <% flash.each do |_name, msg| %>
-                <li><%= msg %></li>
+                <div class="alert alert-warning" role="alert">
+                  <%= msg %>
+                </div>
               <% end %>
               <div class="form-group">
                 <%= f.label :email, class: 'form-control-label' %>
@@ -31,7 +33,7 @@
             <div class="card-footer">
               <div class="row">
                 <div class="col-12 mb-4">
-                  <%= f.submit "Log in", class: 'btn btn-primary btn-block' %>
+                  <%= f.submit "Log in", class: 'btn btn-primary btn-block btn-lg' %>
                 </div>
               </div>
 <!--               <div class="row justify-content-md-center">
