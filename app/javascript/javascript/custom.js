@@ -6,7 +6,6 @@
   "use strict";
 
   document.addEventListener("DOMContentLoaded", function(){
-
     // Bootstrap form validation
     const forms = document.getElementsByClassName("needs-validation");
     // Loop over them and prevent submission
@@ -22,7 +21,14 @@
     });
 
     // Stripe JS:
-    const stripe = Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
+    const container = document.querySelector(".page-wrapper");
+    let stripeKey = process.env.STRIPE_PUBLISHABLE_KEY_TEST;
+
+    if (typeof container.dataset.sKey !== "undefined") {
+      stripeKey = container.dataset.sKey;
+    }
+
+    const stripe = Stripe(stripeKey);
     const elements = stripe.elements();
     const stripeTokenHandler = (token) => {
       // Insert the token ID into the form so it gets submitted to the server

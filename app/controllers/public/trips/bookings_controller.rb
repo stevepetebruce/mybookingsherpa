@@ -11,13 +11,13 @@ module Public
 
       # GET /bookings/new
       def new
-        @booking = @trip.bookings.new
+        @booking = BookingDecorator.new(@trip.bookings.new)
       end
 
       # POST /bookings
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
-        @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
+        @booking = BookingDecorator.new(@trip.bookings.new(booking_params.merge(guest: @guest)))
 
         if @booking.save && payment_successful?
           successful_booking_jobs
@@ -74,7 +74,7 @@ module Public
       end
 
       def set_booking
-        @booking = Booking.find(params[:id])
+        @booking = BookingDecorator.new(Booking.find(params[:id]))
       end
 
       def set_trip
@@ -90,10 +90,10 @@ module Public
         # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
         # 10 min wait to let them fill in their details in booking edit page, then send updated email
         # content based on that state...
-        GuestBookingMailer.with(booking: @booking).new.deliver_later
-        GuideBookingMailer.with(booking: @booking).new.deliver_later
+        GuestBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
+        GuideBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
 
-        UpdateBookingStatusJob.perform_later(@booking)
+        UpdateBookingStatusJob.perform_later(@booking.__getobj__)
       end
     end
   end

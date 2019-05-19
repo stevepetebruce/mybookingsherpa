@@ -9,7 +9,7 @@
     <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body class="header-fixed">
-    <div class="page-wrapper">
+    <div class="page-wrapper" data-s-key="<%= @booking.stripe_publishable_key %>">
       <%= yield %>
     </div>
   </body>

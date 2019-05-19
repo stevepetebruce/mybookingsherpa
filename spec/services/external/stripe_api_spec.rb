@@ -11,7 +11,8 @@ RSpec.describe External::StripeApi, type: :model do
         currency: %w[eur usd gbp].sample,
         description: Faker::Lorem.sentence,
         transfer_data: transfer_data,
-        token: "tok_#{Faker::Crypto.md5}"
+        token: "tok_#{Faker::Crypto.md5}",
+        use_test_api: use_test_api
       }
     end
 
@@ -33,12 +34,40 @@ RSpec.describe External::StripeApi, type: :model do
     end
 
     context "successful" do
-      it "should not raise an exception" do
-        expect { charge }.to_not raise_exception
+      context "use_test_api is true" do
+        let(:use_test_api) { true }
+
+        it "should use the Stripe Test API key" do
+          charge
+
+          expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_TEST")
+        end
+
+        it "should not raise an exception" do
+          expect { charge }.to_not raise_exception
+        end
+
+        it "should return a Stripe::Charge Object" do
+          expect(charge.class).to eq Stripe::Charge
+        end
       end
 
-      it "should return a Stripe::Charge Object" do
-        expect(charge.class).to eq Stripe::Charge
+      context "use_test_api is false" do
+        let(:use_test_api) { false }
+
+        it "should use the Stripe Live API key" do
+          charge
+
+          expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_LIVE")
+        end
+
+        it "should not raise an exception" do
+          expect { charge }.to_not raise_exception
+        end
+
+        it "should return a Stripe::Charge Object" do
+          expect(charge.class).to eq Stripe::Charge
+        end
       end
     end
   end
