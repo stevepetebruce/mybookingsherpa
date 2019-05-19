@@ -57,12 +57,22 @@
       "description": "User name for email/SMTP provider",
       "required": false
     },
-    "STRIPE_SECRET_KEY": {
-      "description": "Secret key for Stripe API - used on the server",
+    "STRIPE_PUBLISHABLE_KEY_LIVE": {
+      "description": "Secret key for Live Stripe API - used in the front end (Stripe.js)",
+      "required": false,
+      "value": "STRIPE_PUBLISHABLE_KEY_LIVE"
+    },
+    "STRIPE_SECRET_KEY_LIVE": {
+      "description": "Secret key for Live Stripe API - used on the server",
+      "required": false,
+      "value": "STRIPE_SECRET_KEY_LIVE"
+    },
+    "STRIPE_PUBLISHABLE_KEY_TEST": {
+      "description": "Secret key for Test Stripe API - used in the front end (Stripe.js)",
       "required": false
     },
-    "STRIPE_PUBLISHABLE_KEY": {
-      "description": "Secret key for Stripe API - used in the front end (Stripe.js)",
+    "STRIPE_SECRET_KEY_TEST": {
+      "description": "Secret key for Test Stripe API - used on the server",
       "required": false
     },
     "SUPPORT_EMAIL_ADDRESS": {

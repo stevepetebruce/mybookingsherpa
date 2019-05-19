@@ -180,4 +180,23 @@ RSpec.describe BookingDecorator, type: :model do
       end
     end
   end
+
+  describe "#stripe_publishable_key" do
+    subject(:stripe_publishable_key) { described_class.new(booking).stripe_publishable_key }
+    let(:organisation) { booking.organisation }
+
+    context "organisation that is on a trial" do
+      it "should return the Stripe test API key" do
+        allow(organisation).to receive(:on_trial?).and_return(true)
+        expect(stripe_publishable_key).to eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_TEST")
+      end
+    end
+
+    context "organisation that is on a trial" do
+      it "should return the Stripe test API key" do
+        allow(organisation).to receive(:on_trial?).and_return(false)
+        expect(stripe_publishable_key).to eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_LIVE")
+      end
+    end
+  end
 end

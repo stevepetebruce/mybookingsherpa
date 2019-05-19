@@ -31,6 +31,7 @@ module Bookings
         application_fee_amount: application_fee_amount,
         currency: @booking.currency,
         description: charge_description,
+        use_test_api: @booking.organisation_on_trial?,
         transfer_data: transfer_data,
         token: @token
       }
