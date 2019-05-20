@@ -5,8 +5,9 @@ An extra step - but a definite confirmation from the user.
 -->
 
 <%= form_with(model: booking, local: true, url: url, class: "needs-validation", html: { id: "payment-form", novalidate: :novalidate }) do |form| %>
-  <div class="alert alert-warning" role="alert"><%= notice %></div>
-  <div class="alert alert-warning" role="alert"><%= alert %></div>
+  <% # reinstate error / warning notices %>
+  <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
+  <div class="alert alert-warning" role="alert"><%= alert %></div> -->
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <div class="row">
     <div class="col-md-12 mb-3">
