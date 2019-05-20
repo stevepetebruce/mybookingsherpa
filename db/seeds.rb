@@ -111,7 +111,7 @@ end
   show_dietary_requirements = [true, false].sample
   show_other_information = [true, false].sample
 
-  allergies = show_allergies ? %i[dairy eggs nuts penicillin soya].sample : nil
+  allergies = show_allergies ? %i[dairy eggs nuts soya].sample : nil
   dietary_requirements = show_dietary_requirements ? %i[other vegan vegetarian].sample : nil
   other_information = show_other_information ? Faker::Lorem.sentence : nil
 
