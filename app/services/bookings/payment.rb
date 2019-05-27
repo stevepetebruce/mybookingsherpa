@@ -11,7 +11,7 @@ module Bookings
 
     def charge
       raise NoOrganisationStripeAccountIdError if @booking.organisation_stripe_account_id.nil?
-      External::StripeApi.new(attributes).charge
+      External::StripeApi::Charge.create(attributes)
     end
 
     private
