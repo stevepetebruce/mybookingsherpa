@@ -50,7 +50,7 @@
                             <% if trip.decorated_bookings[i] %>
                               <span class="dot dot-sm <%= trip.decorated_bookings[i].status(trip) %>" data-toggle="tooltip" data-placement="top" title="<%= trip.decorated_bookings[i].name %>"></span>
                             <% else %>
-                              <span class='dot dot-sm dot-grey'></span>
+                              <span class='dot dot-sm dot-grey' title="Place not filled"></span>
                             <% end %>
                           <% end %>
                         </div>
