@@ -109,6 +109,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
       context "a guest who does already exist (via their email address)" do
         let!(:pre_existing_guest) { FactoryBot.create(:guest, email: email) }
+        let(:expected_redirect_url) do
+          url_for(controller: "bookings",
+                  action: "edit",
+                  id: booking.id,
+                  subdomain: booking.organisation_subdomain,
+                  tld_length: 0)
+        end
 
         it "should create the booking but not the guest" do
           expect { do_request(params: params) }.not_to change { Guest.count }
@@ -118,7 +125,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect(trip.guests).to include pre_existing_guest
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to edit_public_booking_url(booking, subdomain: subdomain)
+          expect(response).to redirect_to expected_redirect_url
         end
       end
     end

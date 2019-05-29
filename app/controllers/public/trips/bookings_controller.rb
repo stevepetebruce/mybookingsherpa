@@ -21,7 +21,7 @@ module Public
 
         if @booking.save && payment_successful?
           successful_booking_jobs
-          redirect_to url_for(controller: "bookings", action: "edit", subdomain: @booking.organisation_subdomain, id: @booking.id)
+          redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
         else
           # TODO: surface Stripe errors to the user
           # https://stripe.com/docs/api/errors
