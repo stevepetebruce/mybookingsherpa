@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe External::StripeApi, type: :model do
-  describe "#charge" do
-    subject(:charge) { described_class.new(attributes).charge }
+RSpec.describe External::StripeApi::Charge, type: :model do
+  describe "#create" do
+    subject(:create) { described_class.create(attributes) }
 
     let(:attributes) do
       {
@@ -38,17 +38,17 @@ RSpec.describe External::StripeApi, type: :model do
         let(:use_test_api) { true }
 
         it "should use the Stripe Test API key" do
-          charge
+          create
 
           expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_TEST")
         end
 
         it "should not raise an exception" do
-          expect { charge }.to_not raise_exception
+          expect { create }.to_not raise_exception
         end
 
         it "should return a Stripe::Charge Object" do
-          expect(charge.class).to eq Stripe::Charge
+          expect(create.class).to eq Stripe::Charge
         end
       end
 
@@ -56,17 +56,17 @@ RSpec.describe External::StripeApi, type: :model do
         let(:use_test_api) { false }
 
         it "should use the Stripe Live API key" do
-          charge
+          create
 
           expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_LIVE")
         end
 
         it "should not raise an exception" do
-          expect { charge }.to_not raise_exception
+          expect { create }.to_not raise_exception
         end
 
         it "should return a Stripe::Charge Object" do
-          expect(charge.class).to eq Stripe::Charge
+          expect(create.class).to eq Stripe::Charge
         end
       end
     end
