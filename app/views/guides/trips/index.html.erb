@@ -48,9 +48,9 @@
                         <div>
                           <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
                             <% if trip.decorated_bookings[i] %>
-                              <span class="dot dot-sm <%= trip.decorated_bookings[i].status(trip) %>" data-toggle="tooltip" data-placement="top" title="<%= trip.decorated_bookings[i].name %>"></span>
+                              <span class="dot dot-sm <%= trip.decorated_bookings[i].status(trip) %>" data-toggle="tooltip" data-placement="top" data-tooltip="<%= trip.decorated_bookings[i].name %>" data-tooltip-position="top"></span>
                             <% else %>
-                              <span class='dot dot-sm dot-grey' title="Place not filled"></span>
+                              <span class='dot dot-sm dot-grey' data-tooltip="Place not filled" data-tooltip-position="top"></span>
                             <% end %>
                           <% end %>
                         </div>
