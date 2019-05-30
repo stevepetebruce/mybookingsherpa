@@ -9,9 +9,9 @@ RSpec.describe External::StripeApi::Charge, type: :model do
         amount: rand(5000...10_000),
         application_fee_amount: rand(100...10_000),
         currency: %w[eur usd gbp].sample,
+        customer: "cus_#{Faker::Crypto.md5}",
         description: Faker::Lorem.sentence,
         transfer_data: transfer_data,
-        token: "tok_#{Faker::Crypto.md5}",
         use_test_api: use_test_api
       }
     end

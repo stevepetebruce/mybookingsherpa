@@ -2,14 +2,14 @@ module External
   # Encapsulates all Stripe API Charge functionality
   # Ref: https://stripe.com/docs/charges
   module StripeApi
-    class Charge
-      def initialize(amount, application_fee_amount, currency, description, transfer_data, token, use_test_api)
+    class Charge < External::StripeApi::Base
+      def initialize(amount, application_fee_amount, currency, customer, description, transfer_data, use_test_api)
         @amount = amount
         @application_fee_amount = application_fee_amount
         @currency = currency
+        @customer = customer
         @description = description
         @transfer_data = transfer_data
-        @token = token
         @use_test_api = use_test_api
       end
 
@@ -18,8 +18,8 @@ module External
         Stripe::Charge.create(attributes)
       end
 
-      def self.create(amount:, application_fee_amount:, currency:, description:, transfer_data:, token:, use_test_api:)
-        new(amount, application_fee_amount, currency, description, transfer_data, token, use_test_api).charge
+      def self.create(amount:, application_fee_amount:, currency:, customer:, description:, transfer_data:, use_test_api:)
+        new(amount, application_fee_amount, currency, customer, description, transfer_data, use_test_api).charge
       end
 
       private
@@ -29,22 +29,10 @@ module External
           amount: @amount,
           application_fee_amount: @application_fee_amount,
           currency: @currency,
+          customer: @customer,
           description: @description,
-          source: @token,
           transfer_data: @transfer_data
         }
-      end
-
-      def initialize_key
-        Stripe.api_key = stripe_secret_key
-      end
-
-      def stripe_secret_key
-        if @use_test_api
-          ENV.fetch("STRIPE_SECRET_KEY_TEST")
-        else
-          ENV.fetch("STRIPE_SECRET_KEY_LIVE")
-        end
       end
     end
   end
