@@ -8,7 +8,15 @@
           <div class="card-body">
             <h1 class="card-title font-weight-bold mb-4">
               <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
-              <!-- <button type="button" class="btn btn-inverse-primary btn-md float-right mt-2 d-sm-none d-md-block d-none d-sm-block">Add a Trip</button> -->
+              <span class="small">
+                <a class="ropdown-toggle ml-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Add and edit trips">
+                  <i class="fa fa-bars text-primary"></i>
+                </a>
+                <div class="dropdown-menu dropdown-sub">
+                  <button type="button" class="btn btn-primary btn-sm ml-1" data-add-trip="add-trip">Add Trip</button>
+                  <button type="button" class="btn btn-primary btn-sm ml-1" data-edit-trip="edit-trip">Edit Trip</button>
+                </div>
+              </span>
             </h1>
             <div class="row">
               <div class="col pr-0 pl-0"></div>
@@ -28,7 +36,7 @@
                     <div class="row">
                       <div class="row col col-10 col-sm-6 h4 font-weight-bold  no-gutters">
                         <div class="col col-lg-7 col-12">
-                          <%= trip.name %>
+                          <a href="trips/<%= trip.id %>/edit" alt="Edit" class="hide-edit" data-edit-link="<%= trip.id %>"><i class="fa fa-edit text-primary"></i></a> <%= trip.name %>
                         </div>
                         <div class="col col-lg-5 col-12">
                           <div class="input-group-append">
