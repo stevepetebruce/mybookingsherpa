@@ -19,6 +19,8 @@ module Public
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = BookingDecorator.new(@trip.bookings.new(booking_params.merge(guest: @guest)))
 
+        attach_stripe_customer_to_guest(@booking)
+
         if @booking.save && payment_successful?
           successful_booking_jobs
           redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
@@ -45,6 +47,10 @@ module Public
 
       private
 
+      def attach_stripe_customer_to_guest(booking)
+        booking.guest.update(stripe_customer_id: stripe_customer_id(booking))
+      end
+
       def booking_params
         params.require(:booking).permit(:address, :allergies, :city, :country, :county,
                                         :date_of_birth, :dietary_requirements,
@@ -54,7 +60,7 @@ module Public
       end
 
       def charge
-        @charge ||= Bookings::Payment.new(@booking, stripe_token).charge
+        @charge ||= Bookings::Payment.new(@booking).charge
       end
 
       def check_timeout
@@ -79,6 +85,10 @@ module Public
 
       def set_trip
         @trip = Trip.find_by_slug(params[:trip_id])
+      end
+
+      def stripe_customer_id(booking)
+        Bookings::StripeCustomer.new(booking, stripe_token).id
       end
 
       def stripe_token

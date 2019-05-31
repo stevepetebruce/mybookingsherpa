@@ -2,10 +2,9 @@ require "rails_helper"
 
 RSpec.describe Bookings::Payment, type: :model do
   describe "#charge" do
-    subject(:charge) { described_class.new(booking, token).charge }
+    subject(:charge) { described_class.new(booking).charge }
 
     let(:booking) { FactoryBot.create(:booking) }
-    let(:token) { "tok_#{Faker::Crypto.md5}" }
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_charge.json").read}"
     end

@@ -4,9 +4,8 @@ module Bookings
     MINIMUM_FREE_TRIP_COST = 20_000
     DESTINATION_FEE = 400
 
-    def initialize(booking, token)
+    def initialize(booking)
       @booking = booking
-      @token = token
     end
 
     def charge
@@ -30,10 +29,10 @@ module Bookings
         amount: amount_due,
         application_fee_amount: application_fee_amount,
         currency: @booking.currency,
+        customer: @booking.stripe_customer_id,
         description: charge_description,
         use_test_api: @booking.organisation_on_trial?,
-        transfer_data: transfer_data,
-        token: @token
+        transfer_data: transfer_data
       }
     end
 

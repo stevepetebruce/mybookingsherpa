@@ -18,6 +18,7 @@ class Booking < ApplicationRecord
   delegate :description, :maximum_number_of_guests, :name,
            :guest_count, to: :trip, prefix: true
   delegate :country, to: :guest, prefix: true
+  delegate :stripe_customer_id, to: :guest
 
   delegate :logo_image, :on_trial?, :subdomain, to: :organisation, prefix: true
 

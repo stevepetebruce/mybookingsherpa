@@ -46,16 +46,18 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }
     end
-    let(:response_body) do
-      "#{file_fixture("stripe_api/successful_charge.json").read}"
-    end
     let!(:subdomain) { organisation.subdomain }
 
     before do
-      stub_request(:post, "https://api.stripe.com/v1/charges")
-        .to_return(status: 200,
-                   body: response_body,
-                   headers: {})
+      stub_request(:post, "https://api.stripe.com/v1/charges").
+        to_return(status: 200,
+                  body: "#{file_fixture("stripe_api/successful_charge.json").read}",
+                  headers: {})
+
+      stub_request(:post, "https://api.stripe.com/v1/customers").
+        to_return(status: 200,
+                  body: "#{file_fixture("stripe_api/successful_customer.json").read}",
+                  headers: {})
     end
 
     def do_request(url: "/public/trips/#{trip.slug}/bookings", params: {})
