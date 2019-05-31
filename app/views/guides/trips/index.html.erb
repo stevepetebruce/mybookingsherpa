@@ -36,7 +36,10 @@
                     <div class="row">
                       <div class="row col col-10 col-sm-6 h4 font-weight-bold  no-gutters">
                         <div class="col col-lg-7 col-12">
-                          <a href="trips/<%= trip.id %>/edit" alt="Edit" class="hide-edit" data-edit-link="<%= trip.id %>"><i class="fa fa-edit text-primary"></i></a> <%= trip.name %>
+                          <%= link_to edit_guides_trip_path(trip), class: "hide-edit", data: { edit_link: trip.id } do %>
+                            <i class="fa fa-edit text-primary"></i>
+                          <% end %>
+                          <%= trip.name %>
                         </div>
                         <div class="col col-lg-5 col-12">
                           <div class="input-group-append">
