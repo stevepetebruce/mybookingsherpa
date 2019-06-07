@@ -3,92 +3,91 @@
     <div class="content-wrapper">
       <div class="row">
         <div class="col-12">
-          <div class="card card-shadow">
+          <div class="card card-shadow mt-5">
             <div class="card-body">
-              <div class="row mb-2 border-bottom pb-4">
-                <div class="col-1 ml-3 d-md-none d-lg-block d-none">
-                  <%= image_tag @booking.gravatar_url, class: "avatar avatar-lg rounded-circle", alt: "guest profile image" %>
-                </div>
-                <div class="col-10">
-                  <h1 class="card-title font-weight-bold mb-0 mr-3 d-inline-block"><%= @booking.name %></h1>
-                  <% if Bookings::Status.new(@booking).payment_required? %>
-                    <span class='dot dot-sm dot-danger'></span> Payment required
-                  <% else %>
-                    <span class='dot dot-sm dot-success'></span> Paid in full
-                  <% end %>
-                  <div class="display-4 font-weight-normal mt-1">
-                    <%= @booking.trip_name %>:
-                    <span class="text-gray">
-                      <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
-                    </span>
-                  </div>
+              <div class="row border-bottom pb-2 mb-4">
+                <div class="col text-center">
+                  <h1 class="card-title font-weight-bold mb-0 d-inline-block"><%= @booking.trip_name %></h1>
+                  <h3 class="text-gray mt-1">
+                    <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
+                  </h3>
                 </div>
               </div>
-              <div class="row mb-4">
-                <div class="col col-md-5 col-lg-4">
-                  <div class="card-body">
-                    <h2 class="card-title font-weight-bold">Contact</h2>
-                    <div class="media">
-                      <div class="media-body">
-                        <address>
-                          <p class="display4 mb-2">
-                            <% if @booking.country %>                           
-                              Country: <%= @booking.country %>
-                            <% else %>
-                              Guest has not entered the country they are from.
-                            <% end %>
-                          </p>
-                          <p class="display4">
-                            <i class="fa fa-phone-square mr-1"></i>
-                            <% if @booking.phone_number %>
-                              <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
-                            <% else %>
-                              <!-- <br> -->
-                              Guest has not entered their phone number.
-                            <% end %>
-                            <br>
-                            <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
-                          </p>
-                        </address>
-                        <h4 class="mt-3 mb-2">
-                          <span class="font-weight-bold">Booked:</span> <%= @booking.created_at.strftime("%d %b %Y") %>
-                        </h4>
-                        <h4 class="mb-5">
-                          <span class="font-weight-bold">Age:</span>
-                          <% if @booking.date_of_birth.present? %>
-                            <%= Time.zone.now.year - @booking.date_of_birth.year %>
-                            <span class="text-gray">(<%= @booking.date_of_birth.strftime("%d %b %Y") %>)</span>
+              <div class="row justify-content-md-center mb-4">
+                <div class="col-md-auto">
+                  <div class="card">
+                    <div class="card-body">
+                      <h2 class="font-weight-bold"><%= image_tag @booking.gravatar_url, class: "avatar avatar-sm ml-1 mb-1", alt: "guest profile image" %><%= @booking.name %></h2>
+                      <address>
+                        <p class="display4 mb-2">  
+                          <% if @booking.country %>                           
+                            <%= @booking.country %> <span class="flag-icon flag-icon-circled ml-1 <%= @booking.flag_icon %>"></span>
                           <% else %>
-                            Unknown
+                            Guest has not entered the country they are from.
                           <% end %>
-                        </h4>
-                        <h2 class="card-title font-weight-bold">Emergency Contact</h2>
-                        <div class="media">
-                          <div class="media-body">
-                            <% if @booking.next_of_kin_name %>
-                              <p class="display4 mb-1">
-                                <%= @booking.next_of_kin_name %>
+                        </p>
+                        <p class="display4">
+                          <i class="fa fa-phone-square mr-1"></i>
+                          <% if @booking.phone_number %>
+                            <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
+                          <% else %>
+                            Guest has not entered their phone number.
+                          <% end %>
+                          <br>
+                          <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
+                        </p>
+                      </address>
+                      <p class="mt-3 mb-1">
+                        <span class="font-weight-bold">Booked:</span> <%= @booking.created_at.strftime("%d %b %Y") %>
+                      </p>
+                      <p class="mb-4">
+                        <span class="font-weight-bold">Age:</span>
+                        <% if @booking.date_of_birth.present? %>
+                          <%= Time.zone.now.year - @booking.date_of_birth.year %>
+                          <span class="text-gray">(<%= @booking.date_of_birth.strftime("%d %b %Y") %>)</span>
+                        <% else %>
+                          Unknown
+                        <% end %>
+                      </p>
+                      <h3 class="card-title font-weight-bold">Emergency Contact</h3>
+                      <div class="media">
+                        <div class="media-body">
+                          <% if @booking.next_of_kin_name %>
+                            <p class="display4 mb-1">
+                              <%= @booking.next_of_kin_name %>
+                            </p>
+                            <address>
+                              <p class="display4">
+                                <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
                               </p>
-                              <address>
-                                <p class="display4">
-                                  <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
-                                </p>
-                              </address>
-                            <% else %>
-                              Guest has not entered emergency contact details.
-                            <% end %>
-                          </div>
+                            </address>
+                          <% else %>
+                            Guest has not entered emergency contact details.
+                          <% end %>
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md">
+                <div class="col col-sm-12 col-md-12 col-lg-5 offset-lg-1">
                   <div class="card-body">
-                    <h2 class="card-title font-weight-bold">
+                    <h3 class="card-title font-weight-bold mt-1">
+                      Payment Information
+                    </h3>
+                    <div class="media">
+                      <% if Bookings::Status.new(@booking).payment_required? %>
+                        <div class="media-body col mb-5 display-4 font-weight-normal text-danger">
+                          <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment required
+                        </div>
+                      <% else %>
+                        <div class="media-body col mb-5 display-4 font-weight-normal">
+                          <i class="fa fa-exclamation-circle fa-lg text-success"></i> Paid in full 
+                        </div>
+                      <% end %>
+                    </div>
+                    <h3 class="card-title font-weight-bold">
                       Allergies &amp; Other Information
-                    </h2>
+                    </h3>
                     <div class="media">
                       <div class="media-body">
                         <div class="clearfix border-bottom mb-3">
