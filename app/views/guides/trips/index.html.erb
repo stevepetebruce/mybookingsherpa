@@ -19,11 +19,11 @@
               </span>
             </h1>
             <div class="row">
-              <div class="col pr-0 pl-0"></div>
-              <div class="col pl-2 d-sm-none d-md-block d-none d-sm-block">
+              <div class="col col-lg-4 pr-0 pl-0"></div>
+              <div class="col col-lg-4 pl-2 d-sm-none d-md-none d-lg-block d-none">
                 <h4>New Booking Link</h4>
               </div>
-              <div class="col text-center d-sm-none d-md-block d-none d-sm-block">
+              <div class="col col-lg-3 text-center d-sm-none d-md-none d-lg-block d-none">
                 <h4 class="ml-1">Places Filled</h4>
               </div>
               <div class="col col-lg-1"></div>
@@ -52,10 +52,10 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
+                      <div class="col col-lg-2 text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
                         <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                       </div>
-                      <div class="col d-sm-none d-md-block d-none d-sm-block">
+                      <div class="col col-lg-3 d-sm-none d-md-block d-none d-sm-block">
                         <div>
                           <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
                             <% if trip.decorated_bookings[i] %>
@@ -84,21 +84,36 @@
                                   <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
                                 <% end %>
                               </div>
-                              <div class="col-10">
+                              <div class="col-7 col-lg-7 col-md-7 col-sm-8">
                                 <div class="d-flex">
-                                  <p class="text-primary mr-2 mb-0 no-wrap h3 font-weight-light">
+                                  <p class="text-primary mr-2 mb-0 mt-1 no-wrap h3 font-weight-light">
                                     <%= booking.name %>
-                                    <% if booking.status_alert? %>
-                                      <div class="col pl-0">
-                                        <span class="dot dot-sm <%= booking.status(trip) %>"></span> <%= booking.status_text %>
-                                      </div>
-                                    <% else %>
-                                      <div class="col pl-0">
-                                        <span class="dot dot-sm dot-success"></span>
-                                      </div>
-                                    <% end %>
                                   </p> 
                                 </div>
+                              </div>
+                              <div class="col d-sm-none d-lg-block d-none">
+                                <% if booking.status_alert? %>
+                                  <div class="col pl-0">
+                                    <span class="dot dot-sm <%= booking.status(trip) %>"></span> <%= booking.status_text %>
+                                  </div>
+                                <% else %>
+                                  <div class="col pl-0">
+                                    <span class="dot dot-sm dot-success"></span> Paid
+                                  </div>
+                                <% end %>
+                              </div>
+                              <div class="col-xs-auto mb-1">
+                                <% if booking.allergies %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.allergies %>" data-tooltip-position="top">
+                                    <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>"  width="30px" height="30px"/>
+                                  </span>
+                                <% end %>
+                                <% if booking.dietary_requirements? %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Diet: <%= booking.dietary_requirements %>" data-tooltip-position="top"><img src="<%= asset_pack_path 'images/icons/diet-yellow.svg' %>" width="30px" height="30px" /></span>
+                                <% end %>
+                                <% if booking.other_information? %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Additional information" data-tooltip-position="top"><img src="<%= asset_pack_path 'images/icons/info-yellow.svg' %>" width="30px" height="30px" /></span>
+                                <% end %>
                               </div>
                             </div>
                           <% end %>
