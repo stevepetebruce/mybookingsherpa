@@ -1,148 +1,115 @@
 <div class="container-fluid page-body-wrapper content">
   <div class="main-panel">
-    <div class="content-wrapper">
-      <% @trip.decorated_bookings.each do |booking| %>
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-shadow">
-              <div class="card-body">
-                <div class="row mb-2 border-bottom pb-4">
-                  <div class="col-1 ml-3 d-md-none d-lg-block d-none">
-                    <%= image_tag booking.gravatar_url, class: "avatar avatar-lg rounded-circle", alt: "guest profile image" %>
-                  </div>
-                  <div class="col-10">
-                    <h1 class="card-title font-weight-bold mb-0 mr-3 d-inline-block"><%= booking.name %></h1>
-                    <% if Bookings::Status.new(booking).payment_required? %>
-                      <span class='dot dot-sm dot-danger'></span> Payment required
-                    <% else %>
-                      <span class='dot dot-sm dot-success'></span> Paid in full
-                    <% end %>
-                    <div class="display-4 font-weight-normal mt-1">
-                      <%= booking.trip_name %>:
-                      <span class="text-gray">
-                        <%= "#{booking.start_date.day} - #{booking.end_date.day} #{Date::MONTHNAMES[booking.end_date.month]} #{booking.end_date.year}" %>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-4">
-                  <div class="col col-md-5 col-lg-4">
-                    <div class="card-body">
-                      <h2 class="card-title font-weight-bold">Contact</h2>
-                      <div class="media">
-                        <div class="media-body">
-                          <address>
-                            <p class="display4 mb-2">
-                              <% if booking.country %>                           
-                                Country: <%= booking.country %>
-                              <% else %>
-                                Guest has not entered the country they are from.
-                              <% end %>
-                            </p>
-                            <p class="display4">
-                              <i class="fa fa-phone-square mr-1"></i>
-                              <% if booking.phone_number %>
-                                <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.phone_number %></a>
-                              <% else %>
-                                <!-- <br> -->
-                                Guest has not entered their phone number.
-                              <% end %>
-                              <br>
-                              <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= booking.email %>" class="text-primary"><%= booking.email %></a>
-                            </p>
-                          </address>
-                          <h4 class="mt-3 mb-2">
-                            <span class="font-weight-bold">Booked:</span> <%= booking.created_at.strftime("%d %b %Y") %>
-                          </h4>
-                          <h4 class="mb-5">
-                            <span class="font-weight-bold">Age:</span>
-                            <% if booking.date_of_birth.present? %>
-                              <%= Time.zone.now.year - booking.date_of_birth.year %>
-                              <span class="text-gray">(<%= booking.date_of_birth.strftime("%d %b %Y") %>)</span>
-                            <% else %>
-                              Unknown
-                            <% end %>
-                          </h4>
-                          <h2 class="card-title font-weight-bold">Emergency Contact</h2>
-                          <div class="media">
-                            <div class="media-body">
-                              <% if booking.next_of_kin_name %>
-                                <p class="display4 mb-1">
-                                  <%= booking.next_of_kin_name %>
-                                </p>
-                                <address>
-                                  <p class="display4">
-                                    <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.next_of_kin_phone_number %></a>
-                                  </p>
-                                </address>
-                              <% else %>
-                                Guest has not entered emergency contact details.
-                              <% end %>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <div class="card-body">
-                      <h2 class="card-title font-weight-bold">
-                        Allergies &amp; Other Information
-                      </h2>
-                      <div class="media">
-                        <div class="media-body">
-                          <div class="clearfix border-bottom mb-3">
-                            <div class="col mb-3">
-                              <div class="display-4 font-weight-normal">
-                                <% if Bookings::Status.new(booking).allergies? %>
-                                  <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
-                                  <span class="text-danger">Allergies:</span>
-                                  <!-- TODO: how to handle multiple allergies? -->
-                                  <%= booking.allergies.capitalize %>
-                                <% else %>
-                                  <span class="text-gray">Allergies:</span> No allergies.
-                                <% end %>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="clearfix border-bottom mb-3">
-                            <div class="col mb-3">
-                              <div class="display-4 font-weight-normal">
-                                <% if Bookings::Status.new(booking).dietary_requirements? %>
-                                  <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
-                                  <span class="text-warning">Dietary Requirements:</span>
-                                  <%= booking.dietary_requirements.capitalize %>
-                                <% else %>
-                                  <span class="text-gray">Dietary Requirements:</span> No dietary requirements.
-                                <% end %>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="clearfix mb-3">
-                            <div class="col">
-                              <div class="display-4 font-weight-normal">
-                                <% if Bookings::Status.new(booking).other_information? %>
-                                  <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
-                                  <span class="text-warning">Other information:</span>
-                                  <!-- TODO: be careful here - allowing users to enter free text -->
-                                  <%= booking.other_information %>
-                                <% else %>
-                                  <span class="text-gray">Other information:</span> No other information.
-                                <% end %>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
+    <div class="content-wrapper table-responsive mt-5">   
+      <h1 class="font-weight-bold"><%= @trip.name %>:  
+        <span class="text-gray ml-2"><%= "#{@trip.start_date.day} - #{@trip.end_date.day} #{Date::MONTHNAMES[@trip.end_date.month]}" %></span>
+      </h1>
+      <button type="button" class="btn btn-primary btn-sm mb-3" data-csvButton="csvButton">Download Spreadsheet</button>
+      <table class="table table-striped table-bordered bg-white" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th class="th-sm">Name 
+            </th>
+            <th class="th-sm">Paid
+            </th>
+            <th class="th-sm">Country
+            </th>
+            <th class="th-sm">Phone number
+            </th>
+            <th class="th-sm">Email
+            </th>
+            <th class="th-sm">Booked
+            </th>
+            <th class="th-sm">Age
+            </th>
+            <th class="th-sm">Emergency Contact
+            </th>
+            <th class="th-sm">Allergies
+            </th>
+            <th class="th-sm">Dietry Requirements
+            </th>
+            <th class="th-sm">Other Information
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @trip.decorated_bookings.each do |booking| %>
+            <tr>
+              <td nowrap>
+                <strong><%= booking.name %></strong>
+              </td>
+              <td>
+                <% if Bookings::Status.new(booking).payment_required? %>
+                  <span class='dot dot-sm dot-danger'></span> Payment required
+                <% else %>
+                  <span class='dot dot-sm dot-success'></span> Paid in full
+                <% end %>
+              </td>
+              <td>
+                <% if booking.country %>                           
+                  <%= booking.country %>
+                <% else %>
+                  No Country
+                <% end %>
+              </td>
+              <td>
+                <% if booking.phone_number %>
+                  <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.phone_number %></a>
+                <% else %>
+                  No phone number.
+                <% end %>
+              </td>
+              <td>
+                <a href="mailto:<%= booking.email %>" class="text-primary"><%= booking.email %></a>
+              </td>
+              <td>
+                <%= booking.created_at.strftime("%d %b %Y") %>
+              </td>
+              <td>
+                <% if booking.date_of_birth.present? %>
+                  <%= Time.zone.now.year - booking.date_of_birth.year %>
+                <% else %>
+                  Unknown
+                <% end %>
+              </td>
+              <td>
+                <% if booking.next_of_kin_name %>
+                  <%= booking.next_of_kin_name %>: <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.next_of_kin_phone_number %></a>
+                <% else %>
+                  No emergency contact details.
+                <% end %>
+              </td>
+                <% if Bookings::Status.new(booking).allergies? %>
+                  <td class="table-danger">
+                    <%= booking.allergies.capitalize %>
+                  </td>
+                <% else %>
+                  <td>
+                    No allergies.
+                  </td>
+                <% end %>
+              </td>
+                <% if Bookings::Status.new(booking).dietary_requirements? %>
+                  <td class="table-warning">
+                    <%= booking.dietary_requirements.capitalize %>
+                  </td>
+                <% else %>
+                  <td>
+                    No dietary requirements.
+                  </td>
+                <% end %>
+              </td>
+              <td>
+                <% if Bookings::Status.new(booking).other_information? %>
+                  <%= booking.other_information %>
+                <% else %>
+                  No other information.
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
