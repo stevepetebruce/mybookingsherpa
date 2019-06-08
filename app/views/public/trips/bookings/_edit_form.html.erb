@@ -59,17 +59,17 @@
       <hr class="mb-5 mb-4">
     </li>
     <li>
-      <h4 class="font-weight-bold">Next of Kin</h4>
+      <h4 class="font-weight-bold">In Case of Emergency (ICE)</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :next_of_kin_name, "Name" %>
           <%= form.text_field :next_of_kin_name, class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name) %>
           <div class="invalid-feedback">
-            Please enter next of kin name
+            Please enter the name of your emergency contact
           </div>
           <% if @booking.errors[:next_of_kin_name].present? %>
             <div class="invalid-feedback" style="display: block;">
-              Please enter next of kin name
+              Please enter the name of your emergency contact
             </div>
           <% end %>
         </div>
@@ -77,11 +77,11 @@
           <%= form.label :next_of_kin_phone_number, "Phone number" %>
           <%= form.text_field :next_of_kin_phone_number, class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number) %>
           <div class="invalid-feedback">
-            Please enter valid phone number
+            Please enter a valid phone number of your emergency contact
           </div>
           <% if @booking.errors[:next_of_kin_phone_number].present? %>
             <div class="invalid-feedback" style="display: block;">
-              Please enter valid phone number
+              Please enter a valid phone number of your emergency contact
             </div>
           <% end %>
         </div>
