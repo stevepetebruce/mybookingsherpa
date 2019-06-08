@@ -8,9 +8,12 @@
     "carbon-admin": "^1.0.0",
     "dotenv": "^6.1.0",
     "flag-icon-css": "^3.2.0",
+    "fstream": "^1.0.12",
     "jquery": "^3.3.1",
+    "js-yaml": "^3.13.1",
     "line-awesome": "^1.0.2",
     "popper.js": "^1.14.4",
+    "querystringify": "2.1.1",
     "rails-ujs": "^5.2.1",
     "resolve-url-loader": "^3.0.0"
   },
