@@ -8,7 +8,7 @@ gem "rails", "~> 5.2.1"
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.1.0", require: false
 gem "country_select", "~> 4.0"
-gem "devise"
+gem "devise", ">= 4.6.0"
 gem "faker" # TODO: move back to :development, :test, after user testing.
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
