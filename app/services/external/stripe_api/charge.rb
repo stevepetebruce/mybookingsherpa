@@ -11,10 +11,10 @@ module External
         @description = description
         @transfer_data = transfer_data
         @use_test_api = use_test_api
+        initialize_key
       end
 
       def charge
-        initialize_key
         Stripe::Charge.create(attributes)
       end
 
