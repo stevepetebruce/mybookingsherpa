@@ -15,6 +15,14 @@ RSpec.describe Organisation, type: :model do
   describe "validations" do
     it { should validate_presence_of(:currency) }
 
+    describe "deposit_percentage" do
+      it { should validate_numericality_of(:deposit_percentage).only_integer }
+    end
+
+    describe "full_payment_window_weeks" do
+      it { should validate_numericality_of(:full_payment_window_weeks).only_integer }
+    end
+
     context "name" do
       it { should allow_value(Faker::Lorem.word).for(:name) }
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
