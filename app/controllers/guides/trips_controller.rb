@@ -26,7 +26,10 @@ module Guides
     end
 
     def new
-      @trip = @current_organisation.trips.new
+      @trip = @current_organisation
+              .trips
+              .new(deposit_percentage: @current_organisation.deposit_percentage,
+                   full_payment_window_weeks: @current_organisation.full_payment_window_weeks)
     end
 
     def update
@@ -55,7 +58,9 @@ module Guides
     def trip_params
       params.require(:trip).permit(:currency,
                                    :description,
+                                   :deposit_percentage,
                                    :full_cost,
+                                   :full_payment_window_weeks,
                                    :name,
                                    :start_date,
                                    :end_date,
