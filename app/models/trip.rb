@@ -2,7 +2,9 @@
 class Trip < ApplicationRecord
   enum currency: %i[eur gbp usd]
 
+  validates :deposit_percentage, numericality: { only_integer: true }, allow_nil: true
   validates :full_cost, presence: true
+  validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, presence: true
   validate :start_date_before_end_date
   validates :name, format: /\A[a-zA-Z0-9_.'\-\s]+\z/, presence: true # TODO: make this unique within an organisation's scope

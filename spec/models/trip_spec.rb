@@ -38,6 +38,14 @@ RSpec.describe Trip, type: :model do
     it { should validate_presence_of(:full_cost) }
     it { should validate_presence_of(:maximum_number_of_guests) }
 
+    describe "deposit_percentage" do
+      it { should validate_numericality_of(:deposit_percentage).only_integer }
+    end
+
+    describe "full_payment_window_weeks" do
+      it { should validate_numericality_of(:full_payment_window_weeks).only_integer }
+    end
+
     describe "name" do
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
       it { should allow_value(Faker::Lorem.word).for(:name) }
