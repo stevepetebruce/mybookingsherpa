@@ -25,7 +25,9 @@ RSpec.describe "Guides::TripsController", type: :request do
           {
             trip:
             {
+              deposit_percentage: rand(5...50),
               full_cost: rand(10_000...50_000),
+              full_payment_window_weeks: rand(1...10),
               name: Faker::Name.name,
               start_date: 4.weeks.from_now,
               end_date: 5.weeks.from_now,
@@ -62,7 +64,7 @@ RSpec.describe "Guides::TripsController", type: :request do
             do_request(params: params)
 
             expect(response.code).to eq "200"
-            #TODO: Pending... need to surface the error message in the view
+            # TODO: Pending... need to surface the error message in the view
             # expect(response.body).to include("Please enter a valid email")
           end
         end
@@ -223,13 +225,13 @@ RSpec.describe "Guides::TripsController", type: :request do
       before { sign_in(guide) }
 
       context "valid and successful" do
-        let!(:params) { 
+        let!(:params) do
           {
             trip: {
               name: Faker::Name.name
             }
           }
-        }
+        end
 
         it "should update the trip" do
           do_request(params: params)
