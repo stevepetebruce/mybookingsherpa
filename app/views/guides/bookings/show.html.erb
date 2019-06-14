@@ -94,7 +94,7 @@
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
                               <% if Bookings::Status.new(@booking).allergies? %>
-                                <i class="fa fa-exclamation-circle fa-lg text-danger"></i>
+                                <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>" class="mr-1" width="28px" height="28px"/>
                                 <span class="text-danger">Allergies:</span>
                                 <!-- TODO: how to handle multiple allergies? -->
                                 <%= @booking.allergies.capitalize %>
@@ -108,7 +108,7 @@
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
                               <% if Bookings::Status.new(@booking).dietary_requirements? %>
-                                <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                                <img src="<%= asset_pack_path 'images/icons/diet-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Dietary Requirements:</span>
                                 <%= @booking.dietary_requirements.capitalize %>
                               <% else %>
@@ -121,7 +121,7 @@
                           <div class="col">
                             <div class="display-4 font-weight-normal">
                               <% if Bookings::Status.new(@booking).other_information? %>
-                                <i class="fa fa-exclamation-circle fa-lg text-warning"></i>
+                                <img src="<%= asset_pack_path 'images/icons/info-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Other information:</span>
                                 <!-- TODO: be careful here - allowing users to enter free text -->
                                 <%= @booking.other_information %>
