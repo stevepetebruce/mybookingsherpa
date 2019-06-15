@@ -9,9 +9,9 @@ module Guides
       @trip = @current_organisation.trips.new(trip_params)
 
       if @trip.save && current_guide.trips << @trip
-        redirect_to edit_guides_trip_path(@trip)
+        redirect_to guides_trips_path # TODO: with a notice
       else
-        render :new
+        render :new # TODO: with an alert
       end
     end
 
@@ -34,9 +34,9 @@ module Guides
 
     def update
       if @trip.update(trip_params)
-        redirect_to guides_trip_path(@trip)
+        redirect_to guides_trips_path # TODO: with a notice
       else
-        render :edit
+        render :edit # TODO: with an alert
       end
     end
 

@@ -10,7 +10,7 @@
                   <h1 class="card-title font-weight-bold">
                     Edit Trip
                   </h1>
-                  <%= render "form" %>
+                  <%= render partial: "form", locals: { url: guides_trip_url(@trip) } %>
                 </div>
               </div>
             </div>
