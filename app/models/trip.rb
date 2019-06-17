@@ -31,6 +31,7 @@ class Trip < ApplicationRecord
   scope :end_date_desc, -> { order(end_date: :desc) }
 
   before_create :set_slug
+  before_save :set_deposit_cost
 
   def currency
     self[:currency] || organisation.currency
@@ -67,15 +68,21 @@ class Trip < ApplicationRecord
 
   private
 
+  def generated_slug
+    @generated_slug ||= name.parameterize(separator: "_").truncate(80, omission: "")
+  end
+
+  def set_deposit_cost
+    return if deposit_percentage.nil?
+
+    self[:deposit_cost] = ((full_cost * (deposit_percentage.to_f / 100))).to_i
+  end
+
   def set_slug
     if Trip.find_by_slug(generated_slug)
       self[:slug] = "#{SecureRandom.hex(8)}_#{generated_slug}"
     else
       self[:slug] = generated_slug
     end
-  end
-
-  def generated_slug
-    @generated_slug ||= name.parameterize(separator: "_").truncate(80, omission: "")
   end
 end

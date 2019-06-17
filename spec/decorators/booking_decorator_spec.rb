@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe BookingDecorator, type: :model do
+
   let!(:booking) { FactoryBot.create(:booking, guest: guest) }
   let(:guest) { FactoryBot.create(:guest) }
 
@@ -15,16 +16,6 @@ RSpec.describe BookingDecorator, type: :model do
       it "should return the booking name" do
         expect(dynamic_value).to eq booking.send(dynamically_created_field)
       end
-    end
-  end
-
-  describe "#gravatar_url" do
-    subject { described_class.new(booking).gravatar_url }
-
-    let(:gravatar_id) { Digest::MD5.hexdigest(booking.guest_email).downcase }
-
-    it "should return expected URL" do
-      expect(subject).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
     end
   end
 
@@ -52,6 +43,67 @@ RSpec.describe BookingDecorator, type: :model do
     context "a booking and guest without a country code" do
       it "should return nil" do
         expect(subject).to be_nil
+      end
+    end
+  end
+
+  describe "#full_payment_date" do
+    subject(:full_payment_date) { described_class.new(booking).full_payment_date }
+
+    let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
+    let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: rand(2...6)) }
+
+    it "should be the trip_start_date - trip_full_payment_window_weeks" do
+      expect(full_payment_date).to eq (booking.trip_start_date - booking.trip_full_payment_window_weeks.weeks).strftime("%F")
+    end
+  end
+
+  describe "#gravatar_url" do
+    subject { described_class.new(booking).gravatar_url }
+
+    let(:gravatar_id) { Digest::MD5.hexdigest(booking.guest_email).downcase }
+
+    it "should return expected URL" do
+      expect(subject).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
+    end
+  end
+
+  describe "#human_readable_amount_due" do
+    subject(:human_readable_amount_due) { described_class.new(booking).human_readable_amount_due }
+
+    it "should be the currency of the trip and the cost now due" do
+      expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost * 100)}"
+    end
+  end
+
+  describe "#human_readable_full_cost" do
+    subject(:human_readable_full_cost) { described_class.new(booking).human_readable_full_cost }
+
+    it "should be the currency of the trip and the full cost" do
+      expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost * 100)}"
+    end
+  end
+
+  describe "#only_paying_deposit?" do
+    subject(:only_paying_deposit?) { described_class.new(booking).only_paying_deposit? }
+
+    context "when only deposit is due to be paid" do
+      before do
+        allow(Bookings::Payment).to receive(:amount_due).with(booking).and_return(booking.deposit_cost)
+      end
+
+      it "should be true" do
+        expect(only_paying_deposit?).to be true
+      end
+    end
+
+    context "when full amount is due to be paid" do
+      before do
+        allow(Bookings::Payment).to receive(:amount_due).with(booking).and_return(booking.full_cost)
+      end
+
+      it "should be true" do
+        expect(only_paying_deposit?).to be false
       end
     end
   end

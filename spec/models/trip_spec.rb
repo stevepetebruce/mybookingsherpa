@@ -9,27 +9,60 @@ RSpec.describe Trip, type: :model do
   end
 
   describe "callbacks" do
-    let!(:trip) { FactoryBot.build(:trip) }
+    describe "#set_slug" do
+      let!(:trip) { FactoryBot.build(:trip) }
 
-    it "should call #set_slug" do
-      expect(trip).to receive(:set_slug)
+      it "should call #set_slug" do
+        expect(trip).to receive(:set_slug)
 
-      trip.save
-    end
+        trip.save
+      end
 
-    it "should have a slug based on the trip name" do
-      trip.save
-
-      expect(trip.slug).to eq trip.name.parameterize(separator: "_")
-    end
-
-    context "a trip with the same name already exists" do
-      let!(:trip_with_same_name) { FactoryBot.create(:trip, name: trip.name) }
-
-      it "should not create the same slug" do
+      it "should have a slug based on the trip name" do
         trip.save
 
-        expect(trip_with_same_name.slug).to_not eq(trip.slug)
+        expect(trip.slug).to eq trip.name.parameterize(separator: "_")
+      end
+
+      context "a trip with the same name already exists" do
+        let!(:trip_with_same_name) { FactoryBot.create(:trip, name: trip.name) }
+
+        it "should not create the same slug" do
+          trip.save
+
+          expect(trip_with_same_name.slug).to_not eq(trip.slug)
+        end
+      end
+    end
+
+    describe "#set_deposit_cost" do
+      let!(:full_cost) { rand(5_000_0...10_000_0) }
+      let!(:trip) { FactoryBot.build(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
+
+      context "deposit_percentage is not nil" do
+        let!(:deposit_percentage) { rand(10...50) }
+
+        it "should call #set_deposit_cost" do
+          expect(trip).to receive(:set_deposit_cost)
+
+          trip.save
+        end
+
+        it "should set the correct deposit cost based on the trip's full_cost and deposit_percentage" do
+          trip.save
+
+          expect(trip.deposit_cost).to eq((full_cost * (deposit_percentage.to_f / 100)).to_i)
+        end
+      end
+
+      context "deposit_percentage is nil" do
+        let!(:deposit_percentage) { nil }
+
+        it "should leave deposit_cost as nil" do
+          trip.save
+
+          expect(trip.deposit_cost).to be_nil
+        end
       end
     end
   end
