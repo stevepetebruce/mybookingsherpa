@@ -9,9 +9,28 @@ class BookingDecorator < SimpleDelegator
     "flag-icon-#{@booking.country&.downcase}" if @booking.country.present?
   end
 
+  def full_payment_date
+    (@booking.trip_start_date - @booking.trip_full_payment_window_weeks.weeks).
+      strftime("%F")
+  end
+
   def gravatar_url(size = 36)
     "#{gravatar_base_url}/#{gravatar_id}.png?"\
       "s=#{size}&d=#{CGI.escape(gravatar_fallback_image_url)}"
+  end
+
+  def human_readable_amount_due
+    "#{Currency.iso_to_symbol(@booking.currency)}" \
+      "#{Currency.human_readable(Bookings::Payment.amount_due_in_cents(@booking))}"
+  end
+
+  def human_readable_full_cost
+    "#{Currency.iso_to_symbol(@booking.currency)}" \
+      "#{Currency.human_readable(full_cost_in_cents)}"
+  end
+
+  def only_paying_deposit?
+    Bookings::Payment.amount_due(@booking) == @booking.deposit_cost
   end
 
   def status(trip)
@@ -45,6 +64,10 @@ class BookingDecorator < SimpleDelegator
   end
 
   private
+
+  def full_cost_in_cents
+    @booking.full_cost * 100
+  end
 
   def gravatar_base_url
     "https://gravatar.com/avatar"
