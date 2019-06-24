@@ -5,13 +5,9 @@ module Bookings
       @booking = booking
     end
 
-    def full_amount_paid?
-      total_paid >= @booking.full_cost
-    end
-
     def new_payment_status
       return :red if @booking.last_payment_failed?
-      return :yellow if no_payments? || only_deposit_paid?
+      return :yellow if no_payments? || payment_required?
 
       :green if full_amount_paid?
     end
@@ -26,12 +22,12 @@ module Bookings
 
     private
 
-    def no_payments?
-      @booking.payments.empty?
+    def full_amount_paid?
+      total_paid >= @booking.full_cost
     end
 
-    def only_deposit_paid?
-      total_paid < @booking.full_cost
+    def no_payments?
+      @booking.payments.empty?
     end
 
     def total_paid

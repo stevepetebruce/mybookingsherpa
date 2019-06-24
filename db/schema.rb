@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_10_141425) do
+ActiveRecord::Schema.define(version: 2019_06_23_135949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_06_10_141425) do
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "status", default: 0
+    t.integer "payment_status", default: 0
     t.uuid "created_by_id"
     t.uuid "updated_by_id"
     t.uuid "trip_id"

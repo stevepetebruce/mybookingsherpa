@@ -1,5 +1,5 @@
 module Bookings
-  # Handles bookings' status.
+  # Handles bookings' (non-payment) related status.
   class Status
     def initialize(booking)
       @booking = booking
@@ -17,24 +17,9 @@ module Bookings
       @booking.other_information? || @booking.guest.other_information?
     end
 
-    def new_status
-      return :yellow if no_payments? || only_deposit_paid?
-      return :yellow if full_amount_paid? && personal_details_incomplete?
-
-      :green # fully paid and all personal details complete
-    end
-
-    def payment_required?
-      total_paid < @booking.full_cost
-    end
-
     def personal_details_incomplete?
       details_incomplete?(@booking.attributes) &&
         details_incomplete?(@booking.guest.attributes)
-    end
-
-    def update
-      @booking.update(status: new_status)
     end
 
     private
@@ -44,22 +29,6 @@ module Bookings
         .slice(*Guest::REQUIRED_ADVANCED_PERSONAL_DETAILS.map(&:to_s))
         .compact
         .empty?
-    end
-
-    def full_amount_paid?
-      total_paid >= @booking.full_cost
-    end
-
-    def no_payments?
-      @booking.payments.empty?
-    end
-
-    def only_deposit_paid?
-      total_paid < @booking.full_cost
-    end
-
-    def total_paid
-      @total_paid ||= @booking.payments.pluck(:amount).reduce(:+).presence || 0
     end
   end
 end

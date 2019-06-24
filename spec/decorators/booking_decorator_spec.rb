@@ -108,128 +108,51 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
-  describe "#status" do
-    subject(:status) { described_class.new(booking).status(trip) }
+  describe "#payment_status_icon" do
+    subject(:payment_status_icon) { described_class.new(booking.reload).payment_status_icon }
 
-    let(:trip) { FactoryBot.create(:trip) }
+    let(:booking) { FactoryBot.create(:booking) }
 
-    context "booking is incomplete / yellow" do
-      let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-
+    context "booking is not fully paid up / yellow" do
       it "should return the correct flag" do
-        expect(status).to eq "dot-warning"
+        expect(payment_status_icon).to eq "dot-warning"
       end
     end
 
-    context "booking is complete / green" do
-      let(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest, trip: trip) }
-      let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
-
-      before { booking.update(updated_at: Time.zone.now) }
+    context "booking's last payment failed / red" do
+      let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
 
       it "should return the correct flag" do
-        expect(status).to eq "dot-success"
+        expect(payment_status_icon).to eq "dot-danger"
+      end
+    end
+
+    context "booking is full paid up / green" do
+      let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
+
+      it "should return the correct flag" do
+        expect(payment_status_icon).to eq "dot-success"
       end
     end
   end
 
-  describe "#status_alert?" do
-    subject(:status_alert?) { described_class.new(booking).status_alert? }
+  describe "#payment_status_text" do
+    subject(:payment_status_text) { described_class.new(booking.reload).payment_status_text }
 
-    let(:trip) { FactoryBot.create(:trip) }
+    let!(:booking) { FactoryBot.create(:booking) }
 
-    context "booking has incomplete personal details" do
-      let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-
-      it { expect(status_alert?).to eq true }
-    end
-
-    context "booking has complete booking details but requires payment" do
-      let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest, trip: trip) }
-
-      it { expect(status_alert?).to eq true }
+    context "no payments have been made yet" do
+      it { expect(payment_status_text).to eq "Payment required" }
     end
 
     context "payment complete" do
       let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
 
-      context "booking has complete booking details" do
-        let(:booking) { FactoryBot.create(:booking, :complete_without_any_issues, guest: guest, trip: trip) }
-
-        it { expect(status_alert?).to eq false }
-      end
-
-      context "booking has complete booking details and has allergies" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_allergies, guest: guest, trip: trip) }
-
-        it { expect(status_alert?).to eq true }
-      end
-
-      context "booking has complete booking details and has dietary requirements" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_dietary_requirements, guest: guest, trip: trip) }
-
-        it { expect(status_alert?).to eq true }
-      end
-
-      context "booking has complete booking details and has other_information" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_other_information, guest: guest, trip: trip) }
-
-        it { expect(status_alert?).to eq true }
-      end
-    end
-  end
-
-  describe "#status_text" do
-    subject(:status_text) { described_class.new(booking).status_text }
-
-    let(:trip) { FactoryBot.create(:trip) }
-
-    context "payment required" do
-      context "booking has incomplete personal details" do
-        let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Payment required" }
-      end
-
-      context "booking has complete booking details but requires payment" do
-        let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Payment required" }
-      end
+      it { expect(payment_status_text).to eq "Fully paid" }
     end
 
-    context "payment complete" do
-      let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
-
-      context "booking has incomplete personal details" do
-        let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Incomplete booking details" }
-      end
-
-      context "booking has complete booking details" do
-        let(:booking) { FactoryBot.create(:booking, :complete_without_any_issues, guest: guest, trip: trip) }
-
-        it { expect(status_text).to be_nil }
-      end
-
-      context "booking has complete booking details and has allergies" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_allergies, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Allergies" }
-      end
-
-      context "booking has complete booking details and has dietary requirements" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_dietary_requirements, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Dietary requirements" }
-      end
-
-      context "booking has complete booking details and has other_information" do
-        let(:booking) { FactoryBot.create(:booking, :complete_with_other_information, guest: guest, trip: trip) }
-
-        it { expect(status_text).to eq "Other information" }
-      end
+    context "last payment failed" do
+      let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
     end
   end
 

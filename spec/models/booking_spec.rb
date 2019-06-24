@@ -37,7 +37,7 @@ RSpec.describe Booking, type: :model do
 
   it { should define_enum_for(:allergies).with(%i[none other dairy eggs nuts soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
-  it { should define_enum_for(:status).with(%i[yellow green]) }
+  it { should define_enum_for(:payment_status).with(%i[yellow green red]) }
 
   describe "callbacks" do
     let!(:booking) { FactoryBot.build(:booking) }
@@ -50,12 +50,6 @@ RSpec.describe Booking, type: :model do
 
     it "should call #update_priority after_save" do
       expect(booking).to receive(:update_priority)
-
-      booking.save
-    end
-
-    it "should call #update_status after_save" do
-      expect(booking).to receive(:update_status)
 
       booking.save
     end
