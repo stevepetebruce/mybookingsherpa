@@ -67,7 +67,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
 
-      it 'should send out the new booking email to the guest and trip provider' do
+      it "should send out the new booking email to the guest and trip provider" do
         expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
         # TODO: mock these out with doubles and then test again
         # expect(GuestBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
@@ -133,11 +133,10 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     end
 
     context "unsuccesful" do
-      # TODO: Stripe / Card issue
-      context 'user enters an invalid email address' do
+      context "user enters an invalid email address" do
         let(:email) { Faker::Lorem.word }
 
-        it 'should redirect back with error message' do
+        it "should redirect back with error message" do
           do_request(params: params)
 
           expect(Guest.count).to eq 0
@@ -145,6 +144,143 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
           expect(response.code).to eq "200"
           expect(response.body).to include("Please enter a valid email")
+        end
+      end
+
+      context "user enters an card that attaches to the customer but the charge fails" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::CardError.new("Card declined", nil, nil, json_body: { error: { message: "Card declined" }}))
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful. Card declined")
+        end
+
+        it "should create a booking and a guest with a stripe_customer_id" do
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
+        end
+      end
+
+      context "user experiences rate limiting of the Stripe API" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::RateLimitError.new)
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful. RateLimitError. Please try again or contact Guide for help.")
+        end
+
+        it "should create a booking and a guest with a stripe_customer_id" do
+          # Should it? What if the call to create the customer failed too?
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
+        end
+      end
+
+      context "invalid parameter sent to Stripe API" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::InvalidRequestError.new("Invalid request", nil))
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful.  Invalid request. Please try again or contact Guide for help.")
+        end
+
+        it "should still create a booking and a guest with a stripe_customer_id" do
+          # Should it? What if the call to create the customer failed too?
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
+        end
+      end
+
+      context "authentication error" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::AuthenticationError.new)
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful. AuthenticationError. Please try again or contact Guide for help.")
+        end
+
+        it "should still create a booking and a guest with a stripe_customer_id" do
+          # Should it? What if the call to create the customer failed too?
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
+        end
+      end
+
+      context "API connection error" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::APIConnectionError.new)
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful. APIConnectionError. Please try again or contact Guide for help.")
+        end
+
+        it "should still create a booking and a guest with a stripe_customer_id" do
+          # Should it? What if the call to create the customer failed too?
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
+        end
+      end
+
+      context "General Stripe API error" do
+        before do
+          allow(Stripe::Charge).to receive(:create).
+            and_raise(Stripe::StripeError.new)
+        end
+
+        it "should redirect back with error message" do
+          do_request(params: params)
+
+          expect(response.code).to eq "200"
+          expect(flash[:alert]).to eq("Payment unsuccessful. StripeError. Please try again or contact Guide for help.")
+        end
+
+        it "should still create a booking and a guest with a stripe_customer_id" do
+          # Should it? What if the call to create the customer failed too?
+          do_request(params: params)
+
+          expect(Guest.count).to eq 1
+          expect(Booking.count).to eq 1
+          expect(Guest.last.stripe_customer_id).to_not be_nil
         end
       end
     end
@@ -218,7 +354,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
       let(:email) { Faker::Lorem.word }
 
-      it 'should redirect back with error message' do
+      it "should redirect back with error message" do
         do_request(params: params)
 
         expect(response.code).to eq "200"

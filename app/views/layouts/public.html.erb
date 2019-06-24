@@ -4,12 +4,13 @@
     <title><%= @trip&.organisation_name || @booking.organisation_name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
+    <%= stylesheet_pack_tag "application", "data-turbolinks-track": "reload" %>
     <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body class="header-fixed">
     <div class="page-wrapper" data-s-key="<%= @booking.stripe_publishable_key %>">
+      <%= flash_messages %>
       <%= yield %>
     </div>
   </body>

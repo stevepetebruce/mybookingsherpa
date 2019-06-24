@@ -23,10 +23,10 @@ module Public
 
         if @booking.save && payment_successful?
           successful_booking_jobs
+          flash[:success] = "Payment successful"
           redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
         else
-          # TODO: surface Stripe errors to the user
-          # https://stripe.com/docs/api/errors
+          flash[:alert] = @stripe_api_error
           render :new
         end
       end
@@ -75,8 +75,15 @@ module Public
       end
 
       def payment_successful?
-        # TODO: surface Stripe errors to the user
-        Payments::Factory.new(@booking, charge).create
+        begin
+          Payments::Factory.new(@booking, charge).create
+        rescue Stripe::CardError => e
+          @stripe_api_error = "Payment unsuccessful. #{e&.json_body&.dig(:error, :message)}"
+        rescue Stripe::StripeError => e
+          @stripe_api_error = "Payment unsuccessful. #{type_of_exception(e)}. Please try again or contact Guide for help."
+        end
+
+        defined?(@stripe_api_error) ? false : true
       end
 
       def set_booking
@@ -104,6 +111,10 @@ module Public
         GuideBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
 
         UpdateBookingStatusJob.perform_later(@booking.__getobj__)
+      end
+
+      def type_of_exception(exception)
+        exception.inspect.split(":").last.gsub(">", "")
       end
     end
   end
