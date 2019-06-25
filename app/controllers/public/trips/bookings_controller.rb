@@ -109,8 +109,6 @@ module Public
         # content based on that state...
         GuestBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
         GuideBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
-
-        UpdateBookingStatusJob.perform_later(@booking.__getobj__)
       end
 
       def type_of_exception(exception)

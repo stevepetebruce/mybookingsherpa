@@ -33,23 +33,18 @@ class BookingDecorator < SimpleDelegator
     Bookings::Payment.amount_due(@booking) == @booking.deposit_cost
   end
 
-  def status(trip)
+  def payment_status_icon
+    return "dot-danger" if @booking.red?
     return "dot-warning" if @booking.yellow?
 
     "dot-success"
   end
 
-  def status_alert?
-    status_text.present?
-  end
+  def payment_status_text
+    return "Last payment failed" if @booking.red?
+    return "Payment required" if @booking.yellow?
 
-  def status_text
-    # TODO: what if there's more than one label? Guide would want to see Medical condition and dietary requirements
-    return "Payment required" if Bookings::Status.new(@booking).payment_required?
-    return "Incomplete booking details" if Bookings::Status.new(@booking).personal_details_incomplete?
-    return "Allergies" if Bookings::Status.new(@booking).allergies?
-    return "Dietary requirements" if Bookings::Status.new(@booking).dietary_requirements?
-    return "Other information" if Bookings::Status.new(@booking).other_information?
+    "Fully paid"
   end
 
   def stripe_publishable_key

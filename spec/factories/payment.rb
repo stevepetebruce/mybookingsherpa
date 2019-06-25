@@ -4,5 +4,14 @@ FactoryBot.define do
     raw_response { {} }
 
     booking
+
+    trait :failed do
+      raw_response do
+        {
+          failure_code: 400,
+          failure_message: "Request failed"
+        }
+      end
+    end
   end
 end

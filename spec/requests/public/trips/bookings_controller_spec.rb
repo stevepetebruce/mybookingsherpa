@@ -81,15 +81,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         expect(booking.payments).not_to be_empty
       end
 
-      context "Use test queue_adapter" do
-        before { ActiveJob::Base.queue_adapter = :test }
-        after { ActiveJob::Base.queue_adapter = :inline }
-
-        it "should call the UpdateBookingStatusJob" do
-          expect { do_request(params: params) }.to have_enqueued_job(UpdateBookingStatusJob)
-        end
-      end
-
       context "a guest who does not yet exist" do
         it "should create the booking and the guest" do
           do_request(params: params)

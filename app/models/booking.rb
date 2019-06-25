@@ -2,7 +2,7 @@
 class Booking < ApplicationRecord
   enum allergies: Guest::POSSIBLE_ALLERGIES, _prefix: true
   enum dietary_requirements: Guest::POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
-  enum status: %i[yellow green]
+  enum payment_status: %i[yellow green red]
 
   belongs_to :trip
   belongs_to :guest, optional: true
@@ -12,8 +12,8 @@ class Booking < ApplicationRecord
   delegate :name, :email, to: :guide, prefix: true
   delegate :name, :email, to: :guest, prefix: true
 
-  delegate :currency, :deposit_cost, :full_cost, :guide,
-           :organisation_name, :organisation_stripe_account_id,
+  delegate :currency, :deposit_cost, :full_cost, :full_payment_date,
+           :guide, :organisation_name, :organisation_stripe_account_id,
            :start_date, :end_date, to: :trip
   delegate :description, :full_payment_window_weeks, :guest_count,
            :maximum_number_of_guests, :name, :start_date,
@@ -34,8 +34,11 @@ class Booking < ApplicationRecord
   scope :highest_priority, -> { order(priority: :desc) }
 
   before_save :update_priority
-  before_save :update_status
   before_validation :enums_none_to_nil
+
+  def last_payment_failed?
+    last_payment&.failed?
+  end
 
   private
 
@@ -44,11 +47,11 @@ class Booking < ApplicationRecord
     self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
   end
 
-  def update_priority
-    self[:priority] = Bookings::Priority.new(self).new_priority
+  def last_payment
+    payments.most_recent.first
   end
 
-  def update_status
-    self[:status] = Bookings::Status.new(self).new_status
+  def update_priority
+    self[:priority] = Bookings::Priority.new(self).new_priority
   end
 end

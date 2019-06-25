@@ -27,11 +27,11 @@ RSpec.describe Guest, type: :model do
       guest.save
     end
 
-    it "should call #update_bookings_status" do
-      expect(guest).to receive(:update_bookings_status)
+    # it "should call #update_bookings_status" do
+    #   expect(guest).to receive(:update_bookings_status)
 
-      guest.save
-    end
+    #   guest.save
+    # end
   end
 
   describe "#enums_none_to_nil" do

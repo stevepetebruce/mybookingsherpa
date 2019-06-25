@@ -11,7 +11,7 @@ module Bookings
     end
 
     def new_priority
-      return PAYMENT_REQUIRED if booking_status.payment_required?
+      return PAYMENT_REQUIRED if booking_payment_status.payment_required?
       return BOOKING_DETAILS_REQUIRED if booking_status.personal_details_incomplete?
       return OTHER_INFORMATION_PRESENT if other_information?
 
@@ -19,6 +19,10 @@ module Bookings
     end
 
     private
+
+    def booking_payment_status
+      @booking_payment_status ||= Bookings::PaymentStatus.new(@booking)
+    end
 
     def booking_status
       @booking_status ||= Bookings::Status.new(@booking)

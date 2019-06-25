@@ -9,7 +9,6 @@ module GuestCallbacks
     before_create :set_one_time_login_token
     before_save :set_updatable_fields
     before_validation :enums_none_to_nil
-    after_save :update_bookings_status
   end
 
   def enums_none_to_nil
@@ -25,9 +24,5 @@ module GuestCallbacks
     UPDATABLE_FIELDS.each do |field|
       self[field] = send("#{field}_override").presence || send("#{field}_booking").presence
     end
-  end
-
-  def update_bookings_status
-    bookings.each { |booking| UpdateBookingStatusJob.perform_later(booking) }
   end
 end
