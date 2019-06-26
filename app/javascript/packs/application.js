@@ -16,6 +16,7 @@ import $ from "jquery";
 import Rails from "rails-ujs";
 import "popper.js";
 
+import "../javascript/checkboxDropdown.js";
 import "../javascript/clipboard.js";
 import "../javascript/countrySelect.js";
 import "../javascript/custom.js";
