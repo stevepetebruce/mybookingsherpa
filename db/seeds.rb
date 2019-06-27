@@ -2,6 +2,12 @@ guide = Guide.create(email: "test_alpadventureguide@hotmail.com", name: "A Guide
 organisation = Organisation.create(currency: "eur", deposit_percentage: 10, full_payment_window_weeks: 6, name: "Alp Adventures Test", stripe_account_id: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER"), subdomain: "alpadventurestest")
 OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
+puts 'guide ' + guide.inspect
+puts 'organisation ' + organisation.inspect
+
+puts 'guide ' + guide.errors.inspect
+puts 'organisation ' + organisation.errors.inspect
+
 # Organisation logo image
 organisation.logo_image.attach(io: File.open("app/javascript/images/logos/alp-adventures-logo.png"), filename: "alp-adventures-logo.png")
 
@@ -144,8 +150,6 @@ end
 
     booking = Booking.create(email: guest.email, name: guest.name, guest: guest, trip: trip)
     Payment.create(amount: booking.full_cost, booking: booking) if [true, false].sample
-
-    Bookings::Status.new(booking).update
 
     puts "Booking errors: #{booking.errors.full_messages}" if booking.errors.full_messages.present?
   end
