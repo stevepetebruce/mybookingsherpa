@@ -37,6 +37,10 @@ class Trip < ApplicationRecord
     self[:currency] || organisation.currency
   end
 
+  def full_cost=(value)
+    super(value.to_i * 100) unless value.nil? # save it in cents
+  end
+
   def guest_count
     # TODO: need to look into this...
     # A booking, in the future may have more than one guest.
