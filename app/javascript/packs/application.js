@@ -20,7 +20,6 @@ import "../javascript/clipboard.js";
 import "../javascript/countrySelect.js";
 import "../javascript/custom.js";
 import "../javascript/downloadCSV.js";
-import "../javascript/editTrip.js";
 
 window.jQuery = $;
 window.$ = $;
