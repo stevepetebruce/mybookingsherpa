@@ -29,25 +29,24 @@ RSpec.describe Bookings::Payment, type: :model do
 
       describe "destination fee for different priced trips" do
         let(:charge_description) do
-            "#{Currency.iso_to_symbol(trip.currency)}" \
-              "#{Currency.human_readable(trip_full_cost_in_cents)} " \
-              "paid to #{booking.organisation_name} for #{booking.trip_name}"
-          end
-          let(:transfer_data) do
-            {
-              destination: booking.organisation_stripe_account_id
-            }
-          end
-          let(:trip_full_cost_in_cents) { trip.full_cost * 100 }
+          "#{Currency.iso_to_symbol(trip.currency)}" \
+            "#{Currency.human_readable(trip.full_cost)} " \
+            "paid to #{booking.organisation_name} for #{booking.trip_name}"
+        end
+        let(:transfer_data) do
+          {
+            destination: booking.organisation_stripe_account_id
+          }
+        end
 
         context "a trip that is under the minimum trip cost" do
-          let(:trip) { FactoryBot.create(:trip, full_cost: 10_000) }
+          let(:trip) { FactoryBot.create(:trip, full_cost: 100) }
 
           it "should use the lower destination fee" do
             expect(External::StripeApi::Charge).
               to receive(:create).
               with({
-                amount: trip_full_cost_in_cents,
+                amount: trip.full_cost,
                 application_fee_amount: 200, 
                 currency: trip.currency,
                 customer: nil,
@@ -61,13 +60,13 @@ RSpec.describe Bookings::Payment, type: :model do
         end
 
         context "a trip that is over the minimum trip cost" do
-          let(:trip) { FactoryBot.create(:trip, full_cost: 500_000) }
+          let(:trip) { FactoryBot.create(:trip, full_cost: 5_000) }
 
           it "should use the regular destination fee" do
             expect(External::StripeApi::Charge).
               to receive(:create).
               with({
-                amount: trip_full_cost_in_cents,
+                amount: trip.full_cost,
                 application_fee_amount: 400, 
                 currency: trip.currency,
                 customer: nil,

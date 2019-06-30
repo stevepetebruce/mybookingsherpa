@@ -36,7 +36,7 @@ RSpec.describe Trip, type: :model do
     end
 
     describe "#set_deposit_cost" do
-      let!(:full_cost) { rand(5_000_0...10_000_0) }
+      let!(:full_cost) { rand(500...1_000) }
       let!(:trip) { FactoryBot.build(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
 
       context "deposit_percentage is not nil" do
@@ -51,7 +51,7 @@ RSpec.describe Trip, type: :model do
         it "should set the correct deposit cost based on the trip's full_cost and deposit_percentage" do
           trip.save
 
-          expect(trip.deposit_cost).to eq((full_cost * (deposit_percentage.to_f / 100)).to_i)
+          expect(trip.deposit_cost).to eq((trip.full_cost * (deposit_percentage.to_f / 100)).to_i)
         end
       end
 
@@ -160,6 +160,17 @@ RSpec.describe Trip, type: :model do
       it "should be the trip specific currency" do
         expect(subject).to eq("gbp")
       end
+    end
+  end
+
+  describe "#full_cost" do
+    subject(:full_cost) { trip.full_cost }
+
+    let!(:full_cost_in_full_currency) { Faker::Number.between(500, 1_000) }
+    let(:trip) { FactoryBot.build(:trip, full_cost: full_cost_in_full_currency) }
+
+    it "should convert the amount in full currency units to cents/pennies" do
+      expect(full_cost).to eq (full_cost_in_full_currency * 100)
     end
   end
 end

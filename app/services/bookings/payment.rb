@@ -13,10 +13,6 @@ module Bookings
       @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
-    def amount_due_in_cents
-      amount_due * 100
-    end
-
     def charge
       raise NoOrganisationStripeAccountIdError if @booking.organisation_stripe_account_id.nil?
       External::StripeApi::Charge.create(attributes)
@@ -24,10 +20,6 @@ module Bookings
 
     def self.amount_due(booking)
       new(booking).amount_due
-    end
-
-    def self.amount_due_in_cents(booking)
-      new(booking).amount_due_in_cents
     end
 
     private
@@ -40,7 +32,7 @@ module Bookings
 
     def attributes
       {
-        amount: amount_due_in_cents,
+        amount: amount_due,
         application_fee_amount: application_fee_amount,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
@@ -56,7 +48,7 @@ module Bookings
 
     def charge_description
       "#{Currency.iso_to_symbol(@booking.currency)}" \
-        "#{Currency.human_readable(amount_due_in_cents)} " \
+        "#{Currency.human_readable(amount_due)} " \
         "paid to #{@booking.organisation_name} for #{@booking.trip_name}"
     end
 

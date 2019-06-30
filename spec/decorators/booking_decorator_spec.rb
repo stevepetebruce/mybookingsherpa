@@ -72,7 +72,7 @@ RSpec.describe BookingDecorator, type: :model do
     subject(:human_readable_amount_due) { described_class.new(booking).human_readable_amount_due }
 
     it "should be the currency of the trip and the cost now due" do
-      expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost * 100)}"
+      expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe BookingDecorator, type: :model do
     subject(:human_readable_full_cost) { described_class.new(booking).human_readable_full_cost }
 
     it "should be the currency of the trip and the full cost" do
-      expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost * 100)}"
+      expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
     end
   end
 

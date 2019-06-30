@@ -21,12 +21,12 @@ class BookingDecorator < SimpleDelegator
 
   def human_readable_amount_due
     "#{Currency.iso_to_symbol(@booking.currency)}" \
-      "#{Currency.human_readable(Bookings::Payment.amount_due_in_cents(@booking))}"
+      "#{Currency.human_readable(Bookings::Payment.amount_due(@booking))}"
   end
 
   def human_readable_full_cost
     "#{Currency.iso_to_symbol(@booking.currency)}" \
-      "#{Currency.human_readable(full_cost_in_cents)}"
+      "#{Currency.human_readable(@booking.full_cost)}"
   end
 
   def only_paying_deposit?
@@ -59,10 +59,6 @@ class BookingDecorator < SimpleDelegator
   end
 
   private
-
-  def full_cost_in_cents
-    @booking.full_cost * 100
-  end
 
   def gravatar_base_url
     "https://gravatar.com/avatar"
