@@ -11,13 +11,13 @@ module Public
 
       # GET /bookings/new
       def new
-        @booking = BookingDecorator.new(@trip.bookings.new)
+        @booking = @trip.bookings.new
       end
 
       # POST /bookings
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
-        @booking = BookingDecorator.new(@trip.bookings.new(booking_params.merge(guest: @guest)))
+        @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
         attach_stripe_customer_to_guest(@booking)
 
@@ -87,7 +87,7 @@ module Public
       end
 
       def set_booking
-        @booking = BookingDecorator.new(Booking.find(params[:id]))
+        @booking = Booking.find(params[:id])
       end
 
       def set_trip
@@ -107,8 +107,8 @@ module Public
         # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
         # 10 min wait to let them fill in their details in booking edit page, then send updated email
         # content based on that state...
-        GuestBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
-        GuideBookingMailer.with(booking: @booking.__getobj__).new.deliver_later
+        GuestBookingMailer.with(booking: @booking).new.deliver_later
+        GuideBookingMailer.with(booking: @booking).new.deliver_later
       end
 
       def type_of_exception(exception)

@@ -1,11 +1,7 @@
-class TripDecorator < SimpleDelegator
-  def initialize(trip)
-    @trip = trip
-    super
-  end
-
+# Presentation layer related methods for Trip model.
+module TripDecorator
   def new_public_booking_link
-    "#{base_domain_and_subdomain}#{paths.new_public_trip_booking_path(@trip.slug)}"
+    "#{base_domain_and_subdomain}#{paths.new_public_trip_booking_path(slug)}"
   end
 
   private
@@ -31,6 +27,6 @@ class TripDecorator < SimpleDelegator
   end
 
   def subdomain
-    return "#{@trip.organisation_subdomain}." if @trip.organisation_subdomain
+    return "#{organisation_subdomain}." if organisation_subdomain
   end
 end

@@ -1,26 +1,26 @@
 require "rails_helper"
 
 RSpec.describe BookingDecorator, type: :model do
-
   let!(:booking) { FactoryBot.create(:booking, guest: guest) }
   let(:guest) { FactoryBot.create(:guest) }
 
   describe "#dynamically created fallback fields" do
-    subject(:dynamic_value) { described_class.new(booking).send(dynamically_created_field) }
+    subject(:dynamic_value) { booking.send(guest_or_booking_field) }
 
     let!(:dynamically_created_field) { Guest::UPDATABLE_FIELDS.sample }
+    let!(:guest_or_booking_field) { "guest_or_booking_#{dynamically_created_field}" }
 
     context "a guest that does not have a name yet, but their most recent booking does" do
       let!(:booking) { FactoryBot.create(:booking, :all_fields_complete, guest: guest) }
 
-      it "should return the booking name" do
-        expect(dynamic_value).to eq booking.send(dynamically_created_field)
+      it "should return the booking's value for this field (not the guest's / nil)" do
+        expect(dynamic_value).to eq booking.send(guest_or_booking_field)
       end
     end
   end
 
   describe "#flag_icon" do
-    subject { described_class.new(booking).flag_icon }
+    subject(:flag_icon) { booking.flag_icon }
 
     let!(:country_code) { Faker::Address.country_code }
 
@@ -28,7 +28,7 @@ RSpec.describe BookingDecorator, type: :model do
       before { allow(booking).to receive(:country).and_return(country_code) }
 
       it "should return expected flag-icon class" do
-        expect(subject).to eq "flag-icon-#{country_code.downcase}"
+        expect(flag_icon).to eq "flag-icon-#{country_code.downcase}"
       end
     end
 
@@ -36,40 +36,40 @@ RSpec.describe BookingDecorator, type: :model do
       before { allow(guest).to receive(:country).and_return(country_code) }
 
       it "should return expected flag-icon class" do
-        expect(subject).to eq "flag-icon-#{country_code.downcase}"
+        expect(flag_icon).to eq "flag-icon-#{country_code.downcase}"
       end
     end
 
     context "a booking and guest without a country code" do
       it "should return nil" do
-        expect(subject).to be_nil
+        expect(flag_icon).to be_nil
       end
     end
   end
 
   describe "#full_payment_date" do
-    subject(:full_payment_date) { described_class.new(booking).full_payment_date }
+    subject(:full_payment_date) { booking.full_payment_date }
 
     let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
     let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: rand(2...6)) }
 
     it "should be the trip_start_date - trip_full_payment_window_weeks" do
-      expect(full_payment_date).to eq (booking.trip_start_date - booking.trip_full_payment_window_weeks.weeks).strftime("%F")
+      expect(full_payment_date).to eq((booking.trip_start_date - booking.trip_full_payment_window_weeks.weeks).strftime("%F"))
     end
   end
 
   describe "#gravatar_url" do
-    subject { described_class.new(booking).gravatar_url }
+    subject(:gravatar_url) { booking.gravatar_url }
 
     let(:gravatar_id) { Digest::MD5.hexdigest(booking.guest_email).downcase }
 
     it "should return expected URL" do
-      expect(subject).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
+      expect(gravatar_url).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
     end
   end
 
   describe "#human_readable_amount_due" do
-    subject(:human_readable_amount_due) { described_class.new(booking).human_readable_amount_due }
+    subject(:human_readable_amount_due) { booking.human_readable_amount_due }
 
     it "should be the currency of the trip and the cost now due" do
       expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
@@ -77,7 +77,7 @@ RSpec.describe BookingDecorator, type: :model do
   end
 
   describe "#human_readable_full_cost" do
-    subject(:human_readable_full_cost) { described_class.new(booking).human_readable_full_cost }
+    subject(:human_readable_full_cost) { booking.human_readable_full_cost }
 
     it "should be the currency of the trip and the full cost" do
       expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
@@ -85,7 +85,7 @@ RSpec.describe BookingDecorator, type: :model do
   end
 
   describe "#only_paying_deposit?" do
-    subject(:only_paying_deposit?) { described_class.new(booking).only_paying_deposit? }
+    subject(:only_paying_deposit?) { booking.only_paying_deposit? }
 
     context "when only deposit is due to be paid" do
       before do
@@ -109,7 +109,7 @@ RSpec.describe BookingDecorator, type: :model do
   end
 
   describe "#payment_status_icon" do
-    subject(:payment_status_icon) { described_class.new(booking.reload).payment_status_icon }
+    subject(:payment_status_icon) { booking.reload.payment_status_icon }
 
     let(:booking) { FactoryBot.create(:booking) }
 
@@ -137,7 +137,7 @@ RSpec.describe BookingDecorator, type: :model do
   end
 
   describe "#payment_status_text" do
-    subject(:payment_status_text) { described_class.new(booking.reload).payment_status_text }
+    subject(:payment_status_text) { booking.reload.payment_status_text }
 
     let!(:booking) { FactoryBot.create(:booking) }
 
@@ -157,7 +157,7 @@ RSpec.describe BookingDecorator, type: :model do
   end
 
   describe "#stripe_publishable_key" do
-    subject(:stripe_publishable_key) { described_class.new(booking).stripe_publishable_key }
+    subject(:stripe_publishable_key) { booking.stripe_publishable_key }
     let(:organisation) { booking.organisation }
 
     context "organisation that is on a trial" do

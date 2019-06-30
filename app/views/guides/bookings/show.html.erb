@@ -17,19 +17,19 @@
                 <div class="col-md-auto">
                   <div class="card">
                     <div class="card-body">
-                      <h2 class="font-weight-bold"><%= image_tag @booking.gravatar_url, class: "avatar avatar-sm ml-1 mb-1", alt: "guest profile image" %><%= @booking.name %></h2>
+                      <h2 class="font-weight-bold"><%= image_tag @booking.gravatar_url, class: "avatar avatar-sm ml-1 mb-1", alt: "guest profile image" %><%= @booking.guest_or_booking_name %></h2>
                       <address>
                         <p class="display4 mb-2">  
-                          <% if @booking.country %>                           
-                            <%= @booking.country %> <span class="flag-icon flag-icon-circled ml-1 <%= @booking.flag_icon %>"></span>
+                          <% if @booking.guest_or_booking_country %>                           
+                            <%= @booking.guest_or_booking_country %> <span class="flag-icon flag-icon-circled ml-1 <%= @booking.flag_icon %>"></span>
                           <% else %>
                             Guest has not entered the country they are from.
                           <% end %>
                         </p>
                         <p class="display4">
                           <i class="fa fa-phone-square mr-1"></i>
-                          <% if @booking.phone_number %>
-                            <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.phone_number %></a>
+                          <% if @booking.guest_or_booking_phone_number %>
+                            <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.guest_or_booking_phone_number %></a>
                           <% else %>
                             Guest has not entered their phone number.
                           <% end %>
@@ -42,9 +42,9 @@
                       </p>
                       <p class="mb-4">
                         <span class="font-weight-bold">Age:</span>
-                        <% if @booking.date_of_birth.present? %>
-                          <%= Time.zone.now.year - @booking.date_of_birth.year %>
-                          <span class="text-gray">(<%= @booking.date_of_birth.strftime("%d %b %Y") %>)</span>
+                        <% if @booking.guest_or_booking_date_of_birth.present? %>
+                          <%= Time.zone.now.year - @booking.guest_or_booking_date_of_birth.year %>
+                          <span class="text-gray">(<%= @booking.guest_or_booking_date_of_birth.strftime("%d %b %Y") %>)</span>
                         <% else %>
                           Unknown
                         <% end %>
@@ -52,13 +52,13 @@
                       <h3 class="card-title font-weight-bold">Emergency Contact</h3>
                       <div class="media">
                         <div class="media-body">
-                          <% if @booking.next_of_kin_name %>
+                          <% if @booking.guest_or_booking_next_of_kin_name %>
                             <p class="display4 mb-1">
-                              <%= @booking.next_of_kin_name %>
+                              <%= @booking.guest_or_booking_next_of_kin_name %>
                             </p>
                             <address>
                               <p class="display4">
-                                <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.next_of_kin_phone_number %>" class="text-primary"><%= @booking.next_of_kin_phone_number %></a>
+                                <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.guest_or_booking_next_of_kin_phone_number %>" class="text-primary"><%= @booking.guest_or_booking_next_of_kin_phone_number %></a>
                               </p>
                             </address>
                           <% else %>
@@ -101,7 +101,7 @@
                                 <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>" class="mr-1" width="28px" height="28px"/>
                                 <span class="text-danger">Allergies:</span>
                                 <!-- TODO: how to handle multiple allergies? -->
-                                <%= @booking.allergies.capitalize %>
+                                <%= @booking.guest_or_booking_allergies.capitalize %>
                               <% else %>
                                 <span class="text-gray">Allergies:</span> No allergies.
                               <% end %>
@@ -114,7 +114,7 @@
                               <% if Bookings::Status.new(@booking).dietary_requirements? %>
                                 <img src="<%= asset_pack_path 'images/icons/diet-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Dietary Requirements:</span>
-                                <%= @booking.dietary_requirements.capitalize %>
+                                <%= @booking.guest_or_booking_dietary_requirements.capitalize %>
                               <% else %>
                                 <span class="text-gray">Dietary Requirements:</span> No dietary requirements.
                               <% end %>
@@ -128,7 +128,7 @@
                                 <img src="<%= asset_pack_path 'images/icons/info-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Other information:</span>
                                 <!-- TODO: be careful here - allowing users to enter free text -->
-                                <%= @booking.other_information %>
+                                <%= @booking.guest_or_booking_other_information %>
                               <% else %>
                                 <span class="text-gray">Other information:</span> No other information.
                               <% end %>

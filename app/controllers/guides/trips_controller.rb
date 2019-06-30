@@ -19,9 +19,9 @@ module Guides
 
     def index
       @trips = if @show_past_trips
-                 current_guide.trips.past_trips.map { |trip| TripDecorator.new(trip) }
+                 current_guide.trips.past_trips
                else
-                 current_guide.trips.future_trips.map { |trip| TripDecorator.new(trip) }
+                 current_guide.trips.future_trips
                end
     end
 

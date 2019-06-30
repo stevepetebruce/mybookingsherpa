@@ -33,10 +33,10 @@
           </tr>
         </thead>
         <tbody>
-          <% @trip.decorated_bookings.each do |booking| %>
+          <% @trip.bookings.each do |booking| %>
             <tr>
               <td nowrap>
-                <strong><%= booking.name %></strong>
+                <strong><%= booking.guest_or_booking_name %></strong>
               </td>
               <td>
                 <% if Bookings::PaymentStatus.new(booking).payment_required? %>
@@ -46,15 +46,15 @@
                 <% end %>
               </td>
               <td>
-                <% if booking.country %>                           
-                  <%= booking.country %>
+                <% if booking.guest_or_booking_country %>                           
+                  <%= booking.guest_or_booking_country %>
                 <% else %>
                   No Country
                 <% end %>
               </td>
               <td>
-                <% if booking.phone_number %>
-                  <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.phone_number %></a>
+                <% if booking.guest_or_booking_phone_number %>
+                  <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.guest_or_booking_phone_number %></a>
                 <% else %>
                   No phone number.
                 <% end %>
@@ -66,22 +66,22 @@
                 <%= booking.created_at.strftime("%d %b %Y") %>
               </td>
               <td>
-                <% if booking.date_of_birth.present? %>
-                  <%= Time.zone.now.year - booking.date_of_birth.year %>
+                <% if booking.guest_or_booking_date_of_birth.present? %>
+                  <%= Time.zone.now.year - booking.guest_or_booking_date_of_birth.year %>
                 <% else %>
                   Unknown
                 <% end %>
               </td>
               <td>
-                <% if booking.next_of_kin_name %>
-                  <%= booking.next_of_kin_name %>: <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.next_of_kin_phone_number %></a>
+                <% if booking.guest_or_booking_next_of_kin_name %>
+                  <%= booking.guest_or_booking_next_of_kin_name %>: <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.guest_or_booking_next_of_kin_phone_number %></a>
                 <% else %>
                   No emergency contact details.
                 <% end %>
               </td>
                 <% if Bookings::Status.new(booking).allergies? %>
                   <td class="table-danger">
-                    <%= booking.allergies.capitalize %>
+                    <%= booking.guest_or_booking_allergies.capitalize %>
                   </td>
                 <% else %>
                   <td>
@@ -91,7 +91,7 @@
               </td>
                 <% if Bookings::Status.new(booking).dietary_requirements? %>
                   <td class="table-warning">
-                    <%= booking.dietary_requirements.capitalize %>
+                    <%= booking.guest_or_booking_dietary_requirements.capitalize %>
                   </td>
                 <% else %>
                   <td>
@@ -101,7 +101,7 @@
               </td>
               <td>
                 <% if Bookings::Status.new(booking).other_information? %>
-                  <%= booking.other_information %>
+                  <%= booking.guest_or_booking_other_information %>
                 <% else %>
                   No other information.
                 <% end %>
