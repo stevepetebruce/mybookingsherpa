@@ -5,9 +5,9 @@ Hi <%= @booking.guide_name %>,
 
 Good news.
 
-You've received a new booking from <%= @booking.name %> for <%= @booking.trip_name %>.
+You've received a new booking from <%= @booking.guest_or_booking_name %> for <%= @booking.trip_name %>.
 
-<%= link_to guides_trips_url, "Click here" %> to see <%= @booking.trip_name %> status and <%= link_to guides_booking_url(@booking), "click here" %> to see <%= @booking.name %>'s details.
+<%= link_to guides_trips_url, "Click here" %> to see <%= @booking.trip_name %> status and <%= link_to guides_booking_url(@booking), "click here" %> to see <%= @booking.guest_or_booking_name %>'s details.
 
 They have successfully been charged <%= "#{Currency.iso_to_symbol(@booking.currency)}#{Currency.human_readable(@booking.full_cost)}" %> and you should see this (minus handling fee) within two working days.
 

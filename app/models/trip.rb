@@ -1,5 +1,6 @@
 # Represents a trip in the system.
 class Trip < ApplicationRecord
+  include TripDecorator
   enum currency: %i[eur gbp usd]
 
   validates :deposit_percentage, numericality: { only_integer: true }, allow_nil: true
@@ -47,10 +48,6 @@ class Trip < ApplicationRecord
     # But guests.count (has_many :guests, through: :bookings)
     # could be a circular reference.
     bookings.count
-  end
-
-  def decorated_bookings
-    bookings.highest_priority.map { |booking| BookingDecorator.new(booking) }
   end
 
   def guide

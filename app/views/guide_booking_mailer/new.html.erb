@@ -486,7 +486,7 @@
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Good news.</p>
                                <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              You've received a new booking from <%= @booking.name %> for <%= @booking.trip_name %></p>
+                              You've received a new booking from <%= @booking.guest_or_booking_name %> for <%= @booking.trip_name %></p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               <%= link_to "Click here", guides_trips_url, style: "color: #0068A5; text-decoration: none;" %> to see <%= @booking.trip_name %> status and <%= link_to "click here",guides_booking_url(@booking), style: "color: #0068A5; text-decoration: none;" %> to see guest details.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
