@@ -37,7 +37,7 @@ ul.formline > li:before {
   z-index: 400;
 }
 
-.radiocontainer {
+.radiocontainer,.checkcontainer {
   display: inline-block;
   position: relative;
   padding: 5px 5px 5px 32px;
@@ -47,7 +47,7 @@ ul.formline > li:before {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border: 1px #eee solid;
+  border: 1px solid rgba(255,255,255,0);
   border-radius: 5px;
   &:hover {
     border: 1px $light-gray solid;
@@ -99,6 +99,41 @@ ul.formline > li:before {
   display: none;
 }
 
+.customcheck {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  height: 22px;
+  width: 22px;
+  background-color: $white;
+  border: 1px solid $light-gray;
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+}
+.checkcontainer {
+  &:hover input ~ .customcheck {
+    background-color: #ccc;
+  }
+  input:checked ~ .customcheck {
+    background-color: $dodger-blue;
+    &:after {
+      display: block;
+    }
+  }
+  .customcheck:after {
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid $white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
 select:not([multiple]) {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -108,8 +143,42 @@ select:not([multiple]) {
   box-sizing: content-box;
 }
 
-.customSelect {
+.customselect {
   border-radius: 2;
   padding: 3px 0 2px 12px;
   width: calc(100% - 12px);
 }
+
+.selectbox {
+  position: relative;
+}
+
+.selectwrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#selectoptions {
+  display: none;
+  border: 1px $light-gray solid;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,.10);
+  padding: 12px;
+  background-color: $white;
+  label {
+    display: block;
+    padding: 6px 38px;
+  }
+}
+
+.selectoptionblock {
+  margin: 8px;
+  padding: 8px;
+  &:nth-child(1) {
+    border-bottom: solid 1px $light-gray;
+    margin-bottom: 18px;
+  }
+}
+
