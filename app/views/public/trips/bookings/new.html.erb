@@ -8,17 +8,17 @@
                 <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
               <% end %>
               <h1 class="font-weight-bold mb-0"><%= @booking.trip_name %></h1>
-              <h3>
+              <h3 class="mb-5">
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
               <% if @booking.only_paying_deposit? %>
-                <h1 class="mb-0">Deposit: <%= @booking.human_readable_amount_due %></h1>
-                <span class="mb-5">(Due now)</span>
+                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <%= @booking.human_readable_amount_due %></h2>
               <% end %>
-              <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>">Total: <%= @booking.human_readable_full_cost %></h1>
               <% if @booking.only_paying_deposit? %>
-                <span class="mb-3">(Full payment will be taken on <%= @booking.human_readable_full_payment_date %>)</span>
+                <!-- TODO: Please make total minus deposit dynamic  -->
+                <h5 class="mb-3">€800 will be taken on <%= @booking.human_readable_full_payment_date %></h5>
               <% end %>
+              <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
               <div id="summary" class="mt-5">
                 <p class="collapse" id="collapseSummary">
                   <%= @booking.trip_description %>

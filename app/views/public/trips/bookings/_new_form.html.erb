@@ -37,7 +37,7 @@ An extra step - but a definite confirmation from the user.
   </div>
   <hr class="mb-5 mb-4">
   <h4 class="mb-3 font-weight-bold">
-    Payment of <%= @booking.human_readable_amount_due %>
+    <% if @booking.only_paying_deposit? %>Deposit <% end %>Payment of <%= @booking.human_readable_amount_due %>
     </h4>
   <div class="row">
     <div class="col-md-12 mb-3">
