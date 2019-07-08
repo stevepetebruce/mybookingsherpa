@@ -6,7 +6,7 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
 
     let(:create_attributes) do
       {
-        description: "Customer for #{guest.email}",
+        description: "#{guest.email}",
         token: stripe_token,
         use_test_api: booking.organisation_on_trial?
       }
