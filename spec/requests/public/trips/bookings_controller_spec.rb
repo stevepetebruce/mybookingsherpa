@@ -20,7 +20,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let!(:email) { Faker::Internet.email }
     let(:guest) { Guest.last }
     let!(:guide) { FactoryBot.create(:guide) }
-    let!(:trip) { FactoryBot.create(:trip) } #, guides: [guide], organisation: organisation)}
+    let!(:trip) { FactoryBot.create(:trip) }
     let!(:params) do
       {
         booking:

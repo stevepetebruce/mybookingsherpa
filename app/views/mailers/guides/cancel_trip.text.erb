@@ -1,0 +1,16 @@
+Cancel <%= @trip.name %>, <%= "#{@trip.start_date.day} - #{@trip.end_date.day} #{Date::MONTHNAMES[@trip.end_date.month]} #{@trip.end_date.year}" %>?
+===============================================
+
+Hi <%= @guide.name %>,
+
+There isn't enough guests for <%= @trip.name %> and you will need to decide if you want to cancel the trip and refund all guests' deposits. There's currently <%= @trip.guest_count %> booked on the trip.
+
+If you want to refund all the deposits and cancel the trip, just reply to this email letting us know and we can start the refund process.
+
+You will need to contact the guests yourself to let them know that the trip is cancelled.
+
+If you have questions please contact: support@mybookingsherpa.com
+
+
+Thank you from all at the MyBookingSherpa team.
+
