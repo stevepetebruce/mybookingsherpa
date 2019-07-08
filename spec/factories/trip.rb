@@ -7,5 +7,10 @@ FactoryBot.define do
     maximum_number_of_guests { 12 }
     organisation
     guides { |t| [t.association(:guide)] }
+
+    after(:build) do |trip|
+      trip.guides.first.organisation_memberships.create(owner: true,
+                                                        organisation: trip.organisation)
+    end
   end
 end

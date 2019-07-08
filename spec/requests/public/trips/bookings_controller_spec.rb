@@ -20,14 +20,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
     let!(:email) { Faker::Internet.email }
     let(:guest) { Guest.last }
     let!(:guide) { FactoryBot.create(:guide) }
-    let!(:trip) { FactoryBot.create(:trip, guides: [guide], organisation: organisation)}
-    let(:organisation) { FactoryBot.create(:organisation) }
-    let!(:organisation_membership) do
-      FactoryBot.create(:organisation_membership,
-                        guide: guide,
-                        organisation: organisation,
-                        owner: true)
-    end
+    let!(:trip) { FactoryBot.create(:trip) } #, guides: [guide], organisation: organisation)}
     let!(:params) do
       {
         booking:
@@ -46,7 +39,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         stripeToken: "tok_#{Faker::Crypto.md5}"
       }
     end
-    let!(:subdomain) { organisation.subdomain }
+    let!(:subdomain) { trip.organisation_subdomain }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/charges").
