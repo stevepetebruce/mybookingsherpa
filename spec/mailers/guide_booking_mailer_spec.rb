@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe GuideBookingMailer, type: :mailer do
+RSpec.describe Guides::BookingMailer, type: :mailer do
   describe "#new" do
     let!(:booking) { FactoryBot.create(:booking, trip: trip) }
     let!(:guide) { FactoryBot.create(:guide, email: guide_email, name: guide_name) }
