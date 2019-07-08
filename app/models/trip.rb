@@ -60,6 +60,10 @@ class Trip < ApplicationRecord
     organisation_memberships.owners&.first&.guide
   end
 
+  def has_minimum_number_of_guests?
+    guest_count >= minimum_number_of_guests
+  end
+
   def start_date_before_end_date
     return if start_date.nil? && end_date.nil?
     return if start_date <= end_date
