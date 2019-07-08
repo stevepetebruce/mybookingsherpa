@@ -42,6 +42,12 @@ class Trip < ApplicationRecord
     super(value.to_i * 100) unless value.nil? # save it in cents
   end
 
+  def full_payment_date
+    return if full_payment_window_weeks.nil?
+
+    start_date - full_payment_window_weeks.weeks
+  end
+
   def guest_count
     # TODO: need to look into this...
     # A booking, in the future may have more than one guest.

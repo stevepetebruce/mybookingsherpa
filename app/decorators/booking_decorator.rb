@@ -11,10 +11,6 @@ module BookingDecorator
     "flag-icon-#{guest_or_booking_country.downcase}" if guest_or_booking_country.present?
   end
 
-  def full_payment_date
-    (trip_start_date - trip_full_payment_window_weeks.weeks).strftime("%F")
-  end
-
   def gravatar_url(size = 36)
     "#{gravatar_base_url}/#{gravatar_id}.png?" \
       "s=#{size}&d=#{CGI.escape(gravatar_fallback_image_url)}"
@@ -28,6 +24,10 @@ module BookingDecorator
   def human_readable_full_cost
     "#{Currency.iso_to_symbol(currency)}" \
       "#{Currency.human_readable(full_cost)}"
+  end
+
+  def human_readable_full_payment_date
+    full_payment_date&.strftime("%F") || ""
   end
 
   def only_paying_deposit?

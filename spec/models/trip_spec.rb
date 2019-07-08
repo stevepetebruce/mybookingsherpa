@@ -173,4 +173,24 @@ RSpec.describe Trip, type: :model do
       expect(full_cost).to eq (full_cost_in_full_currency * 100)
     end
   end
+
+  describe "#full_payment_date" do
+    subject(:full_payment_date) { trip.full_payment_date }
+
+    context "trip with a full_payment_window_weeks value" do
+      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: rand(2...6)) }
+
+      it "should be the trip_start_date - trip_full_payment_window_weeks" do
+        expect(full_payment_date).to eq((trip.start_date - trip.full_payment_window_weeks.weeks))
+      end
+    end
+
+    context "trip without a full_payment_window_weeks value" do
+      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: nil) }
+
+      it "should be the trip_start_date - trip_full_payment_window_weeks" do
+        expect(full_payment_date).to eq nil
+      end
+    end
+  end
 end

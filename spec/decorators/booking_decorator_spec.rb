@@ -47,17 +47,6 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
-  describe "#full_payment_date" do
-    subject(:full_payment_date) { booking.full_payment_date }
-
-    let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
-    let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: rand(2...6)) }
-
-    it "should be the trip_start_date - trip_full_payment_window_weeks" do
-      expect(full_payment_date).to eq((booking.trip_start_date - booking.trip_full_payment_window_weeks.weeks).strftime("%F"))
-    end
-  end
-
   describe "#gravatar_url" do
     subject(:gravatar_url) { booking.gravatar_url }
 
@@ -65,6 +54,28 @@ RSpec.describe BookingDecorator, type: :model do
 
     it "should return expected URL" do
       expect(gravatar_url).to start_with "https://gravatar.com/avatar/#{gravatar_id}"
+    end
+  end
+
+  describe "#human_readable_full_payment_date" do
+    let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
+    subject(:human_readable_full_payment_date) { booking.human_readable_full_payment_date }
+
+    context "trip with a full_payment_date" do
+      let!(:full_payment_window_weeks) { Faker::Number.between(5, 10) }
+      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: full_payment_window_weeks) }
+
+      it "should return the corfect date in the correct format" do
+        expect(human_readable_full_payment_date).to match(/\A[0-9]{4}-[0-9]{2}-[0-9]{2}\z/)
+      end
+    end
+
+    context "trip without a full_payment_date" do
+      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: nil) }
+
+      it "should (safely) nil" do
+        expect(human_readable_full_payment_date).to eq ""
+      end
     end
   end
 

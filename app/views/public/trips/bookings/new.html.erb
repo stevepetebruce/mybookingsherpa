@@ -17,7 +17,7 @@
               <% end %>
               <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>">Total: <%= @booking.human_readable_full_cost %></h1>
               <% if @booking.only_paying_deposit? %>
-                <span class="mb-3">(Full payment will be taken on <%= @booking.full_payment_date %>)</span>
+                <span class="mb-3">(Full payment will be taken on <%= @booking.human_readable_full_payment_date %>)</span>
               <% end %>
               <div id="summary" class="mt-5">
                 <p class="collapse" id="collapseSummary">
