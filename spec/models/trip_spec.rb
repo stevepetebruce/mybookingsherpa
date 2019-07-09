@@ -193,4 +193,40 @@ RSpec.describe Trip, type: :model do
       end
     end
   end
+
+  describe "#has_minimum_number_of_guests?" do
+    subject(:has_minimum_number_of_guests?) { trip.has_minimum_number_of_guests? }
+
+    let(:trip) { FactoryBot.build(:trip, minimum_number_of_guests: minimum_number_of_guests) }
+
+    context "trip has the minimum_number_of_guests" do
+      let!(:minimum_number_of_guests) { Faker::Number.between(1, 10) }
+      let(:number_of_guests_on_trip) { minimum_number_of_guests + Faker::Number.between(0, 5) }
+
+      before do
+        allow_any_instance_of(Trip).
+          to receive(:guest_count).
+          and_return(number_of_guests_on_trip)
+      end
+
+      it "should be true" do
+        expect(has_minimum_number_of_guests?).to be_truthy
+      end
+    end
+
+    context "trip does not have the minimum_number_of_guests" do
+      let!(:minimum_number_of_guests) { Faker::Number.between(10, 15) }
+      let(:number_of_guests_on_trip) { minimum_number_of_guests - Faker::Number.between(1, 5) }
+
+      before do
+        allow_any_instance_of(Trip).
+          to receive(:guest_count).
+          and_return(number_of_guests_on_trip)
+      end
+
+      it "should be false" do
+        expect(has_minimum_number_of_guests?).to be_falsey
+      end
+    end
+  end
 end
