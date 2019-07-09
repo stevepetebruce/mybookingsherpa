@@ -1,5 +1,5 @@
 .clipboard-input {
-  font-size: 60%;
+  font-size: 75%;
   float: right;
 }
 
@@ -12,17 +12,31 @@
 }
 
 .outer-text-wrapper {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 250px;
+  margin-left: 12px;
   text-align: right;
+  color: shade($light-gray, 10%);
   overflow: hidden;
   white-space: nowrap;
+  display: inline-block;
+  background-color: $white-smoke;
+  border-right: 0;
+  padding: 5px 8px 5px 0;
 }
 
 .copied {
   opacity: 1;
   animation: opacity linear 1s;
+}
+
+.edit-trip-link {
+  margin-left: 12px;
+}
+
+@include media-breakpoint-up(sm) {
+  .edit-trip-link {
+    float: right;
+  }
 }
 
 @include media-breakpoint-down(md) {

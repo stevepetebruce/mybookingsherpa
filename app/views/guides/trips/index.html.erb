@@ -15,11 +15,8 @@
               </span>
             </h1>
             <div class="row">
-              <div class="col col-lg-4 pr-0 pl-0"></div>
-              <div class="col col-lg-4 pl-2 d-sm-none d-md-none d-lg-block d-none">
-                <h4>New Booking Link</h4>
-              </div>
-              <div class="col col-lg-3 text-center d-sm-none d-md-none d-lg-block d-none">
+              <div class="col col-lg-7"></div>
+              <div class="col col-lg-4 text-center d-sm-none d-md-none d-lg-block d-none">
                 <h4 class="ml-1">Places Filled</h4>
               </div>
               <div class="col col-lg-1"></div>
@@ -30,25 +27,16 @@
                   <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
                     aria-controls="collapseOne">
                     <div class="row">
-                      <div class="row col col-10 col-sm-6 h4 font-weight-bold  no-gutters">
-                        <div class="col col-lg-7 col-12">
+                      <div class="row col-10 col-sm-7 h4 font-weight-bold no-gutters">
+                        <div class="col col-md-8 col-sm-12">
                           <%= trip.name %>
                         </div>
-                        <div class="col col-lg-5 col-12">
-                          <div class="input-group-append">
-                            <div class="outer-text-wrapper">
-                              <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
-                            </div>
-                            <button class="btn btn-sm btn-light" title="Copy New Booking Link to Clipboard" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
-                            <a href="<%= trip.new_public_booking_link %>" title="Open New Booking Link" target="_blank" class="btn btn-sm btn-light" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-external-link"></i></a>
-                            <span data-clipboard-message="<%= trip.id %>" class="small ml-1 message">Copied</span>
-                          </div>
+                        <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0">
+                          <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                         </div>
                       </div>
-                      <div class="col col-lg-2 text-gray h4 d-sm-none d-md-block d-none d-sm-block font-weight-normal">
-                        <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
-                      </div>
-                      <div class="col col-lg-3 d-sm-none d-md-block d-none d-sm-block">
+                      
+                      <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block">
                         <div>
                           <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
                             <% if trip.bookings[i] %>
@@ -67,6 +55,24 @@
                   <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
                       <div class="fluid-container">
+                         <div class="row border-bottom pb-3" >
+                          <div class="col-12 col-md-8 mt-1 text-nowrap d-flex justify-content-start"> 
+                            <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 text-muted">New Booking Link</h5>
+                            <div class="input-group-append mt-0">    
+                              <div class="outer-text-wrapper">
+                                <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
+                              </div>
+                              <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" title="Copy New Booking Link to Clipboard" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
+                              <a href="<%= trip.new_public_booking_link %>" title="Open New Booking Link" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top"><i class="fa fa-external-link"></i></a>
+                              <span data-clipboard-message="<%= trip.id %>" class="small ml-2 message">Copied</span>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-4">
+                            <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1", data: { edit_link: trip.id } do %>
+                              Edit Trip
+                            <% end %>
+                          </div>
+                        </div>
                         <!-- Loop throuh individual in trip -->
                         <% trip.bookings.each do |booking| %>
                           <%= link_to guides_booking_path(booking) do %>
