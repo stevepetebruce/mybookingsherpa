@@ -49,6 +49,7 @@ module Bookings
     def charge_description
       "#{Currency.iso_to_symbol(@booking.currency)}" \
         "#{Currency.human_readable(amount_due)} " \
+        "#{'(deposit) ' if paying_deposit? }" \
         "paid to #{@booking.organisation_name} for #{@booking.trip_name}"
     end
 
@@ -59,7 +60,7 @@ module Bookings
     end
 
     def paying_deposit?
-      amount_due < @booking.full_cost
+      amount_due == @booking.deposit_cost
     end
   end
 end
