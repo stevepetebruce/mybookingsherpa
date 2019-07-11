@@ -16,7 +16,7 @@ module Bookings
 
     def attributes
       {
-        description: new_customer_description,
+        description: @booking.guest_email,
         token: @stripe_token,
         use_test_api: @booking.organisation_on_trial?
       }
@@ -40,10 +40,6 @@ module Bookings
 
     def new_customer
       External::StripeApi::Customer.create(attributes)
-    end
-
-    def new_customer_description
-      "Customer for #{@booking.guest_email}"
     end
 
     def retrieved_customer
