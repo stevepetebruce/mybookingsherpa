@@ -1,9 +1,52 @@
 .alert {
-  border: $alert-border-width solid;
-  margin-bottom: 2rem;
-  &.alert-warning {
-    color: darken( $yellow, 10% );
-    background-color: lighten( $yellow, 40% );
-    border-color: $yellow;
+  position: fixed;
+  width: 100%;
+  padding: 0;
+  z-index: 2;
+  opacity: 0.9;
+  border: 0;
+  top: -100%;
+  font-size: 1.1em;
+  color: $white;
+  line-height: 3em;
+  text-shadow: 0;
+  border-bottom: solid 3px;
+  text-align: center;
+  animation-name: top-alert;
+  animation-duration: 12s;
+  animation-delay: 0.5s;
+  &.alert-success {
+    border-color: $green;
+    background-color: $green;
+    border-color: darken( $green, 10% );
   }
+  &.alert-warning {
+    background-color: $yellow;
+    border-color: $yellow;
+    background-color: darken( $yellow, 10% );
+  }
+  &.alert-danger {
+    background-color: $red;
+    background-color: $red;
+    border-color: darken( $red, 10% );
+  }
+}
+
+.close {
+  color: $white;
+  text-shadow: none;
+  cursor: pointer;
+  &:hover {
+    color: $white;
+  }
+  &:focus {
+    color: $white;
+  }
+}
+
+@keyframes top-alert {
+  0% {top:-100px;}
+  5% {top:0px;}
+  95% {top:0px;}
+  100% {top:-100px;}
 }
