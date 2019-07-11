@@ -16,6 +16,10 @@ module Bookings
       total_paid < @booking.full_cost
     end
 
+    def total_paid
+      @total_paid ||= @booking.payments.pluck(:amount).reduce(:+).presence || 0
+    end
+
     def update
       @booking.update(payment_status: new_payment_status)
     end
@@ -28,10 +32,6 @@ module Bookings
 
     def no_payments?
       @booking.payments.empty?
-    end
-
-    def total_paid
-      @total_paid ||= @booking.payments.pluck(:amount).reduce(:+).presence || 0
     end
   end
 end
