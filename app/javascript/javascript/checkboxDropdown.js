@@ -14,5 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
     } 
   }
   const editBookingContainer = document.querySelector("[data-container='edit-booking']");
+  if (!editBookingContainer) return;
   editBookingContainer.addEventListener("click", showCheckboxes);
 });
