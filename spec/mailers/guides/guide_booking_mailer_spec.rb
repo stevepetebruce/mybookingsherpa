@@ -1,19 +1,12 @@
 require "rails_helper"
 
-RSpec.describe GuideBookingMailer, type: :mailer do
+RSpec.describe Guides::BookingMailer, type: :mailer do
   describe "#new" do
     let!(:booking) { FactoryBot.create(:booking, trip: trip) }
     let!(:guide) { FactoryBot.create(:guide, email: guide_email, name: guide_name) }
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
-    let(:organisation) { FactoryBot.create(:organisation) }
-    let!(:organisation_membership) do
-      FactoryBot.create(:organisation_membership,
-                        guide: guide,
-                        organisation: organisation,
-                        owner: true)
-    end
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
     it "renders the headers" do

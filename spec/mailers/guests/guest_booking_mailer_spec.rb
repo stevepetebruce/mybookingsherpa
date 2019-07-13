@@ -1,21 +1,12 @@
 require "rails_helper"
 
-RSpec.describe GuestBookingMailer, type: :mailer do
+RSpec.describe Guests::BookingMailer, type: :mailer do
   describe "#new" do
-    let!(:booking) { FactoryBot.create(:booking, trip: trip, guest: guest) }
-    let!(:guest) { FactoryBot.create(:guest) }
-    let!(:guide) { FactoryBot.create(:guide, email: guide_email, name: guide_name) }
+    let!(:booking) { FactoryBot.create(:booking, trip: trip) }
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
-    let(:organisation) { FactoryBot.create(:organisation) }
-    let!(:organisation_membership) do
-      FactoryBot.create(:organisation_membership,
-                        guide: guide,
-                        organisation: organisation,
-                        owner: true)
-    end
-    let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+    let!(:trip) { FactoryBot.create(:trip) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Successful booking for #{booking.trip_name}")
