@@ -1,7 +1,9 @@
 require "rails_helper"
 
 RSpec.describe Trips::CancelTripEmailJob, type: :job do
-  before { ActiveJob::Base.queue_adapter = :inline }
+  include ActiveJob::TestHelper
+
+  before { ActiveJob::Base.queue_adapter = :async }
 
   describe "#perform_later" do
     subject(:perform_later) { described_class.perform_later(trip) }
@@ -9,9 +11,10 @@ RSpec.describe Trips::CancelTripEmailJob, type: :job do
     let(:trip) { FactoryBot.create(:trip) }
 
     context "valid and successful" do
-      it "should enque the CancelTripMailer email" do
-        # TODO: make this test more specific
-        expect { perform_later }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      it "should enque the Guide and Support CancelTripMailer emails" do
+        perform_enqueued_jobs do
+          expect { perform_later }.to change { ActionMailer::Base.deliveries.count }.by(2)
+        end
       end
     end
   end

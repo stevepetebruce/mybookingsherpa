@@ -4,7 +4,7 @@ module Trips
     queue_as :default
 
     def perform(trip)
-      # TODO: also send support an email in 3 days to let them know a trip may need to be refunded
+      Support::CancelTripMailer.with(trip: trip).new.deliver_later(wait: 3.days)
       Guides::CancelTripMailer.with(trip: trip).new.deliver_later
     end
   end

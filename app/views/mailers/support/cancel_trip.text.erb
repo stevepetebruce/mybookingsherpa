@@ -1,0 +1,6 @@
+Cancel <%= @trip.name %>, <%= "#{@trip.start_date.day} - #{@trip.end_date.day} #{Date::MONTHNAMES[@trip.end_date.month]} #{@trip.end_date.year}" %>?
+===============================================
+
+There isn't enough guests for <%= @trip.name %> and you will need to decide if you want to contact <%= @guide.name %> to make sure they have cancelled the trip and refunded all guests' deposits. There's currently <%= @trip.guest_count %> booked on the trip.
+
+You will need to contact the guide (<%= @guide.email %>) to check that the trip is cancelled and all the guests have had they money refunded.
