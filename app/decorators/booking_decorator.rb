@@ -38,6 +38,13 @@ module BookingDecorator
       "#{Currency.human_readable(full_cost)}"
   end
 
+  def human_readable_full_cost_minus_deposit
+    return "" unless deposit_cost
+
+    "#{Currency.iso_to_symbol(currency)}" \
+      "#{Currency.human_readable(full_cost - deposit_cost)}"
+  end
+
   def human_readable_full_payment_date
     full_payment_date&.strftime("%F") || ""
   end

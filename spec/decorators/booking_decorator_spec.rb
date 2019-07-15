@@ -155,6 +155,43 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
+  describe "#human_readable_amount_due" do
+    subject(:human_readable_amount_due) { booking.human_readable_amount_due }
+
+    it "should be the currency of the trip and the cost now due" do
+      expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
+    end
+  end
+
+  describe "#human_readable_full_cost" do
+    subject(:human_readable_full_cost) { booking.human_readable_full_cost }
+
+    it "should be the currency of the trip and the full cost" do
+      expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
+    end
+  end
+
+  describe "#human_readable_full_cost_minus_deposit" do
+    subject(:human_readable_full_cost_minus_deposit) { booking.human_readable_full_cost_minus_deposit }
+
+    context "a trip with a deposit amount" do
+      let!(:booking) { FactoryBot.create(:booking, trip: trip) }
+      let!(:deposit_percentage) { Faker::Number.between(10, 25) }
+      let!(:full_cost) { Faker::Number.between(5000, 10_000) }
+      let(:outstanding_amount) { trip.full_cost - trip.deposit_cost }
+      let!(:trip) { FactoryBot.create(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
+
+      it "should return the correct value" do
+        expect(human_readable_full_cost_minus_deposit).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(outstanding_amount)}"
+      end
+    end
+
+    context "a trip without a deposit amount" do
+      it "should return an empty string" do
+        expect(human_readable_full_cost_minus_deposit).to eq ""
+      end
+    end
+  end
 
   describe "#human_readable_full_payment_date" do
     let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
@@ -175,22 +212,6 @@ RSpec.describe BookingDecorator, type: :model do
       it "should (safely) nil" do
         expect(human_readable_full_payment_date).to eq ""
       end
-    end
-  end
-
-  describe "#human_readable_amount_due" do
-    subject(:human_readable_amount_due) { booking.human_readable_amount_due }
-
-    it "should be the currency of the trip and the cost now due" do
-      expect(human_readable_amount_due).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
-    end
-  end
-
-  describe "#human_readable_full_cost" do
-    subject(:human_readable_full_cost) { booking.human_readable_full_cost }
-
-    it "should be the currency of the trip and the full cost" do
-      expect(human_readable_full_cost).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(booking.full_cost)}"
     end
   end
 
