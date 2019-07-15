@@ -79,9 +79,9 @@
                   No emergency contact details.
                 <% end %>
               </td>
-                <% if Bookings::Status.new(booking).allergies? %>
+                <% if booking.guest_or_booking_allergies? %>
                   <td class="table-danger">
-                    <%= booking.guest_or_booking_allergies.capitalize %>
+                    <%= booking.human_readable_allergies %>
                   </td>
                 <% else %>
                   <td>

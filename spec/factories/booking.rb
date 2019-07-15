@@ -5,8 +5,12 @@ FactoryBot.define do
     association :trip, full_cost: 500
     guest
 
+
+    trait :allergies do
+      association :allergy, name: Allergy::POSSIBLE_ALLERGIES.sample
+    end
+
     trait :all_fields_complete do
-      allergies { %i[dairy eggs nuts soya].sample }
       country { Faker::Address.country_code }
       date_of_birth { Faker::Date.birthday(18, 65) }
       dietary_requirements { %i[other vegan vegetarian].sample }
@@ -24,7 +28,6 @@ FactoryBot.define do
     end
 
     trait :complete_with_allergies do
-      allergies { %i[dairy eggs nuts soya].sample }
       country { Faker::Address.country_code }
       date_of_birth { Faker::Date.birthday(18, 65) }
       email { Faker::Internet.email }
@@ -32,6 +35,9 @@ FactoryBot.define do
       next_of_kin_name { Faker::Name.name }
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
+      after(:create) do |booking|
+        create :allergy, allergic: booking
+      end
     end
 
     trait :complete_with_dietary_requirements do

@@ -57,6 +57,105 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
+  describe "#guest_or_booking_allergies" do
+    subject(:guest_or_booking_allergies) { booking.guest_or_booking_allergies }
+
+    context "a booking / guest without any allergies" do
+      it "should return an empty array" do
+        expect(guest_or_booking_allergies).to eq []
+      end
+    end
+
+    context "a booking with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: booking) }
+
+      it "should return an array including the allergy" do
+        expect(guest_or_booking_allergies).to include(allergy)
+      end
+    end
+
+    context "a guest with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: guest) }
+
+      it "should return an array including the allergy" do
+        expect(guest_or_booking_allergies).to include(allergy)
+      end
+    end
+
+    context "a guest and a booking with allergies" do
+      let!(:booking_allergy) { FactoryBot.create(:allergy, allergic: booking) }
+      let!(:guest_allergy) { FactoryBot.create(:allergy, allergic: guest) }
+
+      it "should return an array including the guests' allergy (prioritised over the booking allergy)" do
+        expect(guest_or_booking_allergies).to include(guest_allergy)
+        expect(guest_or_booking_allergies).to_not include(booking_allergy)
+      end
+    end
+  end
+
+  describe "#guest_or_booking_allergies?" do
+    subject(:guest_or_booking_allergies?) { booking.guest_or_booking_allergies? }
+
+    context "a booking / guest without any allergies" do
+      it "should be false" do
+        expect(guest_or_booking_allergies?).to be_falsey
+      end
+    end
+
+    context "a booking with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: booking) }
+
+      it "should be true" do
+        expect(guest_or_booking_allergies?).to be_truthy
+      end
+    end
+
+    context "a guest with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: guest) }
+
+      it "should be true" do
+        expect(guest_or_booking_allergies?).to be_truthy
+      end
+    end
+  end
+
+  describe "#human_readable_allergies" do
+    subject(:human_readable_allergies) { booking.human_readable_allergies }
+
+    context "a booking / guest without any allergies" do
+      it "should return an empty string" do
+        expect(human_readable_allergies).to eq ""
+      end
+    end
+
+    context "a booking with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: booking) }
+
+      it "should return a human_readable version of the booking allergy's name" do
+        expect(human_readable_allergies).to eq allergy.name.capitalize
+      end
+    end
+
+    context "a guest with allergies" do
+      let!(:allergy) { FactoryBot.create(:allergy, allergic: guest) }
+
+      it "should return a human_readable version of the guest allergy's name" do
+        expect(human_readable_allergies).to eq allergy.name.capitalize
+      end
+    end
+
+    context "a guest and a booking with allergies" do
+      let!(:booking_allergy) { FactoryBot.create(:allergy, allergic: booking) }
+      let!(:guest_allergy) { FactoryBot.create(:allergy, allergic: guest) }
+
+      it "should return a human_readable version of the guest allergy's name (prioritised over the booking allergy)" do
+        expect(human_readable_allergies).to eq guest_allergy.name.capitalize
+        expect(human_readable_allergies).to_not include(booking_allergy.name.capitalize)
+      end
+    end
+  end
+
+
   describe "#human_readable_full_payment_date" do
     let!(:booking) { FactoryBot.create(:booking, guest: guest, trip: trip) }
     subject(:human_readable_full_payment_date) { booking.human_readable_full_payment_date }

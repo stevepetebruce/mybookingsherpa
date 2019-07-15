@@ -38,7 +38,7 @@ module Public
 
       # PATCH/PUT /bookings/1
       def update
-        if @booking.update(booking_params)
+        if @booking.update(booking_params) && create_allergies
           redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
           render :edit
@@ -47,14 +47,18 @@ module Public
 
       private
 
+      def allergies
+        params.dig(:booking, :allergies)
+      end
+
       def attach_stripe_customer_to_guest(booking)
         booking.guest.update(stripe_customer_id: stripe_customer_id(booking))
       end
 
       def booking_params
-        params.require(:booking).permit(:address, :allergies, :city, :country, :county,
-                                        :date_of_birth, :dietary_requirements,
-                                        :email, :name, :other_information,
+        params.require(:booking).permit(:address, :city, :country, :county,
+                                        :dietary_requirements, :other_information,
+                                        :date_of_birth, :email, :name,
                                         :next_of_kin_name, :next_of_kin_phone_number,
                                         :phone_number, :post_code)
       end
@@ -68,6 +72,10 @@ module Public
 
         @booking.errors.add(:base, :timeout, message: "timed out please contact support")
         redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_id)
+      end
+
+      def create_allergies
+        allergies&.each { |allergy| @booking.allergies.create(name: allergy) }
       end
 
       def newly_created?

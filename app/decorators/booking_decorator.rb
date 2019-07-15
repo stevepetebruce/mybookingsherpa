@@ -16,6 +16,18 @@ module BookingDecorator
       "s=#{size}&d=#{CGI.escape(gravatar_fallback_image_url)}"
   end
 
+  def guest_or_booking_allergies
+    guest.allergies.presence || allergies
+  end
+
+  def guest_or_booking_allergies?
+    guest_or_booking_allergies.exists?
+  end
+
+  def human_readable_allergies
+    guest_or_booking_allergies&.pluck(:name)&.map(&:capitalize).to_sentence
+  end
+
   def human_readable_amount_due
     "#{Currency.iso_to_symbol(currency)}" \
       "#{Currency.human_readable(Bookings::Payment.amount_due(self))}"

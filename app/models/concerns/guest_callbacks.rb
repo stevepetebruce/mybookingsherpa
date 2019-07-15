@@ -1,7 +1,7 @@
 module GuestCallbacks
   extend ActiveSupport::Concern
 
-  UPDATABLE_FIELDS = %i[allergies country date_of_birth dietary_requirements
+  UPDATABLE_FIELDS = %i[country date_of_birth dietary_requirements
                         name other_information next_of_kin_name
                         next_of_kin_phone_number phone_number].freeze
 
@@ -12,7 +12,6 @@ module GuestCallbacks
   end
 
   def enums_none_to_nil
-    self[:allergies] = nil if allergies&.to_sym == :none
     self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
   end
 

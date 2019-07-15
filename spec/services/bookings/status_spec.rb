@@ -16,18 +16,14 @@ RSpec.describe Bookings::Status, type: :model do
       end
 
       context "a guest associated with the booking that has allergies" do
-        let!(:guest) do
-          FactoryBot.create(:guest, email: 'foo@blah.com',
-                            allergies: allergy,
-                            allergies_override: allergy)
-        end
+        let!(:guest) { FactoryBot.create(:guest, :allergies) }
 
         it { expect(allergies?).to eq true }
       end
     end
 
     context "a booking that has allergies" do
-      let(:booking) { FactoryBot.create(:booking, guest: guest, allergies: allergy) }
+      let(:booking) { FactoryBot.create(:booking, :complete_with_allergies, guest: guest) }
 
       context "a guest associated with the booking that has no allergies" do
         let(:guest) { FactoryBot.create(:guest) }
@@ -36,7 +32,7 @@ RSpec.describe Bookings::Status, type: :model do
       end
 
       context "a guest associated with the booking that has allergies" do
-        let(:guest) { FactoryBot.create(:guest, allergies: allergy) }
+        let(:guest) { FactoryBot.create(:guest, :allergies) }
 
         it { expect(allergies?).to eq true }
       end
