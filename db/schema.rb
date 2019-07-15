@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_23_135949) do
+ActiveRecord::Schema.define(version: 2019_07_12_065756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 2019_06_23_135949) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "allergies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.uuid "allergic_id"
+    t.string "allergic_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["allergic_type", "allergic_id"], name: "index_allergies_on_allergic_type_and_allergic_id"
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
