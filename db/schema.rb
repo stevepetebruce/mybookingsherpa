@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_065756) do
+ActiveRecord::Schema.define(version: 2019_07_15_135514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 2019_07_12_065756) do
     t.string "next_of_kin_name"
     t.string "next_of_kin_phone_number"
     t.integer "dietary_requirements"
-    t.integer "allergies"
     t.text "other_information"
     t.integer "priority", default: 0
     t.index ["created_by_id"], name: "index_bookings_on_created_by_id"
@@ -107,9 +106,6 @@ ActiveRecord::Schema.define(version: 2019_07_12_065756) do
     t.integer "dietary_requirements"
     t.integer "dietary_requirements_booking"
     t.integer "dietary_requirements_override"
-    t.integer "allergies"
-    t.integer "allergies_booking"
-    t.integer "allergies_override"
     t.text "other_information"
     t.text "other_information_booking"
     t.text "other_information_override"
