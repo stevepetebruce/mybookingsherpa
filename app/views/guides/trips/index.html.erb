@@ -96,8 +96,8 @@
                                 </div>
                               </div>
                               <div class="col-xs-auto mb-1">
-                                <% if booking.guest_or_booking_allergies %>
-                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.guest_or_booking_allergies %>" data-tooltip-position="top">
+                                <% if booking.guest_or_booking_allergies? %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.human_readable_allergies %>" data-tooltip-position="top">
                                     <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>"  width="30px" height="30px"/>
                                   </span>
                                 <% end %>

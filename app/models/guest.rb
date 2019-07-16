@@ -7,13 +7,12 @@ class Guest < ApplicationRecord
 
   REQUIRED_BASIC_PERSONAL_DETAILS = %i[email name].freeze
 
-  UPDATABLE_FIELDS = %i[allergies country
+  UPDATABLE_FIELDS = %i[country
                         date_of_birth dietary_requirements
                         name other_information
                         next_of_kin_name next_of_kin_phone_number
                         phone_number].freeze
 
-  POSSIBLE_ALLERGIES = %i[none other dairy eggs nuts soya]
   POSSIBLE_DIETARY_REQUIREMENTS = %i[none other vegan vegetarian]
 
   # Include default devise modules. Others available are:
@@ -21,13 +20,11 @@ class Guest < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum allergies: POSSIBLE_ALLERGIES, _prefix: true
-  enum allergies_booking: POSSIBLE_ALLERGIES, _prefix: true
-  enum allergies_override: POSSIBLE_ALLERGIES, _prefix: true
   enum dietary_requirements: POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
   enum dietary_requirements_booking: POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
   enum dietary_requirements_override: POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
 
+  has_many :allergies, as: :allergic
   has_many :bookings
   has_many :trips, through: :bookings
 

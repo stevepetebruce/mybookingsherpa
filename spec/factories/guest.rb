@@ -3,8 +3,13 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { Faker::Internet.password } # TODO: can be blank - need to change
 
+    trait :allergies do
+      after(:create) do |guest|
+        create :allergy, allergic: guest
+      end
+    end
+
     trait :all_booking_fields_complete do
-      allergies_booking { %i[dairy eggs nuts soya].sample }
       country_booking { Faker::Address.country_code }
       date_of_birth_booking { Faker::Date.birthday(18, 65) }
       dietary_requirements_booking { %i[other vegan vegetarian].sample }
@@ -17,8 +22,6 @@ FactoryBot.define do
     end
 
     trait :all_override_fields_complete do
-      allergies { %i[dairy eggs nuts soya].sample }
-      allergies_override { allergies }
       country { Faker::Address.country_code }
       country_override { country }
       date_of_birth { Faker::Date.birthday(18, 65) }

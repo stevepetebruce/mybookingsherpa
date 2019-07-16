@@ -25,7 +25,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       {
         booking:
         {
-          allergies: %i[dairy eggs nuts soya].sample,
           country: Faker::Address.country_code,
           date_of_birth: Faker::Date.birthday(18, 65),
           dietary_requirements: %i[other vegan vegetarian].sample,
@@ -299,7 +298,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
   end
 
   describe "#update PATCH /public/bookings/:id/update" do
-    let(:params) { { booking: { email: email } } }
+    let!(:allergies) { Allergy::POSSIBLE_ALLERGIES.sample(rand(1..3)).sort }
+    let(:params) { { booking: { allergies: allergies, email: email } } }
 
     def do_request(url: "/public/bookings/#{booking.id}", params: {})
       patch url, params: params
@@ -319,6 +319,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain)
 
           expect(booking.reload.email).to eq email
+        end
+
+        it "should create the booking's allergies" do
+          do_request(params: params)
+
+          expect(booking.reload.allergies.count).to eq allergies.count
+          expect(booking.allergies.map(&:name).sort).to eq allergies
         end
       end
 

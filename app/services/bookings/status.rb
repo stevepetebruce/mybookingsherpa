@@ -6,7 +6,7 @@ module Bookings
     end
 
     def allergies?
-      @booking.allergies? || @booking.guest.allergies?
+      @booking.allergies.exists? || @booking.guest.allergies.exists?
     end
 
     def dietary_requirements?

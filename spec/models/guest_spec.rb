@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe Guest, type: :model do
   describe "associations" do
+    it { should have_many(:allergies) }
     it { should have_many(:bookings) }
     it { should have_many(:trips).through(:bookings) }
   end
@@ -37,23 +38,21 @@ RSpec.describe Guest, type: :model do
   describe "#enums_none_to_nil" do
     subject { described_class.new(guest).enums_none_to_nil }
 
-    context "a guest with allergies and dietary_requirements set to 'none'" do
-      let(:guest) { FactoryBot.build(:guest, allergies: "none", dietary_requirements: "none") }
+    context "a guest with dietary_requirements set to 'none'" do
+      let(:guest) { FactoryBot.build(:guest, dietary_requirements: "none") }
 
       it "should set the fields to nil" do
-        expect { guest.send(:enums_none_to_nil) }.to change { guest.allergies }.from('none').to(nil)
+        expect { guest.send(:enums_none_to_nil) }.to change { guest.dietary_requirements }.from('none').to(nil)
       end
     end
 
-    context "a guest with allergies and dietary_requirements values" do
-      let!(:allergies) { %i[dairy eggs nuts soya].sample }
+    context "a guest with dietary_requirements values" do
       let!(:dietary_requirements) { %i[other vegan vegetarian].sample }
-      let(:guest) { FactoryBot.build(:guest, allergies: allergies, dietary_requirements: dietary_requirements) }
+      let(:guest) { FactoryBot.build(:guest, dietary_requirements: dietary_requirements) }
 
       it "should not change the value of the fields" do
         guest.send(:enums_none_to_nil)
 
-        expect(guest.allergies).to eq(allergies.to_s)
         expect(guest.dietary_requirements).to eq(dietary_requirements.to_s)
       end
     end
@@ -179,6 +178,5 @@ RSpec.describe Guest, type: :model do
     end
   end
 
-  it { should define_enum_for(:allergies).with(%i[none other dairy eggs nuts soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
 end

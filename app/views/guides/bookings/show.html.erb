@@ -97,11 +97,10 @@
                         <div class="clearfix border-bottom mb-3">
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
-                              <% if Bookings::Status.new(@booking).allergies? %>
+                              <% if @booking.guest_or_booking_allergies? %>
                                 <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>" class="mr-1" width="28px" height="28px"/>
                                 <span class="text-danger">Allergies:</span>
-                                <!-- TODO: how to handle multiple allergies? -->
-                                <%= @booking.guest_or_booking_allergies.capitalize %>
+                                <%= @booking.human_readable_allergies %>
                               <% else %>
                                 <span class="text-gray">Allergies:</span> No allergies.
                               <% end %>

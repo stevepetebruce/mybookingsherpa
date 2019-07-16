@@ -133,81 +133,27 @@
             <div class="col-12">
               <h4 class="font-weight-bold">Food Allergies</h4>
             </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Gluten
-                <input type="checkbox" name="food-allergies" value="gluten">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Fish
-                <input type="checkbox" name="food-allergies" value="fish">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Dairy
-                <input type="checkbox" name="food-allergies" value="dairy">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Eggs
-                <input type="checkbox" name="food-allergies" value="eggs">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Nuts
-                <input type="checkbox" name="food-allergies" value="nuts">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="checkcontainer">Other <i>(please add note below)</i>
-                <input type="checkbox" name="food-allergies" value="other">
-                <span class="customcheck"></span>
-              </label>
-            </div>
+            <% Allergy::POSSIBLE_FOOD_ALLERGIES.each do |allergy| %>
+              <div class="col-12 col-md-4">
+                <label class="checkcontainer">
+                  <%= allergy.capitalize %> <%= "<i>(please add note below) </i>".html_safe if allergy == "other" %>
+                  <%= check_box_tag("booking[allergies][]", allergy.to_sym) %>
+                  <span class="customcheck"></span>
+                </label>
+              </div>
+            <% end %>
             <div class="col-12 mt-4">
               <h4 class="font-weight-bold">Medical Allergies</h4>
             </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Penicillin
-                <input type="checkbox" name="medical-allergies" value="penicillin">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Ibuprofen
-                <input type="checkbox" name="medical-allergies" value="ibuprofen">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Aspirin
-                <input type="checkbox" name="medical-allergies" value="aspirin">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Insulin
-                <input type="checkbox" name="medical-allergies" value="insulin">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="checkcontainer">Anticonvulsants
-                <input type="checkbox" name="medical-allergies" value="Anticonvulsants">
-                <span class="customcheck"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="checkcontainer">Other <i>(please add note below)</i>
-                <input type="checkbox" name="medical-allergies" value="other">
-                <span class="customcheck"></span>
-              </label>
-            </div>
+            <% Allergy::POSSIBLE_MEDICAL_ALLERGIES.each do |allergy| %>
+              <div class="col-12 col-md-4">
+                <label class="checkcontainer">
+                  <%= allergy.capitalize %> <%= "<i>(please add note below) </i>".html_safe if allergy == "other" %>
+                  <%= check_box_tag("booking[allergies][]", allergy.to_sym) %>
+                  <span class="customcheck"></span>
+                </label>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

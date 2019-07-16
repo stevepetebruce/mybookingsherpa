@@ -4,6 +4,7 @@ RSpec.describe Booking, type: :model do
   describe "associations" do
     it { is_expected.to belong_to(:trip) }
     it { is_expected.to belong_to(:guest) }
+    it { is_expected.to have_many(:allergies) }
     it { is_expected.to have_many(:payments) }
   end
 
@@ -35,7 +36,6 @@ RSpec.describe Booking, type: :model do
     end
   end
 
-  it { should define_enum_for(:allergies).with(%i[none other dairy eggs nuts soya]) }
   it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
   it { should define_enum_for(:payment_status).with(%i[yellow green red]) }
 
@@ -56,23 +56,21 @@ RSpec.describe Booking, type: :model do
   end
 
   describe "#enums_none_to_nil" do
-    context "a guest with allergies and dietary_requirements set to 'none'" do
-      let(:booking) { FactoryBot.build(:booking, allergies: "none", dietary_requirements: "none") }
+    context "a guest with dietary_requirements set to 'none'" do
+      let(:booking) { FactoryBot.build(:booking, dietary_requirements: "none") }
 
       it "should set the fields to nil" do
-        expect { booking.send(:enums_none_to_nil) }.to change { booking.allergies }.from('none').to(nil)
+        expect { booking.send(:enums_none_to_nil) }.to change { booking.dietary_requirements }.from('none').to(nil)
       end
     end
 
-    context "a booking with allergies and dietary_requirements values" do
-      let!(:allergies) { %i[other dairy eggs nuts soya].sample }
+    context "a booking with dietary_requirements values" do
       let!(:dietary_requirements) { %i[other vegan vegetarian].sample }
-      let(:booking) { FactoryBot.build(:booking, allergies: allergies, dietary_requirements: dietary_requirements) }
+      let(:booking) { FactoryBot.build(:booking, dietary_requirements: dietary_requirements) }
 
       it "should not change the value of the fields" do
         booking.send(:enums_none_to_nil)
 
-        expect(booking.allergies).to eq(allergies.to_s)
         expect(booking.dietary_requirements).to eq(dietary_requirements.to_s)
       end
     end
