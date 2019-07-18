@@ -15,8 +15,7 @@
                 <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <%= @booking.human_readable_amount_due %></h2>
               <% end %>
               <% if @booking.only_paying_deposit? %>
-                <!-- TODO: Please make total minus deposit dynamic  -->
-                <h5 class="mb-3">€800 will be taken on <%= @booking.human_readable_full_payment_date %></h5>
+                <h5 class="mb-3"><%= @booking.human_readable_full_cost_minus_deposit %> will be taken on <%= @booking.human_readable_full_payment_date %></h5>
               <% end %>
               <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
               <div id="summary" class="mt-5">
