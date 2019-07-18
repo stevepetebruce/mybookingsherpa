@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_135514) do
+ActiveRecord::Schema.define(version: 2019_07_15_161024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_135514) do
     t.string "slug"
     t.integer "deposit_percentage"
     t.integer "full_payment_window_weeks"
+    t.boolean "cancelled", default: false
     t.index ["organisation_id"], name: "index_trips_on_organisation_id"
     t.index ["slug"], name: "index_trips_on_slug", unique: true
   end
