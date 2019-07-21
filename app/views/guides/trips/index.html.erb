@@ -16,8 +16,8 @@
             </h1>
             <div class="row">
               <div class="col col-lg-7"></div>
-              <div class="col col-lg-4 text-center d-sm-none d-md-none d-lg-block d-none">
-                <h4 class="ml-1">Places Filled</h4>
+              <div class="col col-lg-4 d-sm-none d-md-none d-lg-block d-none">
+                <h4>Places Filled</h4>
               </div>
               <div class="col col-lg-1"></div>
             </div>
@@ -68,6 +68,7 @@
                             </div>
                           </div>
                           <div class="col-12 col-md-4">
+                            <%= link_to "Trip Overview", guides_trip_bookings_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1" %>
                             <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1", data: { edit_link: trip.id } do %>
                               Edit Trip
                             <% end %>
@@ -83,15 +84,15 @@
                                   <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
                                 <% end %>
                               </div>
-                              <div class="col-7 col-lg-7 col-md-7 col-sm-8">
+                              <div class="col-8 col-lg-6 col-md-7 col-sm-9">
                                 <div class="d-flex">
-                                  <p class="text-primary mr-2 mb-0 mt-1 no-wrap h3 font-weight-light">
+                                  <p class="text-primary mb-0 mt-1 no-wrap h3 font-weight-light">
                                     <%= booking.guest_or_booking_name %>
                                   </p> 
                                 </div>
                               </div>
-                              <div class="col d-sm-none d-lg-block d-none">
-                                <div class="col pl-0">
+                              <div class="col d-sm-none d-lg-block d-none pl-0 ml-0">
+                                <div class="col ml-5">
                                   <span class="dot dot-sm <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
                                 </div>
                               </div>
