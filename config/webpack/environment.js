@@ -8,4 +8,7 @@ environment.loaders.get("sass").use.splice(-1, 0, {
   }
 });
 
+const config = environment.toWebpackConfig();
+config.devtool = "none";
+
 module.exports = environment;

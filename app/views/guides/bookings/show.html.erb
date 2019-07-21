@@ -98,7 +98,7 @@
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
                               <% if @booking.guest_or_booking_allergies? %>
-                                <img src="<%= asset_pack_path 'images/icons/medical-red.svg' %>" class="mr-1" width="28px" height="28px"/>
+                                <img src="<%= asset_pack_path 'media/images/icons/medical-red.svg' %>" class="mr-1" width="28px" height="28px"/>
                                 <span class="text-danger">Allergies:</span>
                                 <%= @booking.human_readable_allergies %>
                               <% else %>
@@ -111,7 +111,7 @@
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
                               <% if Bookings::Status.new(@booking).dietary_requirements? %>
-                                <img src="<%= asset_pack_path 'images/icons/diet-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
+                                <img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Dietary Requirements:</span>
                                 <%= @booking.guest_or_booking_dietary_requirements.capitalize %>
                               <% else %>
@@ -124,7 +124,7 @@
                           <div class="col">
                             <div class="display-4 font-weight-normal">
                               <% if Bookings::Status.new(@booking).other_information? %>
-                                <img src="<%= asset_pack_path 'images/icons/info-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
+                                <img src="<%= asset_pack_path 'media/images/icons/info-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Other information:</span>
                                 <!-- TODO: be careful here - allowing users to enter free text -->
                                 <%= @booking.guest_or_booking_other_information %>
