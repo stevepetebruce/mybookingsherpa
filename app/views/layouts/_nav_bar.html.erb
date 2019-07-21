@@ -3,11 +3,11 @@
 <nav class="navbar page-header">
     <% if guide_signed_in? %>
       <%= link_to main_app.guides_trips_path, class: "navbar-brand" do %>
-        <img src="<%= asset_pack_path 'images/logo.svg' %>" />
+        <img src="<%= asset_pack_path 'media/images/logo.svg' %>" />
       <% end %>
     <% else %>
       <%= link_to ENV.fetch("BASE_DOMAIN", "https://app.mybookingsherpa.com/guides/sign_in"), class: "navbar-brand" do %>
-        <img src="<%= asset_pack_path 'images/logo.svg' %>" />
+        <img src="<%= asset_pack_path 'media/images/logo.svg' %>" />
       <% end %>
     <% end %>
   <% if guide_signed_in? %>

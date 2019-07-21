@@ -15,7 +15,7 @@ gem "puma", "~> 3.11"
 gem "sidekiq"
 gem "skylight"
 gem "stripe"
-gem "webpacker"
+gem "webpacker", "~> 4.x"
 
 group :development, :test do
   gem "dotenv-rails"
