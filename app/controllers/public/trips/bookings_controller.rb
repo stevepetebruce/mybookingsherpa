@@ -38,7 +38,7 @@ module Public
 
       # PATCH/PUT /bookings/1
       def update
-        if @booking.update(booking_params) && create_allergies
+        if @booking.update(booking_params) && create_associations
           redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
           render :edit
@@ -57,7 +57,7 @@ module Public
 
       def booking_params
         params.require(:booking).permit(:address, :city, :country, :county,
-                                        :dietary_requirements, :other_information,
+                                        :other_information,
                                         :date_of_birth, :email, :name,
                                         :next_of_kin_name, :next_of_kin_phone_number,
                                         :phone_number, :post_code)
@@ -74,8 +74,26 @@ module Public
         redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_id)
       end
 
+      def create_associations
+        create_allergies && create_dietary_requirements
+      end
+
       def create_allergies
+        return true if allergies.nil? # else update fails when there's no allergies
+
         allergies&.each { |allergy| @booking.allergies.create(name: allergy) }
+      end
+
+      def create_dietary_requirements
+        return true if dietary_requirements.nil? # else update fails when there's no dietary_requirements
+
+        dietary_requirements&.each do |dietary_requirement|
+          @booking.dietary_requirements.create(name: dietary_requirement)
+        end
+      end
+
+      def dietary_requirements
+         params.dig(:booking, :dietary_requirements)
       end
 
       def newly_created?

@@ -4,8 +4,6 @@ RSpec.describe Bookings::Status, type: :model do
   describe "#allergies?" do
     subject(:allergies?) { described_class.new(booking).allergies? }
 
-    let!(:allergy) { %i[dairy eggs nuts soya].sample }
-
     context "a booking that has no allergies" do
       let(:booking) { FactoryBot.create(:booking, guest: guest) }
 
@@ -42,8 +40,6 @@ RSpec.describe Bookings::Status, type: :model do
   describe "#dietary_requirements?" do
     subject(:dietary_requirements?) { described_class.new(booking).dietary_requirements? }
 
-    let!(:dietary_requirement) { %i[other vegan vegetarian].sample }
-
     context "a booking that has no dietary_requirements" do
       let(:booking) { FactoryBot.create(:booking, guest: guest) }
 
@@ -54,18 +50,15 @@ RSpec.describe Bookings::Status, type: :model do
       end
 
       context "a guest associated with the booking that has dietary_requirements" do
-        let!(:guest) do
-          FactoryBot.create(:guest, email: 'foo@blah.com',
-                            dietary_requirements: dietary_requirement,
-                            dietary_requirements_override: dietary_requirement)
-        end
+        let!(:guest) { FactoryBot.create(:guest, :dietary_requirements) }
 
         it { expect(dietary_requirements?).to eq true }
       end
     end
 
     context "a booking that has dietary_requirements" do
-      let(:booking) { FactoryBot.create(:booking, guest: guest, dietary_requirements: dietary_requirement) }
+      let(:booking) { booking_dietary_requirement.dietary_requirable }
+      let!(:booking_dietary_requirement) { FactoryBot.create(:dietary_requirement, :for_booking) }
 
       context "a guest associated with the booking that has no dietary_requirements" do
         let(:guest) { FactoryBot.create(:guest) }
@@ -74,7 +67,8 @@ RSpec.describe Bookings::Status, type: :model do
       end
 
       context "a guest associated with the booking that has dietary_requirements" do
-        let(:guest) { FactoryBot.create(:guest, dietary_requirements: dietary_requirement) }
+        let(:guest) { guest_dietary_requirement.dietary_requirable }
+        let!(:guest_dietary_requirement) { FactoryBot.create(:dietary_requirement, :for_guest) }
 
         it { expect(dietary_requirements?).to eq true }
       end

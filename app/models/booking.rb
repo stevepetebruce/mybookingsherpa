@@ -1,12 +1,12 @@
 # A join between a guest and a trip. A guest creates a booking on a trip.
 class Booking < ApplicationRecord
   include BookingDecorator
-  enum dietary_requirements: Guest::POSSIBLE_DIETARY_REQUIREMENTS, _prefix: true
   enum payment_status: %i[yellow green red]
 
   belongs_to :trip
   belongs_to :guest, optional: true
   has_many :allergies, as: :allergic
+  has_many :dietary_requirements, as: :dietary_requirable
   has_many :payments
   has_one :organisation, through: :trip
 
@@ -34,17 +34,12 @@ class Booking < ApplicationRecord
   scope :highest_priority, -> { order(priority: :desc) }
 
   before_save :update_priority
-  before_validation :enums_none_to_nil
 
   def last_payment_failed?
     last_payment&.failed?
   end
 
   private
-
-  def enums_none_to_nil
-    self[:dietary_requirements] = nil if dietary_requirements&.to_sym == :none
-  end
 
   def last_payment
     payments.most_recent.first

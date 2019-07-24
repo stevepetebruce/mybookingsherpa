@@ -100,34 +100,15 @@
         <div id="selectoptions">
           <div class="row selectoptionblock">
             <div class="col-12"><h4 class="font-weight-bold">Dietary requirements</h4></div>
-            <div class="col-12 col-md-4">
-              <label class="radiocontainer">
-                <%= form.radio_button(:dietary_requirements, :none, checked: true) %>
-                None
-                <span class="customradio"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="radiocontainer">
-              <%= form.radio_button(:dietary_requirements, :vegetarian) %>
-                Vegetarian
-                <span class="customradio"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="radiocontainer">
-              <%= form.radio_button(:dietary_requirements, :vegan) %>
-                Vegan
-                <span class="customradio"></span>
-              </label>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="radiocontainer">
-              <%= form.radio_button(:dietary_requirements, :other) %>
-                Other <i>(please add note below)</i>
-                <span class="customradio"></span>
-              </label>
-            </div>
+            <% DietaryRequirement::POSSIBLE_DIETARY_REQUIREMENTS.each do |dietary_requirement| %>
+              <div class="col-12 col-md-4">
+                <label class="checkcontainer">
+                  <%= dietary_requirement.capitalize %> <%= "<i>(please add note below) </i>".html_safe if dietary_requirement == "other" %>
+                  <%= check_box_tag("booking[dietary_requirements][]", dietary_requirement.to_sym) %>
+                  <span class="customcheck"></span>
+                </label>
+              </div>
+            <% end %>
           </div>
           <div class="row selectoptionblock">
             <div class="col-12">

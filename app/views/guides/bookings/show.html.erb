@@ -110,10 +110,10 @@
                         <div class="clearfix border-bottom mb-3">
                           <div class="col mb-3">
                             <div class="display-4 font-weight-normal">
-                              <% if Bookings::Status.new(@booking).dietary_requirements? %>
+                              <% if @booking.guest_or_booking_dietary_requirements? %>
                                 <img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" class="mr-1" width="28px" height="28px" />
                                 <span class="text-warning">Dietary Requirements:</span>
-                                <%= @booking.guest_or_booking_dietary_requirements.capitalize %>
+                                <%= @booking.human_readable_dietary_requirements %>
                               <% else %>
                                 <span class="text-gray">Dietary Requirements:</span> No dietary requirements.
                               <% end %>

@@ -27,7 +27,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         {
           country: Faker::Address.country_code,
           date_of_birth: Faker::Date.birthday(18, 65),
-          dietary_requirements: %i[other vegan vegetarian].sample,
           email: email,
           other_information: Faker::Lorem.sentence,
           name: Faker::Name.name,
@@ -299,7 +298,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
   describe "#update PATCH /public/bookings/:id/update" do
     let!(:allergies) { Allergy::POSSIBLE_ALLERGIES.sample(rand(1..3)).sort }
-    let(:params) { { booking: { allergies: allergies, email: email } } }
+    let!(:dietary_requirements) { DietaryRequirement::POSSIBLE_DIETARY_REQUIREMENTS.sample(rand(1..3)).sort }
+    let(:params) { { booking: { allergies: allergies, dietary_requirements: dietary_requirements, email: email } } }
 
     def do_request(url: "/public/bookings/#{booking.id}", params: {})
       patch url, params: params
@@ -312,20 +312,37 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         let!(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
         let!(:subdomain) { booking.organisation_subdomain }
 
-        it "should update the booking" do
-          do_request(params: params)
+        context "with no allergies or dietary_requirements" do
+          let(:params) { { booking: { email: email } } }
 
-          expect(response.code).to eq "302"
-          expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain)
+          it "should update the booking" do
+            do_request(params: params)
 
-          expect(booking.reload.email).to eq email
+            expect(response.code).to eq "302"
+            expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain)
+
+            expect(booking.reload.email).to eq email
+          end
         end
 
-        it "should create the booking's allergies" do
-          do_request(params: params)
+        context "with allergies and dietary_requirements" do
+          let!(:allergies) { Allergy::POSSIBLE_ALLERGIES.sample(rand(1..3)).sort }
+          let!(:dietary_requirements) { DietaryRequirement::POSSIBLE_DIETARY_REQUIREMENTS.sample(rand(1..3)).sort }
+          let(:params) { { booking: { allergies: allergies, dietary_requirements: dietary_requirements, email: email } } }
 
-          expect(booking.reload.allergies.count).to eq allergies.count
-          expect(booking.allergies.map(&:name).sort).to eq allergies
+          it "should create the booking's allergies" do
+            do_request(params: params)
+
+            expect(booking.reload.allergies.count).to eq allergies.count
+            expect(booking.allergies.map(&:name).sort).to eq allergies
+          end
+
+          it "should create the booking's dietary_requirements" do
+            do_request(params: params)
+
+            expect(booking.reload.dietary_requirements.count).to eq dietary_requirements.count
+            expect(booking.dietary_requirements.map(&:name).sort).to eq dietary_requirements
+          end
         end
       end
 

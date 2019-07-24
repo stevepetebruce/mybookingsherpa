@@ -145,8 +145,8 @@ RSpec.describe BookingDecorator, type: :model do
     end
 
     context "a guest and a booking with allergies" do
-      let!(:booking_allergy) { FactoryBot.create(:allergy, allergic: booking) }
-      let!(:guest_allergy) { FactoryBot.create(:allergy, allergic: guest) }
+      let!(:booking_allergy) { FactoryBot.create(:allergy, name: "dairy", allergic: booking) }
+      let!(:guest_allergy) { FactoryBot.create(:allergy, name: "nuts", allergic: guest) }
 
       it "should return a human_readable version of the guest allergy's name (prioritised over the booking allergy)" do
         expect(human_readable_allergies).to eq guest_allergy.name.capitalize
@@ -154,6 +154,111 @@ RSpec.describe BookingDecorator, type: :model do
       end
     end
   end
+
+  #  - - - - - - START
+
+
+  describe "#guest_or_booking_dietary_requirements" do
+    subject(:guest_or_booking_dietary_requirements) { booking.guest_or_booking_dietary_requirements }
+
+    context "a booking / guest without any dietary_requirements" do
+      it "should return an empty array" do
+        expect(guest_or_booking_dietary_requirements).to eq []
+      end
+    end
+
+    context "a booking with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: booking) }
+
+      it "should return an array including the dietary_requirements" do
+        expect(guest_or_booking_dietary_requirements).to include(dietary_requirements)
+      end
+    end
+
+    context "a guest with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: guest) }
+
+      it "should return an array including the dietary_requirements" do
+        expect(guest_or_booking_dietary_requirements).to include(dietary_requirements)
+      end
+    end
+
+    context "a guest and a booking with dietary_requirements" do
+      let!(:booking_dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: booking) }
+      let!(:guest_dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: guest) }
+
+      it "should return an array including the guests' dietary_requirements (prioritised over the booking dietary_requirements)" do
+        expect(guest_or_booking_dietary_requirements).to include(guest_dietary_requirements)
+        expect(guest_or_booking_dietary_requirements).to_not include(booking_dietary_requirements)
+      end
+    end
+  end
+
+  describe "#guest_or_booking_dietary_requirements?" do
+    subject(:guest_or_booking_dietary_requirements?) { booking.guest_or_booking_dietary_requirements? }
+
+    context "a booking / guest without any dietary_requirements" do
+      it "should be false" do
+        expect(guest_or_booking_dietary_requirements?).to be_falsey
+      end
+    end
+
+    context "a booking with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: booking) }
+
+      it "should be true" do
+        expect(guest_or_booking_dietary_requirements?).to be_truthy
+      end
+    end
+
+    context "a guest with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: guest) }
+
+      it "should be true" do
+        expect(guest_or_booking_dietary_requirements?).to be_truthy
+      end
+    end
+  end
+
+  describe "#human_readable_dietary_requirements" do
+    subject(:human_readable_dietary_requirements) { booking.human_readable_dietary_requirements }
+
+    context "a booking / guest without any dietary_requirements" do
+      it "should return an empty string" do
+        expect(human_readable_dietary_requirements).to eq ""
+      end
+    end
+
+    context "a booking with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: booking) }
+
+      it "should return a human_readable version of the booking dietary_requirements's name" do
+        expect(human_readable_dietary_requirements).to eq dietary_requirements.name.capitalize
+      end
+    end
+
+    context "a guest with dietary_requirements" do
+      let!(:dietary_requirements) { FactoryBot.create(:dietary_requirement, dietary_requirable: guest) }
+
+      it "should return a human_readable version of the guest dietary_requirements's name" do
+        expect(human_readable_dietary_requirements).to eq dietary_requirements.name.capitalize
+      end
+    end
+
+    context "a guest and a booking with dietary_requirements" do
+      let!(:booking_dietary_requirements) { FactoryBot.create(:dietary_requirement, name: "other", dietary_requirable: booking) }
+      let!(:guest_dietary_requirements) { FactoryBot.create(:dietary_requirement, name: "vegan", dietary_requirable: guest) }
+
+      it "should return a human_readable version of the guest dietary_requirements's name (prioritised over the booking dietary_requirements)" do
+        expect(human_readable_dietary_requirements).to eq guest_dietary_requirements.name.capitalize
+        expect(human_readable_dietary_requirements).to_not include(booking_dietary_requirements.name.capitalize)
+      end
+    end
+  end
+
+
+
+  #  - - - - - -  END
 
   describe "#human_readable_amount_due" do
     subject(:human_readable_amount_due) { booking.human_readable_amount_due }
