@@ -10,7 +10,7 @@ module Bookings
     end
 
     def dietary_requirements?
-      @booking.dietary_requirements? || @booking.guest.dietary_requirements?
+      @booking.dietary_requirements.exists? || @booking.guest.dietary_requirements.exists?
     end
 
     def other_information?

@@ -4,17 +4,12 @@ RSpec.describe Guest, type: :model do
   describe "associations" do
     it { should have_many(:allergies) }
     it { should have_many(:bookings) }
+    it { should have_many(:dietary_requirements) }
     it { should have_many(:trips).through(:bookings) }
   end
 
   describe "callbacks" do
     let!(:guest) { FactoryBot.build(:guest) }
-
-    it "should call #enums_none_to_nil" do
-      expect(guest).to receive(:enums_none_to_nil)
-
-      guest.save
-    end
 
     it "should call #set_updatable_fields after_update" do
       expect(guest).to receive(:set_updatable_fields)
@@ -33,29 +28,6 @@ RSpec.describe Guest, type: :model do
 
     #   guest.save
     # end
-  end
-
-  describe "#enums_none_to_nil" do
-    subject { described_class.new(guest).enums_none_to_nil }
-
-    context "a guest with dietary_requirements set to 'none'" do
-      let(:guest) { FactoryBot.build(:guest, dietary_requirements: "none") }
-
-      it "should set the fields to nil" do
-        expect { guest.send(:enums_none_to_nil) }.to change { guest.dietary_requirements }.from('none').to(nil)
-      end
-    end
-
-    context "a guest with dietary_requirements values" do
-      let!(:dietary_requirements) { %i[other vegan vegetarian].sample }
-      let(:guest) { FactoryBot.build(:guest, dietary_requirements: dietary_requirements) }
-
-      it "should not change the value of the fields" do
-        guest.send(:enums_none_to_nil)
-
-        expect(guest.dietary_requirements).to eq(dietary_requirements.to_s)
-      end
-    end
   end
 
   describe "#set_updatable_fields" do
@@ -177,6 +149,4 @@ RSpec.describe Guest, type: :model do
       it { should_not allow_value(Faker::Lorem.word).for(:phone_number) }
     end
   end
-
-  it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
 end

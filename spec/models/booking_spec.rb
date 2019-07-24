@@ -5,6 +5,7 @@ RSpec.describe Booking, type: :model do
     it { is_expected.to belong_to(:trip) }
     it { is_expected.to belong_to(:guest) }
     it { is_expected.to have_many(:allergies) }
+    it { is_expected.to have_many(:dietary_requirements) }
     it { is_expected.to have_many(:payments) }
   end
 
@@ -36,43 +37,15 @@ RSpec.describe Booking, type: :model do
     end
   end
 
-  it { should define_enum_for(:dietary_requirements).with(%i[none other vegan vegetarian]) }
   it { should define_enum_for(:payment_status).with(%i[yellow green red]) }
 
   describe "callbacks" do
     let!(:booking) { FactoryBot.build(:booking) }
 
-    it "should call #enums_none_to_nil" do
-      expect(booking).to receive(:enums_none_to_nil)
-
-      booking.save
-    end
-
     it "should call #update_priority after_save" do
       expect(booking).to receive(:update_priority)
 
       booking.save
-    end
-  end
-
-  describe "#enums_none_to_nil" do
-    context "a guest with dietary_requirements set to 'none'" do
-      let(:booking) { FactoryBot.build(:booking, dietary_requirements: "none") }
-
-      it "should set the fields to nil" do
-        expect { booking.send(:enums_none_to_nil) }.to change { booking.dietary_requirements }.from('none').to(nil)
-      end
-    end
-
-    context "a booking with dietary_requirements values" do
-      let!(:dietary_requirements) { %i[other vegan vegetarian].sample }
-      let(:booking) { FactoryBot.build(:booking, dietary_requirements: dietary_requirements) }
-
-      it "should not change the value of the fields" do
-        booking.send(:enums_none_to_nil)
-
-        expect(booking.dietary_requirements).to eq(dietary_requirements.to_s)
-      end
     end
   end
 end

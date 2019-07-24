@@ -1,9 +1,8 @@
 module Guests
   # Update guest's booking fields based on most recent associated booking
   class BookingUpdater
-    UPDATABLE_FIELDS = %w[country date_of_birth dietary_requirements
-                          name other_information next_of_kin_name
-                          next_of_kin_phone_number phone_number].freeze
+    UPDATABLE_FIELDS = %w[country date_of_birth name other_information
+                          next_of_kin_name next_of_kin_phone_number phone_number].freeze
 
     def initialize(guest)
       @guest = guest

@@ -12,7 +12,6 @@ FactoryBot.define do
     trait :all_booking_fields_complete do
       country_booking { Faker::Address.country_code }
       date_of_birth_booking { Faker::Date.birthday(18, 65) }
-      dietary_requirements_booking { %i[other vegan vegetarian].sample }
       email_booking { Faker::Internet.email }
       other_information_booking { Faker::Lorem.sentence }
       name_booking { Faker::Name.name }
@@ -26,8 +25,6 @@ FactoryBot.define do
       country_override { country }
       date_of_birth { Faker::Date.birthday(18, 65) }
       date_of_birth_override { date_of_birth }
-      dietary_requirements { %i[other vegan vegetarian].sample }
-      dietary_requirements_override {dietary_requirements }
       email { Faker::Internet.email }
       email_override { email }
       other_information { Faker::Lorem.sentence }
@@ -47,6 +44,12 @@ FactoryBot.define do
       name_override { nil }
       phone_number { nil }
       phone_number_override { nil }
+    end
+
+    trait :dietary_requirements do
+      after(:create) do |guest|
+        create :dietary_requirement, dietary_requirable: guest
+      end
     end
   end
 end

@@ -89,9 +89,9 @@
                   </td>
                 <% end %>
               </td>
-                <% if Bookings::Status.new(booking).dietary_requirements? %>
+                <% if booking.guest_or_booking_dietary_requirements? %>
                   <td class="table-warning">
-                    <%= booking.guest_or_booking_dietary_requirements.capitalize %>
+                    <%= booking.human_readable_dietary_requirements %>
                   </td>
                 <% else %>
                   <td>
