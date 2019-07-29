@@ -35,15 +35,15 @@ class Booking < ApplicationRecord
 
   before_save :update_priority
 
+  def last_payment
+    payments.most_recent.first
+  end
+
   def last_payment_failed?
     last_payment&.failed?
   end
 
   private
-
-  def last_payment
-    payments.most_recent.first
-  end
 
   def update_priority
     self[:priority] = Bookings::Priority.new(self).new_priority

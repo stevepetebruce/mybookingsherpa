@@ -486,7 +486,10 @@
                           <div style="font-size:16px;line-height:26px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;text-align:left;">
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.guest_or_booking_name %>,</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              Your payment of <%= "#{Currency.iso_to_symbol(@booking.currency)}#{Currency.human_readable(@booking.full_cost)}" %> has been successful and you're booked on to <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.</p>
+                              Your payment of <%= "#{Currency.iso_to_symbol(@booking.currency)}#{Currency.human_readable(@booking.last_payment.amount)}" %> has been successful and you're booked on to <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.
+                            </p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
+                              If this was a deposit payment, then the remainder will be automatically charged from your account, closer to the trip start date. If, in the unlikely event the trip is cancelled, then this deposit is automatically refunded to you.</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">

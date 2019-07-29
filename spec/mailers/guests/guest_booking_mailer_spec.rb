@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Guests::BookingMailer, type: :mailer do
   describe "#new" do
-    let!(:booking) { FactoryBot.create(:booking, trip: trip) }
+    let!(:booking) { FactoryBot.create(:booking, :with_payment, trip: trip) }
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
