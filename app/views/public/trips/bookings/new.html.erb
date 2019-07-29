@@ -37,8 +37,7 @@
         </div>
       </div>
       <div class="col-lg-7 content-right">
-        <% # TODO: this will post to Stripe API - remove this form when it does %>
-        <%= render 'new_form', booking: @booking, url: public_trip_bookings_path(@trip.slug) %>
+        <%= render "new_form", booking: @booking %>
       </div>
     </div>
   </div>

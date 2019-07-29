@@ -25,7 +25,7 @@
         <div class="mt-4">
           <h2 class="font-weight-bold">Hi <%= @booking.name %>, your payment was successful.</h2>
           <h4 class="mb-4">Your booking is almost complete. <br>Please fill in your details below, to make sure your trip runs smoothly.</h4>
-          <%= render "edit_form", booking: @booking, url: public_booking_path(@booking) %>
+          <%= render "edit_form", booking: @booking %>
         </div>
       </div>
     </div>
