@@ -9,9 +9,9 @@ class GuestsController < ApplicationController
 
   def update
     if @guest.update(guest_params)
-      redirect_to @guest, notice: "Guest was successfully updated."
+      redirect_to @guest, flash: { success: "Guest was successfully updated." }
     else
-      render :edit
+      render :edit, alert: "Problem creating guest. #{@guest.errors.full_messages.to_sentence}"
     end
   end
 

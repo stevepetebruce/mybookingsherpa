@@ -26,7 +26,7 @@ module Public
           flash[:success] = "Payment successful"
           redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
         else
-          flash[:alert] = @stripe_api_error
+          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
           render :new
         end
       end
@@ -39,8 +39,10 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params) && create_associations
+          flash[:success] = "Booking updated"
           redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
+          flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
           render :edit
         end
       end

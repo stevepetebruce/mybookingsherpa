@@ -23,8 +23,7 @@
     <% end %>
     <div class="page-wrapper">
       <%= render "layouts/nav_bar" %>
-      <!-- <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p> -->
+      <%= flash_messages %>
       <%= yield %>
     </div>
   </body>
