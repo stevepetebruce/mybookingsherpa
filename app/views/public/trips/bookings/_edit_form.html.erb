@@ -1,4 +1,4 @@
-<%= form_with(model: booking, local: true, url: url, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
   <ul class="formline">
     <li>
       <h4 class="font-weight-bold">Personal Details</h4>
