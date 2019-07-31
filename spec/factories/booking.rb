@@ -71,5 +71,11 @@ FactoryBot.define do
       next_of_kin_phone_number { Faker::PhoneNumber.cell_phone }
       phone_number { Faker::PhoneNumber.cell_phone }
     end
+
+    trait :with_payment do
+      after(:create) do |booking|
+        create :payment, booking: booking
+      end
+    end
   end
 end
