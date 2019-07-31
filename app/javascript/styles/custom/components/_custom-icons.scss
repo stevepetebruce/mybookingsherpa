@@ -1,0 +1,11 @@
+
+.custom-icon {
+  width: 30px;
+}
+
+@include media-breakpoint-down(sm) { 
+  .custom-icon {
+    width: 22px;
+    margin-bottom: 4px;
+  }
+}

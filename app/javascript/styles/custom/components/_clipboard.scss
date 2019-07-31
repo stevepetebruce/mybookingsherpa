@@ -12,8 +12,7 @@
 }
 
 .outer-text-wrapper {
-  width: 250px;
-  margin-left: 12px;
+  width: 200px;
   text-align: right;
   color: shade($light-gray, 10%);
   overflow: hidden;
@@ -29,13 +28,14 @@
   animation: opacity linear 1s;
 }
 
-.edit-trip-link {
-  margin-left: 12px;
+.edit-trip-link:first-of-type {
+  margin-right: 4px;
 }
 
 @include media-breakpoint-up(sm) {
   .edit-trip-link {
     float: right;
+    margin: 0 0 0 4px;
   }
 }
 
