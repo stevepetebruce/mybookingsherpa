@@ -84,11 +84,16 @@
                           <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment required
                         </div>
                       <% else %>
-                        <div class="media-body col mb-5 display-4 font-weight-normal text-danger">
+                        <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
                           <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment failed
                         </div>
                       <% end %>
                     </div>
+                    <% if @booking.red? %>
+                      <div class="media-body col mb-5">
+                        (please contact guest and ask them to pay outstanding amount directly into your bank account)
+                      </div>
+                    <% end %>
                     <h3 class="card-title font-weight-bold">
                       Allergies &amp; Other Information
                     </h3>
