@@ -16,12 +16,12 @@ import $ from "jquery";
 import Rails from "rails-ujs";
 import "popper.js";
 
-import "../javascript/checkboxDropdown.js";
+import "../javascript/checkbox_dropdown.js";
 import "../javascript/clipboard.js";
 import "../javascript/country_select.js";
 import "../javascript/custom.js";
-import "../javascript/downloadCSV.js";
-import "../javascript/newBookingTripInformation.js";
+import "../javascript/download_csv.js";
+import "../javascript/new_booking_trip_information.js";
 
 window.jQuery = $;
 window.$ = $;
