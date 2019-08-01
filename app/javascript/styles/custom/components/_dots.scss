@@ -12,7 +12,6 @@
   width: 12px;
   margin: 0 2px;
  
-
   &.dot-success {
     background-color: green;
   }
@@ -36,5 +35,11 @@
     margin: 0 4px;
     height: 20px;
     width: 20px;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .dot-paid {
+    margin-left: 4em;
   }
 }

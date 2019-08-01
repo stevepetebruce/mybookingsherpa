@@ -57,7 +57,7 @@
                       <div class="fluid-container">
                          <div class="row border-bottom pb-3" >
                           <div class="col-12 col-md-8 mt-1 text-nowrap d-flex justify-content-start"> 
-                            <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 text-muted">New Booking Link</h5>
+                            <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 mr-2 text-muted">New Booking Link</h5>
                             <div class="input-group-append mt-0">    
                               <div class="outer-text-wrapper">
                                 <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
@@ -84,7 +84,7 @@
                                   <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
                                 <% end %>
                               </div>
-                              <div class="col-8 col-lg-6 col-md-7 col-sm-9">
+                              <div class="col-12 col-lg-6 col-md-6 col-sm-12">
                                 <div class="d-flex">
                                   <p class="text-primary mb-0 mt-1 no-wrap h3 font-weight-light">
                                     <%= booking.guest_or_booking_name %>
@@ -94,22 +94,20 @@
                                   <% end %>
                                 </div>
                               </div>
-                              <div class="col d-sm-none d-lg-block d-none pl-0 ml-0">
-                                <div class="col ml-5">
-                                  <span class="dot dot-sm <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
-                                </div>
+                              <div class="col-9 col-lg-4 col-md-3 col-sm-10">
+                                  <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
                               </div>
                               <div class="col-xs-auto mb-1">
                                 <% if booking.guest_or_booking_allergies? %>
                                   <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.human_readable_allergies %>" data-tooltip-position="top">
-                                    <img src="<%= asset_pack_path 'media/images/icons/medical-red.svg' %>"  width="30px" height="30px"/>
+                                    <img src="<%= asset_pack_path 'media/images/icons/medical-red.svg' %>" class="custom-icon"/>
                                   </span>
                                 <% end %>
                                 <% if booking.guest_or_booking_dietary_requirements? %>
-                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Diet: <%= booking.human_readable_dietary_requirements %>" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" width="30px" height="30px" /></span>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Diet: <%= booking.human_readable_dietary_requirements %>" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" class="custom-icon" /></span>
                                 <% end %>
                                 <% if booking.guest_or_booking_other_information %>
-                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Additional information" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/info-yellow.svg' %>" width="30px" height="30px" /></span>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Additional information" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/info-yellow.svg' %>" class="custom-icon" /></span>
                                 <% end %>
                               </div>
                             </div>
