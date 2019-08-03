@@ -18,7 +18,7 @@ import "popper.js";
 
 import "../javascript/checkboxDropdown.js";
 import "../javascript/clipboard.js";
-import "../javascript/countrySelect.js";
+import "../javascript/country_select.js";
 import "../javascript/custom.js";
 import "../javascript/downloadCSV.js";
 import "../javascript/newBookingTripInformation.js";
