@@ -12,6 +12,9 @@ RSpec.describe Booking, type: :model do
   describe "validations" do
     context "email" do
       it { should allow_value(Faker::Internet.email).for(:email) }
+      it { should allow_value("alan.donohoe@mybookingsherpa.com").for(:email) }
+      it { should allow_value("ad591@sussex.ac.uk").for(:email) }
+      it { should allow_value("alan+1@example.com").for(:email) }
       it { should_not allow_value(Faker::Lorem.word).for(:email) }
       it { should validate_presence_of(:email) }
     end
