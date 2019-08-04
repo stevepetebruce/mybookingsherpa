@@ -121,3 +121,19 @@ h6 {
     font-size: 1rem;
   }
 }
+
+.cancelled-trip {
+  color: $text-muted;
+  font-weight: 400;
+  position: relative;
+  &::after {
+    border-bottom: 0.125em solid rgba(0, 0, 0, 0.2);
+    content: "";
+    left: 0;
+    right: 0;
+    line-height: 1em;
+    margin-top: calc(0.025em / 2 * -1);
+    position: absolute;
+    top: 50%;
+  }
+}
