@@ -1,0 +1,73 @@
+<div class="container-fluid page-body-wrapper content">
+<!-- main -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-shadow mt-5">
+          <div class="card-body">
+            <h1 class="card-title font-weight-bold mb-4">
+            <%= form_with(url: guides_accounts_path, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }) do |form| %>
+            <!-- <form class="new-guide-account-form" action="/guides/account" method="post"> -->
+              <input type="hidden" name="token-account" id="token-account">
+              <input type="hidden" name="token-person" id="token-person">
+              <label>
+                <span>Business Name</span>
+                <input class="inp-company-name" name="company_name">
+              </label>
+              <fieldset>
+                <legend>Business Address</legend>
+                <label>
+                  <span>Street Address Line 1</span>
+                  <input class="inp-company-street-address1" name="street_address1">
+                </label>
+                <label>
+                  <span>City</span>
+                  <input class="inp-company-city" name="city">
+                </label>
+                <label>
+                  <span>State</span>
+                  <input class="inp-company-state" name="state">
+                </label>
+                <label>
+                  <span>Postal Code</span>
+                  <input class="inp-company-zip" name="zip">
+                </label>
+              </fieldset>
+              <label>
+                <span>Account Opener First Name</span>
+                <input class="inp-person-first-name" name="first_name">
+              </label>
+              <label>
+                <span>Account Opener Last Name</span>
+                <input class="inp-person-last-name" name="last_name">
+              </label>
+              <fieldset>
+                <legend>Account Opener Address</legend>
+                <label>
+                  <span>Street Address Line 1</span>
+                  <input class="inp-person-street-address1" name="street_address1">
+                </label>
+                <label>
+                  <span>City</span>
+                  <input class="inp-person-city" name="city">
+                </label>
+                <label>
+                  <span>State</span>
+                  <input class="inp-person-state" name="state">
+                </label>
+                <label>
+                  <span>Postal Code</span>
+                  <input class="inp-person-zip" name="zip">
+                </label>
+              </fieldset>
+              <p>By clicking, you agree to <a href="#">our terms</a> and the <a href="/connect-account/legal">Stripe Connected Account Agreement</a>. TODO - need a checkbox here...</p>
+              <button>Submit</button>
+            <!-- </form> -->
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

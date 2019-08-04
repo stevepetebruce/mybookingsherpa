@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe Organisation, type: :model do
   describe "associations" do
     it { should have_many(:guides).through(:organisation_memberships) }
+    it { should have_many(:stripe_accounts) }
     it { should have_many(:subscriptions) }
     it { should have_many(:trips) }
     it { should validate_uniqueness_of(:name) }
