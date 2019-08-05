@@ -16,7 +16,7 @@ class Booking < ApplicationRecord
   delegate :currency, :deposit_cost, :full_cost, :full_payment_date,
            :guide, :organisation_name, :organisation_stripe_account_id,
            :start_date, :end_date, to: :trip
-  delegate :description, :full_payment_window_weeks, :guest_count,
+  delegate :cancelled?, :description, :full_payment_window_weeks, :guest_count,
            :maximum_number_of_guests, :name, :start_date,
            to: :trip, prefix: true
   delegate :stripe_customer_id, to: :guest

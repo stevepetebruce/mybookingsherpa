@@ -7,7 +7,7 @@
             <div class="card-body">
               <div class="row border-bottom pb-2 mb-4">
                 <div class="col text-center">
-                  <h1 class="card-title font-weight-bold mb-0 d-inline-block"><%= @booking.trip_name %></h1>
+                  <h1 class="card-title font-weight-bold mb-0 d-inline-block <%= 'cancelled-trip' if @booking.trip_cancelled? %> "><%= @booking.trip_name %></h1>
                   <h3 class="text-gray mt-1">
                     <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
                   </h3>
