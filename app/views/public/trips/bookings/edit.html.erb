@@ -7,7 +7,7 @@
               <% if @booking.organisation.logo_image.attached? %>
                 <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
               <% end %>
-              <h1 class="font-weight-bold mb-0"><%= @booking.trip_name %></h1>
+              <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %> "><%= @booking.trip_name %></h1>
               <h3>
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
