@@ -2,7 +2,7 @@ module Guides
   module Welcome
     class SolosController < ApplicationController
       before_action :authenticate_guide!
-      before_action :set_current_organisation, only: %i[create]
+      before_action :set_current_organisation
 
       # TODO: could do with an onboarding object... that determines what to show based on
       # current state of the @current_organisation ?
