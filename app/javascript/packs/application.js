@@ -32,3 +32,5 @@ require("dotenv").config();
 
 // Assets
 require.context("../images/", true, /\.(gif|jpe?g|png|svg)$/i);
+
+import "controllers"
