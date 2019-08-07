@@ -24,11 +24,11 @@
 
     // Bank account token:
     // const stripe = Stripe("");
-    const newGuideAccountForm = document.querySelector(".new-guide-account-form");
-    newGuideAccountForm.addEventListener("submit", handleForm);
+    // const newGuideAccountForm = document.querySelector(".new-guide-account-form");
+    // newGuideAccountForm.addEventListener("submit", handleForm);
 
-    async function handleForm(event) {
-      event.preventDefault();
+    // async function handleForm(event) {
+    //   event.preventDefault();
 
       // Need a way to distinguish if buinsess is a company or an individual...
       // and only make the relevant call to Stripe - createToken for account or person...
@@ -52,44 +52,6 @@
       //   tos_shown_and_accepted: true,
       // });
 
-      // Ref: https://stripe.com/docs/api/tokens/create_account
-      const accountResult = await stripe.createToken("account", {
-        business_type: "individual", // TODO: replace hard coded version
-        individual: {
-          address: {
-            line1: document.querySelector("#address_line1").value,
-            line2: document.querySelector("#address_line2").value,
-            city: document.querySelector("#address_city").value,
-            state: document.querySelector("#address_state").value,
-            postal_code: document.querySelector("#address_postal_code").value,
-            country: document.querySelector("#address_country_code").value
-          },
-          dob: {
-            day: document.querySelector("#dob_day").value,
-            month: document.querySelector("#dob_month").value,
-            year: document.querySelector("#dob_year").value,
-          },
-          email: document.querySelector("#email").value,
-          first_name: document.querySelector("#first_name").value,
-          last_name: document.querySelector("#last_name").value,
-          gender: document.querySelector("#gender").value,
-          maiden_name: document.querySelector("#maiden_name").value,
-          // phone: document.querySelector("#phone").value // "Not a valid phone number"
-          // relationship: {
-          //   // TODO: document.querySelector("#stripe_account_individual_relationship").value
-          //   owner: true
-          // },
-        },
-        // exernal_account: { // TODO: need to use this: https://stripe.com/docs/api/tokens/create_bank_account
-        //   account_number: document.querySelector("#stripe_account_bank_account_number").value,
-        //   country: document.querySelector("#stripe_account_individual_address_country_code").value,
-        //   currency: document.querySelector("#stripe_account_default_currency").value,
-        //   object: "bank_account"
-        // },
-        tos_shown_and_accepted: true,
-      });
-
-
       // If the business is a company - then need to create directors and owners too here..
       // const personResult = await stripe.createToken("person", {
       //   person: {
@@ -106,14 +68,14 @@
 
       // if (accountResult.token && personResult.token) {
 
-      if (accountResult.token) {
-        document.querySelector("#token_account").value = accountResult.token.id;
-        // document.querySelector("#stripe_account_token_person").value = personResult.token.id;
-        newGuideAccountForm.submit();
-      }
+      // if (accountResult.token) {
+      //   document.querySelector("#token_account").value = accountResult.token.id;
+      //   // document.querySelector("#stripe_account_token_person").value = personResult.token.id;
+      //   newGuideAccountForm.submit();
+      // }
 
 
-    }
+    // }
 
     // Card token:
     const container = document.querySelector(".page-wrapper");
