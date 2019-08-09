@@ -3,6 +3,8 @@ class Trip < ApplicationRecord
   include TripDecorator
   enum currency: %i[eur gbp usd]
 
+  DEFAULT_CURRENCY = "eur"
+
   validates :deposit_percentage, numericality: { only_integer: true }, allow_nil: true
   validates :full_cost, presence: true
   validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
@@ -35,7 +37,7 @@ class Trip < ApplicationRecord
   before_save :set_deposit_cost
 
   def currency
-    self[:currency] || organisation.currency
+    self[:currency] || organisation&.currency || DEFAULT_CURRENCY
   end
 
   def full_cost=(value)

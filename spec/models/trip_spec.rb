@@ -144,21 +144,29 @@ RSpec.describe Trip, type: :model do
 
   describe "#currency" do
     subject { described_class.new(attributes).currency }
-    let(:organisation) { FactoryBot.create(:organisation, currency: "usd") }
 
-    context "when the trip has not had a currency set" do
+    context "when the trip has had a currency set" do
+      let(:attributes) { { currency: :gbp } }
+
+      it "should be the trip specific currency" do
+        expect(subject).to eq("gbp")
+      end
+    end
+
+    context "when the trip has not had a currency set - but it's organisation has" do
       let(:attributes) { { organisation: organisation } }
+      let(:organisation) { FactoryBot.create(:organisation, currency: "usd") }
 
       it "should be overriden by the organisation's currency" do
         expect(subject).to eq("usd")
       end
     end
 
-    context "when the trip has had a currency set" do
-      let(:attributes) { { currency: :gbp, organisation: organisation } }
+    context "when the trip nor it's organisation has had it's currency set" do
+      let(:attributes) { { currency: nil } }
 
-      it "should be the trip specific currency" do
-        expect(subject).to eq("gbp")
+      it "should be the default currency" do
+        expect(subject).to eq(Trip::DEFAULT_CURRENCY)
       end
     end
   end
