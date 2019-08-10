@@ -11,12 +11,7 @@ module External
 
       # https://stripe.com/docs/connect/account-tokens#create-account
       def create
-        Stripe::Account.create(
-          {
-            account_token: @account_token,
-            type: "custom"
-          }
-        )
+        Stripe::Account.create(account_token: @account_token, type: "custom")
       end
 
       def self.create(account_token)

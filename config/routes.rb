@@ -53,8 +53,8 @@ Rails.application.routes.draw do
       resources :bookings, only: %i[index], controller: "/guides/trips/bookings"
     end
     namespace :welcome, only: %i[new] do
-      resources :solos, only: %i[new create update]
-      resources :companies, only: %i[new create update]
+      resources :solos, only: %i[new create]
+      resources :companies, only: %i[new create]
     end
   end
 
