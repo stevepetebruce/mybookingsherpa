@@ -2,7 +2,7 @@ module Organisations
   module StripeAccounts
     class CreateJob < ApplicationJob
       queue_as :default
-
+      # TODO: delete this job?
       def perform(organisation, token_account)
         organisation.update(stripe_account_id: stripe_account(token_account).id)
       end
