@@ -1,0 +1,158 @@
+/*Onboard logo*/
+
+.onboard-logo {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 9999999;
+}
+
+
+/*  Left background image*/
+
+.bg_img {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-image: linear-gradient(to bottom right, #002f4b, #dc4225);
+		opacity: .01;
+	}
+}
+
+.bg1 {
+  background: url("photo-bg1.jpg") center center no-repeat;
+  background-size: cover;
+}
+
+.bg2 {
+  background: url("photo-bg2.jpg") center center no-repeat;
+  background-size: cover;
+}
+
+.bg3 {
+  background: url("photo-bg3.jpg") center center no-repeat;
+  background-size: cover;
+}
+
+.bg4 {
+  background: url("photo-bg4.jpg") center center no-repeat;
+  background-size: cover;
+}
+
+.bg5 {
+  background: url("photo-bg5.jpg") center center no-repeat;
+  background-size: cover;
+}
+
+
+/*   Top Progress bar */
+
+.progress {
+  height: 6px;
+}
+
+.one,
+.two,
+.three,
+.four {
+  position: absolute;
+  margin-top: -5px;
+  z-index: 1;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+}
+
+.one {
+  left: 20%;
+}
+
+.two {
+  left: 40%;
+}
+
+.three {
+  left: 60%;
+}
+
+.four {
+  left: 80%;
+}
+
+.primary-color {
+  background-color: #42a5f5;
+}
+
+.no-color {
+  background-color: inherit;
+}
+
+
+
+/*Left Quote    */
+
+.quotation-mark {
+
+  margin-top: -10px;
+  font-weight: bold;
+  font-size: 100px;
+  color: white;
+  font-family: "Times New Roman", Georgia, Serif;
+
+}
+
+.quote-text {
+  margin-top: -65px;
+}
+
+
+
+/*    Individual and company boxes*/
+
+.onboard {
+  &.card {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+    padding: 14px 80px 18px 36px;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.005);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    }
+
+    h3 {
+      font-weight: 600;
+    }
+
+    img {
+      position: absolute;
+      top: 20px;
+      right: 15px;
+      max-height: 120px;
+    }
+  }
+
+  &.card-1 {
+    background-image: url("individual-right.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 80px;
+  }
+
+  &.card-2 {
+    background-image: url("company-right.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 80px;
+  }
+}
