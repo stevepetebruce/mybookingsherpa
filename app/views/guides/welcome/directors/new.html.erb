@@ -1,0 +1,103 @@
+<div class="container-fluid page-body-wrapper content">
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-shadow mt-5">
+            <div class="card-body">
+              <h1>Welcome Company...</h1>
+                <h2>Create directors</h2>
+                <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
+                <%= form_with(url: guides_welcome_directors_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
+                  <fieldset>
+                    <legend>Director's/Owner's Address</legend>
+                    <%= label_tag :address_line1 %>
+                    <%= text_field_tag "address[line1]", "21 Palmeira Street" %>
+                    <br/>
+                    <%= label_tag :address_line2 %>
+                    <%= text_field_tag "address[line2]", "Flat 10" %>
+                    <br/>
+                    <%= label_tag :address_city %>
+                    <%= text_field_tag "address[city]", "Brighton" %>
+                    <br/>
+                    <%= label_tag :address_state %>
+                    <%= text_field_tag "address[state]", "East Sussex" %>
+                    <br/>
+                    <%= label_tag :address_postal_code %>
+                    <%= text_field_tag "address[postal_code]", "BN1 4QR" %>
+                    <br/>
+                    <%= label_tag :address_country %>
+                    <%= text_field_tag "address[country]", "GB" %>
+                    <br/>
+                    <!-- Can't get this working with Stripe API -->
+                    <% # label_tag :phone %>
+                    <% # text_field_tag :phone, "00447980474747" %>
+                    <br/>
+                    <br/>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Director's/Owner's personal details</legend>
+                    <%= label_tag :dob_day %>
+                    <%= text_field_tag "[dob]day", "12" %>
+                    <br/>
+                    <%= label_tag :dob_month %>
+                    <%= text_field_tag "[dob]month", "12" %>
+                    <br/>
+                    <%= label_tag :dob_year %>
+                    <%= text_field_tag "[dob]year", "1987" %>
+                    <br/>
+                    <%= label_tag :email %>
+                    <%= text_field_tag :email, "director@example.com" %>
+                    <br/>
+                    <%= label_tag :first_name %>
+                    <%= text_field_tag :first_name, "Alan" %>
+                    <br/>
+                    <%= label_tag :last_name %>
+                    <%= text_field_tag :last_name, "Smith" %>
+                    <br/>
+                    <%= label_tag :gender %>
+                    <%= text_field_tag :gender, "male" %>
+                    <br/>
+                  </fieldset>
+                    <!-- TODO:
+                    1) account.company.directors_provided - need to set this to true when guide has added all directors...
+                    2) owners_provided  - - need to set this to true when guide has added all owners...
+                    
+                    Also - need to upload ID document...
+                     -->
+
+                  <fieldset>
+                    <legend>Director's/Owner's relationship to company</legend>
+                    <!-- TODO: have a drop down select here or something.. -->
+                    <%= label_tag :director %>
+                    <%= text_field_tag "[relationship]director", "true" %>
+                    <br/>
+                    <%= label_tag :owner %>
+                    <%= text_field_tag "[relationship]owner", "false" %>
+                    <br/>
+                    <!-- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners... -->
+                    <%= label_tag :percent_ownership %>
+                    <%= text_field_tag "[relationship]percent_ownership", "50" %>
+                    <br/>
+                    <%= label_tag :title %>
+                    <%= text_field_tag "[relationship]title", "CEO" %>
+                    <br/>
+                    <br/>
+                  </fieldset>
+                  <p>
+                    <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
+                    I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
+                    <%= form.check_box :accepted_tos, required: true, data: { target: "stripe-director.acceptedTos" }  %>
+                  </p>
+                  <%= submit_tag "Submit and quit" %>
+                  <%= submit_tag "Submit and add another director", name: "add_another_director" %>
+                  <%= link_to "exit", guides_trips_path %>
+                <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
