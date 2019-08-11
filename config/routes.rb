@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       resources :bank_accounts, only: %i[new create]
       resources :solos, only: %i[new create]
       resources :companies, only: %i[new create]
+      resources :directors, only: %i[new create]
     end
   end
 

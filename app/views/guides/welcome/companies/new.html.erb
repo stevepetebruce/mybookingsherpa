@@ -1,199 +1,90 @@
 <div class="container-fluid page-body-wrapper content">
-<!-- main -->
-<div class="main-panel">
-  <div class="content-wrapper">
-    <div class="row">
-      <div class="col-12">
-        <div class="card card-shadow mt-5">
-          <div class="card-body">
-            <h1 class="card-title font-weight-bold mb-4">
-            <% @show_company_fields = false %>
-            <% if creating_stripe_account? %>
-              <%= form_with(model: @stripe_account, url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }) do |form| %>
-
-                <%= form.hidden_field :token_account %>
-
-                <!-- These are needed no matter if company is a busines or individual -->
-
-                <%= form.label "Business name" %>
-                <%= form.text_field :company_name, value: "Free The Trees" %>
-                <br/>
-                <%= form.label "Account number (IBAN - if in EU)" %>
-                <%= form.text_field :bank_account_number, value: "FR1420041010050500013M02606" %>
-                <br/>
-                <%= form.label "Sort code (optional - if in EU)" %>
-                <%= form.text_field :bank_account_sort_code, value: "" %>
-                <br/>
-                <%= form.label :country %>
-                <%= form.text_field :country, value: "FR" %>
-                <br/>
-                
-                <%= form.label :default_currency %>
-                <%= form.text_field :default_currency, value: "EUR" %>
-                <br/>
-
-                <%= form.label :email %>
-                <%= form.text_field :email, value: current_guide.email %>
-
-                <fieldset>
-                  <%= form.label "Company tax number" %>
-                  <%= form.text_field :company_tax_id, value: "123" %>
-                  <br/>
-                  <br/>
-                </fieldset>
-                <br/>
-
-                <!-- This should be two tabs/toggle - company or individual -->
-                <p>If you're set up as a Company</p>
-
-                <% if @show_company_fields #  show business tab if... some conditional...%>
-                  <%= form.label "Business type" %>
-                  <%= form.text_field :business_type, value: "company" %>
-                  <br/>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-shadow mt-5">
+            <div class="card-body">
+              <h1>Welcome Company...</h1>
+              <% if @current_organisation.stripe_account_id.nil? %>
+                <h2>Your company details</h2>
+                <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
+                <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-account-company", target: "stripe-account-company.form", stripe_account_company_key: @current_organisation.stripe_publishable_key }) do |form| %>
+                  <%= form.hidden_field :token_account, data: { target: "stripe-account-company.tokenAccount" } %>
                   <fieldset>
-                    <legend>Business Address</legend>
-                    <%= form.label :company_address_line1 %>
-                    <%= form.text_field :company_address_line1, value: "21 Palmeira Square" %>
+                    <legend>Company Details</legend>
+                    <%= label_tag :company_name %>
+                    <%= text_field_tag :company_name, "My new business", data: { target: "stripe-account-company.name" } %>
                     <br/>
-                    <%= form.label :company_address_line2 %>
-                    <%= form.text_field :company_address_line2, value: "Flat 4" %>
+                    <%= label_tag :address_line1 %>
+                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" } %>
                     <br/>
-                    <%= form.label :company_address_city %>
-                    <%= form.text_field :company_address_city, value: "Hove" %>
+                    <%= label_tag :address_line2 %>
+                    <%= text_field_tag :address_line2, "Flat 10", data: { target: "stripe-account-company.addressLine2" }  %>
                     <br/>
-                    <%= form.label :company_address_state %>
-                    <%= form.text_field :company_address_state, value: "East Sussex" %>
+                    <%= label_tag :address_city %>
+                    <%= text_field_tag :address_city, "Brighton", data: { target: "stripe-account-company.addressCity" }  %>
                     <br/>
-                    <%= form.label :company_address_postal_code %>
-                    <%= form.text_field :company_address_postal_code, value: "BN3 2JN" %>
+                    <%= label_tag :address_state %>
+                    <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe-account-company.addressState" }  %>
                     <br/>
-                    <%= form.label :company_address_country_code %>
-                    <%= form.text_field :company_address_country_code, value: "GB" %>
+                    <%= label_tag :address_postal_code %>
+                    <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }  %>
                     <br/>
-                    <%= form.label :company_phone %>
-                    <%= form.text_field :company_phone, value: "077877870098" %>
+                    <%= label_tag :address_country_code %>
+                    <%= text_field_tag :address_country_code, "GB", data: { target: "stripe-account-company.addressCountryCode" }  %>
                     <br/>
+                    <%= label_tag :phone %>
+                    <%= text_field_tag :phone, "0044079809477747", data: { target: "stripe-account-company.phone" }  %>
                     <br/>
-                  </fieldset>
-                <% elsif ! @show_company_fields # show the individual / solo founder panel... %>
-                
-                  <p>If it's just you, a solo founder</p>
-                  <%= form.label "Business type" %>
-                  <%= form.text_field :business_type, value: "individual" %>
-                  
-                  <br/>
-                  <fieldset>
-                    <legend>Business Address</legend>
-                    <%= form.label :individual_address_line1 %>
-                    <%= form.text_field :individual_address_line1, value: "21 Palmeira Square" %>
+                    <%= label_tag :tax_id %>
+                    <%= text_field_tag :tax_id, "", data: { target: "stripe-account-company.tax_id" } %>
                     <br/>
-                    <%= form.label :individual_address_line2 %>
-                    <%= form.text_field :individual_address_line2, value: "Flat 4" %>
-                    <br/>
-                    <%= form.label :individual_address_city %>
-                    <%= form.text_field :individual_address_city, value: "Hove" %>
-                    <br/>
-                    <%= form.label :individual_address_state %>
-                    <%= form.text_field :individual_address_state, value: "East Sussex" %>
-                    <br/>
-                    <%= form.label :individual_address_postal_code %>
-                    <%= form.text_field :individual_address_postal_code, value: "BN3 2JN" %>
-                    <br/>
-                    <%= form.label :individual_address_country_code %>
-                    <%= form.text_field :individual_address_country_code, value: "GB" %>
-                    <br/>
-                    <%= form.label :individual_phone %>
-                    <%= form.text_field :individual_phone, value: "077877870098" %>
+                    <%= label_tag :vat_id %>
+                    <%= text_field_tag :vat_id, "", data: { target: "stripe-account-company.vat_id" } %>
                     <br/>
                     <br/>
-                  </fieldset>
+                    <!-- TODO:
+                    1) account.company.directors_provided - need to set this to true when guide has added all directors...
+                    2) owners_provided  - - need to set this to true when guide has added all owners...
 
-                  <fieldset>
-                    <legend>Your details</legend>
-                    <%= form.label :individual_dob_day %>
-                    <%= form.text_field :individual_dob_day, value: "12" %>
-                    <br/>
-                    <%= form.label :individual_dob_month %>
-                    <%= form.text_field :individual_dob_month, value: "12" %>
-                    <br/>
-                    <%= form.label :individual_dob_year %>
-                    <%= form.text_field :individual_dob_year, value: "1987" %>
-                    <br/>
-                    <br/>
-                    <%= form.label :individual_email %>
-                    <%= form.text_field :individual_email, value: current_guide.email %>
-                    <br/>
-                    <%= form.label :individual_first_name %>
-                    <%= form.text_field :individual_first_name, value: "Alan" %>
-                    <br/>
-                    <%= form.label :individual_last_name %>
-                    <%= form.text_field :individual_last_name, value: "Donohoe" %>
-                    <br/>
-                    <%= form.label :individual_maiden_name %>
-                    <%= form.text_field :individual_maiden_name %>
-                    <br/>
-                    <%= form.label :individual_gender %>
-                    <%= form.text_field :individual_gender, value: "male" %>
-                    <br/>
-                    <%= form.label :individual_phone %>
-                    <%= form.text_field :individual_phone, value: "00447980565656" %>
-                    <br/>
+                     -->
                   </fieldset>
-                <% end %> <!-- end of individual tab -->
-                <p>
-                  <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
-                  I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
-                  <%= form.check_box :accepted_tos, required: true %>
-                </p>
-                <button>Submit</button>
-              <% end %> <!-- end of form -->
-
-              <% if false # show the extra fields for someone opening the account who is not the owner... some conditional... %>
-                <p>If you, the person filling this out, is different to the owner, please fill in the following:</p>
-                <span>copy my details from above?</span>
-                <fieldset>
-                  <legend>Account Opener Details</legend>
-                  <%= form.label :account_opener_first_name %>
-                  <%= form.text_field :account_opener_first_name, value: "Alan" %>
-                  <br/>
-                  <%= form.label :account_opener_last_name %>
-                  <%= form.text_field :account_opener_last_name, value: "Donohoe" %>
-                  <br/>
-                  <%= form.label :account_opener_address_line1 %>
-                  <%= form.text_field :account_opener_address_line1, value: "21 Palmeira Square" %>
-                  <br/>
-                  <%= form.label :account_opener_address_city %>
-                  <%= form.text_field :account_opener_address_city, value: "Hove" %>
-                  <br/>
-                  <%= form.label :account_opener_address_postal_code %>
-                  <%= form.text_field :account_opener_address_postal_code, value: "BN3 2JN" %>
-                  <br/>
-                  <%= form.label :account_opener_address_country_code %>
-                  <%= form.text_field :account_opener_address_country_code, value: "GB" %>
-                  <br/>
-                  <%= form.label :account_opener_dob_day %>
-                  <%= form.text_field :account_opener_dob_day, value: "12" %>
-                  <br/>
-                  <%= form.label :account_opener_dob_month %>
-                  <%= form.text_field :account_opener_dob_month, value: "12" %>
-                  <br/>
-                  <%= form.label :account_opener_dob_year %>
-                  <%= form.text_field :account_opener_dob_year, value: "1987" %>
-                  <br/>
-                  <br/>
-                </fieldset>
+                  <p>
+                    <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
+                    I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
+                    <%= form.check_box :accepted_tos, required: true, data: { target: "stripe-account-company.acceptedTos" }  %>
+                  </p>
+                  <%= submit_tag :submit %>
+                <% end %>
+              <% else %>
+                <h2>Your bank details...</h2>
+                <!-- ref: https://stripe.com/docs/api/tokens/create_bank_account -->
+                <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-bank-account", target: "stripe-bank-account.form", stripe_bank_account_key: @current_organisation.stripe_publishable_key }) do |form| %>
+                    <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
+                    <%= form.hidden_field :account_holder_type, data: { target: "stripe-bank-account.accountHolderType" }, value: "company" %>
+                    <fieldset>
+                    <%= label_tag :account_number %>
+                    <%= text_field_tag :account_number, "00012345", data: { target: "stripe-bank-account.accountNumber" } %>
+                    <br/>
+                    <%= label_tag :sort_code %>
+                    <%= text_field_tag :routing_number, "108800", data: { target: "stripe-bank-account.routingNumber" } %>
+                    <br/>
+                    <%= label_tag :country_code %>
+                    <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" } %>
+                    <br/>
+                    <%= label_tag :currency %>
+                    <%= text_field_tag :currency, "GBP", data: { target: "stripe-bank-account.currency" } %>
+                    <br/>
+                    <%= label_tag :account_holder_name %>
+                    <%= text_field_tag :account_holder_name, "Mr A Smith", data: { target: "stripe-bank-account.accountHolderName" } %>
+                    <br/>
+                    <br/>
+                    <%= submit_tag :submit %>
+                  </fieldset>
+                <% end %>
               <% end %>
-
-            <% elsif creating_stripe_people? %>
-              <%= form_with(model: @stripe_person, url: guides_stripe_people_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }) do |form| %>
-
-                <%= form.hidden_field :token_person %>
-
-                <!-- TODO... -->
-              <% end %>
-            <% end %>
-            <% #  @stripe_account.inspect %>
-            <!-- TODO: change the class to a data attribute... only used in Stripe JS -->
+            </div>
           </div>
         </div>
       </div>
