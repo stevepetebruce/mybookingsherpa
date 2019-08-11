@@ -3,6 +3,10 @@ class Guides::RegistrationsController < Devise::RegistrationsController
 
   protected
 
+  def after_sign_up_path_for(resource)
+    authenticated_guide_path
+  end
+
   def create_organisation
     if resource.persisted?
       # TODO: be more clever about how we select the default currency here... Could use: https://github.com/hexorx/countries

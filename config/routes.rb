@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   devise_scope :guide do
     authenticated :guide do
-      root "guides/trips#index", as: :authenticated_guide
+      root "guides/welcome#new", as: :authenticated_guide 
     end
 
     unauthenticated do
