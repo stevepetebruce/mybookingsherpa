@@ -1,0 +1,106 @@
+{  
+  "id":"acct_1F6EFsL2bc7IXTSh",
+  "object":"account",
+  "business_logo":null,
+  "business_logo_large":null,
+  "business_name":null,
+  "business_primary_color":null,
+  "business_url":null,
+  "charges_enabled":true,
+  "country":"GB",
+  "created":1565519188,
+  "debit_negative_balances":false,
+  "decline_charge_on":{  
+    "avs_failure":false,
+    "cvc_failure":false
+  },
+  "default_currency":"gbp",
+  "details_submitted":false,
+  "display_name":null,
+  "email":null,
+  "external_accounts":{  
+    "object":"list",
+    "data":[  
+
+    ],
+    "has_more":false,
+    "total_count":0,
+    "url":"/v1/accounts/acct_1F6EFsL2bc7IXTSh/external_accounts"
+  },
+  "keys":{  
+    "secret":"sk_test_8EKauvI36QOjdzEmZcQ70lGi00hgmlMVat",
+    "publishable":"pk_test_S3bdCFFTufPyfeCxu9ya3iKB00FDcrS10B"
+  },
+  "legal_entity":{  
+    "additional_owners":[  
+
+    ],
+    "address":{  
+      "city":"Brighton",
+      "country":"GB",
+      "line1":"21 Palmeira Street",
+      "line2":"Flat 10",
+      "postal_code":"BN1 4QR",
+      "state":"East Sussex"
+    },
+    "business_name":null,
+    "business_tax_id_provided":false,
+    "dob":{  
+      "day":12,
+      "month":12,
+      "year":1987
+    },
+    "first_name":"Alan",
+    "gender":"male",
+    "last_name":"Smith",
+    "personal_address":{  
+      "city":"Brighton",
+      "country":"GB",
+      "line1":"21 Palmeira Street",
+      "line2":"Flat 10",
+      "postal_code":"BN1 4QR",
+      "state":"East Sussex"
+    },
+    "personal_email":"foo@example.com",
+    "type":"individual",
+    "verification":{  
+      "details":null,
+      "details_code":null,
+      "document":null,
+      "document_back":null,
+      "status":"pending"
+    }
+  },
+  "mcc":null,
+  "metadata":{  
+
+  },
+  "payout_schedule":{  
+    "delay_days":7,
+    "interval":"daily"
+  },
+  "payout_statement_descriptor":null,
+  "payouts_enabled":false,
+  "product_description":null,
+  "statement_descriptor":"",
+  "statement_descriptor_kana":null,
+  "statement_descriptor_kanji":null,
+  "support_address":null,
+  "support_email":null,
+  "support_phone":null,
+  "support_url":null,
+  "timezone":"Etc/UTC",
+  "tos_acceptance":{  
+    "date":1565519187,
+    "ip":"31.54.6.94",
+    "user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+  },
+  "type":"custom",
+  "verification":{  
+    "disabled_reason":null,
+    "due_by":null,
+    "fields_needed":[  
+      "external_account"
+    ]
+  }
+}

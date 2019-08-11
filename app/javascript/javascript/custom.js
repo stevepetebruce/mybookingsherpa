@@ -21,63 +21,8 @@
     });
 
     // Stripe JS:
-
-    // Bank account token:
-    // const stripe = Stripe("");
-    // const newGuideAccountForm = document.querySelector(".new-guide-account-form");
-    // newGuideAccountForm.addEventListener("submit", handleForm);
-
-    // async function handleForm(event) {
-    //   event.preventDefault();
-
-      // Need a way to distinguish if buinsess is a company or an individual...
-      // and only make the relevant call to Stripe - createToken for account or person...
-      // If it's account - then will also need to create the person...
-      // If the business is an company
-
-      // const accountResult = await stripe.createToken("account", {
-      //   business_type: "company", // TODO: replace hard coded version
-      //   company: {
-      //     name: document.querySelector("#stripe_account_company_name").value,
-      //     phone: document.querySelector("#stripe_account_company_phone").value,
-      //     address: {
-      //       line1: document.querySelector("#stripe_account_company_address_line1").value,
-      //       line2: document.querySelector("#stripe_account_company_address_line2").value,
-      //       city: document.querySelector("#stripe_account_company_address_city").value,
-      //       state: document.querySelector("#stripe_account_company_address_city").value,
-      //       postal_code: document.querySelector("#stripe_account_company_address_postal_code").value,
-      //       country: document.querySelector("#stripe_account_company_address_country_code").value
-      //     },
-      //   },
-      //   tos_shown_and_accepted: true,
-      // });
-
-      // If the business is a company - then need to create directors and owners too here..
-      // const personResult = await stripe.createToken("person", {
-      //   person: {
-      //     first_name: document.querySelector("#stripe_account_account_opener_first_name").value,
-      //     last_name: document.querySelector("#stripe_account_account_opener_last_name").value,
-      //     address: {
-      //       line1: document.querySelector("#stripe_account_account_opener_address_line1").value,
-      //       city: document.querySelector("#stripe_account_account_opener_address_city").value,
-      //       // state: document.querySelector(".inp-person-state").value,
-      //       postal_code: document.querySelector("#stripe_account_account_opener_address_postal_code").value,
-      //     },
-      //   },
-      // });
-
-      // if (accountResult.token && personResult.token) {
-
-      // if (accountResult.token) {
-      //   document.querySelector("#token_account").value = accountResult.token.id;
-      //   // document.querySelector("#stripe_account_token_person").value = personResult.token.id;
-      //   newGuideAccountForm.submit();
-      // }
-
-
-    // }
-
     // Card token:
+    // TODO: move to Stimulus controller
     const container = document.querySelector(".page-wrapper");
     let stripeKey = process.env.STRIPE_PUBLISHABLE_KEY_TEST; // TODO: need to use live version in production..
 

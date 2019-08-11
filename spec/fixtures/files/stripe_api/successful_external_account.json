@@ -1,0 +1,16 @@
+{
+ "id": "ba_1F6DyhAeQmNbvn2rMTu4VRxn",
+ "object": "bank_account",
+ "account": "acct_1F6DyYAeQmNbvn2r",
+ "account_holder_name": "Mr A Smith",
+ "account_holder_type": "individual",
+ "bank_name": "STRIPE TEST BANK",
+ "country": "GB",
+ "currency": "gbp",
+ "default_for_currency": true,
+ "fingerprint": "tPBu1idOylkHu43y",
+ "last4": "2345",
+ "metadata": {},
+ "routing_number": "10-88-00",
+ "status": "new"
+}
