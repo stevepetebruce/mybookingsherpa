@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Devise routes
   devise_for :guests
-  devise_for :guides
+  devise_for :guides, controllers: {
+    registrations: "guides/registrations"
+  }
 
   devise_scope :guide do
     authenticated :guide do
