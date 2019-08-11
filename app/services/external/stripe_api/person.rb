@@ -3,9 +3,9 @@ module External
   # Ref: https://stripe.com/docs/api/persons/
   module StripeApi
     class Person < External::StripeApi::Base
-      def initialize(account_id, person_token)
+      def initialize(account_id, person_params)
         @account_id = account_id
-        @person_token = person_token
+        @person_params = person_params
         @use_test_api = true
         initialize_key
       end
@@ -14,14 +14,12 @@ module External
       def create
         Stripe::Account.create_person(
           @account_id,
-          {
-            person_token: @person_token
-          }
+          @person_params
         )
       end
 
-      def self.create(account_id:, person_token:)
-        new(account_id, person_token).create
+      def self.create(account_id, person_params)
+        new(account_id, person_params).create
       end
     end
   end

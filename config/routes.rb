@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     namespace :welcome, only: %i[new] do
       resources :solos, only: %i[new create]
       resources :companies, only: %i[new create]
+      resources :directors, only: %i[new create]
     end
   end
 
