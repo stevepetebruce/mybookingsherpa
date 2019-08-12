@@ -9,7 +9,6 @@ class Organisation < ApplicationRecord
 
   has_many :organisation_memberships
   has_many :guides, through: :organisation_memberships
-  has_many :stripe_accounts
   has_many :subscriptions
   has_many :trips
 

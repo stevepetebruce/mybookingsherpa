@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_04_113532) do
+ActiveRecord::Schema.define(version: 2019_07_24_060800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -196,34 +196,6 @@ ActiveRecord::Schema.define(version: 2019_08_04_113532) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stripe_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "external_account"
-    t.string "account_opener_first_name"
-    t.string "account_opener_last_name"
-    t.string "account_opener_address_city"
-    t.string "account_opener_address_line1"
-    t.string "account_opener_address_postal_code"
-    t.integer "account_opener_dob_day"
-    t.integer "account_opener_dob_month"
-    t.integer "account_opener_dob_year"
-    t.string "company_name"
-    t.string "company_address_line1"
-    t.string "company_address_city"
-    t.string "company_address_postal_code"
-    t.string "company_tax_id"
-    t.string "business_type"
-    t.datetime "tos_acceptance_date"
-    t.string "tos_acceptance_ip"
-    t.string "stripe_account_id"
-    t.jsonb "directors_data"
-    t.jsonb "owners_data"
-    t.jsonb "raw_response"
-    t.uuid "organisation_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organisation_id"], name: "index_stripe_accounts_on_organisation_id"
-  end
-
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "created_by_id"
     t.uuid "updated_by_id"
@@ -267,7 +239,6 @@ ActiveRecord::Schema.define(version: 2019_08_04_113532) do
   add_foreign_key "organisations", "guides", column: "created_by_id"
   add_foreign_key "organisations", "guides", column: "updated_by_id"
   add_foreign_key "payments", "bookings"
-  add_foreign_key "stripe_accounts", "organisations"
   add_foreign_key "subscriptions", "organisations"
   add_foreign_key "subscriptions", "plans"
   add_foreign_key "trips", "organisations"
