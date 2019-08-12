@@ -4,6 +4,7 @@ module Guides
   module Welcome
     # The onboarding controller for solo founder guides
     class SolosController < ApplicationController
+      layout "onboarding"
       before_action :authenticate_guide!
       before_action :set_current_organisation
 
@@ -13,28 +14,14 @@ module Guides
       def new; end
 
       def create
-        if creating_stripe_account?
-          @current_organisation.update(stripe_account_id: stripe_account.id)
-          redirect_to new_guides_welcome_solo_path # need to expose any errors
+        if @current_organisation.update(stripe_account_id: stripe_account.id)
+          redirect_to new_guides_welcome_bank_account_path
         else
-          create_bank_account
-          redirect_to guides_trips_path
+          redirect_to new_guides_welcome_solo_path # need to expose any errors
         end
       end
 
       private
-
-      def create_bank_account
-        # TODO: create / capture raw_stripe_api_response
-        # Add a field to organisation - to record that bank account has been created...
-        # Or just check organisation's stripe_api_responses
-        External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id,
-                                                    params[:token_account])
-      end
-
-      def creating_stripe_account?
-        @current_organisation.stripe_account_id.blank?
-      end
 
       def stripe_account
         # TODO: create / capture raw_stripe_api_response

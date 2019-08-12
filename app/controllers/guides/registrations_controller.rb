@@ -1,6 +1,8 @@
 class Guides::RegistrationsController < Devise::RegistrationsController
   after_action :create_organisation, only: %i[create]
 
+  layout "onboarding"
+
   protected
 
   def after_sign_up_path_for(resource)

@@ -1,0 +1,42 @@
+<div class="p-2 col-sm-12 col-md-12 col-lg-8 d-none" data-target="stripe-account-individual.businessDetails">
+  <div class="col-md-12 mb-3">
+    <h4 class="mb-3 font-weight-bold">Your Business Details</h4>
+    <%= label_tag :address_line1 %><span class="small"><i> (e.g. house number & street, PO Box or company name)</i></span>
+    <%= text_field_tag :address_line1, "21 Palmeira Street", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.addressLine1" } %>
+  </div>
+  <div class="col-md-12 mb-3">
+    <%= label_tag :address_line2 %><span class="small"><i> (e.g., apartment, suite, unit, or building)</i></span>
+    <%= text_field_tag :address_line2, "Flat 10", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.addressLine2" }  %>
+  </div>
+  <div class="row mr-1 ml-1">
+    <div class="col-md-6 mb-3">
+      <%= label_tag "City" %>
+      <%= text_field_tag :address_city, "Brighton", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.addressCity" }  %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= label_tag "State/County" %>
+      <%= text_field_tag :address_state, "East Sussex", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.addressState" }  %>
+    </div>
+  </div>
+  <div class="row mr-1 ml-1">
+    <div class="col-md-6 mb-3">
+      <%= label_tag "Post/Zip Code" %>
+      <%= text_field_tag :address_postal_code, "BN1 4QR", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.addressPostalCode" }  %>
+    </div>
+    <div class="col-md-6 mb-3 pr-5">
+      <%= label_tag :country %>
+      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-account-individual.addressCountry" } %>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <%= form_with(url: guides_welcome_solos_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-account-individual.form", stripe_account_individual_key: @current_organisation.stripe_publishable_key }) do |form| %>
+    <%= form.hidden_field :token_account, data: { target: "stripe-account-individual.tokenAccount" } %>
+    <p>
+      <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
+      I agree to the <a href="https://stripe.com/gb/connect-account/legal" target="_blank">Stripe Connected Account Agreement</a><span><i> (required)</i></span>
+      <%= form.check_box :accepted_tos, required: true, data: { action: "change->stripe-account-individual#enableSubmitBtn" } %>
+    </p>
+    <%= submit_tag "Next step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", disabled: true, data: { target: "stripe-account-individual.submitBtn" } %>
+  <% end %>
+  </div>
+</div>

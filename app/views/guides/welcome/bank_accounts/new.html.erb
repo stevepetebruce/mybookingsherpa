@@ -1,0 +1,75 @@
+<div class="container-fluid full-height" data-controller="stripe-bank-account" data-stripe-bank-account-key="<%=@current_organisation.stripe_publishable_key%>">
+  <div class="row row-height">
+    <div class="onboard-logo"><a href="#"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt-sm.svg' %>" width="30px" alt="Logo"></a></div>
+    <div class="col-lg-4 content-left">
+
+      <div class="content-left-wrapper bg_img bg5">
+        <div class="wrapper">
+          <div class="py-4 text-center">
+            <!-- <p class="quotation-mark">
+              “
+            </p>
+            <h3 class="quote-text">
+            </h3>
+            <div class="blog-post-actions">
+              <p class="blog-post-bottom">
+              </p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 content-right">
+      <div class="row">
+        <div class="col-md-12 mb-5 mt-3">
+          <div class="progress">
+            <div class="one primary-color"></div>
+            <div class="two primary-color"></div>
+            <div class="three primary-color"></div>
+            <div class="four primary-color"></div>
+            <div class="progress-bar" style="width: 82%;"></div>
+          </div>
+        </div>
+        <div class="row ow-eq-height flex-fill">
+          <div class="col-sm-12 col-md-12 col-lg-4">
+            <h2 class="mt-2">The last step...</h2>
+            <h2 class="mt-2">So we can pay you your money</h2>
+          </div>
+          <div class="p-2 col-sm-12 col-md-12 col-lg-8">
+            <div class="col-md-12 mb-3">
+              <h4 class="mb-3 font-weight-bold">Your Banking Details</h4>
+              <%= label_tag :account_holder_name %>
+              <%= text_field_tag :account_holder_name, "Mr A Smith", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.accountHolderName" } %>
+            </div>
+            <div class="col-md-12 mb-3">
+              <%= label_tag "Account number" %><span class="small"><i>(full IBAN, if in EU)</i></span>
+              <%= text_field_tag :account_number, "00012345", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.accountNumber" } %>
+            </div>
+            <div class="row mr-1 ml-1">
+              <div class="col-md-6 mb-3">
+                <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
+                <%= text_field_tag :routing_number, "108800", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.routingNumber" } %>
+              </div>
+              <div class="col-md-6 mb-3 pr-5">
+                <%= label_tag :country %>
+                <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country" } %>
+              </div>
+            </div>
+            <div class="row ml-1 ">
+              <div class="col-md-5 mb-3">
+                <%= label_tag :currency %>
+                <%= select_tag(:currency, raw("<option>EUR</option><option>GBP</option><option>USD</option>"), class: "form-control customSelect", data: { target: "stripe-bank-account.currency" }) %>
+              </div>
+            </div>
+          <div class="col-md-12 mb-3">
+            <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-bank-account.form" }) do |form| %>
+            <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
+            <%= submit_tag "Complete Setup", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
+          <% end %>
+          <%= hidden_field_tag :account_holder_type, "individual", data: { target: "stripe-bank-account.accountHolderType" } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -27,27 +27,27 @@
 }
 
 .bg1 {
-  background: url("photo-bg1.jpg") center center no-repeat;
+  background: url("../../images/onboarding/photo-bg1.jpg") center center no-repeat;
   background-size: cover;
 }
 
 .bg2 {
-  background: url("photo-bg2.jpg") center center no-repeat;
+  background: url("../../images/onboarding/photo-bg2.jpg") center center no-repeat;
   background-size: cover;
 }
 
 .bg3 {
-  background: url("photo-bg3.jpg") center center no-repeat;
+  background: url("../../images/onboarding/photo-bg3.jpg") center center no-repeat;
   background-size: cover;
 }
 
 .bg4 {
-  background: url("photo-bg4.jpg") center center no-repeat;
+  background: url("../../images/onboarding/photo-bg4.jpg") center center no-repeat;
   background-size: cover;
 }
 
 .bg5 {
-  background: url("photo-bg5.jpg") center center no-repeat;
+  background: url("../../images/onboarding/photo-bg5.jpg") center center no-repeat;
   background-size: cover;
 }
 
@@ -143,14 +143,14 @@
   }
 
   &.card-1 {
-    background-image: url("individual-right.png");
+    background-image: url("../../images/onboarding/individual-right.png");
     background-repeat: no-repeat;
     background-position: right;
     background-size: 80px;
   }
 
   &.card-2 {
-    background-image: url("company-right.png");
+    background-image: url("../../images/onboarding/company-right.png");
     background-repeat: no-repeat;
     background-position: right;
     background-size: 80px;

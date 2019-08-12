@@ -3,8 +3,9 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "dobDay", "dobMonth", "dobYear", "email", "firstName",
-                    "form", "gender", "lastName", "phone", "tokenAccount"]
+                    "businessDetails", "dateOfBirth", "email", "firstName",
+                    "form", "gender", "lastName", "personalDetails", "phone",
+                    "submitBtn", "tokenAccount"]
 
   connect() {
     this.addFormSubmissionHandler();
@@ -30,9 +31,9 @@ export default class extends Controller {
             country: controller.addressCountryTarget.value
           },
           dob: {
-            day: controller.dobDayTarget.value,
-            month: controller.dobMonthTarget.value,
-            year: controller.dobYearTarget.value
+            day: controller.dateOfBirthTarget.value.split("-")[2],
+            month: controller.dateOfBirthTarget.value.split("-")[1],
+            year: controller.dateOfBirthTarget.value.split("-")[0]
           },
           email: controller.emailTarget.value,
           first_name: controller.firstNameTarget.value,
@@ -48,5 +49,18 @@ export default class extends Controller {
         form.submit();
       }
     });
+  }
+
+  enableSubmitBtn(el) {
+    if (el.target.checked) { 
+      this.submitBtnTarget.disabled = false;
+    } else {
+      this.submitBtnTarget.disabled = true;
+    }
+  }
+
+  toggleDetails() {
+    this.personalDetailsTargets.forEach(function(target) { target.classList.add("d-none"); });
+    this.businessDetailsTargets.forEach(function(target) { target.classList.remove("d-none"); });
   }
 }

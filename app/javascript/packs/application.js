@@ -20,7 +20,7 @@ import "../javascript/checkbox_dropdown.js";
 import "../javascript/clipboard.js";
 import "../javascript/country_select.js";
 import "../javascript/custom.js";
-import "../javascript/customer_quotes.js";
+// import "../javascript/customer_quotes.js";
 import "../javascript/download_csv.js";
 import "../javascript/new_booking_trip_information.js";
 
