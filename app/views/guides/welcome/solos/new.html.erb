@@ -1,0 +1,54 @@
+<div class="container-fluid full-height" data-controller="stripe-account-individual" data-stripe-account-individual-key="<%= @current_organisation.stripe_publishable_key %>">
+  <div class="row row-height">
+    <div class="col-lg-4 content-left">
+      <div class="content-left-wrapper bg_img bg3">
+        <div class="onboard-logo"><a href="#"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></a></div>
+        <div class="wrapper">
+          <div class="py-4 text-center">
+            <!-- <p class="quotation-mark">
+              “
+            </p>
+            <h3 class="quote-text">
+            </h3>
+            <div class="blog-post-actions">
+              <p class="blog-post-bottom">
+              </p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 content-right">
+      <div class="row">
+        <div class="col-md-12 mb-5 mt-3">
+          <div class="progress" data-target="stripe-account-individual.personalDetails">
+            <div class="one primary-color"></div>
+            <div class="two primary-color"></div>
+            <div class="three no-color"></div>
+            <div class="four no-color"></div>
+            <div class="progress-bar" style="width: 40%;"></div>
+          </div>
+          <div class="progress d-none" data-target="stripe-account-individual.businessDetails">
+            <div class="one primary-color"></div>
+            <div class="two primary-color"></div>
+            <div class="three primary-color"></div>
+            <div class="four no-color"></div>
+            <div class="progress-bar" style="width: 61%;"></div>
+          </div>
+        </div>
+        <div class="row ow-eq-height flex-fill">
+          <div class="col-sm-12 col-md-12 col-lg-4" data-target="stripe-account-individual.personalDetails">
+            <h2 class="mt-2">Great...</h2>
+            <h2 class="mt-2">Now please enter your personal details</h2>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-4 d-none" data-target="stripe-account-individual.businessDetails">
+            <h2 class="mt-2">Almost there...</h2>
+            <h2 class="mt-2">Now your business details</h2>
+          </div>
+          <%= render "guides/welcome/solos/personal_details" %>
+          <%= render "guides/welcome/solos/business_details" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
