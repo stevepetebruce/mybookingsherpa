@@ -188,6 +188,14 @@ RSpec.describe "Guides::TripsController", type: :request do
             end
           end
         end
+
+        context "a guide without any trips" do
+          it "should show the welcome screen" do
+            do_request
+
+            expect(response.body).to include("Add your first trip")
+          end
+        end
       end
     end
   end
