@@ -1,4 +1,5 @@
 class Organisation < ApplicationRecord
+  include OrganisationDecorator
   enum currency: %i[eur gbp usd]
 
   validates :deposit_percentage, numericality: { only_integer: true }, allow_nil: true
