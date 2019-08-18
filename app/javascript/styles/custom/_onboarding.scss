@@ -1,4 +1,4 @@
-/* Onboard logo */
+/*  Onboard logo  */
 
 .onboard-logo {
   z-index:9;
@@ -9,23 +9,33 @@
   width: 250px;
 }
 
+/*  Left background image  */
 
-/*  Left background image*/
+.onboard-left-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: inset -5px 0px 8px -6px #000;
+  color: #fff;
+  padding: 0 50px; 
+}
 
 .bg_img {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background-image: linear-gradient(to bottom right, #002f4b, #dc4225);
-		opacity: .01;
-	}
+  position: relative;
+  width: 100%;
+  height: 100%;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, #3498db, #0a65ba);
+    opacity: .8;
+  }
 }
 
 .bg1 {
@@ -96,9 +106,7 @@
   background-color: inherit;
 }
 
-
-
-/*Left Quote    */
+/* Left Quote  */
 
 .quotation-mark {
 
@@ -114,9 +122,7 @@
   margin-top: -65px;
 }
 
-
-
-/*    Individual and company boxes*/
+/*  Individual and company boxes  */
 
 .onboard {
   &.card {
