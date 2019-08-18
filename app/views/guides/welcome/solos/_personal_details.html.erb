@@ -1,0 +1,34 @@
+<div class="p-2 col-sm-12 col-md-12 col-lg-8" data-target="stripe-account-individual.personalDetailsWrapper" >
+  <div class="col-md-12 mb-3">
+   <h4 class="mb-3 font-weight-bold">Your Details</h4>
+    <%= label_tag "First name" %>
+    <%= text_field_tag :first_name, "Alan", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.firstName stripe-account-individual.requiredPersonal" } %>
+    <div class="text-danger d-none" data-target="stripe-account-individual.firstNameError">Please enter your first name</div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <%= label_tag :last_name %>
+    <%= text_field_tag :last_name, "Smith", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.lastName stripe-account-individual.requiredPersonal" } %>
+    <div class="text-danger d-none" data-target="stripe-account-individual.lastNameError">Please enter your last name</div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, current_guide.email, class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.email stripe-account-individual.requiredPersonal" } %>
+    <div class="text-danger d-none" data-target="stripe-account-individual.emailError">Please enter your email</div>
+  </div>
+  <div class="row pl-3 pr-5">
+    <div class="col-md-6 mb-3">
+      <%= label_tag "Date of birth" %>
+      <%= date_field_tag :date_of_birth, "", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.dateOfBirth stripe-account-individual.requiredPersonal" } %>
+      <div class="text-danger d-none" data-target="stripe-account-individual.dateOfBirthError">Please enter your date of birth</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= label_tag "Gender" %>
+      <%= select_tag(:gender, raw("<option>female</option><option>male</option>"), class: "form-control customSelect", data: { target: "stripe-account-individual.gender" }) %>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <a href="#">
+      <input type="submit" value="Next Step" class="btn btn-primary btn-lg btn-block mt-4 mb-4" data-action="click->stripe-account-individual#proceedIfValid">
+    </a>
+  </div>
+</div>
