@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :subscription do
     organisation
-    plan
+    association :plan, :flat_fee
   end
 end
