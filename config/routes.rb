@@ -52,7 +52,14 @@ Rails.application.routes.draw do
     resources :trips, only: %i[] do
       resources :bookings, only: %i[index], controller: "/guides/trips/bookings"
     end
+    namespace :welcome, only: %i[new] do
+      resources :bank_accounts, only: %i[new create]
+      resources :solos, only: %i[new create]
+      resources :companies, only: %i[new create]
+    end
   end
+
+  get "guides/welcome", to: "guides/welcome#new"
 
   namespace :guests, only: %i[] do # Devise handles all guest actions
     resources :trips, only: %i[show index]
