@@ -22,7 +22,7 @@
 
     // Stripe JS:
     const container = document.querySelector(".page-wrapper");
-    let stripeKey = process.env.STRIPE_PUBLISHABLE_KEY_TEST;
+    let stripeKey = process.env.STRIPE_PUBLISHABLE_KEY_TEST; // TODO: need to use live version in production..
 
     if (typeof container.dataset.sKey !== "undefined") {
       stripeKey = container.dataset.sKey;
