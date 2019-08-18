@@ -1,49 +1,94 @@
-<div class="container-fluid page-body-wrapper content">
-  <div class="main-panel">
-    <div class="content-wrapper">
-      <div class="row">
-        <div class="col-12">
-          <div class="card card-shadow mt-5">
-            <div class="card-body">
-              <h1>Welcome Company...</h1>
+<body class="bg-light">
+  <div class="container-fluid full-height">
+    <div class="row row-height">
+      <div class="col-lg-4 content-left">
+        <div class="content-left-wrapper bg_img bg3">
+          <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
+          <div class="wrapper">
+            <!--             
+            <div class="py-4 text-center">
+              <p class="quotation-mark">
+                “
+              </p>
+              <h3 class="quote-text">
+
+              </h3>
+              <div class="blog-post-actions">
+                <p class="blog-post-bottom">
+                </p>
+              </div>
+            </div> 
+            -->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 content-right">
+        <div class="row">
+          <div class="col-md-12 mb-5 mt-3">
+            <div class="progress">
+              <div class="one primary-color"></div>
+              <div class="two primary-color"></div>
+              <div class="three no-color"></div>
+              <div class="four no-color"></div>
+              <div class="progress-bar" style="width: 40%;"></div>
+            </div>
+          </div>
+          <div class="row ow-eq-height flex-fill">
+            <div class="col-sm-12 col-md-12 col-lg-4">
+              <h2 class="mt-2">Great! Please enter your details to proceed</h2>
+            </div>
+            <div class="p-2 col-sm-12 col-md-12 col-lg-8">
+       
               <% if @current_organisation.stripe_account_id.nil? %>
-                <h2>Your company details</h2>
+                <h4 class="mb-3 font-weight-bold">Your company details</h4>
                 <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
                 <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-account-company", target: "stripe-account-company.form", stripe_account_company_key: @current_organisation.stripe_publishable_key }) do |form| %>
                   <%= form.hidden_field :token_account, data: { target: "stripe-account-company.tokenAccount" } %>
                   <fieldset>
-                    <legend>Company Details</legend>
-                    <%= label_tag :company_name %>
-                    <%= text_field_tag :company_name, "My new business", data: { target: "stripe-account-company.name" } %>
-                    <br/>
-                    <%= label_tag :address_line1 %>
-                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" } %>
-                    <br/>
-                    <%= label_tag :address_line2 %>
-                    <%= text_field_tag :address_line2, "Flat 10", data: { target: "stripe-account-company.addressLine2" }  %>
-                    <br/>
-                    <%= label_tag :address_city %>
-                    <%= text_field_tag :address_city, "Brighton", data: { target: "stripe-account-company.addressCity" }  %>
-                    <br/>
-                    <%= label_tag :address_state %>
-                    <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe-account-company.addressState" }  %>
-                    <br/>
-                    <%= label_tag :address_postal_code %>
-                    <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }  %>
-                    <br/>
-                    <%= label_tag :address_country_code %>
-                    <%= text_field_tag :address_country_code, "GB", data: { target: "stripe-account-company.addressCountryCode" }  %>
-                    <br/>
-                    <%= label_tag :phone %>
-                    <%= text_field_tag :phone, "0044079809477747", data: { target: "stripe-account-company.phone" }  %>
-                    <br/>
-                    <%= label_tag :tax_id %>
-                    <%= text_field_tag :tax_id, "", data: { target: "stripe-account-company.tax_id" } %>
-                    <br/>
-                    <%= label_tag :vat_id %>
-                    <%= text_field_tag :vat_id, "", data: { target: "stripe-account-company.vat_id" } %>
-                    <br/>
-                    <br/>
+                    <div class="row col-md-12 mb-3">
+                      <label for="company_name"><%= label_tag :company_name %></label>
+                      <%= text_field_tag :company_name, "My new business", data: { target: "stripe-account-company.name" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="address_line1"><%= label_tag :address_line1 %></label>
+                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="address_line2"><%= label_tag :address_line2 %></label>
+                      <%= text_field_tag :address_line2, "Flat 10", data: { target: "stripe-account-company.addressLine2" }, class: "form-control"  %>
+                    </div>
+                    <div class="row">
+                      <div class="col col-md-6 mb-3">
+                        <label for="address_city"><%= label_tag :address_city %></label>
+                        <%= text_field_tag :address_city, "Brighton", data: { target: "stripe-account-company.addressCity" }, class: "form-control"  %>
+                      </div>
+                      <div class="col col-md-5 mb-3">
+                        <label for="address_state"><%= label_tag :address_state %></label>
+                        <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe-account-company.addressState" }, class: "form-control" %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col col-md-6 mb-3">
+                        <label for="address_postal_code"><%= label_tag :address_postal_code %></label>
+                        <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }, class: "form-control" %>
+                      </div>
+                      <div class="col col-md-5 mb-3">
+                        <label for="address_country_code"><%= label_tag :address_country_code %></label>
+                        <%= text_field_tag :address_country_code, "GB", data: { target: "stripe-account-company.addressCountryCode" }, class: "form-control" %>
+                      </div>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="phone"><%= label_tag :phone %></label>
+                      <%= text_field_tag :phone, "0044079809477747", data: { target: "stripe-account-company.phone" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="tax_id"><%= label_tag :tax_id %></label>
+                      <%= text_field_tag :tax_id, "", data: { target: "stripe-account-company.tax_id" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="vat_id"><%= label_tag :vat_id %></label>
+                      <%= text_field_tag :vat_id, "", data: { target: "stripe-account-company.vat_id" }, class: "form-control" %>
+                    </div>
                     <!-- TODO:
                     1) account.company.directors_provided - need to set this to true when guide has added all directors...
                     2) owners_provided  - - need to set this to true when guide has added all owners...
@@ -55,32 +100,40 @@
                     I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
                     <%= form.check_box :accepted_tos, required: true, data: { target: "stripe-account-company.acceptedTos" }  %>
                   </p>
-                  <%= submit_tag :submit %>
+                  <%= submit_tag :"Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
                 <% end %>
-              <% else %>
-                <h2>Your bank details...</h2>
-                <!-- ref: https://stripe.com/docs/api/tokens/create_bank_account -->
-                <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-bank-account", target: "stripe-bank-account.form", stripe_bank_account_key: @current_organisation.stripe_publishable_key }) do |form| %>
-                    <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
-                    <%= form.hidden_field :account_holder_type, data: { target: "stripe-bank-account.accountHolderType" }, value: "company" %>
-                    <fieldset>
-                    <%= label_tag :account_number %>
-                    <%= text_field_tag :account_number, "00012345", data: { target: "stripe-bank-account.accountNumber" } %>
-                    <br/>
-                    <%= label_tag :sort_code %>
-                    <%= text_field_tag :routing_number, "108800", data: { target: "stripe-bank-account.routingNumber" } %>
-                    <br/>
-                    <%= label_tag :country_code %>
-                    <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" } %>
-                    <br/>
-                    <%= label_tag :currency %>
-                    <%= text_field_tag :currency, "GBP", data: { target: "stripe-bank-account.currency" } %>
-                    <br/>
-                    <%= label_tag :account_holder_name %>
-                    <%= text_field_tag :account_holder_name, "Mr A Smith", data: { target: "stripe-bank-account.accountHolderName" } %>
-                    <br/>
-                    <br/>
-                    <%= submit_tag :submit %>
+                <% else %>
+                  <h4 class="mb-3 font-weight-bold">Bank details</h4>
+                  <!-- ref: https://stripe.com/docs/api/tokens/create_bank_account -->
+                  <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-bank-account", target: "stripe-bank-account.form", stripe_bank_account_key: @current_organisation.stripe_publishable_key }) do |form| %>
+                  <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
+                  <%= form.hidden_field :account_holder_type, data: { target: "stripe-bank-account.accountHolderType" }, value: "company" %>
+                  <fieldset>
+                    <div class="row col-md-12 mb-3">
+                      <label for="account_number"><%= label_tag :account_number %></label>
+                      <%= text_field_tag :account_number, "00012345", data: { target: "stripe-bank-account.accountNumber" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="sort_code"><%= label_tag :sort_code %></label>
+                      <%= text_field_tag :routing_number, "108800", data: { target: "stripe-bank-account.routingNumber" }, class: "form-control" %>
+                    </div>
+                    <div class="row">
+                      <div class="col col-md-5 mb-3">
+                        <label for="country_code"><%= label_tag :country_code %></label>
+                      <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" }, class: "form-control" %>
+                      </div>
+                      <div class="col col-md-6 mb-3">
+                        <label for="currency"><%= label_tag :currency %></label>
+                      <%= text_field_tag :currency, "GBP", data: { target: "stripe-bank-account.currency" }, class: "form-control" %>
+                      </div>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <label for="account_holder_name"><%= label_tag :account_holder_name %></label>
+                    <%= text_field_tag :account_holder_name, "Mr A Smith", data: { target: "stripe-bank-account.accountHolderName" }, class: "form-control" %>
+                    </div>
+                    <div class="row col-md-12 mb-3">
+                      <%= submit_tag :"Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
+                    </div>
                   </fieldset>
                 <% end %>
               <% end %>
@@ -90,4 +143,4 @@
       </div>
     </div>
   </div>
-</div>
+</body>
