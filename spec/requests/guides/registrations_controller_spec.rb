@@ -7,23 +7,32 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
     end
 
     context "valid and successful" do
+      let!(:email) { Faker::Internet.email }
+      let(:guide) { Guide.find_by_email(email) }
       let(:password) { Faker::Internet.password }
       let(:params) do
         {
           guide:
             {
-              email: Faker::Internet.email,
+              email: email,
               password: password,
               password_confirmation: password
             }
         }
       end
 
-      it "creates a new guide and associated organisation" do
+      it "creates a new guide and associated organisation model" do
         do_request(params: params)
 
         expect(Guide.count).to eq 1
-        expect(Guide.last.organisations).not_to be_empty
+        expect(guide.organisations).not_to be_empty
+      end
+
+      it "redirects to guides/trips index" do
+        do_request(params: params)
+
+        expect(response.code).to eq "302"
+        expect(response).to redirect_to authenticated_guide_url
       end
     end
   end
