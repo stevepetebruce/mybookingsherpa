@@ -3,7 +3,7 @@
     <div class="row row-height">
       <div class="col-lg-4 content-left">
         <div class="content-left-wrapper bg_img bg3">
-          <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
+          <div class="onboard-logo"></div>
           <div class="wrapper">
             <!--             
             <div class="py-4 text-center">
@@ -118,13 +118,17 @@
                       <%= text_field_tag :routing_number, "108800", data: { target: "stripe-bank-account.routingNumber" }, class: "form-control" %>
                     </div>
                     <div class="row">
-                      <div class="col col-md-5 mb-3">
-                        <label for="country_code"><%= label_tag :country_code %></label>
-                      <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" }, class: "form-control" %>
-                      </div>
                       <div class="col col-md-6 mb-3">
+                        <label for="country_code"><%= label_tag :country_code %></label>
+                        <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" }, class: "form-control" %>
+                      </div>
+                      <div class="col col-md-5 mb-3">
                         <label for="currency"><%= label_tag :currency %></label>
-                      <%= text_field_tag :currency, "GBP", data: { target: "stripe-bank-account.currency" }, class: "form-control" %>
+                        <select class="form-control customSelect" name="currency">
+                          <option>EUR</option>
+                          <option>GBP</option>
+                        </select>
+                        <!-- <= text_field_tag :currency, "GBP", data: { target: "stripe-bank-account.currency" }, class: "form-control" %> -->
                       </div>
                     </div>
                     <div class="row col-md-12 mb-3">
