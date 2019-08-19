@@ -76,19 +76,20 @@
                   </fieldset>
 
                   <fieldset>
-                    <h4 class="mb-3 mt-3 font-weight-bold">Director's/Owner's personal details</h4>
+                    <h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's personal details</h4>
                     <div class="row">
                       <div class="col col-md-3 mb-3">
                         <label for="dob_day"><%= label_tag :dob_day %></label>
+                        <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
                         <%= text_field_tag "[dob]day", "12", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-3 mb-3">
-                        <label for="dob_month"><%= label_tag :dob_month %></label>
-                        <%= text_field_tag "[dob]month", "12", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-3 mb-3">
-                        <label for="dob_year"><%= label_tag :dob_year %></label>
-                        <%= text_field_tag "[dob]year", "1987", class: "form-control" %>
+                        </div>
+                        <div class="col col-md-3 mb-3">
+                          <label for="dob_month"><%= label_tag :dob_month %></label>
+                          <%= text_field_tag "[dob]month", "12", class: "form-control" %>
+                        </div>
+                        <div class="col col-md-3 mb-3">
+                          <label for="dob_year"><%= label_tag :dob_year %></label>
+                          <%= text_field_tag "[dob]year", "1987", class: "form-control" %>
                       </div>
                     </div>
                     <div class="row col-md-12 mb-3">
@@ -109,7 +110,11 @@
                     </div>
                     <div class="row col-md-12 mb-3">
                       <label for="gender"><%= label_tag :gender %></label>
-                      <%= text_field_tag :gender, "male", class: "form-control" %>
+                      <select class="form-control customSelect" name="gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>
+                      <!-- <= text_field_tag :gender, "male", class: "form-control" %> -->
                     </div>
                   </fieldset>
                     <!-- TODO:
@@ -120,17 +125,24 @@
                      -->
 
                   <fieldset>
-                    <h4 class="mb-3 mt-3 font-weight-bold">Director's/Owner's relationship to company</h4>
+                    <h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4>
                     <!-- TODO: have a drop down select here or something.. -->
                     <div class="row col-md-12 mb-3">
-                      <label for="director"><%= label_tag :director %></label>
-                      <%= text_field_tag "[relationship]director", "true", class: "form-control" %>
+                      <label for="gender"><%= label_tag :director %><!-- Relationship? --></label>
+                      <select class="form-control customSelect" name="gender">
+                        <option>Owner</option>
+                        <option>Director</option>
+                      </select>
+                    </div>
+                    <!-- <div class="row col-md-12 mb-3">
+                      <label for="director"><= label_tag :director %></label>
+                      <= text_field_tag "[relationship]director", "true", class: "form-control" %>
                     </div>
                     <div class="row col-md-12 mb-3">
-                      <label for="owner"><%= label_tag :owner %></label>
-                      <%= text_field_tag "[relationship]owner", "false", class: "form-control" %>
-                    <!-- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners... -->
-                    </div>
+                      <label for="owner"><= label_tag :owner %></label>
+                      <= text_field_tag "[relationship]owner", "false", class: "form-control" %>
+                     TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners... 
+                    </div>  -->
                     <div class="row">
                       <div class="col col-md-6 mb-3">
                         <label for="percent_ownership"><%= label_tag :percent_ownership %></label>
