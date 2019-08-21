@@ -14,7 +14,7 @@ module Guides
         if @current_organisation.update(stripe_account_id: stripe_account.id)
           redirect_to new_guides_welcome_director_path
         else
-          redirect_to new_guides_welcome_company_path # need to expose any errors
+          redirect_to new_guides_welcome_solo_path # need to expose any errors
         end
       end
 
