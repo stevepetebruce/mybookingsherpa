@@ -39,7 +39,7 @@ export default class extends Controller {
   }
 
   enableSubmitBtn() {
-    this.submitBtnTarget.disabled = this.stripeTosCheckBoxTarget.checked;
+    this.submitBtnTarget.disabled = !this.stripeTosCheckBoxTarget.checked;
   }
 
   proceedIfValid() {
