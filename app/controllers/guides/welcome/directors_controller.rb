@@ -1,6 +1,7 @@
 module Guides
   module Welcome
     class DirectorsController < ApplicationController
+      layout "onboarding"
       before_action :authenticate_guide!
       before_action :set_current_organisation
 
@@ -15,7 +16,7 @@ module Guides
         if create_another_director?
           redirect_to new_guides_welcome_director_path
         else
-          redirect_to guides_trips_path
+          redirect_to new_guides_welcome_bank_account_path
         end
       end
 
