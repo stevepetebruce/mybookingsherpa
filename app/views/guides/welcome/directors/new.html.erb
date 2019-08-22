@@ -3,7 +3,7 @@
     <div class="row row-height">
       <div class="col-lg-4 content-left">
         <div class="content-left-wrapper bg_img bg4">
-          <div class="onboard-logo"><img src="" alt="Logo"></div>
+          <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
           <div class="wrapper">
             <!--             
             <div class="py-4 text-center">
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7 content-right">
+      <div class="col-lg-7 onboard-right">
         <div class="row">
           <div class="col-md-12 mb-5 mt-3">
             <div class="progress">
@@ -41,32 +41,32 @@
                 <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
                 <%= form_with(url: guides_welcome_directors_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
                   <fieldset>
-                    <h4 class="mb-3 font-weight-bold">Director's/Owner's Address</h4>
-                    <div class="row col-md-12 mb-3">
-                      <label for="address_line1"><%= label_tag :address_line1 %></label>
+                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's Address</h4></div>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :address_line1 %>
                       <%= text_field_tag "address[line1]", "21 Palmeira Street", class: "form-control" %>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="address_line2"><%= label_tag :address_line2 %></label>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :address_line2 %>
                       <%= text_field_tag "address[line2]", "Flat 10", class: "form-control" %>
                     </div>
-                    <div class="row">
+                    <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
-                        <label for="address_city"><%= label_tag :address_city %></label>
+                        <%= label_tag :address_city %>
                         <%= text_field_tag "address[city]", "Brighton", class: "form-control" %>
                       </div>
                       <div class="col col-md-5 mb-3">
-                        <label for="address_state"><%= label_tag :address_state %></label>
+                        <%= label_tag :address_state %>
                         <%= text_field_tag "address[state]", "East Sussex", class: "form-control" %>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
-                        <label for="address_postal_code"><%= label_tag :address_postal_code %></label>
+                        <%= label_tag :address_postal_code %>
                         <%= text_field_tag "address[postal_code]", "BN1 4QR", class: "form-control" %>
                       </div>
                       <div class="col col-md-5 mb-3">
-                        <label for="address_country"><%= label_tag :address_country %></label>
+                        <%= label_tag :address_country %>
                         <%= text_field_tag "address[country]", "GB", class: "form-control" %>
                       </div>
                     </div>
@@ -76,45 +76,45 @@
                   </fieldset>
 
                   <fieldset>
-                    <h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's personal details</h4>
-                    <div class="row">
+                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's personal details</h4></div>
+                    <div class="row pl-3">
                       <div class="col col-md-3 mb-3">
-                        <label for="dob_day"><%= label_tag :dob_day %></label>
+                        <%= label_tag :dob_day %>
                         <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
                         <%= text_field_tag "[dob]day", "12", class: "form-control" %>
                         </div>
                         <div class="col col-md-3 mb-3">
-                          <label for="dob_month"><%= label_tag :dob_month %></label>
+                          <%= label_tag :dob_month %>
                           <%= text_field_tag "[dob]month", "12", class: "form-control" %>
                         </div>
                         <div class="col col-md-3 mb-3">
-                          <label for="dob_year"><%= label_tag :dob_year %></label>
+                          <%= label_tag :dob_year %>
                           <%= text_field_tag "[dob]year", "1987", class: "form-control" %>
                       </div>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="email"><%= label_tag :email %></label>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :email %>
                       <%= text_field_tag :email, "director@example.com", class: "form-control" %>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="first_name"><%= label_tag :first_name %></label>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :first_name %>
                       <%= text_field_tag :first_name, "Alan", class: "form-control" %>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="email"><%= label_tag :email %></label>
-                       <%= text_field_tag :email, "director@example.com", class: "form-control" %>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :email %>
+                      <%= text_field_tag :email, "director@example.com", class: "form-control" %>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="last_name"><%= label_tag :last_name %></label>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :last_name %>
                       <%= text_field_tag :last_name, "Smith", class: "form-control" %>
                     </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="gender"><%= label_tag :gender %></label>
-                      <select class="form-control customSelect" name="gender">
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :gender %>
+                      <!-- <select class="form-control customSelect" name="gender">
                         <option>Male</option>
                         <option>Female</option>
-                      </select>
-                      <!-- <= text_field_tag :gender, "male", class: "form-control" %> -->
+                      </select> -->
+                      <%= text_field_tag :gender, "male", class: "form-control" %> 
                     </div>
                   </fieldset>
                     <!-- TODO:
@@ -125,31 +125,31 @@
                      -->
 
                   <fieldset>
-                    <h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4>
+                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4></div>
                     <!-- TODO: have a drop down select here or something.. -->
-                    <div class="row col-md-12 mb-3">
-                      <label for="gender"><%= label_tag :director %><!-- Relationship? --></label>
-                      <select class="form-control customSelect" name="gender">
+
+                      <!--<= label_tag :director %> Relationship? -->
+                      <!-- <select class="form-control customSelect" name="gender">
                         <option>Owner</option>
                         <option>Director</option>
-                      </select>
+                      </select>-->
+
+                    <div class="col-md-12 mb-3">
+                      <label for="director"><%= label_tag :director %></label>
+                      <%= text_field_tag "[relationship]director", "true", class: "form-control" %>
                     </div>
-                    <!-- <div class="row col-md-12 mb-3">
-                      <label for="director"><= label_tag :director %></label>
-                      <= text_field_tag "[relationship]director", "true", class: "form-control" %>
-                    </div>
-                    <div class="row col-md-12 mb-3">
-                      <label for="owner"><= label_tag :owner %></label>
-                      <= text_field_tag "[relationship]owner", "false", class: "form-control" %>
-                     TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners... 
-                    </div>  -->
-                    <div class="row">
+                    <div class="col-md-12 mb-3">
+                      <label for="owner"><%= label_tag :owner %></label>
+                      <%= text_field_tag "[relationship]owner", "false", class: "form-control" %>
+                     <!-- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners...  -->
+                    </div>  
+                    <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
-                        <label for="percent_ownership"><%= label_tag :percent_ownership %></label>
+                        <%= label_tag :percent_ownership %>
                         <%= text_field_tag "[relationship]percent_ownership", "50", class: "form-control" %>
                       </div>
                       <div class="col col-md-5 mb-3">
-                        <label for="title"><%= label_tag :title %></label>
+                        <%= label_tag :title %>
                         <%= text_field_tag "[relationship]title", "CEO", class: "form-control" %>
                       </div>
                     </div>
@@ -159,9 +159,11 @@
                     I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
                     <%= form.check_box :accepted_tos, required: true, data: { target: "stripe-director.acceptedTos" }  %>
                   </p>
-                  <%= submit_tag "Submit", class: "btn btn-primary btn-lg mt-4 mb-4" %>
-                  <%= submit_tag "Submit and add another director", name: "add_another_director", class: "btn btn-primary btn-lg mt-4 mb-4" %>
-                  <!-- <= link_to "exit", guides_trips_path %> -->
+                  <div class="col-md-12 mb-3">
+                    <%= submit_tag "Submit", class: "btn btn-primary btn-lg mt-4 mb-4" %>
+                    <%= submit_tag "Submit and add another director", name: "add_another_director", class: "btn btn-primary btn-lg mt-4 mb-4" %>
+                    <%= link_to "exit", guides_trips_path, class: "btn btn-secondary btn-lg mt-4 mb-4" %>
+                  </div> 
                 <% end %>
             </div>
           </div>

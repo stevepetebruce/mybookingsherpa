@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col content-right">
+    <div class="col onboard-right">
       <div class="row">
         <div class="col-md-12 mb-5 mt-3">
           <div class="progress">
@@ -46,7 +46,11 @@
               <%= text_field_tag :account_number, "00012345", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.accountNumber", action: "keyup->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
               <div class="text-danger d-none" data-target="account_number-error">Please enter your bank account number</div>
             </div>
-            <div class="row mr-1 ml-1">
+            <div class="col-md-12 mb-3">
+              <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
+              <%= text_field_tag :routing_number, "108800", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.routingNumber" } %>
+            </div>
+            <div class="row pl-3">
               <div class="col-md-6 mb-3">
                 <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
                 <%= text_field_tag :routing_number, "108800", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.routingNumber", action: "keyup->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
@@ -57,8 +61,6 @@
                 <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country country-auto-select.countrySelectField", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
                 <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
               </div>
-            </div>
-            <div class="row ml-1 ">
               <div class="col-md-5 mb-3">
                 <%= label_tag :currency %>
                 <%= select_tag(:currency, raw("<option>EUR</option><option>GBP</option><option>USD</option>"), class: "form-control customSelect", data: { target: "stripe-bank-account.currency", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" }) %>
