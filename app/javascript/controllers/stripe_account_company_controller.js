@@ -1,7 +1,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "form", "addressLine1", "addressLine2", "addressCity", "addressState", "addressPostalCode", "addressCountryCode", "name", "phone", "tax_id", "tokenAccount", "vat_id" ]
+  static targets = ["addressLine1", "addressLine2", "addressCity",
+                    "addressState", "addressPostalCode", "addressCountry",
+                    "form", "name", "phone", "tax_id", "tokenAccount",
+                    "vat_id"]
 
   connect() {
     const controller = this;
@@ -21,7 +24,7 @@ export default class extends Controller {
             city: controller.addressCityTarget.value,
             state: controller.addressStateTarget.value,
             postal_code: controller.addressPostalCodeTarget.value,
-            country: controller.addressCountryCodeTarget.value
+            country: controller.addressCountryTarget.value
           },
         },
         tos_shown_and_accepted: true,

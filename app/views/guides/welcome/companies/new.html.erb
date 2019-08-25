@@ -73,8 +73,8 @@
                         <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }, class: "form-control" %>
                       </div>
                       <div class="col col-md-5 mb-3">
-                        <%= label_tag :address_country_code %>
-                        <%= text_field_tag :address_country_code, "GB", data: { target: "stripe-account-company.addressCountryCode" }, class: "form-control" %>
+                        <%= label_tag :address_country %>
+                        <%= text_field_tag :address_country, "GB", data: { target: "stripe-account-company.addressCountry" }, class: "form-control" %>
                       </div>
                     </div>
                     <div class="col-md-12 mb-3">
@@ -119,8 +119,8 @@
                     </div>
                     <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
-                        <label for="country_code"><%= label_tag :country_code %></label>
-                        <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" }, class: "form-control" %>
+                        <label for="country"><%= label_tag :country %></label>
+                        <%= text_field_tag :country, "GB", data: { target: "stripe-bank-account.country" }, class: "form-control" %>
                       </div>
                       <div class="col col-md-5 mb-3">
                         <label for="currency"><%= label_tag :currency %></label>
