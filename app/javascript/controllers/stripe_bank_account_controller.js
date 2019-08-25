@@ -1,8 +1,10 @@
-import { Controller } from "stimulus";
+// Ref: https://stripe.com/docs/api/tokens/create_bank_account
+import { StripeBaseController } from "./stripe_base_controller";
 
-export default class extends Controller {
+export default class extends StripeBaseController {
   static targets = ["accountHolderName", "accountHolderType", "accountNumber",
-                    "country", "currency", "form", "routingNumber", "tokenAccount"]
+                    "country", "currency", "form", "routingNumber", "submitBtn",
+                    "tokenAccount"]
 
   connect() {
     this.addFormSubmissionHandler();
@@ -29,6 +31,22 @@ export default class extends Controller {
         controller.tokenAccountTarget.setAttribute("value", accountResult.token.id);
         form.submit();
       }
+      if (accountResult.error) {
+        controller.showStripeApiError(accountResult.error);
+      }
     });
+  }
+
+  hideErrorEnableSubmitBtn(event) {
+    this.hideError(event);
+    this.enableSubmitBtn();
+  }
+
+  hideError(event) {
+    event.target.nextElementSibling.classList.add("d-none");
+  }
+
+  enableSubmitBtn() {
+    this.submitBtnTarget.disabled = false;
   }
 }
