@@ -1,10 +1,10 @@
 // Ref: https://stripe.com/docs/api/tokens/create_account
-import { Controller } from "stimulus";
+import { StripeBaseController } from "./stripe_base_controller";
 
-export default class extends Controller {
+export default class extends StripeBaseController {
   static targets = ["addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "businessDetailsWrapper", "dateOfBirth", "email",
+                    "businessDetailsWrapper", "dob", "email",
                     "firstName", "form", "gender", "lastName",
                     "personalDetailsWrapper", "phone", "requiredBusiness",
                     "requiredPersonal", "stripeTosCheckBox", "submitBtn",
@@ -23,7 +23,7 @@ export default class extends Controller {
       if (controller.allBusinessFieldsComplete()) {
         controller.requestStripeTokenAndSubmitForm();
       } else {
-        controller.showValidationErrors();
+        controller.showEmptyFieldsErrors();
       }
     });
   }
@@ -47,7 +47,7 @@ export default class extends Controller {
       this.personalDetailsWrapperTarget.classList.add("d-none");
       this.businessDetailsWrapperTarget.classList.remove("d-none");
     } else {
-      this.showValidationErrors();
+      this.showEmptyFieldsErrors();
     }
   }
 
@@ -68,9 +68,9 @@ export default class extends Controller {
           country: controller.addressCountryTarget.value
         },
         dob: {
-          day: controller.dateOfBirthTarget.value.split("-")[2],
-          month: controller.dateOfBirthTarget.value.split("-")[1],
-          year: controller.dateOfBirthTarget.value.split("-")[0]
+          day: controller.dobTarget.value.split("-")[2],
+          month: controller.dobTarget.value.split("-")[1],
+          year: controller.dobTarget.value.split("-")[0]
         },
         email: controller.emailTarget.value,
         first_name: controller.firstNameTarget.value,
@@ -85,14 +85,19 @@ export default class extends Controller {
       controller.tokenAccountTarget.setAttribute("value", accountResult.token.id);
       form.submit();
     }
+
+    if (accountResult.error) {
+      this.showStripeApiError(accountResult.error);
+      this.enableSubmitBtn();
+    }
   }
 
-  showValidationErrors() {
-    this.requiredPersonalTargets.forEach(this.toggleValidationError);
-    this.requiredBusinessTargets.forEach(this.toggleValidationError);
+  showEmptyFieldsErrors() {
+    this.requiredPersonalTargets.forEach(this.toggleEmptyFieldErrMsg);
+    this.requiredBusinessTargets.forEach(this.toggleEmptyFieldErrMsg);
   }
 
-  toggleValidationError(target) {
+  toggleEmptyFieldErrMsg(target) {
     if (target.value.length === 0) {
       target.nextElementSibling.classList.remove("d-none");
     } else {
