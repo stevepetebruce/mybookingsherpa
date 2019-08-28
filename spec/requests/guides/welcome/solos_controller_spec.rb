@@ -68,12 +68,6 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
       end
 
       context "invalid and unsuccessful" do
-        before do
-          allow_any_instance_of(Organisation).to receive(:update).
-            with(stripe_account_id: stripe_account_id).
-            and_return(false)
-        end
-
         let(:params)  { { token_account: token_account } }
         let(:response_body) do
           "#{file_fixture("stripe_api/successful_individual_account.json").read}"
@@ -81,11 +75,37 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
         let(:stripe_account_id) { "acct_1F6EFsL2bc7IXTSh" } # from: successful_individual_account.json
         let!(:token_account) { "ct_#{Faker::Crypto.md5}" }
 
-        it "should redirect_to the back to the new_guides_welcome_solo_path" do
-          do_request(params: params)
+        context "problem updating organisation" do
+          before do
+            allow_any_instance_of(Organisation).to receive(:update).
+              with(stripe_account_id: stripe_account_id).
+              and_return(false)
+          end
+          it "should render the new_guides_welcome_solo page" do
+            do_request(params: params)
 
-          expect(response.code).to eq "302"
-          expect(response).to redirect_to new_guides_welcome_solo_url
+            expect(response.code).to eq "200"
+          end
+        end
+
+        context "Stripe API throws an exception" do
+          before do
+            allow(External::StripeApi::Account).
+              to receive(:create).
+              with(token_account).
+              and_raise(Stripe::InvalidRequestError.new(exception_message, exception_param, http_status: exception_http_status))
+          end
+
+          let(:exception_message) { "Address for business must match account country" }
+          let(:exception_param) { "individual[address][country]" }
+          let(:exception_http_status) { 400 }
+
+          it "should render the new_guides_welcome_solo page" do
+            do_request(params: params)
+
+            expect(response.code).to eq "200"
+            expect(response.body).to include(exception_message)
+          end
         end
       end
     end
