@@ -143,12 +143,12 @@
                       <%= text_field_tag "[relationship]owner", "false", class: "form-control" %>
                      <!-- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners...  -->
                     </div>  
-                    <div class="row pl-3">
+                    <div class="row pl-3 pr-3">
                       <div class="col col-md-6 mb-3">
                         <%= label_tag :percent_ownership %>
                         <%= text_field_tag "[relationship]percent_ownership", "50", class: "form-control" %>
                       </div>
-                      <div class="col col-md-5 mb-3">
+                      <div class="col col-md-6 mb-3">
                         <%= label_tag :title %>
                         <%= text_field_tag "[relationship]title", "CEO", class: "form-control" %>
                       </div>

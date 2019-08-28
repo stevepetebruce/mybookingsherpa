@@ -15,7 +15,7 @@
     <%= text_field_tag :email, current_guide.email, class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.email stripe-account-individual.requiredPersonal" } %>
     <div class="text-danger d-none" data-target="stripe-account-individual.emailError">Please enter your email</div>
   </div>
-  <div class="row pl-3 pr-5">
+  <div class="row pl-3 pr-3">
     <div class="col-md-6 mb-3">
       <%= label_tag "Date of birth" %>
       <%= date_field_tag :date_of_birth, "", class: "form-control", required: true, autofocus: true, data: { target: "stripe-account-individual.dateOfBirth stripe-account-individual.requiredPersonal" } %>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-6 mb-3">
       <%= label_tag "Gender" %>
-      <%= select_tag(:gender, raw("<option>female</option><option>male</option>"), class: "form-control customSelect", data: { target: "stripe-account-individual.gender" }) %>
+      <%= select_tag(:gender, raw("<option>female</option><option>male</option>"), class: "form-control customselect", data: { target: "stripe-account-individual.gender" }) %>
     </div>
   </div>
   <div class="col-md-12 mb-3">

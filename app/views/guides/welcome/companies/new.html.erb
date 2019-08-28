@@ -103,7 +103,7 @@
                   <%= submit_tag :"Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
                 <% end %>
                 <% else %>
-                  <h4 class="mb-3 font-weight-bold">Bank details</h4>
+                  <h4 class="col mb-3 font-weight-bold">Bank details</h4>
                   <!-- ref: https://stripe.com/docs/api/tokens/create_bank_account -->
                   <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-bank-account", target: "stripe-bank-account.form", stripe_bank_account_key: @current_organisation.stripe_publishable_key }) do |form| %>
                   <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
@@ -117,12 +117,12 @@
                       <%= label_tag :sort_code %>
                       <%= text_field_tag :routing_number, "108800", data: { target: "stripe-bank-account.routingNumber" }, class: "form-control" %>
                     </div>
-                    <div class="row pl-3">
+                    <div class="row pl-3 pr-3">
                       <div class="col col-md-6 mb-3">
                         <label for="country_code"><%= label_tag :country_code %></label>
                         <%= text_field_tag :country_code, "GB", data: { target: "stripe-bank-account.countryCode" }, class: "form-control" %>
                       </div>
-                      <div class="col col-md-5 mb-3">
+                      <div class="col col-md-6 mb-3">
                         <label for="currency"><%= label_tag :currency %></label>
                         <!-- <select class="form-control customSelect" name="currency">
                           <option>EUR</option>

@@ -22,13 +22,13 @@
       <div class="text-danger d-none">Please enter state/county</div>
     </div>
   </div>
-  <div class="row mr-1 ml-1">
+  <div class="row pr-3 pl-3">
     <div class="col-md-6 mb-3">
       <%= label_tag "Post/Zip Code" %>
       <%= text_field_tag :address_postal_code, "BN1 4QR", class: "form-control", required: true, autofocus: true, data: { action: "keyup->stripe-account-individual#enableSubmitBtn", target: "stripe-account-individual.addressPostalCode stripe-account-individual.requiredBusiness" }  %>
       <div class="text-danger d-none">Please enter your post/zip code</div>
     </div>
-    <div class="col-md-6 mb-3 pr-5">
+    <div class="col-md-6 mb-3">
       <%= label_tag :country %>
       <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", action: "change->stripe-account-individual#enableSubmitBtn", required: true, autofocus: true, data: { target: "stripe-account-individual.addressCountry stripe-account-individual.requiredBusiness" } %>
       <div class="text-danger d-none">">Please enter your country</div>
