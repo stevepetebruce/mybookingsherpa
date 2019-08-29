@@ -96,7 +96,11 @@
                                   </div>
                                 </div>
                                 <div class="col-9 col-lg-4 col-md-3 col-sm-10">
+                                  <% if booking.refunded? %>
+                                    <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
+                                  <% else %>
                                     <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
+                                  <% end %>
                                 </div>
                                 <div class="col-xs-auto mb-1">
                                   <% if booking.guest_or_booking_allergies? %>
