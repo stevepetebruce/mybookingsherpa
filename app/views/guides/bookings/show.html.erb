@@ -83,9 +83,13 @@
                         <div class="media-body col mb-5 display-4 font-weight-normal text-danger">
                           <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment required
                         </div>
-                      <% else %>
+                      <% elsif @booking.payment_failed? %>
                         <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
                           <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment failed
+                        </div>
+                      <% elsif @booking.refunded? %>
+                        <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
+                          <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Refunded
                         </div>
                       <% end %>
                     </div>
