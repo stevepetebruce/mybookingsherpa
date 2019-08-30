@@ -8,7 +8,7 @@ RSpec.describe Bookings::PaymentStatus, type: :model do
 
     context "a booking with no payments" do
       it "should set the booking's new_payment_status to yellow" do
-        expect(new_payment_status).to eq :yellow
+        expect(new_payment_status).to eq :payment_required
       end
     end
 
@@ -17,7 +17,7 @@ RSpec.describe Bookings::PaymentStatus, type: :model do
       let!(:payment) { FactoryBot.create(:payment, amount: deposit_amount, booking: booking) }
 
       it "should set the booking's new_payment_status to yellow" do
-        expect(new_payment_status).to eq :yellow
+        expect(new_payment_status).to eq :payment_required
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Bookings::PaymentStatus, type: :model do
       let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
 
       it "should set the booking's new_payment_status to yellow" do
-        expect(new_payment_status).to eq :red
+        expect(new_payment_status).to eq :payment_failed
       end
     end
   end

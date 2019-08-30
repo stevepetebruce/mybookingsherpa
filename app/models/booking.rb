@@ -1,7 +1,7 @@
 # A join between a guest and a trip. A guest creates a booking on a trip.
 class Booking < ApplicationRecord
   include BookingDecorator
-  enum payment_status: %i[yellow green red]
+  enum payment_status: %i[payment_required full_amount_paid payment_failed refunded]
 
   belongs_to :trip
   belongs_to :guest, optional: true

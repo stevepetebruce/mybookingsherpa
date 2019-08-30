@@ -6,10 +6,10 @@ module Bookings
     end
 
     def new_payment_status
-      return :red if @booking.last_payment_failed?
-      return :yellow if no_payments? || payment_required?
+      return :payment_failed if @booking.last_payment_failed?
+      return :payment_required if no_payments? || payment_required?
 
-      :green if full_amount_paid?
+      :full_amount_paid if full_amount_paid?
     end
 
     def payment_required?
