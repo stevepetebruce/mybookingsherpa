@@ -66,15 +66,15 @@ module BookingDecorator
   end
 
   def payment_status_icon
-    return "dot-danger" if red?
-    return "dot-warning" if yellow?
+    return "dot-danger" if payment_failed?
+    return "dot-warning" if payment_required?
 
     "dot-success"
   end
 
   def payment_status_text
-    return "Last payment failed" if red?
-    return "Payment required" if yellow?
+    return "Last payment failed" if payment_failed?
+    return "Payment required" if payment_required?
 
     "Fully paid"
   end

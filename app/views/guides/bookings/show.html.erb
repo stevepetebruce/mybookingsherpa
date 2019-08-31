@@ -75,11 +75,11 @@
                       Payment Information
                     </h3>
                     <div class="media">
-                      <% if @booking.green? %>
+                      <% if @booking.full_amount_paid? %>
                         <div class="media-body col mb-5 display-4 font-weight-normal">
                           <i class="fa fa-exclamation-circle fa-lg text-success"></i> Paid in full 
                         </div>
-                      <% elsif @booking.yellow? %>
+                      <% elsif @booking.payment_required? %>
                         <div class="media-body col mb-5 display-4 font-weight-normal text-danger">
                           <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment required
                         </div>
@@ -89,7 +89,7 @@
                         </div>
                       <% end %>
                     </div>
-                    <% if @booking.red? %>
+                    <% if @booking.payment_failed? %>
                       <div class="media-body col mb-5">
                         (please contact guest and ask them to pay outstanding amount directly into your bank account)
                       </div>
