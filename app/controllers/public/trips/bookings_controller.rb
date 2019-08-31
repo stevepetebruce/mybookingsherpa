@@ -73,7 +73,7 @@ module Public
         return if newly_created?
 
         @booking.errors.add(:base, :timeout, message: "timed out please contact support")
-        redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_id)
+        redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_slug)
       end
 
       def create_associations

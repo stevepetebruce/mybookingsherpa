@@ -291,7 +291,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         do_request
 
         expect(response.code).to eq "302"
-        expect(response).to redirect_to new_public_trip_booking_url(booking.trip, subdomain: subdomain)
+        expect(response).to redirect_to new_public_trip_booking_url(booking.trip_slug, subdomain: subdomain)
       end
     end
   end
@@ -354,7 +354,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           do_request
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to(new_public_trip_booking_url(booking.trip, subdomain: subdomain))
+          expect(response).to redirect_to(new_public_trip_booking_url(booking.trip_slug, subdomain: subdomain))
         end
       end
     end
@@ -399,7 +399,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         do_request
 
         expect(response.code).to eq "302"
-        expect(response).to redirect_to(new_public_trip_booking_url(booking.trip, subdomain: subdomain))
+        expect(response).to redirect_to(new_public_trip_booking_url(booking.trip_slug, subdomain: subdomain))
       end
     end
   end
