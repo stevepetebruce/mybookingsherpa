@@ -5,7 +5,7 @@ export default class extends StripeBaseController {
   static targets = ["addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
                     "businessDetailsWrapper", "dob", "email",
-                    "firstName", "form", "gender", "lastName",
+                    "firstName", "form", "lastName",
                     "personalDetailsWrapper", "phone", "requiredBusiness",
                     "requiredPersonal", "stripeTosCheckBox", "submitBtn",
                     "tokenAccount"]
@@ -74,7 +74,6 @@ export default class extends StripeBaseController {
         },
         email: controller.emailTarget.value,
         first_name: controller.firstNameTarget.value,
-        gender: controller.genderTarget.value,
         last_name: controller.lastNameTarget.value
         //phone: document.querySelector("#phone").value // "Not a valid phone number"
       },

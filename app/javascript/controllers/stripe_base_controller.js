@@ -17,7 +17,7 @@ export class StripeBaseController extends Controller {
   }
 
   personalDetails() {
-    return ["dob", "email", "firstName", "gender", "lastName"];
+    return ["dob", "email", "firstName", "lastName"];
   }
 
   possibleFieldsWithErr(errMsg) {
