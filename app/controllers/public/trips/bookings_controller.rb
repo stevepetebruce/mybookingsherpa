@@ -58,11 +58,11 @@ module Public
       end
 
       def booking_params
-        params.require(:booking).permit(:address, :city, :country, :county,
-                                        :other_information,
-                                        :date_of_birth, :email, :name,
-                                        :next_of_kin_name, :next_of_kin_phone_number,
-                                        :phone_number, :post_code)
+        params.require(:booking).
+          permit(:address, :city, :country, :county, :other_information,
+                 :date_of_birth, :email, :name, :next_of_kin_name,
+                 :next_of_kin_phone_number, :phone_number, :post_code).
+          reject { |_k, v| v.blank? }
       end
 
       def charge
