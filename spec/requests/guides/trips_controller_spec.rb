@@ -75,7 +75,7 @@ RSpec.describe "Guides::TripsController", type: :request do
   describe "#edit GET /guides/trips/:id/edit" do
     include_examples "authentication"
 
-    let(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+    let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
     def do_request(url: "/guides/trips/#{trip.id}/edit", params: {})
       get url, params: params
@@ -89,6 +89,7 @@ RSpec.describe "Guides::TripsController", type: :request do
           do_request
 
           expect(response).to be_successful
+          expect(response.body).to include(Currency.human_readable(trip.full_cost))
         end
       end
     end
@@ -233,10 +234,12 @@ RSpec.describe "Guides::TripsController", type: :request do
       before { sign_in(guide) }
 
       context "valid and successful" do
+        let!(:full_cost) { Faker::Number.between(500, 1000) }
         let!(:params) do
           {
             trip: {
-              name: Faker::Name.name
+              name: Faker::Name.name,
+              full_cost: full_cost,
             }
           }
         end
@@ -247,6 +250,7 @@ RSpec.describe "Guides::TripsController", type: :request do
           expect(response.status).to eq(302)
 
           expect(trip.reload.name).to eq params[:trip][:name]
+          expect(trip.full_cost).to eq (full_cost * 100) # converted to cents
         end
       end
 
