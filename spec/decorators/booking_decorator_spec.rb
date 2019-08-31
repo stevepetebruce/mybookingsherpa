@@ -370,6 +370,14 @@ RSpec.describe BookingDecorator, type: :model do
         expect(payment_status_icon).to eq "dot-success"
       end
     end
+
+    context "booking is refunded" do
+      let!(:booking) { FactoryBot.create(:booking, payment_status: :refunded, guest: guest) }
+
+      it "should return the correct flag" do
+        expect(payment_status_icon).to eq "dot-danger"
+      end
+    end
   end
 
   describe "#payment_status_text" do
@@ -389,6 +397,14 @@ RSpec.describe BookingDecorator, type: :model do
 
     context "last payment failed" do
       let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
+
+      it { expect(payment_status_text).to eq "Last payment failed" }
+    end
+
+    context "last payment refunded" do
+      let!(:booking) { FactoryBot.create(:booking, payment_status: :refunded, guest: guest) }
+
+      it { expect(payment_status_text).to eq "Refunded" }
     end
   end
 

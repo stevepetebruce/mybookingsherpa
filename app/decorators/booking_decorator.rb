@@ -67,6 +67,7 @@ module BookingDecorator
 
   def payment_status_icon
     return "dot-danger" if payment_failed?
+    return "dot-danger" if refunded?
     return "dot-warning" if payment_required?
 
     "dot-success"
@@ -75,6 +76,7 @@ module BookingDecorator
   def payment_status_text
     return "Last payment failed" if payment_failed?
     return "Payment required" if payment_required?
+    return "Refunded" if refunded?
 
     "Fully paid"
   end
