@@ -344,6 +344,16 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(booking.dietary_requirements.map(&:name).sort).to eq dietary_requirements
           end
         end
+
+        context "when other_information is passed in as a blank string" do
+          let(:params) { { booking: { other_information: "" } } }
+
+          it "should not update the booking's other_information field" do
+            do_request(params: params)
+
+            expect(booking.reload.other_information).to be_nil
+          end
+        end
       end
 
       context "timeout window of booking creation has expired" do
