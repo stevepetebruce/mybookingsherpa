@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-
 module Guides
   module Welcome
     # The onboarding controller for creating bank accounts
     class BankAccountsController < ApplicationController
+      include Onboardings::Tracking
       layout "onboarding"
 
       before_action :authenticate_guide!
@@ -13,11 +13,9 @@ module Guides
 
       def create
         # TODO: create / capture raw_stripe_api_response
-        # Add a field to organisation - to record that bank account has been created...
-        # Or just check organisation's stripe_api_responses
         External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id,
                                                     params[:token_account])
-
+        track_onboarding_event("new_bank_account_created")
         redirect_to guides_trips_path
       end
 

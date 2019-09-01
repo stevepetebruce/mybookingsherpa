@@ -40,12 +40,13 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
     context "signed in" do
       before { sign_in(guide) }
 
-      let(:stripe_account_id) { organisation.stripe_account_id }
+      let(:onboarding) { organisation.onboarding }
       let!(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
       let!(:params) { { token_account: token_account } }
       let(:response_body) do
         "#{file_fixture("stripe_api/successful_external_account.json").read}"
       end
+      let(:stripe_account_id) { organisation.stripe_account_id }
       let!(:token_account) { "btok_#{Faker::Crypto.md5}" }
 
       before do
@@ -54,11 +55,10 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
           to_return(status: 200, body: response_body, headers: {})
       end
 
-      it "should update the organisation/ create the bank account... ???" do
-        # TODO: need to create a stripe_api_response model for this call...
-        # do_request(params: params)
+      it "should create the bank account (and track this event)" do
+        do_request(params: params)
 
-        # expect(organisation.reload.stripe_account_id).not_to be_nil
+        expect(onboarding.events.first["name"]).to eq("new_bank_account_created")
       end
 
       it "should redirect_to the guides_trips_path" do
