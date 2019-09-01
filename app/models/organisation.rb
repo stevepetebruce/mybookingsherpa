@@ -16,6 +16,8 @@ class Organisation < ApplicationRecord
 
   has_one_attached :logo_image
 
+  after_create :create_onboarding
+
   def on_trial?
     current_subscription.nil?
   end
@@ -29,6 +31,10 @@ class Organisation < ApplicationRecord
   end
 
   private
+
+  def create_onboarding
+    Onboardings::FactoryJob.perform_later(self)
+  end
 
   def current_subscription
     subscriptions.created_at_desc&.first
