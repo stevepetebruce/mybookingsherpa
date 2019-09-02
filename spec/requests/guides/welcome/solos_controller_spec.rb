@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Guides::Welcome::SolosController", type: :request do
   let!(:guide) { FactoryBot.create(:guide) }
+  let(:onboarding) { organisation.onboarding }
   let!(:organisation) { FactoryBot.create(:organisation) }
   let!(:organisation_membership) do
     FactoryBot.create(:organisation_membership,
@@ -25,6 +26,12 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
           do_request
 
           expect(response).to be_successful
+        end
+
+        it "should track the onboarding event" do
+          do_request
+
+          expect(onboarding.events.first["name"]).to eq("new_solo_account_chosen")
         end
       end
     end
@@ -65,6 +72,12 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
           expect(response.code).to eq "302"
           expect(response).to redirect_to new_guides_welcome_bank_account_url
         end
+
+        it "should track the onboarding event" do
+          do_request(params: params)
+
+          expect(onboarding.events.first["name"]).to eq("new_stripe_account_created")
+        end
       end
 
       context "invalid and unsuccessful" do
@@ -86,6 +99,12 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
 
             expect(response.code).to eq "200"
           end
+
+          it "should track the onboarding event" do
+            do_request(params: params)
+
+            expect(onboarding.events.first["name"]).to eq("failed_new_stripe_account_creation")
+          end
         end
 
         context "Stripe API throws an exception" do
@@ -105,6 +124,13 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
 
             expect(response.code).to eq "200"
             expect(response.body).to include(exception_message)
+          end
+
+          it "should track the onboarding event" do
+            do_request(params: params)
+
+            expect(onboarding.events.first["name"]).to eq("failed_new_stripe_account_creation")
+            expect(onboarding.events.first["additional_info"]).to eq("Address for business must match account country")
           end
         end
       end
