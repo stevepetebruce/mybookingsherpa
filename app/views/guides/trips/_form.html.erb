@@ -47,59 +47,64 @@
       </div>
     <% end %>
   </div>
-  <h2 class="card-title font-weight-bold mt-5">
-    Guests
-  </h2>
-  <div class="row mt-3">
-    <div class="form-group row col-md-5">
-      <%= form.label :minimum_number_of_guests, "Minimum per trip", class: "col-auto col-form-label" %>
-      <div class="col-auto">
-        <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, class: "form-control" %>
-      </div>
-    </div>
-    <div class="form-group row col-md-5">
-      <%= form.label :maximum_number_of_guests, "Maximum per trip", class: "col-auto col-form-label" %>
-      <div class="col-auto">
-        <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, class: "form-control" %>
-      </div>
-    </div>
-  </div>
-  <h2 class="card-title font-weight-bold mt-5">
-    Price
-  </h2>
-  <div class="row mt-3">
-    <div class="form-group row col-md-5 col-lg-5">
-      <%= form.label :currency, class: "col-auto col-form-label" %>
-      <div class="col-auto">
-        <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency_before_type_cast), {}, { class: "form-control customSelect mr-sm-2 pr-4"} %>
-      </div>
-    </div>
-    <div class="form-group row col-md-7 col-lg-7">
-      <%= form.label :full_cost, "Cost per guest", class: "col-auto col-form-label" %>
-      <div class="col-auto">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <h2 class="card-title font-weight-bold mt-4">
+        Guests
+      </h2>
+      <div class="row">
+        <div class="form-group row col-md-6">
+          <%= form.label :minimum_number_of_guests, "Minimum per trip", class: "col-auto col-form-label" %>
+          <div class="col-auto">
+            <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, class: "form-control" %>
           </div>
-          <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100 }, class: "form-control" %>
+        </div>
+        <div class="form-group row col-md-6">
+          <%= form.label :maximum_number_of_guests, "Maximum per trip", class: "col-auto col-form-label" %>
+          <div class="col-auto">
+            <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <h2 class="card-title font-weight-bold mt-4">
+        Price
+      </h2>
+      <div class="row">
+        <div class="form-group row col-md-6">
+          <div class="col-auto">
+            <%= form.label :currency, class: "col-auto col-form-label pl-0" %>
+            <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency_before_type_cast), {}, { class: "form-control customSelect mr-sm-2 pr-4"} %>
+          </div>
+        </div>
+        <div class="form-group row col-md-6">
+          <%= form.label :full_cost, "Cost per guest", class: "col-auto col-form-label" %>
+          <div class="col-auto">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+              </div>
+              <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100 }, class: "form-control" %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <h2 class="card-title font-weight-bold mt-5">
+  <h2 class="card-title font-weight-bold mt-3">
     Deposit
+    <span class="text-small font-weight-normal">(Optional - leave blank if full payment only)</span>
   </h2>
-  <small class="font-italic">(Leave blank if full payment only)</small>
   <div class="row mt-3">
-    <div class="form-group row col-md-5 col-lg-4">
+    <div class="form-group row col-md-6 col-lg-3">
       <%= form.label :deposit_percentage, "Deposit (% of full trip cost)", class: "col-auto col-form-label" %>
       <div class="col-auto">
         <%= form.number_field :deposit_percentage, minimunm: 0, step: 1, class: "form-control" %>
       </div>
     </div>
-    <div class="form-group row col-md-5 col-lg-4">
-      <%= form.label :full_payment_window_weeks, "Weeks before full payment required", class: "col-auto col-form-label" %>
+    <div class="form-group row col-md-6 col-lg-3">
+      <%= form.label :full_payment_window_weeks, "Weeks before (trip start date) full payment required", class: "col-auto col-form-label" %>
       <div class="col-auto">
         <%= form.number_field :full_payment_window_weeks, minimunm: 0, step: 1, class: "form-control" %>
       </div>
