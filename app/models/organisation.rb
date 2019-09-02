@@ -12,6 +12,7 @@ class Organisation < ApplicationRecord
   has_many :guides, through: :organisation_memberships
   has_many :subscriptions
   has_many :trips
+  has_one :onboarding
 
   has_one_attached :logo_image
 
