@@ -3,6 +3,11 @@ class Guides::RegistrationsController < Devise::RegistrationsController
 
   layout "onboarding"
 
+  def create
+    super
+    flash.delete(:notice)
+  end
+
   protected
 
   def after_sign_up_path_for(_resource)
