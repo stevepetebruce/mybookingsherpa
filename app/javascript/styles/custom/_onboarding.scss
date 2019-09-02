@@ -164,3 +164,19 @@
     background-size: 80px;
   }
 }
+
+
+/*  In trial mode  */
+.in-trial-banner {
+  position: fixed;
+  display: inline;
+  width: 100%;
+  z-index: 100;
+  color: $white;
+  background-image: linear-gradient(to bottom right, $dodger-blue, $blue);
+  border-bottom: 1px solid $ghost-white;
+  a {
+    margin: 0 4px;
+    border-radius: 2px;
+  }
+}

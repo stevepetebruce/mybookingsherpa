@@ -1,10 +1,9 @@
-<style type="text/css">
-  .in-trial-banner {
-     position: fixed;
-     width: 100%;
-     z-index: 100;
-  }
-</style>
-<nav class="navbar navbar-dark bg-primary in-trial-banner" style="margin-top: <%= extra_top_margin ? 56 : 0 %>px;">
-  <span class="text-center">Hey buddy... you're in trial mode. That's fine but you can <%= link_to "click here to complete set up", guides_welcome_path %> and start taking real bookings with real money.</span>
-</nav>
+<% if defined?(background_linear_start) && defined?(background_linear_end) %>
+  <nav class="navbar text-center in-trial-banner" style="margin-top: <%= extra_top_margin ? 60 : 0 %>px; background-image: linear-gradient(to bottom right, <%= background_linear_start %>, <%= background_linear_end %>);">
+  Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money. <%= link_to "Complete set up", guides_welcome_path, class: "btn btn-sm btn-light" %>
+  </nav>
+<% else %>
+  <nav class="navbar text-center in-trial-banner" style="margin-top: <%= extra_top_margin ? 60 : 0 %>px;">
+    Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money. <%= link_to "Complete set up", guides_welcome_path, class: "btn btn-sm btn-light" %>
+  </nav>
+<% end %>
