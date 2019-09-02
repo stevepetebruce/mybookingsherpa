@@ -114,7 +114,15 @@ RSpec.describe "Guides::TripsController", type: :request do
 
         context "a trip associated with one guide" do
           let!(:other_guide) { FactoryBot.create(:guide) }
+          let(:other_organisation) { FactoryBot.create(:organisation) }
           let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+
+          before do
+            FactoryBot.create(:organisation_membership,
+                              guide: other_guide,
+                              organisation: other_organisation,
+                              owner: true)
+          end
 
           it "should be visible to the guide" do
             do_request

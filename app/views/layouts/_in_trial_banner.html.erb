@@ -1,0 +1,10 @@
+<style type="text/css">
+  .in-trial-banner {
+     position: fixed;
+     width: 100%;
+     z-index: 100;
+  }
+</style>
+<nav class="navbar navbar-dark bg-primary in-trial-banner" style="margin-top: <%= extra_top_margin ? 56 : 0 %>px;">
+  <span class="text-center">Hey buddy... you're in trial mode. That's fine but you can <%= link_to "click here to complete set up", guides_welcome_path %> and start taking real bookings with real money.</span>
+</nav>

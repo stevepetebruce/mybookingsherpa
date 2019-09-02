@@ -25,6 +25,9 @@
     <% end %>
     <div class="page-wrapper">
       <%= render "layouts/nav_bar" %>
+      <% if @current_guide&.on_trial? %>
+        <%= render partial: "layouts/in_trial_banner", locals: { extra_top_margin: true } %>
+      <% end %>
       <%= flash_messages %>
       <%= yield %>
     </div>
