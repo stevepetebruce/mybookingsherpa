@@ -30,7 +30,7 @@
     </div>
     <div class="col-md-6 mb-3 pr-5">
       <%= label_tag :country %>
-      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", action: "change->stripe-account-individual#enableSubmitBtn", required: true, autofocus: true, data: { target: "stripe-account-individual.addressCountry stripe-account-individual.requiredBusiness" } %>
+      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", action: "change->stripe-account-individual#enableSubmitBtn", required: true, autofocus: true, data: { target: "stripe-account-individual.addressCountry stripe-account-individual.requiredBusiness country-auto-select.countrySelectField" } %>
       <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
     </div>
   </div>
