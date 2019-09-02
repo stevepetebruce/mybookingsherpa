@@ -20,7 +20,9 @@ class Organisation < ApplicationRecord
   after_create :create_test_stripe_account
 
   def on_trial?
-    subscription.nil?
+    # TODO: need to look at this....
+    current_subscription.nil?
+  Show onboarding explainer text on new guides onboarding process.
   end
 
   def owner
