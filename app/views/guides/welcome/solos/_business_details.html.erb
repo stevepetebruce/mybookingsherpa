@@ -7,7 +7,7 @@
   </div>
   <div class="col-md-12 mb-3">
     <%= label_tag :address_line2 %><span class="small"><i> (e.g., apartment, suite, unit, or building)</i></span>
-    <%= text_field_tag :address_line2, "Flat 10", class: "form-control", required: true, autofocus: true, data: { action: "keyup->stripe-account-individual#enableSubmitBtn", target: "stripe-account-individual.addressLine2 stripe-account-individual.requiredBusiness" }  %>
+    <%= text_field_tag :address_line2, "Flat 10", class: "form-control", required: false, autofocus: true, data: { action: "keyup->stripe-account-individual#enableSubmitBtn", target: "stripe-account-individual.addressLine2" }  %>
     <div class="text-danger d-none" data-target="line2-error">Please enter your address</div>
   </div>
   <div class="row mr-1 ml-1">
