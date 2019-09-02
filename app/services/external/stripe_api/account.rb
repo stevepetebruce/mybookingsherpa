@@ -16,6 +16,12 @@ module External
         Stripe::Account.create(account_token: @account_token, type: "custom")
       end
 
+      def self.create_test_account(email)
+        # TODO: make 'FR' Geo specific
+        Stripe.api_key = ENV.fetch("STRIPE_SECRET_KEY_TEST")
+        Stripe::Account.create(type: "custom", country: "FR", email: email)
+      end
+
       def self.create(account_token)
         new(account_token).create
       end

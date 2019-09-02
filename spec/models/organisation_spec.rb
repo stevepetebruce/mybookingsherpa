@@ -19,6 +19,12 @@ RSpec.describe Organisation, type: :model do
 
       organisation.save
     end
+
+    it "should call #create_test_stripe_account after_create" do
+      expect(organisation).to receive(:create_test_stripe_account)
+
+      organisation.save
+    end
   end
 
   describe "validations" do
