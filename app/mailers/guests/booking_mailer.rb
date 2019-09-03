@@ -4,12 +4,16 @@ module Guests
     def new
       @booking = params[:booking]
 
-      mail(to: @booking.email,
+      mail(to: email_target,
            from: "#{@booking.guide_name} <#{ENV.fetch('DEFAULT_GUIDE_FROM_EMAIL')}>",
            reply_to: "#{@booking.guide_name} <#{ENV.fetch('DEFAULT_GUIDE_FROM_EMAIL')}>",
            subject: "Successful booking for #{@booking.trip_name}",
            template_path: "mailers/guests",
            template_name: "new")
+    end
+
+    def email_target
+      @booking.organisation_on_trial? ? @booking.guide.email : @booking.email
     end
   end
 end
