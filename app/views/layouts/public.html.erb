@@ -9,6 +9,9 @@
     <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body class="header-fixed">
+    <% if @booking.organisation_on_trial? %>
+      <%= render partial: "layouts/in_trial_banner", locals: { extra_top_margin: false, background_linear_start: "#dd3140", background_linear_end: "#bf1c2a" } %>
+    <% end %>
     <div class="page-wrapper" data-s-key="<%= @booking.stripe_publishable_key %>">
       <%= flash_messages %>
       <%= yield %>
