@@ -21,8 +21,7 @@ class Organisation < ApplicationRecord
 
   def on_trial?
     # TODO: need to look at this....
-    current_subscription.nil?
-  Show onboarding explainer text on new guides onboarding process.
+    subscription.nil?
   end
 
   def owner
