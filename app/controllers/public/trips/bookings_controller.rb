@@ -19,15 +19,10 @@ module Public
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
 
-        attach_stripe_customer_to_guest(@booking)
-
-        if @booking.save && payment_successful?
-          successful_booking_jobs
-          flash[:success] = "Payment successful"
-          redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
+        if @booking.organisation_on_trial?
+          test_create
         else
-          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
-          render :new
+          live_create
         end
       end
 
@@ -48,6 +43,33 @@ module Public
       end
 
       private
+
+      def live_create
+        attach_stripe_customer_to_guest(@booking)
+
+        if @booking.save && payment_successful?
+          successful_booking_jobs
+          flash[:success] = "Payment successful"
+          redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
+        else
+          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
+          render :new
+        end
+      end
+
+      def test_charge
+        {
+          amount: @booking.full_cost
+        }
+      end
+
+      def test_create
+        @booking.save
+        Payments::Factory.new(@booking, test_charge).create
+        successful_booking_jobs
+        flash[:success] = "Payment successful"
+        redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
+      end
 
       def allergies
         params.dig(:booking, :allergies)
