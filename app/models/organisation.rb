@@ -10,7 +10,7 @@ class Organisation < ApplicationRecord
 
   has_many :organisation_memberships
   has_many :guides, through: :organisation_memberships
-  has_many :subscriptions
+  has_one :subscription
   has_many :trips
   has_one :onboarding
 
@@ -20,7 +20,7 @@ class Organisation < ApplicationRecord
   after_create :create_test_stripe_account
 
   def on_trial?
-    current_subscription.nil?
+    subscription.nil?
   end
 
   def owner
@@ -28,7 +28,7 @@ class Organisation < ApplicationRecord
   end
 
   def plan
-    current_subscription&.plan
+    subscription&.plan
   end
 
   private
@@ -39,9 +39,5 @@ class Organisation < ApplicationRecord
 
   def create_test_stripe_account
     Organisations::CreateTestStripeAccountJob.perform_later(self) unless Rails.env.test?
-  end
-
-  def current_subscription
-    subscriptions.created_at_desc&.first
   end
 end
