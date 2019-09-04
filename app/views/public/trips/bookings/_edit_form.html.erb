@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :name, "Full Name" %>
-          <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name) %>
+          <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your name" %>
           </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :email %>
-          <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :email) %>
+          <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :email), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter a valid email" %>
           </div>
@@ -29,7 +29,11 @@
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :phone_number %>
-          <%= form.text_field :phone_number, class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), data: { target: "country-auto-select.phoneField" } %>
+          <% if @booking.organisation_on_trial? %>
+            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), readonly: @booking.organisation_on_trial? %>
+          <% else %>
+            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
+          <% end %>
           <div class="invalid-feedback">
             <%= "Please enter your phone number" %>
           </div>
@@ -41,7 +45,7 @@
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :date_of_birth %>
-          <%= form.date_field :date_of_birth, class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth) %>
+          <%= form.date_field :date_of_birth, value: trial_example_dob_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth),readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your date my birth" %>
           </div>
@@ -53,7 +57,11 @@
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :country %>
-          <%= form.country_select :country, { priority_countries: ["AD", "AT", "BE", "BG", "HR", "CZ", "DK", "EE", "FR", "FI", "DE", "GI", "GR", "HU", "IS", "IE", "IT", "LV", "LU", "ME", "NL", "NO", "PL", "PT", "RO", "RS", "SK", "SI", "ES", "SE", "CH", "GB"]}, { class: "form-control customselect", data: { target: "country-auto-select.countrySelectField" } }, required: true, autofocus: auto_focus(booking, form_field: :country)  %>
+          <% if @booking.organisation_on_trial? %>
+            <%= form.select :country, options_for_select([trial_example_country(@booking)]), {} , { class: "form-control customselect", style: "background-color: #e9ecef;" } %>
+          <% else %>
+            <%= form.country_select :country, { priority_countries: ["AD", "AT", "BE", "BG", "HR", "CZ", "DK", "EE", "FR", "FI", "DE", "GI", "GR", "HU", "IS", "IE", "IT", "LV", "LU", "ME", "NL", "NO", "PL", "PT", "RO", "RS", "SK", "SI", "ES", "SE", "CH", "GB"]}, { class: "form-control customselect", data: { target: "country-auto-select.countrySelectField" } }, required: true, autofocus: auto_focus(booking, form_field: :country), disabled: @booking.organisation_on_trial? %>
+          <% end %>
         </div>
       </div>
       <hr class="mb-5 mb-4">
@@ -63,7 +71,7 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :next_of_kin_name, "Name" %>
-          <%= form.text_field :next_of_kin_name, class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name) %>
+          <%= form.text_field :next_of_kin_name, value: trial_example_ice_name_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             Please enter the name of your emergency contact
           </div>
@@ -75,7 +83,11 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :next_of_kin_phone_number, "Phone number" %>
-          <%= form.text_field :next_of_kin_phone_number, class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" } %>
+          <% if @booking.organisation_on_trial? %>
+            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
+          <% else %>
+            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
+          <% end %>
           <div class="invalid-feedback">
             Please enter a valid phone number of your emergency contact
           </div>
@@ -148,4 +160,9 @@
     </li>
   </ul>
   <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg btn-block mt-4" %>
+<% end %>
+<% if booking.organisation_on_trial? %>
+  <p style="color: red; padding-top: 20px;" class="text-center">
+    <small>All done! Now hit that big button ☝️ and complete this beautiful booking.</small>
+  </p>
 <% end %>
