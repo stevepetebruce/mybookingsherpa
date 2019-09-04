@@ -91,7 +91,10 @@
   }
   &.editbooking {
     justify-content: start;
-    align-items: flex-start
+    align-items: flex-start;
+  }
+  &.new-onboarding {
+    align-items: flex-start;
   }
   @include tablet {
     display: block;
