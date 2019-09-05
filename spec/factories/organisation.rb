@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :with_stripe_account_id do
       stripe_account_id { "acct_#{Faker::Bank.account_number(16)}" }
     end
+
+    trait :not_on_trial do
+      association :subscription
+    end
   end
 end
