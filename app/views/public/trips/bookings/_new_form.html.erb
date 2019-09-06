@@ -9,10 +9,19 @@ An extra step - but a definite confirmation from the user.
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
+  <% if booking.organisation_on_trial? %>
+    <p style="color: red;">
+      <small>Psst...</small>
+      <br/>
+      <small>As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.</small>
+      <br/>
+      <small>When you complete the sign up process, you can start putting real bookings and money through here 😀.</small>
+    </p>
+  <% end %>
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name, "Full Name" %>
-      <%= form.text_field :name, class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true %>
+      <%= form.text_field :name, value: trial_example_full_name_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true, readonly: booking.organisation_on_trial? %>
       <div class="invalid-feedback">
         <%= "Please enter your name" %>
       </div>
@@ -25,7 +34,7 @@ An extra step - but a definite confirmation from the user.
   </div>
   <div class="mb-3">
     <%= form.label :email %>
-    <%= form.text_field :email, class: "#{ 'is-invalid' if @booking.errors[:email].present?} form-control", autofocus: auto_focus(booking, form_field: :email), required: true %>
+    <%= form.text_field :email, value: trial_example_email_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:email].present?} form-control", autofocus: auto_focus(booking, form_field: :email), required: true, readonly: booking.organisation_on_trial? %>
     <div class="invalid-feedback">
       Please enter a valid email
     </div>
@@ -41,15 +50,28 @@ An extra step - but a definite confirmation from the user.
     </h4>
   <div class="row">
     <div class="col-md-12 mb-3">
-      <label for="card-element">Credit or debit card</label>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-      <!-- Used to display Element errors. -->
-      <div id="card-errors" role="alert"></div>
+      <% if booking.organisation_on_trial? %>
+        <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
+        <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
+        <small style="color: red;" class="text-center">
+          This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged.
+        </small>
+      <% else %>
+        <label for="card-element">Credit or debit card</label>
+        <div id="card-element">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <!-- Used to display Element errors. -->
+        <div id="card-errors" role="alert"></div>
+      <% end %>
     </div>
   </div>
   <div class="actions">
     <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
   </div>
+  <% if booking.organisation_on_trial? %>
+    <p style="color: red;" class="text-center">
+      <small> Now hit that big button ☝️ and see what happens next...</small>
+    </p>
+  <% end %>
 <% end %>
