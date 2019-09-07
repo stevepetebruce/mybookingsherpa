@@ -482,7 +482,7 @@
                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
                         <div style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;line-height:150%; padding-right: 10px; padding-left: 10px; padding-top: 30px; padding-bottom: 10px;">
                           <div style="font-size:16px;line-height:26px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;color:#555555;text-align:left;">
-                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.guide_name %>,</p>
+                            <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">Hi <%= @booking.guide_name.presence || "there" %>,</p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Good news.</p>
                                <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
@@ -501,16 +501,32 @@
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               Thank you from all of the MyBookingSherpa team.</p>
+
+                            <% if @booking.organisation_on_trial? %>
+                              <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
+                                <i>(❗️As you're in trial you won't really being getting this money in your account.
+                                But if you complete setting up your account, then you'll be taking real bookings and real money in no time.)</i>
+                              </p>
+                            <% end %>
                           </div>
                         </div>
                         <!--[if mso]></td></tr></table><![endif]-->
                       </div>
                       <div align="center" class="button-container center " style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;">
-                        <%= link_to guides_trips_url, style: "text-decoration: none;" do %>
-                          <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:33pt; v-text-anchor:middle; width:106pt;" arcsize="0%" strokecolor="#DADADA" fillcolor="#0068A5"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#FFFFFF; font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
-                          <div style="color: #FFFFFF; background-color: #0068A5; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 142px; width: 102px;width: auto;  padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
-                            <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;"><span style="font-size: 15px; line-height: 30px;"><strong>VIEW BOOKING</strong></span></span>
-                          </div>
+                        <% if @booking.organisation_on_trial? %>
+                          <%= link_to guides_welcome_url, style: "text-decoration: none;" do %>
+                            <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:33pt; v-text-anchor:middle; width:106pt;" arcsize="0%" strokecolor="#DADADA" fillcolor="#0068A5"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#FFFFFF; font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
+                            <div style="color: #FFFFFF; background-color: #0068A5; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 142px; width: 102px;width: auto;  padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
+                              <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;"><span style="font-size: 15px; line-height: 30px;"><strong>COMPLETE SET UP</strong></span></span>
+                            </div>
+                          <% end %>
+                        <% else %>
+                          <%= link_to guides_trips_url, style: "text-decoration: none;" do %>
+                            <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 5px; padding-left: 5px; padding-top:5px; padding-bottom:5px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:33pt; v-text-anchor:middle; width:106pt;" arcsize="0%" strokecolor="#DADADA" fillcolor="#0068A5"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#FFFFFF; font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
+                            <div style="color: #FFFFFF; background-color: #0068A5; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; max-width: 142px; width: 102px;width: auto;  padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
+                              <span style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;"><span style="font-size: 15px; line-height: 30px;"><strong>VIEW BOOKING</strong></span></span>
+                            </div>
+                          <% end %>
                           <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                         <% end %>
                       </div>

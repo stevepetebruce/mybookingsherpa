@@ -7,6 +7,7 @@ RSpec.describe Guides::BookingMailer, type: :mailer do
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
+    let(:organisation) { booking.organisation }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
     it "renders the headers" do
@@ -18,6 +19,22 @@ RSpec.describe Guides::BookingMailer, type: :mailer do
 
     it "renders the body" do
       expect(mail.body.encoded).to include("Thank you")
+    end
+
+    context "on trial" do
+      it "should have the trial explainer text" do
+        expect(mail.body.encoded).to include("As you're in trial")
+      end
+    end
+
+    context "not on trial" do
+      before do
+        FactoryBot.create(:subscription, organisation: organisation)
+      end
+
+      it "should not have the trial explainer text" do
+        expect(mail.body.encoded).to_not include("As you're in trial")
+      end
     end
   end
 end
