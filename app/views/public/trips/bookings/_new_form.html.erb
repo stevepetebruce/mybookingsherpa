@@ -10,13 +10,11 @@ An extra step - but a definite confirmation from the user.
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <% if booking.organisation_on_trial? %>
-    <p style="color: red;">
-      <small>Psst...</small>
-      <br/>
-      <small>As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.</small>
-      <br/>
-      <small>When you complete the sign up process, you can start putting real bookings and money through here 😀.</small>
-    </p>
+    <div class="onboard-message fullwidth">
+      <strong>Psst...</strong>
+      As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.
+      When you complete the sign up process, you can start putting real bookings and money through here. 😀
+    </div>
   <% end %>
   <div class="row">
     <div class="col-md-12 mb-3">
@@ -53,9 +51,9 @@ An extra step - but a definite confirmation from the user.
       <% if booking.organisation_on_trial? %>
         <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
-        <small style="color: red;" class="text-center">
-          This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged.
-        </small>
+        <div class="onboard-message fullwidth">
+           This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged. 💰 
+        </div>
       <% else %>
         <label for="card-element">Credit or debit card</label>
         <div id="card-element">
@@ -70,8 +68,8 @@ An extra step - but a definite confirmation from the user.
     <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
   </div>
   <% if booking.organisation_on_trial? %>
-    <p style="color: red;" class="text-center">
-      <small> Now hit that big button ☝️ and see what happens next...</small>
-    </p>
+    <div class="onboard-message fullwidth text-center">
+      Now hit that big button ☝️and see what happens next...
+    </div>
   <% end %>
 <% end %>
