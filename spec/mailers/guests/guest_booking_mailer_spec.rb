@@ -6,7 +6,7 @@ RSpec.describe Guests::BookingMailer, type: :mailer do
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
-    let(:organisation) { trip.organisation }
+    let(:organisation) { booking.organisation }
     let!(:trip) { FactoryBot.create(:trip) }
 
     it "renders the headers" do
@@ -24,15 +24,23 @@ RSpec.describe Guests::BookingMailer, type: :mailer do
       it "should send the email to the guide" do
         expect(mail.to).to eq([booking.guide_email])
       end
+
+      it "should have the trial explainer text" do
+        expect(mail.body.encoded).to include("As you're in trial")
+      end
     end
 
     context "organisation not on_trial" do
       before do
-        allow(organisation).to receive(:on_trial?).and_return(true)
+        FactoryBot.create(:subscription, organisation: organisation)
       end
 
       it "should send the email to the guest" do
-        expect(mail.to).to eq([booking.guide_email])
+        expect(mail.to).to eq([booking.email])
+      end
+
+      it "should not have the trial explainer text" do
+        expect(mail.body.encoded).to_not include("As you're in trial")
       end
     end
   end
