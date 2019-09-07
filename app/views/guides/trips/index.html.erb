@@ -22,37 +22,37 @@
                 </div>
                 <div class="col col-lg-1"></div>
               </div>
-              <div class="accordion" id="accordion">
+              <div class="accordion" id="accordion" data-controller="hide-related-element">
                 <% @trips.each_with_index do |trip, count| %>
                   <div class="card">
                     <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
-                      aria-controls="collapseOne">
-                      <div class="row">
-                        <div class="row col-10 col-sm-7 h4 font-weight-bold no-gutters">
-                          <div class="col col-md-8 col-sm-12">
-                            <span class="<%= 'cancelled-trip' if trip.cancelled? %>"><%= trip.name %></span>
+                      aria-controls="collapseOne" data-action="click->hide-related-element#hideTargetElement" data-hide-element="pointer-one">
+                      <div class="row" data-hide-element="pointer-one">
+                        <div class="row col-10 col-sm-7 h4 font-weight-bold no-gutters" data-hide-element="pointer-one">
+                          <div class="col col-md-8 col-sm-12" data-hide-element="pointer-one">
+                            <span class="<%= 'cancelled-trip' if trip.cancelled? %>" data-hide-element="pointer-one"><%= trip.name %></span>
                           </div>
-                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0">
+                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0" data-hide-element="pointer-one">
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
                         </div>
                         
-                        <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block">
+                        <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="pointer-one">
                           <div>
                             <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
                               <% if trip.bookings[i] %>
                                 <span class="dot dot-sm <%= trip.bookings[i].payment_status_icon %>" data-toggle="tooltip" data-placement="top" data-tooltip="<%= trip.bookings[i].name %>" data-tooltip-position="top"></span>
                               <% else %>
-                                <span class='dot dot-sm dot-grey' data-tooltip="Place not filled" data-tooltip-position="top"></span>
+                                <span class='dot dot-sm dot-grey' data-tooltip="Place not filled" data-tooltip-position="top" data-hide-element="pointer-one"></span>
                               <% end %>
                             <% end %>
                           </div>
                         </div>
-                        <div class="col col-lg-1 text-right float-right">
+                        <div class="col col-lg-1 text-right float-right data-hide-element="pointer-one">
                           <% if show_onboarding_explainer_element?(trip, count) %>
-                            <div class="pointer-hand hand-down position-absolute hand-down-index">👇</div>
+                            <div class="pointer-hand hand-down position-absolute hand-down-index" data-hide-element-target="pointer-one">👇</div>
                           <% end %>
-                          <i class="fa fa-chevron-circle-down md-20"></i>
+                          <i class="fa fa-chevron-circle-down md-20" data-hide-element="pointer-one"></i>
                         </div>
                       </div>
                     </div>
@@ -67,9 +67,9 @@
                                   <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
                                 </div>
                                 <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
-                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top"><i class="fa fa-external-link"></i></a>
+                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->hide-related-element#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
-                                  <div class="pointer-hand hand-left">👈</div>
+                                  <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
                                 <% else %>
                                   <span data-clipboard-message="<%= trip.id %>" class="small ml-2 message">Copied</span>
                                 <% end %>
