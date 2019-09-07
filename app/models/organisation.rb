@@ -20,6 +20,7 @@ class Organisation < ApplicationRecord
   after_create :create_test_stripe_account
 
   def on_trial?
+    # TODO: need to look at this....
     subscription.nil?
   end
 
