@@ -13,10 +13,4 @@ class Guide < ApplicationRecord
   validates :email, format: Regex::EMAIL, presence: true, uniqueness: true
   validates :name, format: Regex::NAME, allow_blank: true
   validates :phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
-
-  def on_trial?
-    # TODO: will need a way to select current organisation when guides belong
-    #   to more than one organisation...
-    organisation_memberships.owners.last.organisation.on_trial?
-  end
 end

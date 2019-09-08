@@ -15,6 +15,12 @@ module ApplicationHelper
 
   def show_onboarding_explainer_element?(trip, count)
     # ie: if first trip has no bookings.
-    @current_organisation.on_trial? && trip.bookings.count.zero? && count == 0
+    @current_organisation.on_trial? && trip.bookings.count.zero? && count.zero?
+  end
+
+  def show_in_trial_banner?
+    @current_organisation&.on_trial? &&
+      @current_organisation.bookings.exists? &&
+      @current_organisation.bookings.most_recent.last.created_at < 3.minutes.ago
   end
 end
