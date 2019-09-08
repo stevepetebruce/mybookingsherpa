@@ -6,9 +6,9 @@ export default class extends StripeBaseController {
                     "addressState", "addressPostalCode", "addressCountry",
                     "businessDetailsWrapper", "dob", "email",
                     "firstName", "form", "lastName",
-                    "personalDetailsWrapper", "phone", "requiredBusiness",
-                    "requiredPersonal", "stripeTosCheckBox", "submitBtn",
-                    "tokenAccount"]
+                    "personalDetailsWrapper", "phone", "progressBar",
+                    "progressDot", "requiredBusiness", "requiredPersonal",
+                    "stripeTosCheckBox", "submitBtn", "tokenAccount"]
 
   connect() {
     this.addFormSubmissionHandler();
@@ -44,6 +44,9 @@ export default class extends StripeBaseController {
 
   proceedIfValid() {
     if (this.allPersonalFieldsComplete()) {
+      this.progressBarTarget.style.width = "61%";
+      this.progressDotTarget.classList.add("primary-color");
+      this.progressDotTarget.classList.remove("no-color");
       this.personalDetailsWrapperTarget.classList.add("d-none");
       this.businessDetailsWrapperTarget.classList.remove("d-none");
     } else {
