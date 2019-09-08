@@ -11,9 +11,9 @@ An extra step - but a definite confirmation from the user.
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
   <% if booking.organisation_on_trial? %>
     <div class="onboard-message fullwidth">
-      <strong>Psst...</strong>
-      As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.
-      When you complete the sign up process, you can start putting real bookings and money through here. 😀
+      <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Psst...</strong>
+      As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.<br>
+      When you complete the sign up process, you can start putting real bookings and money through here. 😀 <br>But, if you want to skip the trial, you can <%= link_to "complete the set up", guides_welcome_path %> here.
     </div>
   <% end %>
   <div class="row">
@@ -52,7 +52,7 @@ An extra step - but a definite confirmation from the user.
         <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
         <div class="onboard-message fullwidth">
-           This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged. 💰 
+           <i class="fa fa-info-circle fa-lg text-secondary"></i> This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged. 
         </div>
       <% else %>
         <label for="card-element">Credit or debit card</label>
@@ -69,7 +69,7 @@ An extra step - but a definite confirmation from the user.
   </div>
   <% if booking.organisation_on_trial? %>
     <div class="onboard-message fullwidth text-center">
-      Now hit that big button ☝️and see what happens next...
+      <i class="fa fa-info-circle fa-lg text-secondary"></i> Now hit that big button ☝️and see what happens next...
     </div>
   <% end %>
 <% end %>
