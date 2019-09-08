@@ -12,8 +12,12 @@ An extra step - but a definite confirmation from the user.
   <% if booking.organisation_on_trial? %>
     <div class="onboard-message fullwidth">
       <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Psst...</strong>
-      As you're in trial, we've filled the form with pretend data, so you can see what an example booking looks like.<br>
-      When you complete the sign up process, you can start putting real bookings and money through here. 😀 <br>But, if you want to skip the trial, you can <%= link_to "complete the set up", guides_welcome_path %> here.
+      <br>
+      You're in trial, so the form is filled with pretend data so you can see what a booking looks like.<br>
+      When you complete the sign up process, you can put real bookings & money through here. 😀<br>
+      If you want to skip the trial, you can <%= link_to "complete your set up here", guides_welcome_path %>.
+      <br>
+      <strong>PS:</strong> when you complete your set up, none of this text will be here. It's only visible to you.
     </div>
   <% end %>
   <div class="row">
