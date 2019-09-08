@@ -6,6 +6,7 @@ module Public
       before_action :set_booking, only: %i[edit update show]
       before_action :check_timeout, only: %i[edit update show]
       before_action :set_trip, only: %i[create new]
+      before_action :assign_current_organisation, only: %i[edit new show update]
 
       layout "public"
 
@@ -43,6 +44,11 @@ module Public
       end
 
       private
+
+      def assign_current_organisation
+        @current_organisation = @trip.organisation if defined? @trip
+        @current_organisation ||= @booking.organisation
+      end
 
       def live_create
         attach_stripe_customer_to_guest(@booking)
@@ -117,7 +123,7 @@ module Public
       end
 
       def dietary_requirements
-         params.dig(:booking, :dietary_requirements)
+        params.dig(:booking, :dietary_requirements)
       end
 
       def newly_created?
