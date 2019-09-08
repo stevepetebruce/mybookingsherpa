@@ -35,8 +35,10 @@
                           <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0" data-hide-element="pointer-one">
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
-                        </div>
-                        
+                          <% if show_first_trial_booking_explaner_element?(trip, count) %>
+                            <div class="pointer-hand position-absolute hand-right d-sm-none d-md-block d-none d-sm-block" data-hide-element-target="pointer-two">👉</div>
+                          <% end %>
+                        </div> 
                         <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="pointer-one">
                           <div>
                             <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
