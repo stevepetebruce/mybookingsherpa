@@ -162,7 +162,7 @@
   <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg btn-block mt-4" %>
 <% end %>
 <% if booking.organisation_on_trial? %>
-  <p style="color: red; padding-top: 20px;" class="text-center">
-    <small>All done! Now hit that big button ☝️ and complete this beautiful booking.</small>
-  </p>
+  <div class="onboard-message fullwidth text-center">
+    <i class="fa fa-info-circle fa-lg text-secondary"></i> All done! Now hit that big button ☝️ and complete this beautiful booking.
+  </div>
 <% end %>
