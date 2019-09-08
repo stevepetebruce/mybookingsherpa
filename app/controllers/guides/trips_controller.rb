@@ -9,7 +9,7 @@ module Guides
       @trip = @current_organisation.trips.new(trip_params)
 
       if @trip.save && current_guide.trips << @trip
-        redirect_to guides_trips_path, flash: { success: "Trip created" }
+        redirect_to guides_trips_path
       else
         flash.now[:alert] = "Problem creating trip. #{@trip.errors.full_messages.to_sentence}"
         render :new
@@ -35,7 +35,7 @@ module Guides
 
     def update
       if @trip.update(trip_params)
-        redirect_to guides_trips_path, flash: { success: "Trip updated" }
+        redirect_to guides_trips_path
       else
         flash.now[:alert] = "Problem creating trip. #{@trip.errors.full_messages.to_sentence}"
         render :edit

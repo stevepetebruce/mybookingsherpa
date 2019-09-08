@@ -34,7 +34,6 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params) && create_associations
-          flash[:success] = "Booking updated"
           redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
@@ -49,7 +48,6 @@ module Public
 
         if @booking.save && payment_successful?
           successful_booking_jobs
-          flash[:success] = "Payment successful"
           redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
         else
           flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -67,7 +65,6 @@ module Public
         @booking.save
         Payments::Factory.new(@booking, test_charge).create
         successful_booking_jobs
-        flash[:success] = "Payment successful"
         redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
       end
 
