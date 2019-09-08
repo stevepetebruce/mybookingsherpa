@@ -20,6 +20,8 @@ class Organisation < ApplicationRecord
   after_create :create_onboarding
   after_create :create_test_stripe_account
 
+  delegate :complete?, to: :onboarding, prefix: true
+
   def on_trial?
     # TODO: need to look at this....
     subscription.nil?
