@@ -67,6 +67,12 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
         expect(response.code).to eq "302"
         expect(response).to redirect_to guides_trips_url
       end
+
+      it "should complete onboarding (TODO: for solos this means completion but probaby not for companies" do
+        do_request(params: params)
+
+        expect(onboarding.complete).to eq true
+      end
     end
   end
 end
