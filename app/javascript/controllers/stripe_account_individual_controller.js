@@ -8,11 +8,10 @@ export default class extends StripeBaseController {
                     "firstName", "form", "lastName",
                     "personalDetailsWrapper", "phone", "progressBar",
                     "progressDot", "requiredBusiness", "requiredPersonal",
-                    "stripeTosCheckBox", "submitBtn", "tokenAccount"]
+                    "submitBtn", "tokenAccount"]
 
   connect() {
     this.addFormSubmissionHandler();
-    this.enableSubmitBtn();
   }
 
   addFormSubmissionHandler() {
@@ -36,10 +35,6 @@ export default class extends StripeBaseController {
   allPersonalFieldsComplete() {
     return this.requiredPersonalTargets.
       every((requiredField) => requiredField.value.length !== 0);
-  }
-
-  enableSubmitBtn() {
-    this.submitBtnTarget.disabled = !this.stripeTosCheckBoxTarget.checked;
   }
 
   proceedIfValid() {
