@@ -25,6 +25,22 @@
         <div class="mt-4">
           <h2 class="font-weight-bold">All done! <%= @booking.name %>, your booking is complete.</h2>
           <h4 class="mt-4">You will receive a confirmation email with your booking details shortly.</h4>
+          <% if @booking.organisation_on_trial? %>
+            <div class="onboard-message fullwidth">
+              <p>
+                <i class="fa fa-info-circle fa-lg text-secondary"></i>
+                As you're in trial, we're going to send you two emails.
+                <br/>
+                One is what you would always receive every time you get a new booking.
+                <br/>
+                The other is what your new guest would usually receive, just for you to see what they see.
+                <br/>
+                (When you're out of trial, then this email will go straight to the new guest.)
+                <br/><br/>
+                <%= link_to "Click here to see status of #{@booking.trip_name }", guides_trips_path %> with <%= @booking.name %> as your new guest.
+              </p>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
