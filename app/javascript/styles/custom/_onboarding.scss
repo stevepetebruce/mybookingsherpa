@@ -124,6 +124,15 @@
 
 /*  Individual and company boxes  */
 
+.onboard-card-link {
+  text-decoration: none;
+  color: #666;
+  &:hover {
+    text-decoration: none;
+    color: #555;
+  }
+}
+
 .onboard {
   &.card {
     border-radius: 4px;
@@ -141,7 +150,6 @@
     h3 {
       font-weight: 600;
     }
-
     img {
       position: absolute;
       top: 20px;
