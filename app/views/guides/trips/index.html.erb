@@ -39,6 +39,9 @@
                         
                         <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="pointer-one">
                           <div>
+                            <% if show_first_trial_booking_explaner_element?(trip, count) %>
+                              <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👉</div>
+                            <% end %>
                             <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
                               <% if trip.bookings[i] %>
                                 <span class="dot dot-sm <%= trip.bookings[i].payment_status_icon %>" data-toggle="tooltip" data-placement="top" data-tooltip="<%= trip.bookings[i].name %>" data-tooltip-position="top"></span>
