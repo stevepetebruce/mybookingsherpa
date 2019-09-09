@@ -33,83 +33,93 @@
           </tr>
         </thead>
         <tbody>
-          <% @trip.bookings.each do |booking| %>
-            <tr>
-              <td nowrap>
-                <strong><%= booking.guest_or_booking_name %></strong>
-              </td>
-              <td>
-                <% if Bookings::PaymentStatus.new(booking).payment_required? %>
-                  <span class='dot dot-sm dot-danger'></span> Payment required
-                <% else %>
-                  <span class='dot dot-sm dot-success'></span> Paid in full
-                <% end %>
-              </td>
-              <td>
-                <% if booking.guest_or_booking_country %>                           
-                  <%= booking.guest_or_booking_country %>
-                <% else %>
-                  No Country
-                <% end %>
-              </td>
-              <td>
-                <% if booking.guest_or_booking_phone_number %>
-                  <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.guest_or_booking_phone_number %></a>
-                <% else %>
-                  No phone number.
-                <% end %>
-              </td>
-              <td>
-                <a href="mailto:<%= booking.email %>" class="text-primary"><%= booking.email %></a>
-              </td>
-              <td>
-                <%= booking.created_at.strftime("%d %b %Y") %>
-              </td>
-              <td>
-                <% if booking.guest_or_booking_date_of_birth.present? %>
-                  <%= Time.zone.now.year - booking.guest_or_booking_date_of_birth.year %>
-                <% else %>
-                  Unknown
-                <% end %>
-              </td>
-              <td>
-                <% if booking.guest_or_booking_next_of_kin_name %>
-                  <%= booking.guest_or_booking_next_of_kin_name %>: <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.guest_or_booking_next_of_kin_phone_number %></a>
-                <% else %>
-                  No emergency contact details.
-                <% end %>
-              </td>
-                <% if booking.guest_or_booking_allergies? %>
-                  <td class="table-danger">
-                    <%= booking.human_readable_allergies %>
-                  </td>
-                <% else %>
-                  <td>
-                    No allergies.
-                  </td>
-                <% end %>
-              </td>
-                <% if booking.guest_or_booking_dietary_requirements? %>
-                  <td class="table-warning">
-                    <%= booking.human_readable_dietary_requirements %>
-                  </td>
-                <% else %>
-                  <td>
-                    No dietary requirements.
-                  </td>
-                <% end %>
-              </td>
-              <td>
-                <% if Bookings::Status.new(booking).other_information? %>
-                  <%= booking.guest_or_booking_other_information %>
-                <% else %>
-                  No other information.
-                <% end %>
-              </td>
-            </tr>
+          <% if @trip.bookings.exists? %>
+            <% @trip.bookings.each do |booking| %>
+              <tr>
+                <td nowrap>
+                  <strong><%= booking.guest_or_booking_name %></strong>
+                </td>
+                <td>
+                  <% if Bookings::PaymentStatus.new(booking).payment_required? %>
+                    <span class='dot dot-sm dot-danger'></span> Payment required
+                  <% else %>
+                    <span class='dot dot-sm dot-success'></span> Paid in full
+                  <% end %>
+                </td>
+                <td>
+                  <% if booking.guest_or_booking_country %>                           
+                    <%= booking.guest_or_booking_country %>
+                  <% else %>
+                    No Country
+                  <% end %>
+                </td>
+                <td>
+                  <% if booking.guest_or_booking_phone_number %>
+                    <a href="tel:+<%= booking.phone_number %>" class="text-primary"><%= booking.guest_or_booking_phone_number %></a>
+                  <% else %>
+                    No phone number.
+                  <% end %>
+                </td>
+                <td>
+                  <a href="mailto:<%= booking.email %>" class="text-primary"><%= booking.email %></a>
+                </td>
+                <td>
+                  <%= booking.created_at.strftime("%d %b %Y") %>
+                </td>
+                <td>
+                  <% if booking.guest_or_booking_date_of_birth.present? %>
+                    <%= Time.zone.now.year - booking.guest_or_booking_date_of_birth.year %>
+                  <% else %>
+                    Unknown
+                  <% end %>
+                </td>
+                <td>
+                  <% if booking.guest_or_booking_next_of_kin_name %>
+                    <%= booking.guest_or_booking_next_of_kin_name %>: <a href="tel:+<%= booking.next_of_kin_phone_number %>" class="text-primary"><%= booking.guest_or_booking_next_of_kin_phone_number %></a>
+                  <% else %>
+                    No emergency contact details.
+                  <% end %>
+                </td>
+                  <% if booking.guest_or_booking_allergies? %>
+                    <td class="table-danger">
+                      <%= booking.human_readable_allergies %>
+                    </td>
+                  <% else %>
+                    <td>
+                      No allergies.
+                    </td>
+                  <% end %>
+                </td>
+                  <% if booking.guest_or_booking_dietary_requirements? %>
+                    <td class="table-warning">
+                      <%= booking.human_readable_dietary_requirements %>
+                    </td>
+                  <% else %>
+                    <td>
+                      No dietary requirements.
+                    </td>
+                  <% end %>
+                </td>
+                <td>
+                  <% if Bookings::Status.new(booking).other_information? %>
+                    <%= booking.guest_or_booking_other_information %>
+                  <% else %>
+                    No other information.
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
+      <% unless @trip.bookings.exists? %>
+        <div class="onboard-message fullwidth mt5">
+          <i class="fa fa-info-circle fa-lg text-secondary"></i>
+          You don't have any bookings yet but when you do, they'll show up in here.
+          <br>
+          You can download all the data in here as csv/Excel spreadsheet and share it with others in your team.
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
