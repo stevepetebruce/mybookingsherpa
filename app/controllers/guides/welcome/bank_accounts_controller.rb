@@ -16,13 +16,20 @@ module Guides
         External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id,
                                                     params[:token_account])
         track_onboarding_event("new_bank_account_created")
+        solo_founder_trial_completed_tasks
         # TODO: need to deal with a failed bank account creation...
-        # TODO: this will be different when the organisation is a company with directors etc..
-        @current_organisation.onboarding.update_columns(complete: true)
         redirect_to guides_trips_path
       end
 
       private
+
+      def solo_founder_trial_completed_tasks
+        return unless @current_organisation.solo_founder?
+
+        @current_organisation.onboarding.update_columns(complete: true)
+        track_onboarding_event("trial_ended")
+        Onboardings::DestroyTrialGuestsJob.perform_later(@current_organisation) 
+      end
 
       def set_current_organisation
         # TODO: when a Guide owns more than one organisation, will need a way to choose btwn them.

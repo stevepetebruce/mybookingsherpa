@@ -18,10 +18,12 @@ class Guest < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :allergies, as: :allergic
-  has_many :bookings
-  has_many :dietary_requirements, as: :dietary_requirable
+  has_many :allergies, as: :allergic, dependent: :destroy
+  has_many :bookings, dependent: :destroy
+  has_many :dietary_requirements, as: :dietary_requirable, dependent: :destroy
   has_many :trips, through: :bookings
+
+  scope :created_before, ->(time) { where("guests.created_at < ?", time) }
 
   def most_recent_booking
     bookings.most_recent.first
