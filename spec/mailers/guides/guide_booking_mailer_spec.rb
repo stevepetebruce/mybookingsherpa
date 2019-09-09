@@ -7,6 +7,7 @@ RSpec.describe Guides::BookingMailer, type: :mailer do
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
+    let!(:onboarding) { FactoryBot.create(:onboarding, organisation: organisation) }
     let(:organisation) { booking.organisation }
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
@@ -28,9 +29,7 @@ RSpec.describe Guides::BookingMailer, type: :mailer do
     end
 
     context "not on trial" do
-      before do
-        FactoryBot.create(:subscription, organisation: organisation)
-      end
+      before { onboarding.update_columns(complete: true) }
 
       it "should not have the trial explainer text" do
         expect(mail.body.encoded).to_not include("As you're in trial")

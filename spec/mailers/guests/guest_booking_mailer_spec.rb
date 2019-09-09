@@ -6,8 +6,10 @@ RSpec.describe Guests::BookingMailer, type: :mailer do
     let!(:guide_email) { Faker::Internet.email }
     let!(:guide_name) { Faker::Name.name }
     let(:mail) { described_class.with(booking: booking).new.deliver_now }
-    let(:organisation) { booking.organisation }
+    let!(:onboarding) { FactoryBot.create(:onboarding, organisation: organisation) }
+    let!(:organisation) { booking.organisation }
     let!(:trip) { FactoryBot.create(:trip) }
+
 
     it "renders the headers" do
       expect(mail.subject).to eq("Successful booking for #{booking.trip_name}")
@@ -31,9 +33,7 @@ RSpec.describe Guests::BookingMailer, type: :mailer do
     end
 
     context "organisation not on_trial" do
-      before do
-        FactoryBot.create(:subscription, organisation: organisation)
-      end
+      before { onboarding.update_columns(complete: true) }
 
       it "should send the email to the guest" do
         expect(mail.to).to eq([booking.email])

@@ -23,8 +23,7 @@ class Organisation < ApplicationRecord
   delegate :complete?, to: :onboarding, prefix: true
 
   def on_trial?
-    # TODO: need to look at this....
-    subscription.nil?
+    !onboarding_complete?
   end
 
   def owner
