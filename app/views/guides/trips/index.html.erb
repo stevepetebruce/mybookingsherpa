@@ -1,5 +1,5 @@
 <div class="container-fluid page-body-wrapper content">
-<!-- main -->
+<!-- main --> 
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="row">
@@ -15,6 +15,17 @@
                   </a>
                 </span>
               </h1>
+              <% if params[:completed_set_up] %>
+                <!-- On-boarding complete --> 
+                <div class="onboard-message fullwidth mt5 mb0">
+                  <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Conglatulations!</strong>
+                  <br>
+                  You have completed the guide set up and can now start taking real bookings with real money.<i>
+                  Exciting times ahead!</i><br>
+                  Now add your first trip by clicking on the <i class="fa fa-plus-circle text-primary"></i> next to My Trips.<br>
+                  <strong>PS:</strong> All trial bookings have now been removed.
+                </div>
+              <% end %>
               <div class="row">
                 <div class="col col-lg-7"></div>
                 <div class="col col-lg-4 d-sm-none d-md-none d-lg-block d-none">
