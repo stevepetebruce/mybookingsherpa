@@ -3,6 +3,7 @@ FactoryBot.define do
     address { Faker::Address.full_address }
     currency { %w[eur gbp usd].sample }
     name { Faker::Name.name }
+
     subdomain do 
       domain_word = Faker::Internet.domain_word
       domain_word.length.between?(3,30) ? domain_word : Faker::Internet.domain_word
@@ -13,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :not_on_trial do
-      association :subscription
+      association :onboarding, :onboarding_complete
     end
   end
 end

@@ -55,16 +55,16 @@ RSpec.describe Organisation, type: :model do
   describe "#on_trial?" do
     subject(:on_trial?) { organisation.on_trial? }
 
+    let(:onboarding) { organisation.onboarding }
     let(:organisation) { FactoryBot.create(:organisation) }
 
-    context "organisation on a plan" do
-      let!(:current_plan) { FactoryBot.create(:plan, :flat_fee) }
-      let!(:current_subscription) { FactoryBot.create(:subscription, organisation: organisation, plan: current_plan, created_at: Time.zone.now) }
+    context "organisation who's completed onboarding" do
+      before { onboarding.update_columns(complete: true) }
 
       it { expect(on_trial?).to be false }
     end
 
-    context "organisation not on a plan" do
+    context "organisation who hasn't completed onboarding" do
       it { expect(on_trial?).to be true }
     end
   end
