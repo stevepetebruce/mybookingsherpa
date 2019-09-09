@@ -11,4 +11,12 @@ class Onboarding < ApplicationRecord
 
     save
   end
+
+  def find_event(event_name)
+    events.select { |event| event["name"] == event_name }&.first
+  end
+
+  def solo_founder?
+    events.select { |event| event["name"] == "new_solo_account_chosen" }.any?
+  end
 end

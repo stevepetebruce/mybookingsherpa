@@ -68,10 +68,42 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
         expect(response).to redirect_to guides_trips_url
       end
 
-      it "should complete onboarding (TODO: for solos this means completion but probaby not for companies" do
-        do_request(params: params)
+      context "organisation with a solo founder" do
+        before { organisation.onboarding.track_event("new_solo_account_chosen") }
 
-        expect(onboarding.complete).to eq true
+        it "should complete onboarding" do
+          do_request(params: params)
+
+          expect(onboarding.reload.complete).to eq true
+          expect(onboarding.find_event("trial_ended")).to_not be_nil
+        end
+
+        it "should call the DestroyTrialGuestsJob job" do
+          expect(Onboardings::DestroyTrialGuestsJob).
+            to receive(:perform_later).
+            with(organisation)
+
+            do_request(params: params)
+        end
+      end
+
+      context "organisation that's a company with directors/owners" do
+        before { organisation.onboarding.track_event("new_company_account_chosen") }
+
+        it "should not complete onboarding" do
+          do_request(params: params)
+
+          expect(onboarding.complete).to eq false
+          expect(onboarding.find_event("trial_ended")).to be_nil
+        end
+
+        it "should not call the DestroyTrialGuestsJob job" do
+          expect(Onboardings::DestroyTrialGuestsJob).
+            to_not receive(:perform_later).
+            with(organisation)
+
+          do_request(params: params)
+        end
       end
     end
   end

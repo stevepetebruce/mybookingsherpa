@@ -5,9 +5,9 @@ class Booking < ApplicationRecord
 
   belongs_to :trip
   belongs_to :guest, optional: true
-  has_many :allergies, as: :allergic
-  has_many :dietary_requirements, as: :dietary_requirable
-  has_many :payments
+  has_many :allergies, as: :allergic, dependent: :destroy
+  has_many :dietary_requirements, as: :dietary_requirable, dependent: :destroy
+  has_many :payments, dependent: :destroy
   has_one :organisation, through: :trip
 
   delegate :name, :email, to: :guide, prefix: true
@@ -30,8 +30,8 @@ class Booking < ApplicationRecord
   validates :next_of_kin_phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
   validates :phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
 
-  scope :most_recent, -> { order(created_at: :desc) }
   scope :highest_priority, -> { order(priority: :desc) }
+  scope :most_recent, -> { order(created_at: :desc) }
 
   before_save :update_priority
 

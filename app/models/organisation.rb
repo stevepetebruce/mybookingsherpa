@@ -13,6 +13,7 @@ class Organisation < ApplicationRecord
   has_one :subscription
   has_many :trips
   has_many :bookings, through: :trips
+  has_many :guests, through: :trips
   has_one :onboarding
 
   has_one_attached :logo_image
@@ -21,6 +22,7 @@ class Organisation < ApplicationRecord
   after_create :create_test_stripe_account
 
   delegate :complete?, to: :onboarding, prefix: true
+  delegate :solo_founder?, to: :onboarding
 
   def on_trial?
     # TODO: need to look at this....

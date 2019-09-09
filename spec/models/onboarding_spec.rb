@@ -38,4 +38,44 @@ RSpec.describe Onboarding, type: :model do
       end
     end
   end
+
+  describe "#find_event(event)" do
+    subject(:find_event) { onboarding.find_event(event_name) }
+
+    let!(:onboarding) { FactoryBot.create(:onboarding) }
+
+    context "an event that exists" do
+      let!(:event_name) { ["new_solo_account_chosen", "new_stripe_account_created"].sample }
+
+      before { onboarding.track_event(event_name) }
+
+      it "should find the event" do
+        expect(find_event["name"]).to eq event_name
+      end
+    end
+
+    context "an event that doesn't exist" do
+      let!(:event_name) { Faker::Lorem.word }
+
+      it "should return nil" do
+        expect(find_event).to be_nil
+      end
+    end
+  end
+
+  describe "#solo_founder?" do
+    subject(:solo_founder?) { onboarding.solo_founder? }
+
+    let!(:onboarding) { FactoryBot.create(:onboarding) }
+
+    context "when new_solo_account_chosen event has been created" do
+      before { onboarding.track_event("new_solo_account_chosen") }
+
+      it { expect(solo_founder?).to eq true }
+    end
+
+    context "when new_solo_account_chosen event has not been created" do
+      it { expect(solo_founder?).to eq false }
+    end
+  end
 end
