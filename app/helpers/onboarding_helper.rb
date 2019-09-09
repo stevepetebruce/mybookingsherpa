@@ -1,4 +1,10 @@
 module OnboardingHelper
+
+  def element_to_hide(trip, count)
+    return "pointer-three" if show_first_trial_booking_explaner_element?(trip, count)
+    "pointer-one"
+  end
+
   def in_trial_and_created_booking?
     @current_organisation&.on_trial? &&
       @current_organisation.bookings.exists? &&
