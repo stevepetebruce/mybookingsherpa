@@ -9,7 +9,27 @@
                 <div class="col-12 col-sm-12 col-md-10">
                   <h1 class="card-title font-weight-bold">
                     Add Trip
+                    <span class="small">
+                      <a class="ml-1" alt="What will the guests see?" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-question-circle text-primary"></i>
+                      </a>
+                    </span>
                   </h1>
+                  <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                      <div class="row">
+                        <div class="col-12 col-lg-10  mx-auto">
+                          <h2 class="font-weight-bold">What will your guests see?</h2>
+                          <p><strong>When you are ready to add a trip, you maybe are thinking, what will this look like to my potential guests?</strong><br>
+                          Below is a screenshot of the link you'll be able to provide by email, text message or on your website. This link is unique to the trip and can be sent to all your guests interested in joining you.</p>
+                          <p>
+                          <img src="<%= asset_pack_path 'media/images/onboarding/guest-booking-screen.png' %>" class="img-fluid rounded " />
+                        </div>
+                      </div>
+                      <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" class="btn btn-link">close</a>
+                      <hr>
+                    </div>
+                  </div>
                   <%= render partial: "form", locals: { url: guides_trips_url } %>
                 </div>
               </div>
@@ -20,3 +40,4 @@
     </div>
   </div>
 </div>
+

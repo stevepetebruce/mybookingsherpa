@@ -1,8 +1,8 @@
 <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
-  <%= form.label :name %>
+  <%= form.label :trip_name %>
   <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", required: true, autofocus: auto_focus(@trip, form_field: :name) %>
   <div class="invalid-feedback">
-    <%= "Please enter a valid name" %>
+    <%= "Please enter a valid trip name" %>
   </div>
   <% if @trip.errors[:name].present? %>
     <div class="invalid-feedback" style="display: block;">
@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="mt-3 pb-1">
-    <%= form.label :description %>
+    <%= form.label :a_brief_description_of_your_trip %>
     <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", required: true, rows: 4, autofocus: auto_focus(@trip, form_field: :description) %>
     <div class="invalid-feedback">
       <%= "Please enter a valid description" %>
