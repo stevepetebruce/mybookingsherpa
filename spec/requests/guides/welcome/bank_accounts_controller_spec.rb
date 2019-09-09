@@ -65,7 +65,7 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
         do_request(params: params)
 
         expect(response.code).to eq "302"
-        expect(response).to redirect_to guides_trips_url
+        expect(response).to redirect_to guides_trips_path(completed_set_up: true)
       end
 
       context "organisation with a solo founder" do

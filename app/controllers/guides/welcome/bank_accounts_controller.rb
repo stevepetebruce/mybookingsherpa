@@ -18,7 +18,7 @@ module Guides
         track_onboarding_event("new_bank_account_created")
         solo_founder_trial_completed_tasks
         # TODO: need to deal with a failed bank account creation...
-        redirect_to guides_trips_path
+        redirect_to guides_trips_path(completed_set_up: true)
       end
 
       private
