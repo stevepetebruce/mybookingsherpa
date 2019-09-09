@@ -16,6 +16,9 @@ module Guides
         External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id,
                                                     params[:token_account])
         track_onboarding_event("new_bank_account_created")
+        # TODO: need to deal with a failed bank account creation...
+        # TODO: this will be different when the organisation is a company with directors etc..
+        @current_organisation.onboarding.update_columns(complete: true)
         redirect_to guides_trips_path
       end
 
