@@ -16,7 +16,7 @@ export default class extends Controller {
     const elementsToHide = document.querySelectorAll(`[data-hide-element-target='${elementToHideIdentifier}']`);
 
     if (elementsToHide.length > 0) {
-      elementsToHide.forEach((elementToHide) => { elementToHide.style.display = "none"; } );
+      elementsToHide.forEach((elementToHide) => { elementToHide.style.setProperty("display", "none", "important"); } );
     }
   }
 }
