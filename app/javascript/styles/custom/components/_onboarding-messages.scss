@@ -17,4 +17,12 @@
     width: 100%;
     margin: 12px 0;
   }
+  a {
+    color: $blue;
+  }
+  a:hover {
+    color: $blue;
+    text-decoration: underline;
+  }
 }
+
