@@ -71,11 +71,11 @@
       <h2 class="card-title font-weight-bold mt-4">
         Price
       </h2>
-      <div class="row">
+      <div class="row" data-controller="currency-select">
         <div class="form-group row col-md-6">
           <div class="col-auto">
             <%= form.label :currency, class: "col-auto col-form-label pl-0" %>
-            <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency_before_type_cast), {}, { class: "form-control customSelect mr-sm-2 pr-4"} %>
+            <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency_before_type_cast), {}, { class: "form-control customselect mr-sm-2 pr-4", data: { target: "currency-select.source", action: "currency-select#switchCurrency" }} %>
           </div>
         </div>
         <div class="form-group row col-md-6">
@@ -83,7 +83,7 @@
           <div class="col-auto">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupPrepend"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+                <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
               </div>
               <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100 }, class: "form-control" %>
             </div>

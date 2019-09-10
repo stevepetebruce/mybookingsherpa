@@ -18,7 +18,6 @@ import "popper.js";
 
 import "../javascript/checkbox_dropdown.js";
 import "../javascript/clipboard.js";
-import "../javascript/currency_select.js";
 import "../javascript/custom.js";
 import "../javascript/download_csv.js";
 import "../javascript/new_booking_trip_information.js";
