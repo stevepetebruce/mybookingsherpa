@@ -132,7 +132,7 @@
   }
 }
 
-#payment-form {
+.payment-form {
   width: 600px;
   @include tablet {margin: auto;}
   @include mobile {width: 100%;}
