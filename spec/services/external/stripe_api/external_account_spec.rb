@@ -17,37 +17,18 @@ RSpec.describe External::StripeApi::ExternalAccount, type: :model do
     end
 
     context "successful" do
-      context "use_test_api is true (default)" do
-        it "should use the Stripe Test API key" do
-          create
+      it "should use the Stripe live API key" do
+        create
 
-          expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_TEST")
-        end
-
-        it "should not raise an exception" do
-          expect { create }.to_not raise_exception
-        end
-
-        it "should return a Stripe::BankAccount Object" do
-          expect(create.class).to eq Stripe::BankAccount
-        end
+        expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_LIVE")
       end
 
-      context "use_test_api is false " do
-        # TODO/pending
-        # it "should use the Stripe Live API key" do
-        #   create
+      it "should not raise an exception" do
+        expect { create }.to_not raise_exception
+      end
 
-        #   expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_TEST")
-        # end
-
-        # it "should not raise an exception" do
-        #   expect { create }.to_not raise_exception
-        # end
-
-        # it "should return a Stripe::BankAccount Object" do
-        #   expect(create.class).to eq Stripe::BankAccount
-        # end
+      it "should return a Stripe::BankAccount Object" do
+        expect(create.class).to eq Stripe::BankAccount
       end
     end
   end

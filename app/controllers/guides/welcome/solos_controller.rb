@@ -47,7 +47,8 @@ module Guides
       end
 
       def stripe_account
-        @stripe_account ||= External::StripeApi::Account.create(params[:token_account])
+        @stripe_account ||=
+          External::StripeApi::Account.create_live_account(params[:token_account])
       end
     end
   end
