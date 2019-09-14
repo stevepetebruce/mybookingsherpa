@@ -2,7 +2,7 @@ module External
   module StripeApi
     # Encapsulates all common Stripe API functionality
     class Base
-      def initialize_key
+      def initialize_key # TODO: replace with initialize ?
         Stripe.api_key = stripe_secret_key
       end
 
