@@ -8,7 +8,7 @@ module OnboardingHelper
   def in_trial_and_created_booking?
     @current_organisation&.on_trial? &&
       @current_organisation.bookings.exists? &&
-      @current_organisation.bookings.most_recent.last.created_at < 2.minutes.ago
+      @current_organisation.bookings.most_recent.last.created_at < 1.minutes.ago
   end
 
   def in_trial_and_created_over_a_day_ago?
