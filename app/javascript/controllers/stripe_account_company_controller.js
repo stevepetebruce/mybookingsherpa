@@ -36,4 +36,17 @@ export default class extends Controller {
       }
     });
   }
+
+  hideErrorEnableSubmitBtn(event) {
+    this.hideError(event);
+    this.enableSubmitBtn();
+  }
+
+  hideError(event) {
+    event.target.nextElementSibling.classList.add("d-none");
+  }
+
+  enableSubmitBtn() {
+    this.submitBtnTarget.disabled = false;
+  }
 }
