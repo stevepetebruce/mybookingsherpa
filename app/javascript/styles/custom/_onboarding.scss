@@ -30,6 +30,23 @@
   display: flex;
   justify-content: center;
   align-items: initial;
+  .form-control {
+    line-height: 22px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 17px;
+    height: 42px;
+    border-radius: 2px;
+  }
+  &.new-onboarding {
+    align-items: flex-start;
+  }
+  @include tablet {
+    display: block;
+    height: auto;
+    min-height:inherit;
+    padding: 15px 15px 0 15px;
+  }
+  @include mobile {padding: 0 15px 0 15px;}
 }
 
 .bg_img {
