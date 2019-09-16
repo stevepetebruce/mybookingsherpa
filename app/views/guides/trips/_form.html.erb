@@ -75,7 +75,7 @@
         <div class="form-group row col-md-6">
           <div class="col-auto">
             <%= form.label :currency, class: "col-auto col-form-label pl-0" %>
-            <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency_before_type_cast), {}, { class: "form-control customSelect mr-sm-2 pr-4"} %>
+            <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customSelect mr-sm-2 pr-4"} %>
           </div>
         </div>
         <div class="form-group row col-md-6">
