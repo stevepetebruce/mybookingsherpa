@@ -1,0 +1,30 @@
+{ 
+  "ip":"86.13.178.22",
+  "type":"ipv4",
+  "continent_code":"EU",
+  "continent_name":"Europe",
+  "country_code":"GB",
+  "country_name":"United Kingdom",
+  "region_code":"ENG",
+  "region_name":"England",
+  "city":"Brighton",
+  "zip":"BN2",
+  "latitude":50.84722137451172,
+  "longitude":-0.13888999819755554,
+  "location":{ 
+    "geoname_id":2654710,
+    "capital":"London",
+    "languages":[ 
+      { 
+        "code":"en",
+        "name":"English",
+        "native":"English"
+      }
+    ],
+    "country_flag":"http://assets.ipstack.com/flags/gb.svg",
+    "country_flag_emoji":"🇬🇧",
+    "country_flag_emoji_unicode":"U+1F1EC U+1F1E7",
+    "calling_code":"44",
+    "is_eu":true
+  }
+}
