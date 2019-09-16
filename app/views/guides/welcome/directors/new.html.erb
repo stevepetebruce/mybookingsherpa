@@ -40,33 +40,9 @@
             <div class="p-2 col-sm-12 col-md-12 col-lg-8">
                 <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
                 <%= form_with(url: guides_welcome_directors_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
-                  <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's Address</h4></div>
-                    <div class="col-md-12 mb-3">
-                      <%= label_tag :address_line1 %>
-                      <%= text_field_tag "address[line1]", "21 Palmeira Street", class: "form-control" %>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <%= label_tag :address_line2 %>
-                      <%= text_field_tag "address[line2]", "Flat 10", class: "form-control" %>
-                    </div>
-                    <div class="row pl-3">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :address_postal_code %>
-                        <%= text_field_tag "address[postal_code]", "BN1 4QR", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-5 mb-3">
-                        <%= label_tag :address_country %>
-                        <%= text_field_tag "address[country]", "GB", class: "form-control" %>
-                      </div>
-                    </div>
-                    <!-- Can't get this working with Stripe API -->
-                    <% # label_tag :phone %>
-                    <% # text_field_tag :phone, "00447980474747" %>
-                  </fieldset>
 
                   <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's personal details</h4></div>
+                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's personal details</h4></div>
                     <div class="row pl-3">
                       <div class="col col-md-3 mb-3">
                         <%= label_tag :dob_day %>
@@ -113,6 +89,32 @@
                     
                     Also - need to upload ID document...
                      -->
+
+                  <fieldset>
+                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's Address</h4></div>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :address_line1 %>
+                      <%= text_field_tag "address[line1]", "21 Palmeira Street", class: "form-control" %>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <%= label_tag :address_line2 %>
+                      <%= text_field_tag "address[line2]", "Flat 10", class: "form-control" %>
+                    </div>
+                    <div class="row pl-3">
+                      <div class="col col-md-6 mb-3">
+                        <%= label_tag :address_postal_code %>
+                        <%= text_field_tag "address[postal_code]", "BN1 4QR", class: "form-control" %>
+                      </div>
+                      <div class="col col-md-5 mb-3">
+                        <%= label_tag :address_country %>
+                        <%= text_field_tag "address[country]", "GB", class: "form-control" %>
+                      </div>
+                    </div>
+                    <!-- Can't get this working with Stripe API -->
+                    <% # label_tag :phone %>
+                    <% # text_field_tag :phone, "00447980474747" %>
+                  </fieldset>
+
 
                   <fieldset>
                     <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4></div>
