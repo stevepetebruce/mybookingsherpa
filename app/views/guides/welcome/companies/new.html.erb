@@ -59,16 +59,6 @@
                     </div>
                     <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
-                        <%= label_tag :address_city %>
-                        <%= text_field_tag :address_city, "Brighton", data: { target: "stripe-account-company.addressCity" }, class: "form-control"  %>
-                      </div>
-                      <div class="col col-md-5 mb-3">
-                        <%= label_tag :address_state %>
-                        <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe-account-company.addressState" }, class: "form-control" %>
-                      </div>
-                    </div>
-                    <div class="row pl-3">
-                      <div class="col col-md-6 mb-3">
                         <%= label_tag :address_postal_code %>
                         <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }, class: "form-control" %>
                       </div>
@@ -76,10 +66,6 @@
                         <%= label_tag :address_country %>
                         <%= text_field_tag :address_country, "GB", data: { target: "stripe-account-company.addressCountry" }, class: "form-control" %>
                       </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <%= label_tag :phone %>
-                      <%= text_field_tag :phone, "0044079809477747", data: { target: "stripe-account-company.phone" }, class: "form-control" %>
                     </div>
                     <div class="col-md-12 mb-3">
                       <%= label_tag :tax_id %>
