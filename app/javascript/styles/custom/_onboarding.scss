@@ -9,6 +9,8 @@
   width: 250px;
 }
 
+
+
 /*  Left background image  */
 
 .onboard-left-wrapper {
@@ -36,6 +38,12 @@
     font-size: 17px;
     height: 42px;
     border-radius: 2px;
+  }
+  .mr-1{
+    margin-right: 0.1rem !important;
+  }
+  .ml-1{
+    margin-left: 0.1rem !important;
   }
   &.new-onboarding {
     align-items: flex-start;
