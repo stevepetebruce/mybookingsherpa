@@ -25,7 +25,7 @@ module Guides
         # TODO: create / capture raw_stripe_api_response
         # TODO: move this to a background job? - and reveal to Guide any errors in my account view...?
         # Would then need another way (other than checking @current_organisation has stripe_account_id - in conditional "creating_stripe_account?" )
-        @stripe_account ||= External::StripeApi::Account.create(params[:token_account])
+        @stripe_account ||= External::StripeApi::Account.create_live_account(params[:token_account])
       end
 
       def set_current_organisation
