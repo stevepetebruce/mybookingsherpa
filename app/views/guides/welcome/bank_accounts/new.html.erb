@@ -69,11 +69,6 @@
               </div>
             </div>
           <div class="col-md-12 mb-3">
-            <p>
-              <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
-              I agree to <a href="#">our terms</a> and the <a href="https://stripe.com/gb/connect-account/legal">Stripe Connected Account Agreement</a>
-              <%= form.check_box :accepted_tos, required: true, data: { target: "stripe-director.acceptedTos" }  %>
-            </p>
             <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-bank-account.form" }) do |form| %>
             <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
             <%= submit_tag "Complete Setup", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe-bank-account.submitBtn" } %>
