@@ -37,13 +37,6 @@
   <div class="col-md-12 mb-3">
     <%= form_with(url: guides_welcome_solos_path, local: true, html: { class: "new-guide-account-form" }, data: { target: "stripe-account-individual.form", stripe_account_individual_key: @current_organisation.stripe_publishable_key }) do |form| %>
     <%= form.hidden_field :token_account, data: { target: "stripe-account-individual.tokenAccount" } %>
-    <p>
-      <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
-      I agree to the <a class="font-italic" href="https://stripe.com/gb/connect-account/legal" target="_blank">Stripe Connected Account Agreement</a> 
-      <%= form.check_box :accepted_tos, required: true, data: { action: "change->stripe-account-individual#enableSubmitBtn", target: "stripe-account-individual.stripeTosCheckBox" } %>
-      <span><i> (required)</i></span>
-      <div class="text-danger d-none" data-target="accepted_tos-error">Please confirm you accept Stripe's Connected Account Agreement</div>
-    </p>
     <%= submit_tag "Next step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe-account-individual.submitBtn" } %>
   <% end %>
   </div>
