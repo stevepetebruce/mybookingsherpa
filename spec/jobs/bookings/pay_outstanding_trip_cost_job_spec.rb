@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
+  # TODO: replace with PaymentIntents API
   before { ActiveJob::Base.queue_adapter = :inline }
 
   describe "#perform_later" do
