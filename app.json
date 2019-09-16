@@ -41,6 +41,10 @@
       "required": true,
       "value": "no-reply@bookyour.place"
     },
+    "IP_STACK_API_KEY": {
+      "description": "API key for https://ipstack.com Used to get info on IP addresses that are using our app",
+      "required": false
+    },
     "SKYLIGHT_AUTHENTICATION": {
       "description": "Key for Skylight monitoring service",
       "required": false
