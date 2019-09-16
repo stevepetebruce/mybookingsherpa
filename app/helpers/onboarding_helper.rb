@@ -4,6 +4,11 @@ module OnboardingHelper
     "pointer-one"
   end
 
+  def in_gb?
+    true
+    # TODO: relace with: @current_organisation.in_gb? when we have ipstackapi
+  end
+
   def in_trial_and_created_booking?
     @current_organisation&.on_trial? &&
       @current_organisation.bookings.exists? &&
