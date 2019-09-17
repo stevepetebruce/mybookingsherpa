@@ -5,8 +5,7 @@ module OnboardingHelper
   end
 
   def in_gb?
-    true
-    # TODO: relace with: @current_organisation.in_gb? when we have ipstackapi
+    @current_organisation.country_code == "gb"
   end
 
   def in_trial_and_created_booking?
