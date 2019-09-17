@@ -2,20 +2,19 @@ module External
   # Wrapper around "IP address -> country info" IpStack API
   # ref: https://ipstack.com/documentation
   class IpStackApi
+    DEFAULT_COUNTRY_CODE = "gb"
+    PERMITTED_COUNTRY_CODES = ["fr", "gb", "us"]
+
     def initialize(ip_address)
       @ip_address = ip_address
     end
 
     def country_code
-      hashed_response["country_code"].downcase
+      formated_country_code if PERMITTED_COUNTRY_CODES.include?(formated_country_code)
     end
 
     def self.country_code(ip_address)
       new(ip_address).country_code
-    end
-
-    def self.is_gb?(ip_address)
-      "gb" == new(ip_address).country_code
     end
 
     private
@@ -28,8 +27,12 @@ module External
       URI.escape(request_url)
     end
 
+    def formated_country_code
+      hashed_response["country_code"]&.downcase || DEFAULT_COUNTRY_CODE
+    end
+
     def hashed_response
-      JSON.parse(raw_response)
+      @hashed_response ||= JSON.parse(raw_response)
     end
 
     def raw_response
