@@ -11,7 +11,10 @@ RSpec.describe External::StripeApi::Account, type: :model do
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/accounts").
-        with(body: {"account_token"=>account_token, "type"=>"custom"}).
+        with(body: {
+          "account_token"=>account_token,
+          "requested_capabilities"=>["card_payments", "transfers"],
+          "type"=>"custom"}).
         to_return(status: 200, body: response_body, headers: {})
     end
 
@@ -41,14 +44,17 @@ RSpec.describe External::StripeApi::Account, type: :model do
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/accounts").
-        with(body: {"country"=>country_code, "email"=>email, "type"=>"custom"}).
+        with(body: {
+          "country"=>country_code.upcase,
+          "email"=>email,
+          "requested_capabilities"=>["card_payments", "transfers"],
+          "type"=>"custom"}).
         to_return(status: 200, body: response_body, headers: {})
     end
 
     context "successful" do
       let!(:country_code) { Faker::Address.country_code }
       let!(:email) { Faker::Internet.email }
-
 
       it "should use the Stripe test API key" do
         create_test_account

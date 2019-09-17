@@ -11,7 +11,9 @@ module External
 
       # https://stripe.com/docs/connect/account-tokens#create-account
       def create
-        Stripe::Account.create(account_token: @account_token, type: "custom")
+        Stripe::Account.create(account_token: @account_token,
+                               requested_capabilities: ["card_payments", "transfers"],
+                               type: "custom")
       end
 
       def self.create_live_account(account_token)
@@ -20,7 +22,10 @@ module External
 
       def self.create_test_account(email, country_code)
         Stripe.api_key = ENV.fetch("STRIPE_SECRET_KEY_TEST")
-        Stripe::Account.create(type: "custom", country: country_code.upcase, email: email)
+        Stripe::Account.create(country: country_code.upcase,
+                               email: email,
+                               type: "custom",
+                               requested_capabilities: ["card_payments", "transfers"])
       end
     end
   end
