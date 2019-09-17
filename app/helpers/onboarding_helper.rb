@@ -1,5 +1,4 @@
 module OnboardingHelper
-
   def element_to_hide(trip, count)
     return "pointer-three" if show_first_trial_booking_explaner_element?(trip, count)
     "pointer-one"
@@ -29,5 +28,37 @@ module OnboardingHelper
   def show_onboarding_explainer_element?(trip, count)
     # ie: if first trip has no bookings.
     @current_organisation.on_trial? && trip.bookings.count.zero? && count.zero?
+  end
+
+  def trial_example_country
+    @example_data.example_country_data(:country_select)
+  end
+
+  def trial_example_dob_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:dob) : nil
+  end
+
+  def trial_example_email_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:email) : nil
+  end
+
+  def trial_example_first_name
+    @example_data.example_country_data(:full_name).split(" ").first
+  end
+
+  def trial_example_full_name_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:full_name) : nil
+  end
+
+  def trial_example_ice_name_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:ice_name) : nil
+  end
+
+  def trial_example_ice_phone_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:ice_phone) : nil
+  end
+
+  def trial_example_phone_or_nil(booking)
+    booking.organisation_on_trial? ? @example_data.example_country_data(:phone) : nil
   end
 end
