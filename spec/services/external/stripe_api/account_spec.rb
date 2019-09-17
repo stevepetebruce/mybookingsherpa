@@ -33,7 +33,7 @@ RSpec.describe External::StripeApi::Account, type: :model do
   end
 
   describe "#create_test_account" do
-    subject(:create_test_account) { described_class.create_test_account(email) }
+    subject(:create_test_account) { described_class.create_test_account(email, country_code) }
 
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_individual_account.json").read}"
@@ -41,12 +41,14 @@ RSpec.describe External::StripeApi::Account, type: :model do
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/accounts").
-        with(body: {"country"=>"FR", "email"=>email, "type"=>"custom"}).
+        with(body: {"country"=>country_code, "email"=>email, "type"=>"custom"}).
         to_return(status: 200, body: response_body, headers: {})
     end
 
     context "successful" do
-      let(:email) { Faker::Internet.email }
+      let!(:country_code) { Faker::Address.country_code }
+      let!(:email) { Faker::Internet.email }
+
 
       it "should use the Stripe test API key" do
         create_test_account

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Organisations::CreateTestStripeAccountJob, type: :job do
+RSpec.describe Onboardings::CreateTestStripeAccountJob, type: :job do
   before { ActiveJob::Base.queue_adapter = :inline }
 
   describe "#perform_later" do
@@ -16,7 +16,10 @@ RSpec.describe Organisations::CreateTestStripeAccountJob, type: :job do
       OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
       stub_request(:post, "https://api.stripe.com/v1/accounts").
-        with(body: {"country"=>"FR", "email"=>guide.email, "type"=>"custom"}).
+        with(body: {
+          "country"=>organisation.country_code.upcase,
+          "email"=>guide.email,
+          "type"=>"custom" }).
         to_return(status: 200, body: response_body, headers: {})
     end
 

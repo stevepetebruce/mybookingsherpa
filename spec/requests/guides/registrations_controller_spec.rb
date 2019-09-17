@@ -6,8 +6,14 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
       post url, params: params
     end
 
+    before do
+      stub_request(:get, "http://api.ipstack.com/#{ip_address}?access_key=#{ENV.fetch("IP_STACK_API_KEY")}").
+        to_return(status: 200, body: "#{file_fixture("ip_stack_api/gb_response.json").read}", headers: {})
+    end
+
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
+      let(:ip_address) { "127.0.0.1" }
       let(:guide) { Guide.find_by_email(email) }
       let(:password) { Faker::Internet.password }
       let(:params) do
