@@ -1,6 +1,28 @@
 require "rails_helper"
 
 RSpec.describe Currency, type: :model do
+  describe "#country_code_to_iso" do
+    subject(:country_code_to_iso) { described_class.country_code_to_iso(country_code) }
+
+    context "gb country_code" do
+      let(:country_code) { "gb" }
+
+      it { expect(country_code_to_iso).to eq "gbp" }
+    end
+
+    context "us country_code" do
+      let(:country_code) { "us" }
+
+      it { expect(country_code_to_iso).to eq "usd" }
+    end
+
+     context "non gb or us country_code" do
+      let(:country_code) { "fr" }
+
+      it { expect(country_code_to_iso).to eq "eur" }
+    end
+  end
+
   describe "#iso_to_symbol" do
     subject(:iso_to_symbol) { described_class.iso_to_symbol(iso) }
 
