@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :organisation do
     address { Faker::Address.full_address }
+    country_code { %w[fr gb us].sample }
     currency { %w[eur gbp usd].sample }
     name { Faker::Name.name }
 

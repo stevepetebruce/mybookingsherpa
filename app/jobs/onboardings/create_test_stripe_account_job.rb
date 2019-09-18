@@ -1,4 +1,4 @@
-module Organisations
+module Onboardings
   # Creates a basic test stripe account for an organisation
   class CreateTestStripeAccountJob < ApplicationJob
     queue_as :default
@@ -10,7 +10,8 @@ module Organisations
     private
 
     def test_stripe_account(organisation)
-      External::StripeApi::Account.create_test_account(organisation.owner.email)
+      External::StripeApi::Account.create_test_account(organisation.owner.email,
+                                                       organisation.country_code)
     end
   end
 end

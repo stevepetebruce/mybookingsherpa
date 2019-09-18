@@ -21,6 +21,7 @@ class Guides::RegistrationsController < Devise::RegistrationsController
 
       organisation = Organisation.create
       OrganisationMembership.create(organisation: organisation, guide: resource, owner: true)
+      Onboardings::OnboardingInitialisationJob.perform_later(organisation, request.remote_ip)
     end
   end
 end

@@ -19,7 +19,6 @@ class Organisation < ApplicationRecord
   has_one_attached :logo_image
 
   after_create :create_onboarding
-  after_create :create_test_stripe_account
 
   delegate :complete?, to: :onboarding, prefix: true, allow_nil: true
   delegate :solo_founder?, to: :onboarding
@@ -40,9 +39,5 @@ class Organisation < ApplicationRecord
 
   def create_onboarding
     Onboardings::FactoryJob.perform_later(self)
-  end
-
-  def create_test_stripe_account
-    Organisations::CreateTestStripeAccountJob.perform_later(self) unless Rails.env.test?
   end
 end
