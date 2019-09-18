@@ -47,7 +47,10 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
     context "signed in" do
       before do
         stub_request(:post, "https://api.stripe.com/v1/accounts").
-          with(body: {"account_token"=>token_account, "type"=>"custom"}).
+          with(body: {
+            "account_token"=>token_account,
+            "requested_capabilities"=>["card_payments", "transfers"],
+            "type"=>"custom"}).
           to_return(status: 200, body: response_body, headers: {})
 
         sign_in(guide)

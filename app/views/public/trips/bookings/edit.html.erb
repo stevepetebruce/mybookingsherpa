@@ -27,7 +27,7 @@
           <h4 class="mb-4">Your booking is almost complete. <br>Please fill in your details below, to make sure your trip runs smoothly.</h4>
           <% if @booking.organisation_on_trial? %>
             <div class="onboard-message fullwidth">
-              <i class="fa fa-info-circle fa-lg text-secondary"></i> Here's where Emmanuel fills in the rest of his details. Then he's all done... He'll be joining you on your trip in no time...
+              <i class="fa fa-info-circle fa-lg text-secondary"></i> Here's where <%= trial_example_first_name %> fills in the rest of his details. Then he's all done... He'll be joining you on your trip in no time...
             </div>
           <% end %>
           <%= render "edit_form", booking: @booking %>
