@@ -13,6 +13,7 @@ module Public
       # GET /bookings/new
       def new
         @booking = @trip.bookings.new
+        @example_data = Onboardings::ExampleDataSelector.new(@current_organisation.country_code)
       end
 
       # POST /bookings
@@ -30,6 +31,7 @@ module Public
       # GET /bookings/1/edit
       def edit
         @trip = @booking.trip
+        @example_data = Onboardings::ExampleDataSelector.new(@current_organisation.country_code)
       end
 
       # PATCH/PUT /bookings/1
@@ -37,6 +39,7 @@ module Public
         if @booking.update(booking_params) && create_associations
           redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
         else
+          @example_data = Onboardings::ExampleDataSelector.new(@current_organisation.country_code)
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
           render :edit
         end

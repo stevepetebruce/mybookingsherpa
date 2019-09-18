@@ -58,7 +58,7 @@
         <div class="col-md-4 mb-3">
           <%= form.label :country %>
           <% if @booking.organisation_on_trial? %>
-            <%= form.select :country, options_for_select([trial_example_country(@booking)]), {} , { class: "form-control customselect", style: "background-color: #e9ecef;" } %>
+            <%= form.select :country, options_for_select([trial_example_country]), {} , { class: "form-control customselect", style: "background-color: #e9ecef;" } %>
           <% else %>
             <%= form.country_select :country, { priority_countries: ["AD", "AT", "BE", "BG", "HR", "CZ", "DK", "EE", "FR", "FI", "DE", "GI", "GR", "HU", "IS", "IE", "IT", "LV", "LU", "ME", "NL", "NO", "PL", "PT", "RO", "RS", "SK", "SI", "ES", "SE", "CH", "GB"]}, { class: "form-control customselect", data: { target: "country-auto-select.countrySelectField" } }, required: true, autofocus: auto_focus(booking, form_field: :country), disabled: @booking.organisation_on_trial? %>
           <% end %>

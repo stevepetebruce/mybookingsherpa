@@ -19,6 +19,7 @@ RSpec.describe Onboardings::CreateTestStripeAccountJob, type: :job do
         with(body: {
           "country"=>organisation.country_code.upcase,
           "email"=>guide.email,
+          "requested_capabilities"=>["card_payments", "transfers"],
           "type"=>"custom" }).
         to_return(status: 200, body: response_body, headers: {})
     end

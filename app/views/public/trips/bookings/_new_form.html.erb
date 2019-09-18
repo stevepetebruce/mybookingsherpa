@@ -56,7 +56,7 @@ An extra step - but a definite confirmation from the user.
         <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
         <div class="onboard-message fullwidth">
-           <i class="fa fa-info-circle fa-lg text-secondary"></i> This is just a pretend card number. Don't worry, Emmanuel isn't really going to get charged. 
+           <i class="fa fa-info-circle fa-lg text-secondary"></i> This is just a pretend card number. Don't worry, <%= trial_example_first_name %> isn't really going to get charged. 
         </div>
       <% else %>
         <label for="card-element">Credit or debit card</label>
