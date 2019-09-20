@@ -107,9 +107,9 @@
            <select class="form-control customselect">
               <option>Select any dietary requirements and allergies</option>
            </select>
-           <div class="selectwrapper"></div>
+           <div class="selectwrapper" data-target="checkbox-dropdown.selectWrapper"></div>
         </div>
-        <div id="selectoptions">
+        <div id="selectoptions" data-target="checkbox-dropdown.selectOptionsContainer">
           <div class="row selectoptionblock">
             <div class="col-12"><h4 class="font-weight-bold">Dietary requirements</h4></div>
             <% DietaryRequirement::POSSIBLE_DIETARY_REQUIREMENTS.each do |dietary_requirement| %>
