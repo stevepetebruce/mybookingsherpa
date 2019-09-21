@@ -1,0 +1,120 @@
+{
+  "id": "acct_1DLYH2ESypPNvvdY",
+  "object": "account",
+  "business_profile": {
+    "mcc": "5734",
+    "name": "Free The Trees",
+    "product_description": "We are a SaaS who allow SME trip providers to:\n\ntake card payments for new bookings on their trips; manage communication between them and their guests; and handle all the data they need to manage their trips and bookings. \n\nWe charge our customers, the trip providers, a flat fee when a new booking is made.",
+    "support_address": null,
+    "support_email": null,
+    "support_phone": "+447980464745",
+    "support_url": null,
+    "url": "https://mybookingsherpa.com/"
+  },
+  "business_type": "company",
+  "capabilities": {
+    "legacy_payments": "active"
+  },
+  "charges_enabled": true,
+  "company": {
+    "address": {
+      "city": "Hove",
+      "country": "GB",
+      "line1": "21 Palmeira Square",
+      "line2": null,
+      "postal_code": "BN3 2JN",
+      "state": null
+    },
+    "directors_provided": true,
+    "name": "Free The Trees",
+    "owners_provided": true,
+    "tax_id_provided": false,
+    "verification": {
+      "document": {
+        "back": null,
+        "details": null,
+        "details_code": null,
+        "front": null
+      }
+    }
+  },
+  "country": "US",
+  "created": 1539618389,
+  "default_currency": "gbp",
+  "details_submitted": true,
+  "email": "bob@example.com",
+  "external_accounts": {
+    "object": "list",
+    "data": [
+      {
+        "id": "ba_1EOkQOESypPNvvdYmgAC7OqH",
+        "object": "bank_account",
+        "account": "acct_1DLYH2ESypPNvvdY",
+        "account_holder_name": null,
+        "account_holder_type": null,
+        "bank_name": "HSBC UK BANK PLC",
+        "country": "GB",
+        "currency": "gbp",
+        "default_for_currency": true,
+        "fingerprint": "mK9V3MBurT4Pu2tA",
+        "last4": "8696",
+        "metadata": {},
+        "routing_number": "40-14-03",
+        "status": "new"
+      }
+    ],
+    "has_more": false,
+    "total_count": 1,
+    "url": "/v1/accounts/acct_1DLYH2ESypPNvvdY/external_accounts"
+  },
+  "metadata": {},
+  "payouts_enabled": true,
+  "requirements": {
+    "current_deadline": null,
+    "currently_due": [],
+    "disabled_reason": null,
+    "eventually_due": [
+      "person_EnhnHVhFOT4Xt9.verification.document"
+    ],
+    "past_due": [],
+    "pending_verification": []
+  },
+  "settings": {
+    "branding": {
+      "icon": null,
+      "logo": null,
+      "primary_color": null
+    },
+    "card_payments": {
+      "decline_on": {
+        "avs_failure": false,
+        "cvc_failure": true
+      },
+      "statement_descriptor_prefix": null
+    },
+    "dashboard": {
+      "display_name": "Mybookingsherpa",
+      "timezone": "Europe/London"
+    },
+    "payments": {
+      "statement_descriptor": "MYBOOKINGSHERPA",
+      "statement_descriptor_kana": null,
+      "statement_descriptor_kanji": null
+    },
+    "payouts": {
+      "debit_negative_balances": true,
+      "schedule": {
+        "delay_days": 7,
+        "interval": "daily"
+      },
+      "statement_descriptor": null
+    }
+  },
+  "tos_acceptance": {
+    "date": 1554049280,
+    "iovation_blackbox": "0400CIfeAe15Cx8Nf94lis1ztu5Divh068bwpCrr9RouwVsQ0cKHhjdDVuCrCV90OvpNZ7HmHn7V/sFB2VGALJVF+ded+trm4ecPjZ9ET08wP5DcUJf2lLqlr0nbtw2dg9JBTIBnmyVMxomEZzeUM33gBlH2zrOhrBPTQ3Xefa+YB7KRCB2VV4OJ3HUbaakaIongCjlU0y9oNd/sTU9/joi9e1h0TIw5qQXOmssqTe7WzQg67PDmZdnwArtaImk9nuKNsBx6w1tx0mMZz7HtmSQrKuHt39bvxE86eVaYJEF00M2dmwpFJMf4g4Reag2+4uTj5A80Q/8Zcb5OfcKzxI1FoeZjVekMYG3J6k9y2HePj0Uc487lfF48Ckkvhy1ehyiOefV++Y6FauAZoYetFuPr2BFeoBksuR+iY8qdfetAPobDJaSy1BRzceutG/pNqrrTYTNgMt+u053WYvJ2eTqXbNfZdAvpTtgUQkjj/Bf3sgBpWZmpMPu3J3Rbz61iBMU+50ptPNP6m+rKf2hhwqstJ+rhYKIcxurYf9SDXvksLvXN65x+MOqqTtXh35GdB6Cc0rdKBra3m4b1s6TznH0pq2MtKTma4QEW4gv9Hga4FvZ+/u06EOo/UEYn9EFMRfvxVguGdCj5lhepOKB0r+4DNWd08fXsiZkLOe0RxWZbWQzem/eUGeBJqRkwfCqvl92Y5QMFKkGPKhE0FMIdm3n/vGQgsw1UYFo1Di8R6wVNV9r6qoxEqm2gQ71/Y9e8eiB47caT1pbMLWr+9EKn/0t3jEjXzk77ILZ/eUsQ7RNrLro1kTKIs1496YkpIh3A707lm2e25SQbo1NSsLRouIjA87gdo4tWFkYMu6828R9GQm6kHLdnyFIQwcv2RovzmXNT1g9RJPeBNicb7yAKVlYU36BlbWMnixy0YRCREsUiSzGvlcetxenoDaKD5h0rMYgkEMCy0s3hRLn08Th9FlNHDMJBqLj+Tz8r0O/E9ABp/9e7Ass1MT2qnI3mO9Vm0KtC6HdOzhxTzzsGRYCroby0mx1fguVgUgHBpyLsGr9tRioM5bZNrTiLAnPLfKyAWamiqzd6l22DXeFr9SS7yQKDAifOq1vG2COfnklf4XUwkOdh5Nwu1x6PILE+TZSSoO91gRgN+Z8HAFhGFzd/m6snVqi2XJwwQEvUjPJV6TCEjn+0+9d9ASD4otFWwM1TOcz7giVFA7zpIPQ4hLssfn3WSDtD3YUYq567fcQ+imBrj9kes0gNTfL/Be5GcTmLlf/HxOCCiMhK55cPceaQFjCGRYDB5mrABueS8VWo4o1/6JT9IJ1r+tUtAsumYNZeH2rjUGx4DxtqIXXdYT9kquI7GbrSAZQ1zg4a3BdXTMna1cuvlYQXe9Rjew==",
+    "ip": "31.48.148.204",
+    "user_agent": null
+  },
+  "type": "custom"
+}

@@ -1,0 +1,64 @@
+{ 
+  "id":"person_FqlOJaHYDG94Cl",
+  "object":"person",
+  "account":"acct_1FL3qfCh5wdUMkeI",
+  "address":{ 
+    "city":"Brighton",
+    "country":"GB",
+    "line1":"21 Palmeira Street",
+    "line2":"Flat 10",
+    "postal_code":"BN1 4QR",
+    "state":"East Sussex"
+  },
+  "created":1569054168,
+  "dob":{ 
+    "day":null,
+    "month":null,
+    "year":null
+  },
+  "email":"director@example.com",
+  "first_name":"Alan",
+  "last_name":"Smith",
+  "metadata":{ 
+
+  },
+  "relationship":{ 
+    "account_opener":false,
+    "director":true,
+    "executive":false,
+    "owner":false,
+    "percent_ownership":null,
+    "title":null
+  },
+  "requirements":{ 
+    "currently_due":[ 
+
+    ],
+    "eventually_due":[ 
+
+    ],
+    "past_due":[ 
+
+    ],
+    "pending_verification":[ 
+
+    ]
+  },
+  "verification":{ 
+    "additional_document":{ 
+      "back":null,
+      "details":null,
+      "details_code":null,
+      "front":null
+    },
+    "details":null,
+    "details_code":null,
+    "document":{ 
+      "back":null,
+      "details":null,
+      "details_code":null,
+      "front":null
+    },
+    "status":"unverified"
+  }
+}
