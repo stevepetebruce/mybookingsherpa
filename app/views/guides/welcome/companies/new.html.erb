@@ -1,0 +1,100 @@
+<body class="bg-light">
+  <div class="container-fluid full-height">
+    <div class="row row-height">
+      <div class="col-lg-4 content-left">
+        <div class="content-left-wrapper bg_img bg3">
+          <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
+          <div class="wrapper">
+            <!--
+            <div class="py-4 text-center">
+              <p class="quotation-mark">
+                “
+              </p>
+              <h3 class="quote-text">
+              </h3>
+              <div class="blog-post-actions">
+                <p class="blog-post-bottom">
+                </p>
+              </div>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+      <div class="col onboard-right">
+        <div class="row">
+          <div class="col-md-12 mb-3"><a href="/guides/trips" class="btn btn-outline-secondary float-right">Exit and return to trips</a></div>
+          <div class="col-md-12 mb-5 mt-3">
+            <div class="progress">
+              <div class="one primary-color"></div>
+              <div class="two primary-color"></div>
+              <div class="three no-color"></div>
+              <div class="four no-color"></div>
+              <div class="progress-bar" style="width: 40%;"></div>
+            </div>
+          </div>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+              <h2 class="mt-2">Great!</h2>
+              <p>First you need to enter your company details
+              </p>
+              <p>
+              Then, on the next page you'll enter details of the company directors / owners.
+              </p>
+            </div>
+            <div class="p-2 col-sm-12 col-md-12 col-lg-8">
+              <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Your company details</h4></div>
+              <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
+              <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-account-company", target: "stripe-account-company.form", stripe_account_company_key: @current_organisation.stripe_publishable_key }) do |form| %>
+                <%= form.hidden_field :token_account, data: { target: "stripe-account-company.tokenAccount" } %>
+                <fieldset>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :company_name %>
+                    <%= text_field_tag :company_name, "My new business", data: { target: "stripe-account-company.name" }, class: "form-control" %>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :address_line1, "Company address line 1" %>
+                  <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" }, class: "form-control" %>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :address_line2, "Company address line 2" %>
+                    <%= text_field_tag :address_line2, "Flat 10", data: { target: "stripe-account-company.addressLine2" }, class: "form-control"  %>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :address_city, "City" %>
+                      <%= text_field_tag :address_city, "Brighton", data: { target: "stripe-account-company.addressCity" }, class: "form-control"  %>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :address_state, "State/County" %>
+                      <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe-account-company.addressState" }, class: "form-control" %>
+                    </div>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :address_postal_code, "Post/Zip code" %>
+                      <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe-account-company.addressPostalCode" }, class: "form-control" %>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :address_country, "Country" %>
+                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country stripe-account-company.addressCountry", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :tax_id, "Tax ID / VAT Number" %>
+                    <%= text_field_tag :tax_id, "", data: { target: in_gb? ? "stripe-account-company.vat_id" : "stripe-account-company.tax_id" }, class: "form-control" %>
+                  </div>
+                  <!-- TODO:
+                  1) account.company.directors_provided - need to set this to true when guide has added all directors...
+                  2) owners_provided  - - need to set this to true when guide has added all owners...
+                     -->
+                  </fieldset>
+                  <%= submit_tag :"Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

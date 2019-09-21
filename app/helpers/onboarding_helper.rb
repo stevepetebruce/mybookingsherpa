@@ -4,6 +4,10 @@ module OnboardingHelper
     "pointer-one"
   end
 
+  def in_gb?
+    @current_organisation.country_code == "gb"
+  end
+
   def in_trial_and_created_booking?
     @current_organisation&.on_trial? &&
       @current_organisation.bookings.exists? &&
