@@ -49,4 +49,17 @@ export default class extends StripeBaseController {
   enableSubmitBtn() {
     this.submitBtnTarget.disabled = false;
   }
+
+  updateCountryCurrency() {
+    switch(this.countryTarget.value) {
+      case "GB":
+        this.currencyTarget.value = "GBP";
+        break;
+      case "US":
+        this.currencyTarget.value = "USD";
+        break;
+      default:
+        this.currencyTarget.value = "EUR";
+    }     
+  }
 }

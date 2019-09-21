@@ -54,7 +54,7 @@
               </div>
               <div class="col-md-6 mb-3 pr-5">
                 <%= label_tag :country %>
-                <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country country-auto-select.countrySelectField", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
+                <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country country-auto-select.countrySelectField", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn change->stripe-bank-account#updateCountryCurrency" } %>
                 <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
               </div>
             </div>
