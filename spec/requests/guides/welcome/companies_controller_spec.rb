@@ -27,12 +27,6 @@ RSpec.describe "Guides::Welcome::CompaniesController", type: :request do
 
           expect(response).to be_successful
         end
-
-        it "should track the onboarding event" do
-          do_request
-
-          expect(onboarding.events.first["name"]).to eq("new_company_account_chosen")
-        end
       end
     end
   end
@@ -76,6 +70,12 @@ RSpec.describe "Guides::Welcome::CompaniesController", type: :request do
           expect(response.code).to eq "302"
           expect(response).to redirect_to new_guides_welcome_director_path
         end
+
+        it "should track the onboarding event" do
+          do_request(params: params)
+
+          expect(onboarding.events.first["name"]).to eq("new_company_account_chosen")
+        end
       end
 
       context "unsuccessful" do
@@ -87,11 +87,10 @@ RSpec.describe "Guides::Welcome::CompaniesController", type: :request do
 
         let(:stripe_account_id) { "acct_1DLYH2ESypPNvvdY" } # from: successful_company_account.json
 
-        it "should redirect_to the new_guides_welcome_director_path" do
+        it "should render the new_guides_welcome_director page" do
           do_request(params: params)
 
-          expect(response.code).to eq "302"
-          expect(response).to redirect_to new_guides_welcome_company_path
+          expect(response.code).to eq "200"
         end
       end
     end

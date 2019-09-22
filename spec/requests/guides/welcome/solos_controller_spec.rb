@@ -27,12 +27,6 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
 
           expect(response).to be_successful
         end
-
-        it "should track the onboarding event" do
-          do_request
-
-          expect(onboarding.events.first["name"]).to eq("new_solo_account_chosen")
-        end
       end
     end
   end
@@ -79,7 +73,13 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
         it "should track the onboarding event" do
           do_request(params: params)
 
-          expect(onboarding.events.first["name"]).to eq("new_stripe_account_created")
+          expect(onboarding.events.first["name"]).to eq("new_solo_account_chosen")
+        end
+
+        it "should track the onboarding event" do
+          do_request(params: params)
+
+          expect(onboarding.events.second["name"]).to eq("new_stripe_account_created")
         end
       end
 
@@ -106,7 +106,7 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
           it "should track the onboarding event" do
             do_request(params: params)
 
-            expect(onboarding.events.first["name"]).to eq("failed_new_stripe_account_creation")
+            expect(onboarding.events.second["name"]).to eq("failed_new_stripe_account_creation")
           end
         end
 
@@ -132,8 +132,8 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
           it "should track the onboarding event" do
             do_request(params: params)
 
-            expect(onboarding.events.first["name"]).to eq("failed_new_stripe_account_creation")
-            expect(onboarding.events.first["additional_info"]).to eq("Address for business must match account country")
+            expect(onboarding.events.second["name"]).to eq("failed_new_stripe_account_creation")
+            expect(onboarding.events.second["additional_info"]).to eq("Address for business must match account country")
           end
         end
       end
