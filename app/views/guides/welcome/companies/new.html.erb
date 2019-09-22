@@ -41,11 +41,10 @@
               Then, on the next page you'll enter details of the company directors / owners.
               </p>
             </div>
-            <div class="p-2 col-sm-12 col-md-12 col-lg-8">
+            <div class="p-2 col-sm-12 col-md-12 col-lg-8" data-controller="stripe-account-company" data-stripe-account-company-key="<%= @current_organisation.stripe_publishable_key %>">
               <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Your company details</h4></div>
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
-              <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { controller: "stripe-account-company", target: "stripe-account-company.form", stripe_account_company_key: @current_organisation.stripe_publishable_key }) do |form| %>
-                <%= form.hidden_field :token_account, data: { target: "stripe-account-company.tokenAccount" } %>
+              <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-account-company.formDetails" }) do |form| %>
                 <fieldset>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :company_name %>
@@ -53,7 +52,7 @@
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line1, "Company address line 1" %>
-                  <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" }, class: "form-control" %>
+                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe-account-company.addressLine1" }, class: "form-control" %>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line2, "Company address line 2" %>
@@ -89,6 +88,10 @@
                      -->
                   </fieldset>
                   <%= submit_tag :"Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
+                <% end %>
+
+                <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-account-company.formToken" }) do |form| %>
+                  <%= form.hidden_field :token_account, data: { target: "stripe-account-company.tokenAccount" } %>
                 <% end %>
               </div>
             </div>
