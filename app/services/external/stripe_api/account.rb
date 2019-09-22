@@ -24,8 +24,8 @@ module External
         Stripe.api_key = ENV.fetch("STRIPE_SECRET_KEY_TEST")
         Stripe::Account.create(country: country_code.upcase,
                                email: email,
-                               type: "custom",
-                               requested_capabilities: ["card_payments", "transfers"])
+                               requested_capabilities: ["card_payments", "transfers"],
+                               type: "custom")
       end
     end
   end

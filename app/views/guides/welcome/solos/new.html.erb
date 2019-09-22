@@ -20,6 +20,7 @@
     </div>
     <div class="col content-right">
       <div class="row">
+        <div class="col-md-12 mb-3"><%= link_to "Exit and return to trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
         <div class="col-md-12 mb-5 mt-3">
           <div class="progress" data-target="stripe-account-individual.personalDetails">
             <div class="one primary-color"></div>
@@ -36,18 +37,16 @@
             <div class="progress-bar" style="width: 61%;"></div>
           </div>
         </div>
-        <div class="row ow-eq-height flex-fill">
-          <div class="col-sm-12 col-md-12 col-lg-4" data-target="stripe-account-individual.personalDetails">
-            <h2 class="mt-2">Great...</h2>
-            <h2 class="mt-2">Now please enter your personal details</h2>
-          </div>
-          <div class="col-sm-12 col-md-12 col-lg-4 d-none" data-target="stripe-account-individual.businessDetails">
-            <h2 class="mt-2">Almost there...</h2>
-            <h2 class="mt-2">Now your business details</h2>
-          </div>
-          <%= render "guides/welcome/solos/personal_details" %>
-          <%= render "guides/welcome/solos/business_details" %>
+        <div class="col-sm-12 col-md-12 col-lg-4" data-target="stripe-account-individual.personalDetails">
+          <h2 class="mt-2">Great...</h2>
+          <h2 class="mt-2">Now please enter your personal details</h2>
         </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 d-none" data-target="stripe-account-individual.businessDetails">
+          <h2 class="mt-2">Almost there...</h2>
+          <h2 class="mt-2">Now your business details</h2>
+        </div>
+        <%= render "guides/welcome/solos/personal_details" %>
+        <%= render "guides/welcome/solos/business_details" %>
       </div>
     </div>
   </div>
