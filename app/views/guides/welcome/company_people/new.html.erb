@@ -92,9 +92,9 @@
                       <%= text_field_tag :email, "director@example.com", class: "form-control", data: { target: "stripe-person.email stripe-person.required" } %>
                       <div class="text-danger d-none" data-target="email-error">Please enter your email</div>
                     </div>
-                    <div class="col col-md-6 mb-3">
+                    <div class="col col-md-6 mb-3" data-controller="dob-date-picker-range">
                       <%= label_tag :date_of_birth %>
-                      <%= form.date_field :dob, class: "form-control", data: { target: "stripe-person.dob stripe-person.required" }, required: true %>
+                      <%= form.date_field :dob, class: "form-control", data: { target: "stripe-person.dob stripe-person.required dob-date-picker-range.dateSource" }, required: true %>
                       <div class="text-danger d-none" data-target="dob-error">Please enter your date of birth</div>
                       <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
                     </div>

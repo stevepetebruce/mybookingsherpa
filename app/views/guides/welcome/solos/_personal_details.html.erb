@@ -16,9 +16,9 @@
     <div class="text-danger d-none" data-target="email-error">Please enter your email</div>
   </div>
   <div class="row pl-3 pr-5">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6 mb-3" data-controller="dob-date-picker-range">
       <%= label_tag "Date of birth" %>
-      <%= date_field_tag :date_of_birth, "", class: "form-control", required: true, autofocus: true, min: "1900-01-01", data: { target: "stripe-account-individual.dob stripe-account-individual.requiredPersonal" } %>
+      <%= date_field_tag :date_of_birth, "", class: "form-control", required: true, autofocus: true, min: "1900-01-01", data: { target: "stripe-account-individual.dob stripe-account-individual.requiredPersonal dob-date-picker-range.dateSource" } %>
       <div class="text-danger d-none" data-target="dob-error">Please enter your date of birth</div>
     </div>
   </div>
