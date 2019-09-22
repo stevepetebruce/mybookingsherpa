@@ -80,7 +80,7 @@
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :tax_id, "Tax ID / VAT Number" %>
-                    <%= text_field_tag :tax_id, "", data: { target: in_gb? ? "stripe-account-company.vat_id" : "stripe-account-company.tax_id" }, class: "form-control" %>
+                    <%= text_field_tag :tax_id, "", data: { target: in_gb? ? "stripe-account-company.vatId" : "stripe-account-company.taxId" }, class: "form-control" %>
                   </div>
                   <!-- TODO:
                   1) account.company.directors_provided - need to set this to true when guide has added all directors...

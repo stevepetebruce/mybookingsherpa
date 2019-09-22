@@ -5,8 +5,8 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "formDetails", "formToken", "name", "phone", "tax_id",
-                    "tokenAccount", "tax_id"] // TODO: need to send the vat/ tax id to stripe
+                    "formDetails", "formToken", "name", "phone", "taxId",
+                    "tokenAccount", "vatId"] // TODO: need to send the vat/ tax id to stripe
 
   connect() {
     this.handleFormSubmission();
@@ -17,6 +17,7 @@ export default class extends Controller {
 
     this.formDetailsTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
+
       // ref: https://stripe.com/docs/api/tokens/create_account
       const accountResult = await stripe.createToken("account", {
         business_type: "company",
@@ -30,6 +31,8 @@ export default class extends Controller {
             postal_code: this.addressPostalCodeTarget.value,
             country: this.addressCountryTarget.value
           },
+          tax_id: this.taxId(),
+          vat_id: this.vatId()
         },
         tos_shown_and_accepted: true,
       });
@@ -52,5 +55,17 @@ export default class extends Controller {
 
   enableSubmitBtn() {
     this.submitBtnTarget.disabled = false;
+  }
+
+  taxId() {
+    if (this.hasTaxIdTarget) {
+      return this.taxIdTarget.value;
+    }
+  }
+
+  vatId() {
+    if (this.hasVatIdTarget) {
+      return this.vatIdTarget.value;
+    }
   }
 }
