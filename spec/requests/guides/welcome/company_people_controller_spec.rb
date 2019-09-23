@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Guides::Welcome::DirectorsController", type: :request do
+RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
   let!(:guide) { FactoryBot.create(:guide) }
   let!(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
   let!(:organisation_membership) do
@@ -13,7 +13,7 @@ RSpec.describe "Guides::Welcome::DirectorsController", type: :request do
   describe "#new" do
     include_examples "authentication"
 
-    def do_request(url: "/guides/welcome/directors/new", params: {})
+    def do_request(url: "/guides/welcome/company_people/new", params: {})
       get url, params: params
     end
 
@@ -30,10 +30,10 @@ RSpec.describe "Guides::Welcome::DirectorsController", type: :request do
     end
   end
 
-   describe "#create POST /guides/welcome/directors" do
+   describe "#create POST /guides/welcome/company_people" do
     include_examples "authentication"
 
-    def do_request(url: "/guides/welcome/directors", params: {})
+    def do_request(url: "/guides/welcome/company_people", params: {})
       post url, params: params
     end
 
@@ -76,7 +76,7 @@ RSpec.describe "Guides::Welcome::DirectorsController", type: :request do
       context "when creating another director" do
         # TODO: replace these PII with a token from the person API
         # ref: https://stripe.com/docs/connect/account-tokens#form
-        let!(:params)  { { email: Faker::Internet.email, add_another_director: true } }
+        let!(:params)  { { email: Faker::Internet.email, add_another_company_person: true } }
         let(:response_body) do
           "#{file_fixture("stripe_api/successful_director.json").read}"
         end
@@ -92,11 +92,11 @@ RSpec.describe "Guides::Welcome::DirectorsController", type: :request do
           do_request(params: params)
         end
 
-        it "should redirect_to the new_guides_welcome_director_path page (to add another director)" do
+        it "should redirect_to the new_guides_welcome_company_person_path page (to add another director)" do
           do_request(params: params)
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to new_guides_welcome_director_path
+          expect(response).to redirect_to new_guides_welcome_company_person_path
         end
       end
     end

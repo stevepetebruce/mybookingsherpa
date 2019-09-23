@@ -68,7 +68,7 @@ RSpec.describe "Guides::Welcome::CompaniesController", type: :request do
           do_request(params: params)
 
           expect(response.code).to eq "302"
-          expect(response).to redirect_to new_guides_welcome_director_path
+          expect(response).to redirect_to new_guides_welcome_company_person_path
         end
 
         it "should track the onboarding event" do
