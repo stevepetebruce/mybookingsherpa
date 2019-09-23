@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_125836) do
+ActiveRecord::Schema.define(version: 2019_09_23_102850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 2019_09_16_125836) do
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
     t.index ["trip_id"], name: "index_bookings_on_trip_id"
     t.index ["updated_by_id"], name: "index_bookings_on_updated_by_id"
+  end
+
+  create_table "company_people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "relationship"
+    t.string "stripe_person_id"
+    t.uuid "organisation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_company_people_on_organisation_id"
   end
 
   create_table "dietary_requirements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -246,6 +258,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_125836) do
 
   add_foreign_key "bookings", "guests"
   add_foreign_key "bookings", "trips"
+  add_foreign_key "company_people", "organisations"
   add_foreign_key "onboardings", "organisations"
   add_foreign_key "organisation_memberships", "guides"
   add_foreign_key "organisation_memberships", "organisations"

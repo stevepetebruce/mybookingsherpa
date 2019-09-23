@@ -8,6 +8,7 @@ class Organisation < ApplicationRecord
   validates :stripe_account_id, format: /\A[a-zA-Z0-9_\-]{5,50}\z/, allow_blank: true #TODO: move this to stripe_account
   validates :subdomain, format: /\A([a-zA-Z0-9]{1}[a-zA-Z0-9_\-]{2,30})\z/, allow_blank: true
 
+  has_many :company_people
   has_many :organisation_memberships
   has_many :guides, through: :organisation_memberships
   has_one :subscription

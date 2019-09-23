@@ -2,10 +2,11 @@ require "rails_helper"
 
 RSpec.describe Organisation, type: :model do
   describe "associations" do
+    it { should have_many(:company_people) }
     it { should have_many(:guides).through(:organisation_memberships) }
+    it { should have_many(:trips) }
     it { should have_one(:onboarding) }
     it { should have_one(:subscription) }
-    it { should have_many(:trips) }
     # TODO: has_many: accomodation_providers
   end
 
