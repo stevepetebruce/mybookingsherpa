@@ -115,54 +115,19 @@
                     <% # text_field_tag :phone, "00447980474747" %>
                   </fieldset>
 
-
                   <fieldset>
                     <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4></div>
-                    <!-- TODO: have a drop down select here or something.. -->
-
-                      <!--<= label_tag :director %> Relationship? -->
-                      <!-- <select class="form-control customSelect" name="gender">
-                        <option>Owner</option>
-                        <option>Director</option>
-                      </select>-->
                     <div class="col-md-12 mb-3">
-                      <div class="form-check">
-                        <!--  -->
-                        <% # radio_button_tag(:relationship, "owner", checked: false, class: "form-control") %>
-                        <% # label_tag(:relationship_owner, "Owner") %>
-                        <% # radio_button_tag(:relationship, "director", checked: true, class: "form-control") %>
-                        <% # label_tag(:relationship_director, "Director") %>
-                        <!--  -->
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <% # radio_button_tag "[relationship]owner", "false", class: "form-control", name: "relationshipRadios", value: "owner" %>
-                        <!-- <input class="form-check-input" type="radio" name="exampleRadios" id="relationship-owner" value="owner" checked> -->
-                        <label class="form-check-label" for="relationship-owner">
-                          <%= label_tag :owner %>
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <% # radio_button_tag "[relationship]director", "false", class: "form-control", name: "relationshipRadios", value: "director" %>
-                        <!-- <input class="form-check-input" type="radio" name="exampleRadios" id="relationship-director" value="director"> -->
-                        <label class="form-check-label" for="relationship-director">
-                          <%= label_tag :director %>
-                        </label>
-                      </div>
+                      <!-- <div class="form-check"> -->
+                        <%= radio_button_tag(:relationship, "owner", checked: false, class: "form-control") %>
+                        <%= label_tag("Owner") %>
+                        <%= radio_button_tag(:relationship, "director", checked: true, class: "form-control") %>
+                        <%= label_tag("Director") %>
                     </div>
-                    <!-- <div class="col-md-12 mb-3">
-                      <label for="director"><= label_tag :director %></label>
-                      <= text_field_tag "[relationship]director", "true", class: "form-control" %>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <label for="owner"><= label_tag :owner %></label>
-                      <= text_field_tag "[relationship]owner", "false", class: "form-control" %>
-                     -- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners...  --
-                    </div>  --> 
                     <div class="row pl-3">
                       <div class="col col-md-6 mb-3">
                         <%= label_tag :percent_ownership %>
-                        <%= text_field_tag "[relationship]percent_ownership", "0", class: "form-control" %>
+                        <%= text_field_tag "percent_ownership", "0", class: "form-control" %>
                       </div>
                     </div>
                   </fieldset>
