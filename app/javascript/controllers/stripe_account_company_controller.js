@@ -3,13 +3,17 @@ import { Controller } from "stimulus"
 // formDetails - the form that gets sent to Stripe
 // formToken - the form (with only the account token in) that gets sent to us
 export default class extends Controller {
-  static targets = ["addressLine1", "addressLine2", "addressCity",
+  static targets = ["acceptedTosError", "addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "formDetails", "formToken", "name", "phone", "taxId",
-                    "tokenAccount", "vatId"] // TODO: need to send the vat/ tax id to stripe
+                    "formDetails", "formToken", "name", "phone", "stripeTosCheckBox",
+                     "taxId", "submitBtn", "tokenAccount", "vatId"] // TODO: need to send the vat/ tax id to stripe
 
   connect() {
     this.handleFormSubmission();
+  }
+
+  enableSubmitBtn() {
+    this.submitBtnTarget.disabled = false;
   }
 
   handleFormSubmission() {
@@ -17,6 +21,11 @@ export default class extends Controller {
 
     this.formDetailsTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
+
+      if(!this.stripeTosAccepted()) {
+        this.enableSubmitBtn();
+        return;
+      }
 
       // ref: https://stripe.com/docs/api/tokens/create_account
       const accountResult = await stripe.createToken("account", {
@@ -44,22 +53,28 @@ export default class extends Controller {
     });
   }
 
-  hideErrorEnableSubmitBtn(event) {
-    this.hideError(event);
-    this.enableSubmitBtn();
-  }
-
-  hideError(event) {
+  hideError() {
     event.target.nextElementSibling.classList.add("d-none");
   }
 
-  enableSubmitBtn() {
-    this.submitBtnTarget.disabled = false;
+  hideErrorEnableSubmitBtn() {
+    this.hideError(event);
+    this.enableSubmitBtn();
   }
 
   taxId() {
     if (this.hasTaxIdTarget) {
       return this.taxIdTarget.value;
+    }
+  }
+
+  stripeTosAccepted() {
+    if(this.stripeTosCheckBoxTarget.checked) {
+      this.acceptedTosErrorTarget.classList.add("d-none");
+      return true;
+    } else {
+      this.acceptedTosErrorTarget.classList.remove("d-none");
+      return false;
     }
   }
 
