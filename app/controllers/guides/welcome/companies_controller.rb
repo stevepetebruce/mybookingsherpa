@@ -11,7 +11,7 @@ module Guides
 
         if create_stripe_account
           track_onboarding_event("new_stripe_account_created")
-          redirect_to new_guides_welcome_director_path
+          redirect_to new_guides_welcome_company_person_path
         else
           track_onboarding_event("failed_new_stripe_account_creation", error_message)
           flash.now[:alert] = "Problem creating account. #{error_message}"

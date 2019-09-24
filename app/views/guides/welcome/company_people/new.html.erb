@@ -47,8 +47,25 @@
             </div>
             <div class="p-2 col-sm-12 col-md-12 col-lg-8">
                 <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
-                <%= form_with(url: guides_welcome_directors_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
+                <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
+                  <fieldset>
+                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's relationship to company</h4></div>
+                    <div class="row pl-3">
+                      <div class="col col-md-6 mb-3">
+                        <%= radio_button_tag(:relationship, :director, true, class: "", data: { action: "stripe-person#togglePercentOwnership" }) %>
+                        <%= label_tag("Director") %>
+                        <%= radio_button_tag(:relationship, :owner, false, class: "", data: { action: "stripe-person#togglePercentOwnership" }) %>
+                        <%= label_tag("Owner") %>
+                      </div>
+                    </div>
 
+                    <div class="row pl-3">
+                      <div class="col col-md-6 mb-3 d-none" data-target="stripe-person.percentOwnership" >
+                        <%= label_tag :percent_ownership %>
+                        <%= text_field_tag "percent_ownership", "0", class: "form-control" %>
+                      </div>
+                    </div>
+                  </fieldset>
                   <fieldset>
                     <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's personal details</h4></div>
                     <div class="row ml-1 mr-1">
@@ -113,58 +130,6 @@
                     <!-- Can't get this working with Stripe API -->
                     <% # label_tag :phone %>
                     <% # text_field_tag :phone, "00447980474747" %>
-                  </fieldset>
-
-
-                  <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's relationship to company</h4></div>
-                    <!-- TODO: have a drop down select here or something.. -->
-
-                      <!--<= label_tag :director %> Relationship? -->
-                      <!-- <select class="form-control customSelect" name="gender">
-                        <option>Owner</option>
-                        <option>Director</option>
-                      </select>-->
-                    <div class="col-md-12 mb-3">
-                      <div class="form-check">
-                        <!--  -->
-                        <% # radio_button_tag(:relationship, "owner", checked: false, class: "form-control") %>
-                        <% # label_tag(:relationship_owner, "Owner") %>
-                        <% # radio_button_tag(:relationship, "director", checked: true, class: "form-control") %>
-                        <% # label_tag(:relationship_director, "Director") %>
-                        <!--  -->
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <% # radio_button_tag "[relationship]owner", "false", class: "form-control", name: "relationshipRadios", value: "owner" %>
-                        <!-- <input class="form-check-input" type="radio" name="exampleRadios" id="relationship-owner" value="owner" checked> -->
-                        <label class="form-check-label" for="relationship-owner">
-                          <%= label_tag :owner %>
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <% # radio_button_tag "[relationship]director", "false", class: "form-control", name: "relationshipRadios", value: "director" %>
-                        <!-- <input class="form-check-input" type="radio" name="exampleRadios" id="relationship-director" value="director"> -->
-                        <label class="form-check-label" for="relationship-director">
-                          <%= label_tag :director %>
-                        </label>
-                      </div>
-                    </div>
-                    <!-- <div class="col-md-12 mb-3">
-                      <label for="director"><= label_tag :director %></label>
-                      <= text_field_tag "[relationship]director", "true", class: "form-control" %>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <label for="owner"><= label_tag :owner %></label>
-                      <= text_field_tag "[relationship]owner", "false", class: "form-control" %>
-                     -- TODO: only show percent_ownership if relationship[owner] is selected/true - directors are not owners...  --
-                    </div>  --> 
-                    <div class="row pl-3">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :percent_ownership %>
-                        <%= text_field_tag "[relationship]percent_ownership", "0", class: "form-control" %>
-                      </div>
-                    </div>
                   </fieldset>
                   <div class="col-md-12 mb-3">
                     <%= submit_tag "Submit", class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" %> or <a href="" class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a>
