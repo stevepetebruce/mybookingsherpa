@@ -1,4 +1,4 @@
-<body class="bg-light">
+<body class="bg-light" data-controller="stripe-person">
   <div class="container-fluid full-height">
     <div class="row row-height">
       <div class="col-lg-4 content-left">
@@ -58,7 +58,6 @@
                         <%= label_tag("Owner") %>
                       </div>
                     </div>
-
                     <div class="row pl-3">
                       <div class="col col-md-6 mb-3 d-none" data-target="stripe-person.percentOwnership" >
                         <%= label_tag :percent_ownership %>
