@@ -1,4 +1,4 @@
-<body class="bg-light" data-controller="stripe-person">
+<body class="bg-light" data-controller="stripe-person" data-stripe-person-key="<%= @current_organisation.stripe_publishable_key %>">
   <div class="container-fluid full-height">
     <div class="row row-height">
       <div class="col-lg-4 content-left">
@@ -46,94 +46,108 @@
               </div>
             </div>
             <div class="p-2 col-sm-12 col-md-12 col-lg-8">
-                <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
-                <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }) do |form| %>
-                  <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's relationship to company</h4></div>
-                    <div class="row pl-3">
-                      <div class="col col-md-6 mb-3">
-                        <%= radio_button_tag(:relationship, :director, true, class: "", data: { action: "stripe-person#togglePercentOwnership" }) %>
-                        <%= label_tag("Director") %>
-                        <%= radio_button_tag(:relationship, :owner, false, class: "", data: { action: "stripe-person#togglePercentOwnership" }) %>
-                        <%= label_tag("Owner") %>
-                      </div>
+              <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
+              <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe-person.formDetails" }) do |form| %>
+                <fieldset>
+                  <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's relationship to company</h4></div>
+                  <div class="row pl-3">
+                    <div class="col col-md-6 mb-3">
+                      <%= radio_button_tag(:relationship, :director, true, class: "", data: { action: "stripe-person#togglePercentOwnership", target: "stripe-person.director" }) %>
+                      <%= label_tag("Director") %>
+                      <%= radio_button_tag(:relationship, :owner, false, class: "", data: { action: "stripe-person#togglePercentOwnership", target: "stripe-person.owner" }) %>
+                      <%= label_tag("Owner") %>
                     </div>
-                    <div class="row pl-3">
-                      <div class="col col-md-6 mb-3 d-none" data-target="stripe-person.percentOwnership" >
-                        <%= label_tag :percent_ownership %>
-                        <%= text_field_tag "percent_ownership", "0", class: "form-control" %>
-                      </div>
-                    </div>
-                  </fieldset>
-                  <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's personal details</h4></div>
-                    <div class="row ml-1 mr-1">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :first_name %>
-                        <%= text_field_tag :first_name, "Alan", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :last_name %>
-                        <%= text_field_tag :last_name, "Smith", class: "form-control" %>
-                      </div>
-                    </div>
-                    <div class="row ml-1 mr-1">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :email %>
-                        <%= text_field_tag :email, "director@example.com", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :date_of_birth %>
-                        <%= form.date_field :dob, class: "form-control", required: true %>
-                        <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
-                      </div>
-                    </div>
-                  </fieldset>
-                    <!-- TODO:
-                    1) account.company.directors_provided - need to set this to true when guide has added all directors...
-                    2) owners_provided  - - need to set this to true when guide has added all owners...
-                    
-                    Also - need to upload ID document...
-                     -->
+                  </div>
 
-                  <fieldset>
-                    <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold">Director's/Owner's Address</h4></div>
-                    <div class="col-md-12 mb-3">
-                      <%= label_tag :address_line_1 %>
-                      <%= text_field_tag "address[line1]", "21 Palmeira Street", class: "form-control" %>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <%= label_tag :address_line_2 %>
-                      <%= text_field_tag "address[line2]", "Flat 10", class: "form-control" %>
-                    </div>
-                    <div class="row ml-1 mr-1">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :city %>
-                        <%= text_field_tag "address[city]", "Brighton", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :address_state, "State/County" %>
-                        <%= text_field_tag "address[state]", "East Sussex", class: "form-control" %>
+                  <div class="row pl-3">
+                    <div class="col col-md-6 mb-3 d-none" data-target="stripe-person.percentOwnership" >
+                      <%= label_tag :percent_ownership %>
+                      <div class="input-group">
+                        <%= number_field_tag "percent_ownership", "0", class: "form-control", data: { target: "stripe-person.percentOwnershipValue" } %>
+                        <div class="input-group-append">
+                          <span class="input-group-text form-control">%</span>
+                        </div>
                       </div>
                     </div>
-                    <div class="row ml-1 mr-1">
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :postal_code, "Post/Zip code" %>
-                        <%= text_field_tag "address[postal_code]", "BN1 4QR", class: "form-control" %>
-                      </div>
-                      <div class="col col-md-6 mb-3">
-                        <%= label_tag :country %>
-                        <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, class: "form-control customselect", required: true, autofocus: true %>
-                      </div>
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold" data-target="stripe-person.titlePersonalDetails">Director's personal details</h4></div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :first_name %>
+                      <%= text_field_tag :first_name, "Alan", class: "form-control", data: { target: "stripe-person.firstName" } %>
                     </div>
-                    <!-- Can't get this working with Stripe API -->
-                    <% # label_tag :phone %>
-                    <% # text_field_tag :phone, "00447980474747" %>
-                  </fieldset>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :last_name %>
+                      <%= text_field_tag :last_name, "Smith", class: "form-control", data: { target: "stripe-person.lastName" } %>
+                    </div>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :email %>
+                      <%= text_field_tag :email, "director@example.com", class: "form-control", data: { target: "stripe-person.email" } %>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :date_of_birth %>
+                      <%= form.date_field :dob, class: "form-control", data: { target: "stripe-person.dob" }, required: true %>
+                      <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
+                    </div>
+                  </div>
+                </fieldset>
+                  <!-- TODO:
+                  1) account.company.directors_provided - need to set this to true when guide has added all directors...
+                  2) owners_provided  - - need to set this to true when guide has added all owners...
+                  
+                  Also - need to upload ID document...
+                   -->
+
+                <fieldset>
+                  <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold" data-target="stripe-person.titleAddress">Director's Address</h4></div>
                   <div class="col-md-12 mb-3">
-                    <%= submit_tag "Submit", class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" %> or <a href="" class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a>
-                  </div> 
-                <% end %>
+                    <%= label_tag :address_line_1 %>
+                    <%= text_field_tag "address[line1]", "21 Palmeira Street", data: { target: "stripe-person.addressLine1" }, class: "form-control" %>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :address_line_2 %>
+                    <%= text_field_tag "address[line2]", "Flat 10", data: { target: "stripe-person.addressLine2" }, class: "form-control" %>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :city %>
+                      <%= text_field_tag "address[city]", "Brighton", data: { target: "stripe-person.addressCity" }, class: "form-control" %>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :address_state, "State/County" %>
+                      <%= text_field_tag "address[state]", "East Sussex", data: { target: "stripe-person.addressState" }, class: "form-control" %>
+                    </div>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :postal_code, "Post/Zip code" %>
+                      <%= text_field_tag "address[postal_code]", "BN1 4QR", data: { target: "stripe-person.addressPostalCode" }, class: "form-control" %>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :country %>
+                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, data: { target: "stripe-person.addressCountry" }, class: "form-control customselect", required: true, autofocus: true %>
+                    </div>
+                  </div>
+                  <!-- Can't get this working with Stripe API -->
+                  <% # label_tag :phone %>
+                  <% # text_field_tag :phone, "00447980474747" %>
+                </fieldset>
+                <div class="col-md-12 mb-3">
+                  <%= submit_tag "Submit", data: { target: "stripe-person.submitBtn" }, class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" %> 
+
+                  or <a href="" data-target="stripe-person.submitBtnAddAnother"  class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a>
+                </div> 
+              <% end %>
+              <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe-person.formToken" }) do |form| %>
+                <%= form.hidden_field :token_account, data: { target: "stripe-person.tokenAccount" } %>
+                <%= form.hidden_field :first_name, data: { target: "stripe-person.formTokenFirstName" } %>
+                <%= form.hidden_field :last_name, data: { target: "stripe-person.formTokenLastName" } %>
+              <% end %>
             </div>
           </div>
         </div>
