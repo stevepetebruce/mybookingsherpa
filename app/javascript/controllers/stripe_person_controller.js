@@ -9,7 +9,7 @@ export default class extends Controller {
                     "lastName", "owner", "percentOwnership",
                     "percentOwnershipValue", "submitBtn",
                     "submitBtnAddAnother", "titleAddress", 
-                    "titlePersonalDetails", "tokenAccount"]
+                    "titlePersonalDetails", "tokenPerson"]
 
   connect() {
     this.handleFormSubmission();
@@ -49,7 +49,7 @@ export default class extends Controller {
       );
 
       if (personResult.token) {
-        this.tokenAccountTarget.setAttribute("value", personResult.token.id);
+        this.tokenPersonTarget.setAttribute("value", personResult.token.id);
         this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
         this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
 

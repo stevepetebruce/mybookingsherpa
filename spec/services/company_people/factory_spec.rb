@@ -2,18 +2,16 @@ require "rails_helper"
 
 RSpec.describe CompanyPeople::Factory, type: :model do
   describe "#create" do
-    subject(:create) { described_class.create(email,
-                                             first_name,
-                                             last_name,
-                                             organisation,
-                                             relationship,
-                                             stripe_person_id) }
+    subject(:create) do
+      described_class.create(first_name,
+                             last_name,
+                             organisation,
+                             stripe_person_id)
+    end
 
-    let!(:email) { Faker::Internet.email }
     let!(:first_name) { Faker::Name.name }
     let!(:last_name) { Faker::Name.name }
     let!(:organisation) { FactoryBot.create(:organisation) }
-    let!(:relationship) { %w[director owner].sample }
     let!(:stripe_person_id) { "person_#{Faker::Crypto.md5}" }
 
     context "valid and successful" do

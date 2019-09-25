@@ -42,14 +42,17 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
         sign_in(guide)
 
         stub_request(:post, "https://api.stripe.com/v1/accounts/#{organisation.stripe_account_id}/persons").
-          with(body: {"email"=>params[:email]}).
           to_return(status: 200, body: response_body, headers: {})
       end
 
       context "when not creating another director" do
-        # TODO: replace these PII with a token from the person API
-        # ref: https://stripe.com/docs/connect/account-tokens#form
-        let!(:params)  { { email: Faker::Internet.email } }
+        let!(:params)  do
+          {
+            first_name: Faker::Name.name,
+            last_name: Faker::Name.name,
+            token_person: "person_#{Faker::Crypto.md5}"
+          }
+        end
         let(:response_body) do
           "#{file_fixture("stripe_api/successful_director.json").read}"
         end
@@ -57,7 +60,9 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
         it "should create a director" do  
           expect{ do_request(params: params) }.to change { organisation.company_people.count }.from(0).to(1)
 
-          expect(organisation.company_people.last.email).to eq params[:email]
+          expect(organisation.company_people.last.first_name).to eq params[:first_name]
+          expect(organisation.company_people.last.last_name).to eq params[:last_name]
+          expect(organisation.company_people.last.stripe_person_id).to eq "person_FqlOJaHYDG94Cl" # from: successful_director.json
         end
 
         it "should redirect_to the new_guides_welcome_bank_account page (to now create the bank account)" do
@@ -69,9 +74,14 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
       end
 
       context "when creating another director" do
-        # TODO: replace these PII with a token from the person API
-        # ref: https://stripe.com/docs/connect/account-tokens#form
-        let!(:params)  { { email: Faker::Internet.email, add_another_company_person: true } }
+        let!(:params)  do 
+          {
+            add_another_company_person: true,
+            first_name: Faker::Name.name,
+            last_name: Faker::Name.name,
+            token_person: "person_#{Faker::Crypto.md5}"
+          }
+        end
         let(:response_body) do
           "#{file_fixture("stripe_api/successful_director.json").read}"
         end
@@ -79,7 +89,9 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
         it "should create a director" do
           expect{ do_request(params: params) }.to change { organisation.company_people.count }.from(0).to(1)
 
-          expect(organisation.company_people.last.email).to eq params[:email]
+          expect(organisation.company_people.last.first_name).to eq params[:first_name]
+          expect(organisation.company_people.last.last_name).to eq params[:last_name]
+          expect(organisation.company_people.last.stripe_person_id).to eq "person_FqlOJaHYDG94Cl" # from: successful_director.json
         end
 
         it "should redirect_to the new_guides_welcome_company_person_path page (to add another director)" do
