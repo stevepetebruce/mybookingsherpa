@@ -39,9 +39,9 @@
               <h5 class="mt-5 font-weight-bold">Completed Owners/Directors</h5>
               <div class="card border">
                 <div class="card-body">
-                  <h4 class="card-title">Fred Jones <a href="#" class="btn btn-sm btn-primary float-right">edit</a></h4>
-                  <h4 class="card-title">Fred Jones <a href="#" class="btn btn-sm btn-primary float-right">edit</a></h4>
-                  <h4 class="card-title">Fred Jones <a href="#" class="btn btn-sm btn-primary float-right">edit</a></h4> 
+                  <% @current_organisation.company_people.each do |company_person| %>
+                    <h4 class="card-title"><%= "#{company_person.first_name} #{company_person.last_name}" %> <!-- TODO: <a href="#" class="btn btn-sm btn-primary float-right">edit</a> --></h4>
+                  <% end %>
                 </div>
               </div>
             </div>
