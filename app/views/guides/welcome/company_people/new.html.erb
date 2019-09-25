@@ -144,7 +144,7 @@
                 </div> 
               <% end %>
               <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe-person.formToken" }) do |form| %>
-                <%= form.hidden_field :token_account, data: { target: "stripe-person.tokenAccount" } %>
+                <%= form.hidden_field :token_account, data: { target: "stripe-person.tokenPerson" } %>
                 <%= form.hidden_field :first_name, data: { target: "stripe-person.formTokenFirstName" } %>
                 <%= form.hidden_field :last_name, data: { target: "stripe-person.formTokenLastName" } %>
               <% end %>

@@ -28,28 +28,21 @@ module Guides
       end
 
       def create_new_company_person
-        CompanyPeople::Factory.create(company_person_params[:email],
-                                      company_person_params[:first_name],
+        CompanyPeople::Factory.create(company_person_params[:first_name],
                                       company_person_params[:last_name],
                                       @current_organisation,
-                                      company_person_params[:relationship],
                                       stripe_person.id)
       end
 
       def stripe_person
         # TODO: create / capture raw_stripe_api_response
         External::StripeApi::Person.create(@current_organisation.stripe_account_id,
-                                           company_person_params.to_h,
+                                           company_person_params[:token_person],
                                            @current_organisation&.on_trial?)
       end
 
       def company_person_params
-        # TODO: replace these with a person token.
-        # https://stripe.com/docs/connect/account-tokens#form
-        params.permit(:email, :first_name, :gender, :last_name, :phone,
-                      address: [:line1, :line2, :city, :state, :postal_code, :country],
-                      dob: [:day, :month, :year],
-                      relationship: [:director, :owner, :percent_ownership, :title])
+        params.permit(:first_name, :last_name, :token_person)
       end
 
       def set_current_organisation
