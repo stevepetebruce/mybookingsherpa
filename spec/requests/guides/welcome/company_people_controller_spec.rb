@@ -54,15 +54,10 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
           "#{file_fixture("stripe_api/successful_director.json").read}"
         end
 
-        it "should create a director" do
-          # TODO: actually need a way to persist the creation of a Stripe director in the app.
-          expect(External::StripeApi::Person).
-            to receive(:create).
-            with(organisation.stripe_account_id,
-                { email: params[:email] },
-                organisation.on_trial?)
+        it "should create a director" do  
+          expect{ do_request(params: params) }.to change { organisation.company_people.count }.from(0).to(1)
 
-          do_request(params: params)
+          expect(organisation.company_people.last.email).to eq params[:email]
         end
 
         it "should redirect_to the new_guides_welcome_bank_account page (to now create the bank account)" do
@@ -82,14 +77,9 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
         end
 
         it "should create a director" do
-          # TODO: actually need a way to persist the creation of a Stripe director in the app.
-          expect(External::StripeApi::Person).
-            to receive(:create).
-            with(organisation.stripe_account_id,
-                 { email: params[:email] },
-                 organisation.on_trial?)
+          expect{ do_request(params: params) }.to change { organisation.company_people.count }.from(0).to(1)
 
-          do_request(params: params)
+          expect(organisation.company_people.last.email).to eq params[:email]
         end
 
         it "should redirect_to the new_guides_welcome_company_person_path page (to add another director)" do
