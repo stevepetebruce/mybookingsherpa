@@ -9,14 +9,14 @@ export default class extends Controller {
                     "lastName", "owner", "percentOwnership",
                     "percentOwnershipValue", "required", "submitBtn",
                     "submitBtnAddAnother", "titleAddress", 
-                    "titlePersonalDetails", "tokenAccount"]
+                    "titlePersonalDetails", "tokenPerson"]
 
   connect() {
     this.handleFormSubmission();
   }
 
   allRequiredFieldsComplete() {
-    this.requiredTargets.
+    return this.requiredTargets.
       every((requiredField) => requiredField.value.length !== 0);
   }
 
@@ -26,54 +26,64 @@ export default class extends Controller {
   }
 
   handleFormSubmission() {
-    const stripe = Stripe(this.data.get("key"));
-
     this.formDetailsTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if(this.allRequiredFieldsComplete()) {
-        const personResult = await stripe.createToken("person", {
-            person: {
-              first_name: this.firstNameTarget.value,
-              last_name: this.lastNameTarget.value,
-              email: this.emailTarget.value,
-              address: {
-                line1: this.addressLine1Target.value,
-                line2: this.addressLine2Target.value,
-                city: this.addressCityTarget.value,
-                state: this.addressStateTarget.value,
-                postal_code: this.addressPostalCodeTarget.value,
-                country: this.addressCountryTarget.value
-              },
-              dob: {
-                day: this.dobTarget.value.split("-")[2],
-                month: this.dobTarget.value.split("-")[1],
-                year: this.dobTarget.value.split("-")[0]
-              },
-              relationship: {
-                director: this.directorTarget.checked,
-                owner: this.ownerTarget.checked,
-                percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
-              }
-            }
-          }
-        );
-
-        if (personResult.token) {
-          this.tokenAccountTarget.setAttribute("value", personResult.token.id);
-          this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
-          this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
-
-          this.formTokenTarget.submit();
-        }
-
-        if (personResult.error) {
-          // TODO: handle errors
-        }
+        this.requestStripeTokenAndSubmitForm();
       } else {
         this.showEmptyFieldsErrors();
       }
     });
+  }
+
+  personObject() {
+    return {
+      person: {
+        first_name: this.firstNameTarget.value,
+        last_name: this.lastNameTarget.value,
+        email: this.emailTarget.value,
+        address: {
+          line1: this.addressLine1Target.value,
+          line2: this.addressLine2Target.value,
+          city: this.addressCityTarget.value,
+          state: this.addressStateTarget.value,
+          postal_code: this.addressPostalCodeTarget.value,
+          country: this.addressCountryTarget.value
+        },
+        dob: {
+          day: this.dobTarget.value.split("-")[2],
+          month: this.dobTarget.value.split("-")[1],
+          year: this.dobTarget.value.split("-")[0]
+        },
+        relationship: {
+          director: this.directorTarget.checked,
+          owner: this.ownerTarget.checked,
+          percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
+        }
+      }
+    };
+  }
+
+  async requestStripeTokenAndSubmitForm() {
+    const stripe = Stripe(this.data.get("key"));
+    const personResult = await stripe.createToken("person", this.personObject());
+
+    if (personResult.token) {
+      this.submitTokenForm(personResult.token.id);
+    }
+
+    if (personResult.error) {
+      // TODO: handle errors
+    }
+  }
+
+  submitTokenForm(personTokenId) {
+    this.tokenPersonTarget.setAttribute("value", personTokenId);
+    this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
+    this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
+
+    this.formTokenTarget.submit();
   }
 
   showEmptyFieldsErrors() {
