@@ -62,9 +62,7 @@ export default class extends Controller {
     });
   }
 
-  // TODO: this is overloaded now - it's not just toggling PercentOwnership
-  // Need to rename
-  togglePercentOwnership() {
+  toggleCompanyRelationship() {
     if (this.percentOwnershipTarget.classList.contains("d-none")) {
       this.percentOwnershipTarget.classList.remove("d-none");
       this.titleAddressTarget.innerHTML = "Owner's Address";
