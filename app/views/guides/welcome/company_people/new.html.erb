@@ -77,21 +77,25 @@
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :first_name %>
-                      <%= text_field_tag :first_name, "Alan", class: "form-control", data: { target: "stripe-person.firstName" } %>
+                      <%= text_field_tag :first_name, "Alan", class: "form-control", data: { target: "stripe-person.firstName stripe-person.required" } %>
+                      <div class="text-danger d-none" data-target="first-name-error">Please enter your first name</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :last_name %>
-                      <%= text_field_tag :last_name, "Smith", class: "form-control", data: { target: "stripe-person.lastName" } %>
+                      <%= text_field_tag :last_name, "Smith", class: "form-control", data: { target: "stripe-person.lastName stripe-person.required" } %>
+                      <div class="text-danger d-none" data-target="last-name-error">Please enter your last name</div>
                     </div>
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :email %>
-                      <%= text_field_tag :email, "director@example.com", class: "form-control", data: { target: "stripe-person.email" } %>
+                      <%= text_field_tag :email, "director@example.com", class: "form-control", data: { target: "stripe-person.email stripe-person.required" } %>
+                      <div class="text-danger d-none" data-target="email-error">Please enter your email</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :date_of_birth %>
-                      <%= form.date_field :dob, class: "form-control", data: { target: "stripe-person.dob" }, required: true %>
+                      <%= form.date_field :dob, class: "form-control", data: { target: "stripe-person.dob stripe-person.required" }, required: true %>
+                      <div class="text-danger d-none" data-target="dob-error">Please enter your date of birth</div>
                       <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
                     </div>
                   </div>
@@ -107,30 +111,35 @@
                   <div class="col-md-12"><h4 class="mb-3 mt-5 font-weight-bold" data-target="stripe-person.titleAddress">Director's Address</h4></div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line_1 %>
-                    <%= text_field_tag "address[line1]", "21 Palmeira Street", data: { target: "stripe-person.addressLine1" }, class: "form-control" %>
+                    <%= text_field_tag "address[line1]", "21 Palmeira Street", data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressLine1 stripe-person.required" }, class: "form-control" %>
+                    <div class="text-danger d-none" data-target="line1-error">Please enter your address</div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line_2 %>
-                    <%= text_field_tag "address[line2]", "Flat 10", data: { target: "stripe-person.addressLine2" }, class: "form-control" %>
+                    <%= text_field_tag "address[line2]", "Flat 10", data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressLine2" }, class: "form-control" %>
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :city %>
-                      <%= text_field_tag "address[city]", "Brighton", data: { target: "stripe-person.addressCity" }, class: "form-control" %>
+                      <%= text_field_tag "address[city]", "Brighton", data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressCity stripe-person.required" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="city-error">Please enter your city</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :address_state, "State/County" %>
-                      <%= text_field_tag "address[state]", "East Sussex", data: { target: "stripe-person.addressState" }, class: "form-control" %>
+                      <%= text_field_tag "address[state]", "East Sussex", data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressState stripe-person.required" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="state-error">Please enter state/county</div>
                     </div>
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :postal_code, "Post/Zip code" %>
-                      <%= text_field_tag "address[postal_code]", "BN1 4QR", data: { target: "stripe-person.addressPostalCode" }, class: "form-control" %>
+                      <%= text_field_tag "address[postal_code]", "BN1 4QR", data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressPostalCode stripe-person.required" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="postal_code-error">Please enter your post/zip code</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :country %>
-                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, data: { target: "stripe-person.addressCountry" }, class: "form-control customselect", required: true, autofocus: true %>
+                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, data: { action: "keyup->stripe-person#enableSubmitBtns", target: "stripe-person.addressCountry stripe-person.required" }, class: "form-control customselect", required: true, autofocus: true %>
+                      <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
                     </div>
                   </div>
                   <!-- Can't get this working with Stripe API -->

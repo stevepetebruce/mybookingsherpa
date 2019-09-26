@@ -7,7 +7,7 @@ export default class extends Controller {
                     "director", "dob", "email", "firstName", "formDetails",
                     "formToken", "formTokenFirstName", "formTokenLastName",
                     "lastName", "owner", "percentOwnership",
-                    "percentOwnershipValue", "submitBtn",
+                    "percentOwnershipValue", "required", "submitBtn",
                     "submitBtnAddAnother", "titleAddress", 
                     "titlePersonalDetails", "tokenPerson"]
 
@@ -15,51 +15,79 @@ export default class extends Controller {
     this.handleFormSubmission();
   }
 
-  handleFormSubmission() {
-    const stripe = Stripe(this.data.get("key"));
+  allRequiredFieldsComplete() {
+    return this.requiredTargets.
+      every((requiredField) => requiredField.value.length !== 0);
+  }
 
+  enableSubmitBtns() {
+    this.submitBtnTarget.disabled = false;
+    this.submitBtnAddAnotherTarget.disabled = false;
+  }
+
+  handleFormSubmission() {
     this.formDetailsTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const personResult = await stripe.createToken("person", {
-          person: {
-            first_name: this.firstNameTarget.value,
-            last_name: this.lastNameTarget.value,
-            email: this.emailTarget.value,
-            address: {
-              line1: this.addressLine1Target.value,
-              line2: this.addressLine2Target.value,
-              city: this.addressCityTarget.value,
-              state: this.addressStateTarget.value,
-              postal_code: this.addressPostalCodeTarget.value,
-              country: this.addressCountryTarget.value
-            },
-            dob: {
-              day: this.dobTarget.value.split("-")[2],
-              month: this.dobTarget.value.split("-")[1],
-              year: this.dobTarget.value.split("-")[0]
-            },
-            relationship: {
-              director: this.directorTarget.checked,
-              owner: this.ownerTarget.checked,
-              percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
-            }
-          }
-        }
-      );
-
-      if (personResult.token) {
-        this.tokenPersonTarget.setAttribute("value", personResult.token.id);
-        this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
-        this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
-
-        this.formTokenTarget.submit();
-      }
-
-      if (personResult.error) {
-        // TODO: handle errors
+      if(this.allRequiredFieldsComplete()) {
+        this.requestStripeTokenAndSubmitForm();
+      } else {
+        this.showEmptyFieldsErrors();
       }
     });
+  }
+
+  personObject() {
+    return {
+      person: {
+        first_name: this.firstNameTarget.value,
+        last_name: this.lastNameTarget.value,
+        email: this.emailTarget.value,
+        address: {
+          line1: this.addressLine1Target.value,
+          line2: this.addressLine2Target.value,
+          city: this.addressCityTarget.value,
+          state: this.addressStateTarget.value,
+          postal_code: this.addressPostalCodeTarget.value,
+          country: this.addressCountryTarget.value
+        },
+        dob: {
+          day: this.dobTarget.value.split("-")[2],
+          month: this.dobTarget.value.split("-")[1],
+          year: this.dobTarget.value.split("-")[0]
+        },
+        relationship: {
+          director: this.directorTarget.checked,
+          owner: this.ownerTarget.checked,
+          percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
+        }
+      }
+    };
+  }
+
+  async requestStripeTokenAndSubmitForm() {
+    const stripe = Stripe(this.data.get("key"));
+    const personResult = await stripe.createToken("person", this.personObject());
+
+    if (personResult.token) {
+      this.submitTokenForm(personResult.token.id);
+    }
+
+    if (personResult.error) {
+      // TODO: handle errors
+    }
+  }
+
+  submitTokenForm(personTokenId) {
+    this.tokenPersonTarget.setAttribute("value", personTokenId);
+    this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
+    this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
+
+    this.formTokenTarget.submit();
+  }
+
+  showEmptyFieldsErrors() {
+    this.requiredTargets.forEach(this.toggleEmptyFieldErrMsg);
   }
 
   toggleCompanyRelationship() {
@@ -71,6 +99,14 @@ export default class extends Controller {
       this.percentOwnershipTarget.classList.add("d-none");
       this.titleAddressTarget.innerHTML = "Director's Address";
       this.titlePersonalDetailsTarget.innerHTML = "Director's personal details";
+    }
+  }
+
+  toggleEmptyFieldErrMsg(target) {
+    if (target.value.length === 0) {
+      target.nextElementSibling.classList.remove("d-none");
+    } else {
+      target.nextElementSibling.classList.add("d-none");
     }
   }
 }
