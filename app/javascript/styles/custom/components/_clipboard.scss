@@ -1,6 +1,8 @@
 .clipboard-input {
   font-size: 75%;
   float: right;
+  -webkit-user-select: all; 
+  user-select: all;
 }
 
 .message {
@@ -13,14 +15,13 @@
 
 .outer-text-wrapper {
   width: 200px;
-  text-align: right;
   color: shade($light-gray, 10%);
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
   background-color: $white-smoke;
   border-right: 0;
-  padding: 5px 8px 5px 0;
+  padding: 5px 8px 5px 5px;
 }
 
 .copied {
