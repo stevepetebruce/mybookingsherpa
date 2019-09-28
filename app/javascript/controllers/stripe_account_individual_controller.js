@@ -84,7 +84,7 @@ export default class extends StripeBaseController {
     }
 
     if (accountResult.error) {
-      this.showStripeApiError(accountResult.error);
+      this.showStripeApiError(accountResult.error, true);
       this.enableSubmitBtn();
     }
   }

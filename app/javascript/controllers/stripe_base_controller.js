@@ -16,13 +16,17 @@ export class StripeBaseController extends Controller {
             "addressPostalCode", "addressCountry"];
   }
 
+  enableSubmitBtn() {
+    this.submitBtnTarget.disabled = false;
+  }
+
   personalDetails() {
     return ["dob", "email", "firstName", "lastName"];
   }
 
   possibleFieldsWithErr(errMsg) {
     // ex: "account[individual][dob][year]" -> ["individual", dob", "year"]
-    return errMsg.split("[").map(x => { x.replace("]",""); });
+    return errMsg.split("[").map((x) => { return x.replace("]",""); });
   }
 
   togglePersonalBusinessDetails(fieldWithError) {
@@ -39,13 +43,13 @@ export class StripeBaseController extends Controller {
     }
   }
 
-  showStripeApiError(error) {
+  showStripeApiError(error, solo = false) {
     // TODO: what about when there's more than one error?
     const fieldWithError = this.possibleFieldsWithErr(error.param).
-                             filter(possibleField => { this.allDetails().includes(possibleField) });
+                             filter((possibleField) => { return this.allDetails().includes(possibleField); });
     const errorAlertElement = document.querySelector(`[data-target='${fieldWithError}-error']`);
 
-    this.togglePersonalBusinessDetails(fieldWithError);
+    if(solo) { this.togglePersonalBusinessDetails(fieldWithError); }
 
     if(fieldWithError !== undefined) {
       errorAlertElement.classList.remove("d-none");
