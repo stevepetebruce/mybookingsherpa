@@ -12,13 +12,18 @@ module Guides
       def new; end
 
       def create
-        create_new_company_person # TODO: need to surface any errors from Stripe API
+        create_new_company_person
 
-        if add_another_company_person?
-          redirect_to new_guides_welcome_company_person_path
+        if successful?
+          if add_another_company_person?
+            redirect_to new_guides_welcome_company_person_path
+          else
+            redirect_to new_guides_welcome_bank_account_path
+          end
         else
-          redirect_to new_guides_welcome_bank_account_path
-        end
+          flash.now[:alert] = "Problem creating person. #{error_message}"
+          render :new
+        end  
       end
 
       private
@@ -27,11 +32,28 @@ module Guides
         params[:add_another_company_person] == "true"
       end
 
+      def company_person_params
+        params.permit(:first_name, :last_name, :token_person)
+      end
+
       def create_new_company_person
-        CompanyPeople::Factory.create(company_person_params[:first_name],
-                                      company_person_params[:last_name],
-                                      @current_organisation,
-                                      stripe_person.id)
+        @company_person = CompanyPeople::Factory.create(company_person_params[:first_name],
+                                                        company_person_params[:last_name],
+                                                        @current_organisation,
+                                                        stripe_person.id)
+      rescue Stripe::StripeError => e
+        @stripe_error_message = e.message
+      end
+
+      def error_message
+        return @stripe_error_message if defined?(@stripe_error_message)
+
+        @company_person.errors.full_messages.to_sentence
+      end
+
+      def set_current_organisation
+        # TODO: when a Guide owns more than one organisation, will need a way to choose btwn them.
+        @current_organisation ||= current_guide.organisation_memberships.owners.first.organisation
       end
 
       def stripe_person
@@ -41,13 +63,8 @@ module Guides
                                            @current_organisation&.on_trial?)
       end
 
-      def company_person_params
-        params.permit(:first_name, :last_name, :token_person)
-      end
-
-      def set_current_organisation
-        # TODO: when a Guide owns more than one organisation, will need a way to choose btwn them.
-        @current_organisation ||= current_guide.organisation_memberships.owners.first.organisation
+      def successful?
+        error_message.blank?
       end
     end
   end
