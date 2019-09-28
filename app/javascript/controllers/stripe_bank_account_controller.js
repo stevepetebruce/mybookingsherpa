@@ -49,13 +49,13 @@ export default class extends StripeBaseController {
   updateCountryCurrency() {
     switch(this.countryTarget.value) {
       case "GB":
-        this.currencyTarget.value = "GBP";
+        this.currencyTarget.value = "gbp";
         break;
       case "US":
-        this.currencyTarget.value = "USD";
+        this.currencyTarget.value = "usd";
         break;
       default:
-        this.currencyTarget.value = "EUR";
+        this.currencyTarget.value = "eur";
     }     
   }
 }
