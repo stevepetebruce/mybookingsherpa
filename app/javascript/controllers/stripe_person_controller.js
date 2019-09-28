@@ -1,7 +1,7 @@
 // ref: https://stripe.com/docs/connect/account-tokens#javascript
-import { Controller } from "stimulus";
+import { StripeBaseController } from "./stripe_base_controller";
 
-export default class extends Controller {
+export default class extends StripeBaseController {
   static targets = ["addAnotherPerson", "addressLine1", "addressLine2",
                     "addressCity", "addressState", "addressPostalCode",
                     "addressCountry", "director", "dob", "email", "firstName",
@@ -69,14 +69,12 @@ export default class extends Controller {
 
   async requestStripeTokenAndSubmitForm(addAnotherPerson) {
     const stripe = Stripe(this.data.get("key"));
-    const personResult = await stripe.createToken("person", this.personObject());
+    const {token, error} = await stripe.createToken("person", this.personObject());
 
-    if (personResult.token) {
-      this.submitTokenForm(personResult.token.id, addAnotherPerson);
-    }
-
-    if (personResult.error) {
-      // TODO: handle errors
+    if (error) {
+      this.showStripeApiError(error);
+    } else {
+      this.submitTokenForm(token.id, addAnotherPerson);;
     }
   }
 
