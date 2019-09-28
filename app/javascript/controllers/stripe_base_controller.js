@@ -26,7 +26,7 @@ export class StripeBaseController extends Controller {
 
   possibleFieldsWithErr(errMsg) {
     // ex: "account[individual][dob][year]" -> ["individual", dob", "year"]
-    return errMsg.split("[").map(x => { return x.replace("]",""); });
+    return errMsg.split("[").map((x) => { return x.replace("]",""); });
   }
 
   togglePersonalBusinessDetails(fieldWithError) {
@@ -46,7 +46,7 @@ export class StripeBaseController extends Controller {
   showStripeApiError(error, solo = false) {
     // TODO: what about when there's more than one error?
     const fieldWithError = this.possibleFieldsWithErr(error.param).
-                             filter(possibleField => { return this.allDetails().includes(possibleField) });
+                             filter((possibleField) => { return this.allDetails().includes(possibleField); });
     const errorAlertElement = document.querySelector(`[data-target='${fieldWithError}-error']`);
 
     if(solo) { this.togglePersonalBusinessDetails(fieldWithError); }

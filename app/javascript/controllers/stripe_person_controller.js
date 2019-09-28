@@ -74,7 +74,7 @@ export default class extends StripeBaseController {
     if (error) {
       this.showStripeApiError(error);
     } else {
-      this.submitTokenForm(token.id, addAnotherPerson);;
+      this.submitTokenForm(token.id, addAnotherPerson);
     }
   }
 

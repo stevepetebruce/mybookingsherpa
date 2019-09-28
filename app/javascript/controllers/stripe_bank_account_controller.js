@@ -46,10 +46,6 @@ export default class extends StripeBaseController {
     event.target.nextElementSibling.classList.add("d-none");
   }
 
-  enableSubmitBtn() {
-    this.submitBtnTarget.disabled = false;
-  }
-
   updateCountryCurrency() {
     switch(this.countryTarget.value) {
       case "GB":
