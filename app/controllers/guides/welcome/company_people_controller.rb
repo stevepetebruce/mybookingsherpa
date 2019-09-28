@@ -14,7 +14,7 @@ module Guides
       def create
         create_new_company_person # TODO: need to surface any errors from Stripe API
 
-        if create_another_company_person?
+        if add_another_company_person?
           redirect_to new_guides_welcome_company_person_path
         else
           redirect_to new_guides_welcome_bank_account_path
@@ -23,8 +23,8 @@ module Guides
 
       private
 
-      def create_another_company_person?
-        params[:add_another_company_person].present?
+      def add_another_company_person?
+        params[:add_another_company_person] == "true"
       end
 
       def create_new_company_person

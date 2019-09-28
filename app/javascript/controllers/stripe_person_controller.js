@@ -2,17 +2,23 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["addressLine1", "addressLine2", "addressCity",
-                    "addressState", "addressPostalCode", "addressCountry",
-                    "director", "dob", "email", "firstName", "formDetails",
-                    "formToken", "formTokenFirstName", "formTokenLastName",
-                    "lastName", "owner", "percentOwnership",
-                    "percentOwnershipValue", "required", "submitBtn",
-                    "submitBtnAddAnother", "titleAddress", 
-                    "titlePersonalDetails", "tokenPerson"]
+  static targets = ["addAnotherPerson", "addressLine1", "addressLine2",
+                    "addressCity", "addressState", "addressPostalCode",
+                    "addressCountry", "director", "dob", "email", "firstName",
+                    "formDetails", "formToken", "formTokenAddAnotherCompanyPerson",
+                    "formTokenFirstName", "formTokenLastName", "lastName",
+                    "owner", "percentOwnership", "percentOwnershipValue",
+                    "required", "submitBtn", "submitBtnAddAnother",
+                    "titleAddress", "titlePersonalDetails", "tokenPerson"]
 
-  connect() {
-    this.handleFormSubmission();
+  addAnotherPerson() {
+    event.preventDefault();
+    this.handleFormSubmission(true);
+  }
+
+  addPerson() {
+    event.preventDefault();
+    this.handleFormSubmission(false);
   }
 
   allRequiredFieldsComplete() {
@@ -25,16 +31,12 @@ export default class extends Controller {
     this.submitBtnAddAnotherTarget.disabled = false;
   }
 
-  handleFormSubmission() {
-    this.formDetailsTarget.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      if(this.allRequiredFieldsComplete()) {
-        this.requestStripeTokenAndSubmitForm();
-      } else {
-        this.showEmptyFieldsErrors();
-      }
-    });
+  handleFormSubmission(addAnotherPerson) {
+    if(this.allRequiredFieldsComplete()) {
+      this.requestStripeTokenAndSubmitForm(addAnotherPerson);
+    } else {
+      this.showEmptyFieldsErrors();
+    }
   }
 
   personObject() {
@@ -65,12 +67,12 @@ export default class extends Controller {
     };
   }
 
-  async requestStripeTokenAndSubmitForm() {
+  async requestStripeTokenAndSubmitForm(addAnotherPerson) {
     const stripe = Stripe(this.data.get("key"));
     const personResult = await stripe.createToken("person", this.personObject());
 
     if (personResult.token) {
-      this.submitTokenForm(personResult.token.id);
+      this.submitTokenForm(personResult.token.id, addAnotherPerson);
     }
 
     if (personResult.error) {
@@ -78,10 +80,12 @@ export default class extends Controller {
     }
   }
 
-  submitTokenForm(personTokenId) {
+  submitTokenForm(personTokenId, addAnotherPerson) {
+    this.formTokenAddAnotherCompanyPersonTarget.setAttribute("value", addAnotherPerson);
     this.tokenPersonTarget.setAttribute("value", personTokenId);
     this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
     this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
+
 
     this.formTokenTarget.submit();
   }
