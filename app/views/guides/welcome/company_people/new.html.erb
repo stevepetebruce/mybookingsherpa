@@ -147,15 +147,22 @@
                   <% # text_field_tag :phone, "00447980474747" %>
                 </fieldset>
                 <div class="col-md-12 mb-3">
-                  <%= submit_tag "Submit", data: { target: "stripe-person.submitBtn" }, class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" %> 
+                  <%= button_tag "All done", data: { target: "stripe-person.submitBtn", action: "stripe-person#addPerson" }, class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" %> 
 
-                  or <a href="" data-target="stripe-person.submitBtnAddAnother"  class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a>
+                  or &nbsp;
+
+                  <%= button_tag data: { target: "stripe-person.submitBtnAddAnother", action: "stripe-person#addAnotherPerson" }, class: "btn btn-primary btn-lg mt-4 mb-4 mr-2" do %>
+                    <i class="fa fa-plus-circle"></i> Keep on adding people...
+                  <% end %> 
+
+                 <!--  <a href="" data-target="stripe-person.submitBtnAddAnother"  class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a> -->
                 </div> 
               <% end %>
               <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe-person.formToken" }) do |form| %>
-                <%= form.hidden_field :token_account, data: { target: "stripe-person.tokenPerson" } %>
+                <%= form.hidden_field :add_another_company_person, data: { target: "stripe-person.formTokenAddAnotherCompanyPerson" } %>
                 <%= form.hidden_field :first_name, data: { target: "stripe-person.formTokenFirstName" } %>
                 <%= form.hidden_field :last_name, data: { target: "stripe-person.formTokenLastName" } %>
+                <%= form.hidden_field :token_account, data: { target: "stripe-person.tokenPerson" } %>
               <% end %>
             </div>
           </div>
