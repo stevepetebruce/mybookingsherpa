@@ -33,11 +33,11 @@
                 </div>
                 <div class="col col-lg-1"></div>
               </div>
-              <div class="accordion" id="accordion" data-controller="hide-related-element">
+              <div class="accordion" id="accordion" data-controller="onboarding">
                 <% @trips.each_with_index do |trip, count| %>
                   <div class="card">
                     <div class="card-header pointer collapsed" id="<%= "trip-#{trip.id}-header" %>" data-toggle="collapse" data-target="<%= "#trip-#{trip.id}-card" %>" aria-expanded="false"
-                      aria-controls="collapseOne" data-action="click->hide-related-element#hideTargetElement" data-hide-element="<%= element_to_hide(trip, count) %>">
+                      aria-controls="collapseOne" data-action="click->onboarding#hideTargetElement" data-hide-element="<%= element_to_hide(trip, count) %>">
                       <div class="row" data-hide-element="<%= element_to_hide(trip, count) %>">
                         <div class="row col-10 col-sm-7 h4 font-weight-bold no-gutters" data-hide-element="<%= element_to_hide(trip, count) %>">
                           <div class="col col-md-8 col-sm-12" data-hide-element="<%= element_to_hide(trip, count) %>">
@@ -47,7 +47,7 @@
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
                           <% if show_first_trial_booking_explaner_element?(trip, count) %>
-                            <div class="pointer-hand position-absolute hand-right d-sm-none d-md-block d-none d-sm-block" data-hide-element-target="pointer-three">👉</div>
+                            <div class="pointer-hand position-absolute hand-right d-sm-none d-md-block d-none d-sm-block" data-hide-element-target="pointer-three" data-hide-element="pointer-three">👉</div>
                           <% end %>
                         </div> 
                         <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="<%= element_to_hide(trip, count) %>">
@@ -80,7 +80,7 @@
                                   <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
                                 </div>
                                 <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
-                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->hide-related-element#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
                                   <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
                                 <% else %>
