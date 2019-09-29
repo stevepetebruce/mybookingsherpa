@@ -20,7 +20,7 @@
     </div>
     <div class="col onboard-right">
       <div class="row">
-        <div class="col-md-12 mb-3"><%= link_to "Exit and return to trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
+        <div class="col-md-12 mb-3"><%= link_to "Exit and return to my trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
         <div class="col-md-12 mb-5 mt-3">
           <div class="progress">
             <div class="one primary-color"></div>
@@ -60,7 +60,8 @@
               </div>
               <div class="col-md-5 mb-3">
                 <%= label_tag :currency %>
-                <%= select_tag(:currency, raw("<option>EUR</option><option>GBP</option><option>USD</option>"), class: "form-control customselect", data: { target: "stripe-bank-account.currency", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" }) %>
+                <%= select_tag :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @current_organisation.currency), { class: "form-control customselect", data: { target: "stripe-bank-account.currency", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" }} %>
+
                 <div class="text-danger d-none" data-target="currency-error">Please enter your currency</div>
               </div>
             </div>

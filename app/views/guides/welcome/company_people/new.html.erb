@@ -23,7 +23,7 @@
       </div>
       <div class="col onboard-right">
         <div class="row">
-          <div class="col-md-12 mb-3"><%= link_to "Exit and return to trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
+          <div class="col-md-12 mb-3"><%= link_to "Exit and return to my trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
           <div class="col-md-12 mb-5 mt-3">
             <div class="progress">
               <div class="one primary-color"></div>
@@ -35,15 +35,17 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <h2 class="mt-2">Almost Complete! Please enter the company directors</h2>
-              <h5 class="mt-5 font-weight-bold">Completed Owners/Directors</h5>
-              <div class="card border">
-                <div class="card-body">
-                  <% @current_organisation.company_people.each do |company_person| %>
-                    <h4 class="card-title"><%= "#{company_person.first_name} #{company_person.last_name}" %> <!-- TODO: <a href="#" class="btn btn-sm btn-primary float-right">edit</a> --></h4>
-                  <% end %>
+              <h2 class="mt-2">Almost Complete! Please enter the company's directors/owners</h2>
+              <% if @current_organisation.company_people.any? %>
+                <h5 class="mt-5 font-weight-bold">Completed Owners/Directors</h5>
+                <div class="card border">
+                  <div class="card-body">
+                    <% @current_organisation.company_people.each do |company_person| %>
+                      <h4 class="card-title"><%= "#{company_person.first_name} #{company_person.last_name}" %> <!-- TODO: <a href="#" class="btn btn-sm btn-primary float-right">edit</a> --></h4>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
             <div class="p-2 col-sm-12 col-md-12 col-lg-8">
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
