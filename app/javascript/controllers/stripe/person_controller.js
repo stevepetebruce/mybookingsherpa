@@ -1,5 +1,5 @@
 // ref: https://stripe.com/docs/connect/account-tokens#javascript
-import { StripeBaseController } from "./stripe_base_controller";
+import { StripeBaseController } from "./base_controller";
 
 export default class extends StripeBaseController {
   static targets = ["addAnotherPerson", "addressLine1", "addressLine2",
