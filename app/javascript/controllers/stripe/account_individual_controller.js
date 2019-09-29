@@ -1,5 +1,5 @@
 // Ref: https://stripe.com/docs/api/tokens/create_account
-import { StripeBaseController } from "./stripe_base_controller";
+import { StripeBaseController } from "./base_controller";
 
 export default class extends StripeBaseController {
   static targets = ["addressLine1", "addressLine2", "addressCity",

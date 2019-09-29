@@ -1,4 +1,4 @@
-<div class="container-fluid full-height" data-controller="stripe-bank-account country-auto-select" data-stripe-bank-account-key="<%=@current_organisation.stripe_publishable_key%>">
+<div class="container-fluid full-height" data-controller="stripe--bank-account country-auto-select" data-stripe--bank-account-key="<%=@current_organisation.stripe_publishable_key%>">
   <div class="row row-height">
     <div class="col-lg-4 content-left">
       <div class="content-left-wrapper bg_img bg5">
@@ -39,38 +39,38 @@
             <div class="col-md-12 mb-3">
               <h4 class="mb-3 font-weight-bold">Your Banking Details</h4>
               <%= label_tag :account_holder_name %>
-              <%= text_field_tag :account_holder_name, "Mr A Smith", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.accountHolderName", action: "keyup->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
+              <%= text_field_tag :account_holder_name, "Mr A Smith", class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.accountHolderName", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
               <div class="text-danger d-none" data-target="account_holder_name-error">Please enter your name</div>
             </div>
             <div class="col-md-12 mb-3">
               <%= label_tag "Account number" %><span class="small"><i>(full IBAN, if in EU)</i></span>
-              <%= text_field_tag :account_number, "00012345", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.accountNumber", action: "keyup->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
+              <%= text_field_tag :account_number, "00012345", class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.accountNumber", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
               <div class="text-danger d-none" data-target="account_number-error">Please enter your bank account number</div>
             </div>
             <div class="col-md-12 mb-3">
               <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
-              <%= text_field_tag :routing_number, "108800", class: "form-control", autofocus: true, required: true, data: { target: "stripe-bank-account.routingNumber", action: "keyup->stripe-bank-account#hideErrorEnableSubmitBtn" } %>
+              <%= text_field_tag :routing_number, "108800", class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.routingNumber", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
               <div class="text-danger d-none" data-target="routing_number-error">Please enter your sort code/routing number</div>
             </div>
             <div class="row pl-3">
               <div class="col-md-6 mb-3 pr-5">
                 <%= label_tag :country %>
-                <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe-bank-account.country country-auto-select.countrySelectField", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn change->stripe-bank-account#updateCountryCurrency" } %>
+                <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "FR" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe--bank-account.country country-auto-select.countrySelectField", action: "change->stripe--bank-account#hideErrorEnableSubmitBtn change->stripe--bank-account#updateCountryCurrency" } %>
                 <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
               </div>
               <div class="col-md-5 mb-3">
                 <%= label_tag :currency %>
-                <%= select_tag :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @current_organisation.currency), { class: "form-control customselect", data: { target: "stripe-bank-account.currency", action: "change->stripe-bank-account#hideErrorEnableSubmitBtn" }} %>
+                <%= select_tag :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @current_organisation.currency), { class: "form-control customselect", data: { target: "stripe--bank-account.currency", action: "change->stripe--bank-account#hideErrorEnableSubmitBtn" }} %>
 
                 <div class="text-danger d-none" data-target="currency-error">Please enter your currency</div>
               </div>
             </div>
           <div class="col-md-12 mb-3">
-            <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe-bank-account.form" }) do |form| %>
-            <%= form.hidden_field :token_account, data: { target: "stripe-bank-account.tokenAccount" } %>
-            <%= submit_tag "Complete Setup", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe-bank-account.submitBtn" } %>
+            <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe--bank-account.form" }) do |form| %>
+            <%= form.hidden_field :token_account, data: { target: "stripe--bank-account.tokenAccount" } %>
+            <%= submit_tag "Complete Setup", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--bank-account.submitBtn" } %>
           <% end %>
-          <%= hidden_field_tag :account_holder_type, "individual", data: { target: "stripe-bank-account.accountHolderType" } %>
+          <%= hidden_field_tag :account_holder_type, "individual", data: { target: "stripe--bank-account.accountHolderType" } %>
           </div>
         </div>
       </div>
