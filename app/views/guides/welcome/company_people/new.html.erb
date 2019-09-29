@@ -54,10 +54,16 @@
                   <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Director's/Owner's relationship to company</h4></div>
                   <div class="row pl-3">
                     <div class="col col-md-6 mb-3">
-                      <%= radio_button_tag(:relationship, :director, true, class: "", data: { action: "stripe--person#toggleCompanyRelationship", target: "stripe--person.director" }) %>
-                      <%= label_tag("Director") %>
-                      <%= radio_button_tag(:relationship, :owner, false, class: "", data: { action: "stripe--person#toggleCompanyRelationship", target: "stripe--person.owner" }) %>
-                      <%= label_tag("Owner") %>
+                      <label class="radiocontainer">
+                        <%= radio_button_tag(:relationship, :director, true, class: "", data: { action: "stripe--person#toggleCompanyRelationship", target: "stripe--person.director" }) %>
+                        <span class="customradio"></span>
+                        Director
+                      </label>
+                      <label class="radiocontainer">
+                        <%= radio_button_tag(:relationship, :owner, false, class: "", data: { action: "stripe--person#toggleCompanyRelationship", target: "stripe--person.owner" }) %>
+                        <span class="customradio"></span>
+                        Owner
+                      </label>
                     </div>
                   </div>
 
