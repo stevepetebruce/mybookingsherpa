@@ -44,48 +44,55 @@
             <div class="p-2 col-sm-12 col-md-12 col-lg-8" data-controller="stripe--account-company" data-stripe--account-company-key="<%= @current_organisation.stripe_publishable_key %>">
               <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Your company details</h4></div>
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
-              <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe--account-company.formDetails" }) do |form| %>
+              <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.formDetails" }) do |form| %>
                 <fieldset>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :company_name %>
-                    <%= text_field_tag :company_name, "My new business", data: { target: "stripe--account-company.name" }, class: "form-control" %>
+                    <%= text_field_tag :company_name, "My new business", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.name stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                    <div class="text-danger d-none" data-target="company_name-error">Please enter your company name</div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line1, "Company address line 1" %>
-                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { target: "stripe--account-company.addressLine1" }, class: "form-control" %>
+                    <%= text_field_tag :address_line1, "21 Palmeira Street", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressLine1 stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                    <div class="text-danger d-none" data-target="line1-error">Please enter your address</div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line2, "Company address line 2" %>
-                    <%= text_field_tag :address_line2, "Flat 10", data: { target: "stripe--account-company.addressLine2" }, class: "form-control"  %>
+                    <%= text_field_tag :address_line2, "Flat 10", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressLine2" }, class: "form-control" %>
+                    <div class="text-danger d-none" data-target="line2-error">Please enter your address</div>
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :address_city, "City" %>
-                      <%= text_field_tag :address_city, "Brighton", data: { target: "stripe--account-company.addressCity" }, class: "form-control"  %>
+                      <%= text_field_tag :address_city, "Brighton", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressCity stripe--account-company.requiredBusiness" }, class: "form-control"  %>
+                      <div class="text-danger d-none" data-target="city-error">Please enter your city</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :address_state, "State/County" %>
-                      <%= text_field_tag :address_state, "East Sussex", data: { target: "stripe--account-company.addressState" }, class: "form-control" %>
+                      <%= text_field_tag :address_state, "East Sussex", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressState stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="state-error">Please enter your state/county</div>
                     </div>
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :address_postal_code, "Post/Zip code" %>
-                      <%= text_field_tag :address_postal_code, "BN1 4QR", data: { target: "stripe--account-company.addressPostalCode" }, class: "form-control" %>
+                      <%= text_field_tag :address_postal_code, "BN1 4QR", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressPostalCode stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="postal_code-error">Please enter your post/zip code</div>
                     </div>
                     <div class="col col-md-6 mb-3">
                       <%= label_tag :address_country, "Country" %>
-                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, class: "form-control customselect", required: true, autofocus: true, data: { target: "stripe--bank-account.country stripe--account-company.addressCountry", action: "change->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
+                      <%= country_select "", :country, { priority_countries: ["FR", "GB", "DE", "NL", "IT"], selected: "GB" }, class: "form-control customselect", required: true, autofocus: true, data: { action: "change->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.addressCountry stripe--account-company.requiredBusiness" } %>
+                      <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
                     </div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :tax_id, "Tax ID / VAT Number" %>
-                    <%= text_field_tag :tax_id, "", data: { target: in_gb? ? "stripe--account-company.vatId" : "stripe--account-company.taxId" }, class: "form-control" %>
+                    <%= text_field_tag :tax_id, "", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: in_gb? ? "stripe--account-company.vatId" : "stripe--account-company.taxId" }, class: "form-control" %>
                   </div>
                   <div class="col-md-12 mb-3">
                     <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
                     I agree to the <a class="font-italic" href="https://stripe.com/gb/connect-account/legal" target="_blank">Stripe Connected Account Agreement</a>
-                    <%= form.check_box :accepted_tos, required: true, data: { action: "change->stripe--account-company#enableSubmitBtn", target: "stripe--account-company.stripeTosCheckBox" } %>
+                    <%= form.check_box :accepted_tos, required: true, data: { action: "change->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.stripeTosCheckBox" } %>
                     <span><i> (required)</i></span>
                     <div class="text-danger d-none text-small" data-target="stripe--account-company.acceptedTosError">Please confirm you accept Stripe's Connected Account Agreement</div>
                   </div>
