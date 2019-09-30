@@ -3,38 +3,32 @@ import { StripeBaseController } from "./base_controller";
 
 export default class extends StripeBaseController {
   static targets = ["accountHolderName", "accountHolderType", "accountNumber",
-                    "country", "currency", "form", "routingNumber", "submitBtn",
-                    "tokenAccount"]
+                    "country", "currency", "formDetails", "formToken",
+                    "required", "routingNumber", "submitBtn", "tokenAccount"]
 
   connect() {
-    this.addFormSubmissionHandler();
+    this.handleFormSubmission();
   }
 
-  addFormSubmissionHandler() {
-    const controller = this;
-    const form = this.formTarget;
-    const stripe = Stripe(this.data.get("key"));
+  allFieldsComplete() {
+    return this.requiredTargets.
+      every((requiredField) => requiredField.value.length !== 0);
+  }
 
-    form.addEventListener("submit", async function (event) {
+  handleFormSubmission() {
+    this.formDetailsTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const accountResult = await stripe.createToken("bank_account", {
-        account_holder_name: controller.accountHolderNameTarget.value,
-        account_holder_type: controller.accountHolderTypeTarget.value,
-        account_number: controller.accountNumberTarget.value,
-        country: controller.countryTarget.value,
-        currency: controller.currencyTarget.value,
-        routing_number: controller.routingNumberTarget.value
-      });
-
-      if (accountResult.token) {
-        controller.tokenAccountTarget.setAttribute("value", accountResult.token.id);
-        form.submit();
-      }
-      if (accountResult.error) {
-        controller.showStripeApiError(accountResult.error);
+      if (this.allFieldsComplete()) {
+        this.requestStripeTokenAndSubmitForm();
+      } else {
+        this.showEmptyFieldsErrors();
       }
     });
+  }
+
+  hideError(event) {
+    event.target.nextElementSibling.classList.add("d-none");
   }
 
   hideErrorEnableSubmitBtn(event) {
@@ -42,8 +36,36 @@ export default class extends StripeBaseController {
     this.enableSubmitBtn();
   }
 
-  hideError(event) {
-    event.target.nextElementSibling.classList.add("d-none");
+  async requestStripeTokenAndSubmitForm() {
+    const stripe = Stripe(this.data.get("key"));
+
+    const {token, error} = await stripe.createToken("bank_account", {
+      account_holder_name: this.accountHolderNameTarget.value,
+      account_holder_type: this.accountHolderTypeTarget.value,
+      account_number: this.accountNumberTarget.value,
+      country: this.countryTarget.value,
+      currency: this.currencyTarget.value,
+      routing_number: this.routingNumberTarget.value
+    });
+
+    if (error) {
+      this.showStripeApiError(error);
+    } else {
+      this.tokenAccountTarget.setAttribute("value", token.id);
+      this.formTokenTarget.submit();
+    }
+  }
+
+  showEmptyFieldsErrors() {
+    this.requiredTargets.forEach(this.toggleEmptyFieldErrMsg);
+  }
+
+  toggleEmptyFieldErrMsg(target) {
+    if (target.value.length === 0) {
+      target.nextElementSibling.classList.remove("d-none");
+    } else {
+      target.nextElementSibling.classList.add("d-none");
+    }
   }
 
   updateCountryCurrency() {
