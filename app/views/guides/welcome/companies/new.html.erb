@@ -96,10 +96,6 @@
                     <span><i> (required)</i></span>
                     <div class="text-danger d-none text-small" data-target="stripe--account-company.acceptedTosError">Please confirm you accept Stripe's Connected Account Agreement</div>
                   </div>
-                  <!-- TODO:
-                  1) account.company.directors_provided - need to set this to true when guide has added all directors...
-                  2) owners_provided  - - need to set this to true when guide has added all owners...
-                     -->
                   </fieldset>
                   <%= submit_tag "Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--account-company.submitBtn" } %>
                 <% end %>
