@@ -4,25 +4,16 @@
       <div class="col-lg-4 content-left">
         <div class="content-left-wrapper bg_img bg4">
           <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
-          <div class="wrapper">
-            <!--             
-            <div class="py-4 text-center">
-              <p class="quotation-mark">
-                “
-              </p>
-              <h3 class="quote-text">
-              </h3>
-              <div class="blog-post-actions">
-                <p class="blog-post-bottom">
-                </p>
-              </div>
+          <div class="wrapper">           
+            <div class="mb-5 text-left">
+              <h2 class="font-weight-bold">Almost Complete!</h2>
+              <h2>Please enter the company's directors/owners</h2>
             </div> 
-            -->
           </div>
         </div>
       </div>
       <div class="col onboard-right">
-        <div class="row">
+        <div class="row col-lg-11">
           <div class="col-md-12 mb-3"><%= link_to "Exit and return to my trips", guides_trips_path, class: "btn btn-outline-secondary float-right" %></div>
           <div class="col-md-12 mb-5 mt-3">
             <div class="progress">
@@ -35,7 +26,6 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <h2 class="mt-2">Almost Complete! Please enter the company's directors/owners</h2>
               <% if @current_organisation.company_people.any? %>
                 <h5 class="mt-5 font-weight-bold">Completed Owners/Directors</h5>
                 <div class="card border">
