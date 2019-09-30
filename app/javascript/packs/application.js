@@ -14,7 +14,6 @@ import "../styles/application.scss";
 import "bootstrap";
 import $ from "jquery";
 import Rails from "rails-ujs";
-import "popper.js";
 
 import "../javascript/clipboard.js";
 import "../javascript/custom.js";
