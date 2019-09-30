@@ -16,15 +16,15 @@ module Guides
         External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id,
                                                     params[:token_account])
         track_onboarding_event("new_bank_account_created")
-        solo_founder_trial_completed_tasks
+        onboarding_complete_tasks
         # TODO: need to deal with a failed bank account creation...
         redirect_to guides_trips_path(completed_set_up: true)
       end
 
       private
 
-      def solo_founder_trial_completed_tasks
-        return unless @current_organisation.solo_founder?
+      def onboarding_complete_tasks
+        return if @current_organisation.onboarding_complete? # Don't want to delete genuine bookings
 
         @current_organisation.onboarding.update_columns(complete: true)
         track_onboarding_event("trial_ended")
