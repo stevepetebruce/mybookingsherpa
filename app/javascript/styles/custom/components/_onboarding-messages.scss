@@ -18,11 +18,14 @@
     margin: 12px 0;
   }
   a {
-    color: $blue;
+    color: $dodger-blue;
   }
   a:hover {
-    color: $blue;
+    color: $dodger-blue;
     text-decoration: underline;
+  }
+  .icon-link {
+    text-decoration: none;
   }
 }
 
