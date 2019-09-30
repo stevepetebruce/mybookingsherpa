@@ -5,24 +5,19 @@
         <div class="content-left-wrapper bg_img bg3">
           <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
           <div class="wrapper">
-            <!--
-            <div class="py-4 text-center">
-              <p class="quotation-mark">
-                “
-              </p>
-              <h3 class="quote-text">
-              </h3>
-              <div class="blog-post-actions">
-                <p class="blog-post-bottom">
-                </p>
-              </div>
+            <div class="mb-5 text-left">
+              <h2 class="font-weight-bold">Great!</h2>
+              <h2>First you need to enter your company details
+              </h2>
+              <h2>
+              Then, on the next page you'll enter details of the company directors / owners.
+              </h2>
             </div>
-            -->
           </div>
         </div>
       </div>
       <div class="col onboard-right">
-        <div class="row">
+        <div class="row col-lg-10">
           <div class="col-md-12 mb-3"><a href="/guides/trips" class="btn btn-outline-secondary float-right">Exit and return to my trips</a></div>
           <div class="col-md-12 mb-5 mt-3">
             <div class="progress">
@@ -33,15 +28,7 @@
               <div class="progress-bar" style="width: 40%;"></div>
             </div>
           </div>
-            <div class="col-sm-12 col-md-12 col-lg-4">
-              <h2 class="mt-2">Great!</h2>
-              <p>First you need to enter your company details
-              </p>
-              <p>
-              Then, on the next page you'll enter details of the company directors / owners.
-              </p>
-            </div>
-            <div class="p-2 col-sm-12 col-md-12 col-lg-8" data-controller="stripe--account-company" data-stripe--account-company-key="<%= @current_organisation.stripe_publishable_key %>">
+            <div class="col-12" data-controller="stripe--account-company" data-stripe--account-company-key="<%= @current_organisation.stripe_publishable_key %>">
               <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Your company details</h4></div>
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
               <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.formDetails" }) do |form| %>
