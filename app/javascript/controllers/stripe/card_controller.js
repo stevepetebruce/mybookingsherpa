@@ -8,7 +8,7 @@ export default class extends Controller {
   static targets = ["cardElement", "cardErrors", "form", "submitButton"]
 
   connect() {
-    if (!this.hascardElementTarget) { return; } // handle the in trial pretend form
+    if (!this.hasCardElementTarget) { return; } // handle the in trial pretend form
 
     const stripe = Stripe(this.data.get("key"));
     const card = this.createCardElement(stripe);
