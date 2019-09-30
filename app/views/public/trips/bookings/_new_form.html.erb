@@ -4,7 +4,7 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 
-<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--card", stripe_card_key: booking.stripe_publishable_key, target: "stripe--card.form" }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--card", stripe__card_key: booking.stripe_publishable_key, target: "stripe--card.form" }) do |form| %>
   <% # reinstate error / warning notices %>
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
