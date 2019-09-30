@@ -72,20 +72,19 @@
                     <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                       <div class="card-body">
                         <div class="fluid-container">
-                           <div class="row border-bottom pb-3" >
+                          <div class="row border-bottom pb-3" >
                             <div class="col-12 col-md-8 mt-1 text-nowrap d-flex justify-content-start"> 
                               <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 mr-2 text-muted">New Booking Link</h5>
-                              <div class="input-group-append mt-0">    
-                                <div class="outer-text-wrapper">
-                                  <small class="clipboard-input" data-clipboard-source="<%= trip.id %>"><%= trip.new_public_booking_link %></small>
+                              <div class="input-group-append mt-0" data-controller="clipboard">    
+                                <div class="outer-text-wrapper" data-action="click->clipboard#copyClipboard">
+                                  <small class="clipboard-input" data-target="clipboard.clipboardInput"><%= trip.new_public_booking_link %></small>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-clipboard-btn="<%= trip.id %>"><i class="fa fa-copy" data-clipboard-btn="<%= trip.id %>"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
                                 <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
                                   <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
-                                <% else %>
-                                  <span data-clipboard-message="<%= trip.id %>" class="small ml-2 message">Copied</span>
                                 <% end %>
+                                <span data-target="clipboard.copiedMessage" class="small ml-2 message">Copied</span>
                               </div>
                             </div>
                             <div class="col-12 col-md-4">
