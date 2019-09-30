@@ -18,6 +18,9 @@
               <% if params[:completed_set_up] %>
                 <!-- On-boarding complete --> 
                 <div class="onboard-message fullwidth mt5 mb0">
+                  <%= link_to guides_trips_path, class: "float-right" do %>
+                    <i class="fa fa-times-circle-o text-primary fa-lg icon-link"></i>
+                  <% end %>
                   <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Congratulations!</strong>
                   <br>
                   You have completed the guide set up and can now start taking real bookings with real money.<i>
