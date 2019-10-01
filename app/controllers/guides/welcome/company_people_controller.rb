@@ -18,6 +18,7 @@ module Guides
           if add_another_company_person?
             redirect_to new_guides_welcome_company_person_path
           else
+            all_company_people_added_jobs
             redirect_to new_guides_welcome_bank_account_path
           end
         else
@@ -32,8 +33,12 @@ module Guides
         params[:add_another_company_person] == "true"
       end
 
+      def all_company_people_added_jobs
+        Onboardings::AllCompanyPeopleProvidedJob.perform_later(@current_organisation, company_person_params[:token_account])
+      end
+
       def company_person_params
-        params.permit(:first_name, :last_name, :token_person)
+        params.permit(:first_name, :last_name, :token_account, :token_person)
       end
 
       def create_new_company_person

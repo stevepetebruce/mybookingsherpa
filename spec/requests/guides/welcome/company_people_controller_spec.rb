@@ -9,6 +9,9 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
                       organisation: organisation,
                       owner: true)
   end
+  let(:successful_director_response_body) do
+    "#{file_fixture("stripe_api/successful_director.json").read}"
+  end
 
   describe "#new" do
     include_examples "authentication"
@@ -42,7 +45,10 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
         sign_in(guide)
 
         stub_request(:post, "https://api.stripe.com/v1/accounts/#{organisation.stripe_account_id}/persons").
-          to_return(status: 200, body: response_body, headers: {})
+          to_return(status: 200, body: successful_director_response_body, headers: {})
+
+        stub_request(:post, "https://api.stripe.com/v1/accounts/#{organisation.stripe_account_id}").
+         to_return(status: 200, body: "#{file_fixture("stripe_api/successful_company_account_update.json").read}", headers: {})
       end
 
       context "valid and successful" do
@@ -54,9 +60,6 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
               last_name: Faker::Name.name,
               token_person: "person_#{Faker::Crypto.md5}"
             }
-          end
-          let(:response_body) do
-            "#{file_fixture("stripe_api/successful_director.json").read}"
           end
 
           it "should create a director" do  
@@ -83,9 +86,6 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
               last_name: Faker::Name.name,
               token_person: "person_#{Faker::Crypto.md5}"
             }
-          end
-          let(:response_body) do
-            "#{file_fixture("stripe_api/successful_director.json").read}"
           end
 
           it "should create a director" do
@@ -121,7 +121,7 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
               token_person: "person_#{Faker::Crypto.md5}"
             }
           end
-          let(:response_body) do
+          let(:successful_director_response_body) do
             "#{file_fixture("stripe_api/successful_director.json").read}" #TODO: need a real failed response json
           end
 
@@ -151,9 +151,6 @@ RSpec.describe "Guides::Welcome::CompanyPeopleController", type: :request do
               last_name: Faker::Name.name,
               token_person: "person_#{Faker::Crypto.md5}"
             }
-          end
-          let(:response_body) do
-            "#{file_fixture("stripe_api/successful_director.json").read}"
           end
 
           it "should render the new_guides_welcome_company_person_path page with error message" do

@@ -160,7 +160,8 @@
                 <%= form.hidden_field :add_another_company_person, data: { target: "stripe--person.formTokenAddAnotherCompanyPerson" } %>
                 <%= form.hidden_field :first_name, data: { target: "stripe--person.formTokenFirstName" } %>
                 <%= form.hidden_field :last_name, data: { target: "stripe--person.formTokenLastName" } %>
-                <%= form.hidden_field :token_account, data: { target: "stripe--person.tokenPerson" } %>
+                <%= form.hidden_field :token_account, data: { target: "stripe--person.tokenAccount" } %>
+                <%= form.hidden_field :token_person, data: { target: "stripe--person.tokenPerson" } %>
               <% end %>
             </div>
           </div>
