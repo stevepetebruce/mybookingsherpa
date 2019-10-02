@@ -107,6 +107,11 @@
                       <!-- <input type="date" class="form-control" name="dob" placeholder="Date of Birth"> -->
                     </div>
                   </div>
+                  <div class="col-md-12 mb-3">
+                    <%= label_tag :job_title %>
+                    <%= text_field_tag :job_title, "CEO, Support Engineer", data: { action: "keyup->stripe--person#enableSubmitBtns", target: "stripe--person.jobTitle stripe--person.required" }, class: "form-control" %>
+                    <div class="text-danger d-none" data-target="title-error">Please enter your Job Title</div>
+                  </div>
                 </fieldset>
                   <!-- TODO:
                   1) account.company.directors_provided - need to set this to true when guide has added all directors...
