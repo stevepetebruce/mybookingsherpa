@@ -5,8 +5,9 @@ import { StripeBaseController } from "./base_controller";
 export default class extends StripeBaseController {
   static targets = ["acceptedTosError", "addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "formDetails", "formToken", "name", "phone", "requiredBusiness",
-                    "stripeTosCheckBox", "submitBtn", "taxId", "tokenAccount", "vatId"] // TODO: need to send the vat/ tax id to stripe
+                    "formDetails", "formToken", "industry", "name", "phone", 
+                    "requiredBusiness", "stripeTosCheckBox", "submitBtn", "taxId", 
+                    "tokenAccount", "vatId", "website"] // TODO: need to send the vat/ tax id to stripe
 
   connect() {
     this.handleFormSubmission();
@@ -55,6 +56,7 @@ export default class extends StripeBaseController {
       business_type: "company",
       company: {
         name: this.nameTarget.value,
+        phone: this.phoneTarget.value,
         address: {
           line1: this.addressLine1Target.value,
           line2: this.addressLine2Target.value,
@@ -64,7 +66,11 @@ export default class extends StripeBaseController {
           country: this.addressCountryTarget.value
         },
         tax_id: this.taxId(),
-        vat_id: this.vatId()
+        vat_id: this.vatId(),
+      },
+      business_profile: {
+        url: this.websiteTarget.value,
+        product_description: this.industryTarget.value
       },
       tos_shown_and_accepted: true,
     });
