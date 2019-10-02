@@ -46,10 +46,29 @@
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
               <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.formDetails" }) do |form| %>
                 <fieldset>
-                  <div class="col-md-12 mb-3">
-                    <%= label_tag :company_name %>
-                    <%= text_field_tag :company_name, "My new business", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.name stripe--account-company.requiredBusiness" }, class: "form-control" %>
-                    <div class="text-danger d-none" data-target="company_name-error">Please enter your company name</div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :company_name %>
+                      <%= text_field_tag :company_name, "My new business", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.name stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="company_name-error">Please enter your company name</div>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :company_phone, "Phone number" %>
+                      <%= number_field_tag :company_phone, "44392489238402", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.phone stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="company_phone-error">Please enter your company phone number</div>
+                    </div>
+                  </div>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :company_website, "Website" %>
+                      <%= text_field_tag :company_website, "www.test.com", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.website stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="company_website-error">Please enter your business website</div>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :company_industry, "Industry" %>
+                      <%= text_field_tag :company_industry, "Tourism", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.industry stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="company_industry-error">Please enter your industry</div>
+                    </div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <%= label_tag :address_line1, "Company address line 1" %>
