@@ -5,8 +5,9 @@ import { StripeBaseController } from "./base_controller";
 export default class extends StripeBaseController {
   static targets = ["acceptedTosError", "addressLine1", "addressLine2", "addressCity",
                     "addressState", "addressPostalCode", "addressCountry",
-                    "formDetails", "formToken", "industry", "name", "phone", 
-                    "requiredBusiness", "stripeTosCheckBox", "submitBtn", "taxId", 
+                    "formDetails", "formToken", "hasTaxId", "hasVatId", 
+                    "industry", "name", "phone", "requiredBusiness", 
+                    "stripeTosCheckBox", "submitBtn", "taxId", 
                     "tokenAccount", "vatId", "website"] // TODO: need to send the vat/ tax id to stripe
 
   connect() {

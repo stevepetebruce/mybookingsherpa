@@ -91,9 +91,17 @@
                       <div class="text-danger d-none" data-target="country-error">Please enter your country</div>
                     </div>
                   </div>
-                  <div class="col-md-12 mb-3">
-                    <%= label_tag :tax_id, "Tax ID / VAT Number" %>
-                    <%= text_field_tag :tax_id, "", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: in_gb? ? "stripe--account-company.vatId" : "stripe--account-company.taxId" }, class: "form-control" %>
+                  <div class="row ml-1 mr-1">
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :tax_id, "Tax ID" %>
+                      <%= text_field_tag :tax_id, "12345678", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.taxId stripe--account-company.hasTaxId" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="tax_id-error">Please enter your tax number</div>
+                    </div>
+                    <div class="col col-md-6 mb-3">
+                      <%= label_tag :vat_id, "VAT Number" %>
+                      <%= text_field_tag :vat_id, "12345678", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.vatId stripe--account-company.hasVatId" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="vat_id-error">Please enter your VAT number</div>
+                    </div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <!-- TODO: can change this to be in French... https://stripe.com/fr/connect-account/legal#translation -->
