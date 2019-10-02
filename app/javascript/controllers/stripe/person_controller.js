@@ -6,7 +6,7 @@ export default class extends StripeBaseController {
                     "addressCity", "addressState", "addressPostalCode",
                     "addressCountry", "director", "dob", "email", "firstName",
                     "formDetails", "formToken", "formTokenAddAnotherCompanyPerson",
-                    "formTokenFirstName", "formTokenLastName", "lastName",
+                    "formTokenFirstName", "formTokenLastName", "jobTitle", "lastName",
                     "owner", "percentOwnership", "percentOwnershipValue",
                     "required", "submitBtn", "submitBtnAddAnother",
                     "titleAddress", "titlePersonalDetails", "tokenAccount",
@@ -81,6 +81,7 @@ export default class extends StripeBaseController {
           director: this.directorTarget.checked,
           owner: this.ownerTarget.checked,
           percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
+          title: this.jobTitleTarget.value
         }
       }
     };
