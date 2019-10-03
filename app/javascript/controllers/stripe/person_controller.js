@@ -91,6 +91,9 @@ export default class extends StripeBaseController {
     const stripe = Stripe(this.data.get("key"));
     let accountResult, accountToken, personResult;
 
+    // TODO: need to add the first person as the account_opener.
+    // May need to do this as an update, after we have the person's token.
+    // Similar to: https://github.com/AlanDonohoe/mybookingsherpa/pull/534
     if(addAnotherPerson) {
       accountToken = { id: null };
       accountResult = { error: false, token: { id: null } };
