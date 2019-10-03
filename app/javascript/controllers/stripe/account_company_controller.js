@@ -3,12 +3,11 @@ import { StripeBaseController } from "./base_controller";
 // formDetails - the form that gets sent to Stripe
 // formToken - the form (with only the account token in) that gets sent to us
 export default class extends StripeBaseController {
-  static targets = ["acceptedTosError", "addressLine1", "addressLine2", "addressCity",
-                    "addressState", "addressPostalCode", "addressCountry",
-                    "formDetails", "formToken", "hasTaxId", "hasVatId", 
-                    "industry", "name", "phone", "requiredBusiness", 
-                    "stripeTosCheckBox", "submitBtn", "taxId", 
-                    "tokenAccount", "vatId", "website"] // TODO: need to send the vat/ tax id to stripe
+  static targets = ["acceptedTosError", "addressLine1", "addressLine2",
+                    "addressCity", "addressState", "addressPostalCode",
+                    "addressCountry", "formDetails", "formToken", "industry",
+                    "name", "phone", "requiredBusiness", "stripeTosCheckBox",
+                    "submitBtn", "taxId", "tokenAccount", "vatId", "website"]
 
   connect() {
     this.handleFormSubmission();
@@ -66,13 +65,17 @@ export default class extends StripeBaseController {
           postal_code: this.addressPostalCodeTarget.value,
           country: this.addressCountryTarget.value
         },
-        tax_id: this.taxId(),
-        vat_id: this.vatId(),
+        tax_id: this.taxIdTarget.value,
+        vat_id: this.vatIdTarget.value,
       },
-      business_profile: {
-        url: this.websiteTarget.value,
-        product_description: this.industryTarget.value
-      },
+      // Getting this error: Unrecognized token creation parameter parameter: business_profile is not a recognized parameter.
+      // May need to update the company with this data later...
+      // TODO: get the token, then use to post an update with these details in?
+      // Similar to: https://github.com/AlanDonohoe/mybookingsherpa/pull/534
+      // business_profile: {
+      //   url: this.websiteTarget.value,
+      //   product_description: this.industryTarget.value
+      // },
       tos_shown_and_accepted: true,
     });
 
@@ -99,23 +102,11 @@ export default class extends StripeBaseController {
     }
   }
 
-  taxId() {
-    if (this.hasTaxIdTarget) {
-      return this.taxIdTarget.value;
-    }
-  }
-
   toggleEmptyFieldErrMsg(target) {
     if (target.value.length === 0) {
       target.nextElementSibling.classList.remove("d-none");
     } else {
       target.nextElementSibling.classList.add("d-none");
-    }
-  }
-
-  vatId() {
-    if (this.hasVatIdTarget) {
-      return this.vatIdTarget.value;
     }
   }
 }

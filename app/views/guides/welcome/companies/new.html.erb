@@ -5,24 +5,19 @@
         <div class="content-left-wrapper bg_img bg3">
           <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
           <div class="wrapper">
-            <!--
-            <div class="py-4 text-center">
-              <p class="quotation-mark">
-                “
-              </p>
-              <h3 class="quote-text">
-              </h3>
-              <div class="blog-post-actions">
-                <p class="blog-post-bottom">
-                </p>
-              </div>
+            <div class="mb-5 text-left">
+              <h2 class="font-weight-bold">Great!</h2>
+              <h2>First you need to enter your company details
+              </h2>
+              <h2>
+              Then, on the next page you'll enter details of the company directors / owners.
+              </h2>
             </div>
-            -->
           </div>
         </div>
       </div>
       <div class="col onboard-right">
-        <div class="row">
+        <div class="row col-lg-10">
           <div class="col-md-12 mb-3"><a href="/guides/trips" class="btn btn-outline-secondary float-right">Exit and return to my trips</a></div>
           <div class="col-md-12 mb-5 mt-3">
             <div class="progress">
@@ -33,15 +28,7 @@
               <div class="progress-bar" style="width: 40%;"></div>
             </div>
           </div>
-            <div class="col-sm-12 col-md-12 col-lg-4">
-              <h2 class="mt-2">Great!</h2>
-              <p>First you need to enter your company details
-              </p>
-              <p>
-              Then, on the next page you'll enter details of the company directors / owners.
-              </p>
-            </div>
-            <div class="p-2 col-sm-12 col-md-12 col-lg-8" data-controller="stripe--account-company" data-stripe--account-company-key="<%= @current_organisation.stripe_publishable_key %>">
+            <div class="col-12" data-controller="stripe--account-company" data-stripe--account-company-key="<%= @current_organisation.stripe_publishable_key %>">
               <div class="col-md-12"><h4 class="mb-3 font-weight-bold">Your company details</h4></div>
               <% # -- ref: https://stripe.com/docs/api/tokens/create_account %>
               <%= form_with(url: guides_welcome_companies_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.formDetails" }) do |form| %>
@@ -65,8 +52,9 @@
                       <div class="text-danger d-none" data-target="company_website-error">Please enter your business website</div>
                     </div>
                     <div class="col col-md-6 mb-3">
+                      <!-- TODO: could probably hard code this, to always be: "Other entertainment and recreation"  (ref: from Stripe dashboard) -->
                       <%= label_tag :company_industry, "Industry" %>
-                      <%= text_field_tag :company_industry, "Tourism", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.industry stripe--account-company.requiredBusiness" }, class: "form-control" %>
+                      <%= text_field_tag :company_industry, "Other entertainment and recreation", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.industry stripe--account-company.requiredBusiness" }, class: "form-control" %>
                       <div class="text-danger d-none" data-target="company_industry-error">Please enter your industry</div>
                     </div>
                   </div>
@@ -106,13 +94,15 @@
                   </div>
                   <div class="row ml-1 mr-1">
                     <div class="col col-md-6 mb-3">
-                      <%= label_tag :tax_id, "Tax ID" %>
-                      <%= text_field_tag :tax_id, "12345678", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.taxId stripe--account-company.hasTaxId" }, class: "form-control" %>
-                      <div class="text-danger d-none" data-target="tax_id-error">Please enter your tax number</div>
+                      <!-- TODO: could have help / pop ups with info on how to get these details, eg: https://e-justice.europa.eu/content_find_a_company-489-en.do -->
+                      <!-- Stripe onboarding, they have labelled this: "Companies House Registration Number (CRN)" -->
+                      <%= label_tag :company_number, "Company/registration number" %>
+                      <%= text_field_tag :company_number, "07904724", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.taxId" }, class: "form-control" %>
+                      <div class="text-danger d-none" data-target="tax_id-error">Please enter your company number</div>
                     </div>
                     <div class="col col-md-6 mb-3">
-                      <%= label_tag :vat_id, "VAT Number" %>
-                      <%= text_field_tag :vat_id, "12345678", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.vatId stripe--account-company.hasVatId" }, class: "form-control" %>
+                      <%= label_tag :vat_id, "VAT Number (optional)" %> 
+                      <%= text_field_tag :vat_id, "12345678", data: { action: "keyup->stripe--account-company#hideErrorEnableSubmitBtn", target: "stripe--account-company.vatId" }, class: "form-control" %>
                       <div class="text-danger d-none" data-target="vat_id-error">Please enter your VAT number</div>
                     </div>
                   </div>
@@ -123,10 +113,6 @@
                     <span><i> (required)</i></span>
                     <div class="text-danger d-none text-small" data-target="stripe--account-company.acceptedTosError">Please confirm you accept Stripe's Connected Account Agreement</div>
                   </div>
-                  <!-- TODO:
-                  1) account.company.directors_provided - need to set this to true when guide has added all directors...
-                  2) owners_provided  - - need to set this to true when guide has added all owners...
-                     -->
                   </fieldset>
                   <%= submit_tag "Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--account-company.submitBtn" } %>
                 <% end %>

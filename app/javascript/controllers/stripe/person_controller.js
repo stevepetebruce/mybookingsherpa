@@ -9,7 +9,18 @@ export default class extends StripeBaseController {
                     "formTokenFirstName", "formTokenLastName", "jobTitle", "lastName",
                     "owner", "percentOwnership", "percentOwnershipValue",
                     "required", "submitBtn", "submitBtnAddAnother",
-                    "titleAddress", "titlePersonalDetails", "tokenPerson"]
+                    "titleAddress", "titlePersonalDetails", "tokenAccount",
+                    "tokenPerson"]
+
+  accountObject() {
+    return {
+      business_type: "company",
+      company: {
+        directors_provided: true,
+        owners_provided: true
+      }
+    };
+  }
 
   addAnotherPerson() {
     event.preventDefault();
@@ -24,6 +35,14 @@ export default class extends StripeBaseController {
   allRequiredFieldsComplete() {
     return this.requiredTargets.
       every((requiredField) => requiredField.value.length !== 0);
+  }
+
+  async createAccountToken(stripe) {
+    return stripe.createToken("account", this.accountObject());
+  }
+
+  async createPersonToken(stripe) {
+    return stripe.createToken("person", this.personObject());
   }
 
   enableSubmitBtns() {
@@ -70,21 +89,34 @@ export default class extends StripeBaseController {
 
   async requestStripeTokenAndSubmitForm(addAnotherPerson) {
     const stripe = Stripe(this.data.get("key"));
-    const {token, error} = await stripe.createToken("person", this.personObject());
+    let accountResult, accountToken, personResult;
 
-    if (error) {
-      this.showStripeApiError(error);
+    // TODO: need to add the first person as the account_opener.
+    // May need to do this as an update, after we have the person's token.
+    // Similar to: https://github.com/AlanDonohoe/mybookingsherpa/pull/534
+    if(addAnotherPerson) {
+      accountToken = { id: null };
+      accountResult = { error: false, token: { id: null } };
+      personResult = await stripe.createToken("person", this.personObject());
+    } else { // Finished adding people
+      [accountResult, personResult] = await Promise.all([this.createAccountToken(stripe), this.createPersonToken(stripe)]);
+    }
+
+    if (personResult.error) {
+      this.showStripeApiError(personResult.error);
+    } else if(accountResult.error) {
+      this.showStripeApiError(accountResult.error);
     } else {
-      this.submitTokenForm(token.id, addAnotherPerson);
+      this.submitTokenForm(personResult.token.id, accountResult.token.id, addAnotherPerson);
     }
   }
 
-  submitTokenForm(personTokenId, addAnotherPerson) {
+  submitTokenForm(personTokenId, accountTokenId, addAnotherPerson) {
     this.formTokenAddAnotherCompanyPersonTarget.setAttribute("value", addAnotherPerson);
+    this.tokenAccountTarget.setAttribute("value", accountTokenId);
     this.tokenPersonTarget.setAttribute("value", personTokenId);
     this.formTokenFirstNameTarget.setAttribute("value", this.firstNameTarget.value);
     this.formTokenLastNameTarget.setAttribute("value", this.lastNameTarget.value);
-
 
     this.formTokenTarget.submit();
   }

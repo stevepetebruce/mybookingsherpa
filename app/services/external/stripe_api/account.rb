@@ -16,6 +16,10 @@ module External
                                type: "custom")
       end
 
+      def update(stripe_account_id)
+        Stripe::Account.update(stripe_account_id, account_token: @account_token)
+      end
+
       def self.create_live_account(account_token)
         new(account_token).create
       end
