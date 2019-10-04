@@ -159,7 +159,8 @@
                   <% end %> 
 
                  <!--  <a href="" data-target="stripe--person.submitBtnAddAnother"  class="btn btn-outline-primary btn-lg btn-add-director ml-2"><i class="fa fa-plus-circle"></i> Add another director</a> -->
-                </div> 
+                </div>
+                <%= hidden_field_tag :account_opener, @current_organisation.company_people.empty?, data: { target: "stripe--person.accountOpener" } %>
               <% end %>
               <%= form_with(url: guides_welcome_company_people_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe--person.formToken" }) do |form| %>
                 <%= form.hidden_field :add_another_company_person, data: { target: "stripe--person.formTokenAddAnotherCompanyPerson" } %>

@@ -2,7 +2,7 @@
 import { StripeBaseController } from "./base_controller";
 
 export default class extends StripeBaseController {
-  static targets = ["addAnotherPerson", "addressLine1", "addressLine2",
+  static targets = ["accountOpener", "addAnotherPerson", "addressLine1", "addressLine2",
                     "addressCity", "addressState", "addressPostalCode",
                     "addressCountry", "director", "dob", "email", "firstName",
                     "formDetails", "formToken", "formTokenAddAnotherCompanyPerson",
@@ -78,6 +78,7 @@ export default class extends StripeBaseController {
           year: this.dobTarget.value.split("-")[0]
         },
         relationship: {
+          account_opener: this.accountOpenerTarget.value == "true",
           director: this.directorTarget.checked,
           owner: this.ownerTarget.checked,
           percent_ownership: parseInt(this.percentOwnershipValueTarget.value),
