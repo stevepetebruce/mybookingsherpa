@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_102850) do
+ActiveRecord::Schema.define(version: 2019_10_05_093940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_102850) do
     t.integer "deposit_percentage"
     t.integer "full_payment_window_weeks"
     t.string "country_code"
+    t.string "stripe_account_id_test"
   end
 
   create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
