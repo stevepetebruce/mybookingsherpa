@@ -5,8 +5,8 @@
         <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
         <div class="wrapper">
           <div class="mb-5 text-left">
-            <h2 class="font-weight-bold">Please select your business type</h2>
-            <h2>Are you the sole owner or part of a larger company?</h2>
+            <h2 class="font-weight-bold">We're going on a journey</h2>
+            <!-- <h2>Are you the sole owner or part of a larger company?</h2> -->
           </div> 
         </div>
       </div>
@@ -23,18 +23,22 @@
           </div>
         </div>
         <div class="p-2 col-sm-12 col-md-12 col-lg-8">
-          <%= link_to new_guides_welcome_solo_path, class: "onboard-card-link" do %>
-            <div class="onboard card card-1">
-              <h3><i class="fa fa-arrow-circle-o-right mr-1" aria-hidden="true"></i> Individual</h3>
-              <p>Are you the solo founder of your business?</p>
-            </div>
-          <% end %>
-          <%= link_to new_guides_welcome_company_path, class: "onboard-card-link" do %>
-            <div class="onboard card card-2">
-              <h3><i class="fa fa-arrow-circle-o-right mr-1" aria-hidden="true"></i> Company</h3>
-              <p>Are you a company with other directors or owners?</p>
-            </div>
-          <% end %>
+          We're going to take you on a journey, where you will hop over to our partner's site, Stripe.com,
+          to start your account set up.
+          <br>
+          You'll be be entering your business details (name, address, etc) and details of all owners/directors in the company, or just your own, if you're a solo founder.
+          <br>
+          So you'll need:
+          <ul>
+            <li>Business details...</li>
+            <li>Sigificant people details...</li>
+            <li>Some form of ID (a scan/photo of your passport or driving license)</li>
+            <li>And finally your bank account number so we can pay all your money</li>
+          </ul>
+          <br>
+          Once you're done, you'll be able to take instant card payments from all your new bookings.
+          <br>
+          Click <%= link_to "here", @hosted_onboarding_url, target: "_blank" %> to start your account set up. This can take up to 15 minutes but you can always save and continute later.        
         </div>
       </div>
     </div>

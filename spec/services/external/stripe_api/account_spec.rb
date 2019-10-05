@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe External::StripeApi::Account, type: :model do
-  describe "#create_live_account" do
-    subject(:create_live_account) { described_class.create_live_account(account_token) }
+  describe "#create_live_account_from_token" do
+    subject(:create_live_account_from_token) { described_class.create_live_account_from_token(account_token) }
 
     let(:account_token) { "ct_#{Faker::Crypto.md5}" }
     let(:response_body) do
@@ -20,23 +20,23 @@ RSpec.describe External::StripeApi::Account, type: :model do
 
     context "successful" do
       it "should use the Stripe live API key" do
-        create_live_account
+        create_live_account_from_token
 
         expect(Stripe.api_key).to eq ENV.fetch("STRIPE_SECRET_KEY_LIVE")
       end
 
       it "should not raise an exception" do
-        expect { create_live_account }.to_not raise_exception
+        expect { create_live_account_from_token }.to_not raise_exception
       end
 
       it "should return a Stripe::Account Object" do
-        expect(create_live_account.class).to eq Stripe::Account
+        expect(create_live_account_from_token.class).to eq Stripe::Account
       end
     end
   end
 
   describe "#create_test_account" do
-    subject(:create_test_account) { described_class.create_test_account(email, country_code) }
+    subject(:create_test_account) { described_class.create_test_account(country_code, email) }
 
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_individual_account.json").read}"
@@ -50,6 +50,14 @@ RSpec.describe External::StripeApi::Account, type: :model do
           "requested_capabilities"=>["card_payments", "transfers"],
           "type"=>"custom"}).
         to_return(status: 200, body: response_body, headers: {})
+
+      stub_request(:post, "https://api.stripe.com/v1/accounts").
+         with(body: {
+          "country"=>country_code,
+          "email"=>email,
+          "requested_capabilities"=>["card_payments", "transfers"],
+          "type"=>"custom"}).
+         to_return(status: 200, body: response_body, headers: {})
     end
 
     context "successful" do
@@ -73,7 +81,7 @@ RSpec.describe External::StripeApi::Account, type: :model do
   end
 
   describe "#update" do
-    subject(:update) { described_class.new(account_token).update(stripe_account_id) }
+    subject(:update) { described_class.new(account_token: account_token).update(stripe_account_id) }
 
     let(:account_token) { "ct_#{Faker::Crypto.md5}" }
     let(:response_body) { "#{file_fixture("stripe_api/successful_company_account_update.json").read}" }

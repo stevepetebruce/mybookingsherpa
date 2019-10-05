@@ -113,7 +113,7 @@ RSpec.describe "Guides::Welcome::SolosController", type: :request do
         context "Stripe API throws an exception" do
           before do
             allow(External::StripeApi::Account).
-              to receive(:create_live_account).
+              to receive(:create_live_account_from_token).
               with(token_account).
               and_raise(Stripe::InvalidRequestError.new(exception_message, exception_param, http_status: exception_http_status))
           end
