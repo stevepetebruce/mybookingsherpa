@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_05_093940) do
+ActiveRecord::Schema.define(version: 2019_10_07_100041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 2019_10_05_093940) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "complete", default: false
+    t.boolean "stripe_account_complete", default: false
     t.index ["events"], name: "index_onboardings_on_events", using: :gin
     t.index ["organisation_id"], name: "index_onboardings_on_organisation_id"
   end
