@@ -7,8 +7,7 @@
   </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
-  <div class="fade show active" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab">
-    <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
+  <div class="tab-pane fade show active" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab">    <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
       <%= form.label :trip_name %>
       <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", required: true, autofocus: auto_focus(@trip, form_field: :name) %>
       <div class="invalid-feedback">
@@ -123,9 +122,67 @@
       <div class="row mt-5 mb-5">
         <button class="btn btn-lg btn-primary btn-block" type="submit"><%= @trip.new_record? ? "Add Trip" : "Update Trip" %></button>
       </div>
-    <% end %>
+    <% end %></div>
+  <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab"><div class="container-fluid full-height">
+      <div class="row row-height" style="overflow: hidden;">
+        <div class="col-lg-4 content-left">
+          <div class="content-left-wrapper bg_img">
+            <div class="wrapper">
+              <div class="py-4 text-center">
+                
+                <h1 class="font-weight-bold mb-0">Trip Name</h1>
+                <h3 class="mb-5">
+                  12 - 14 December
+                </h3>
+                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> £123</h2>
+                <h5 class="mb-3">£123 will be taken on 2020-06-03</h5>
+                <h1><span class="h2 mr-3 font-weight-light">Total:</span>£300</h1>
+                <div id="summary" class="mt-5">
+                  <p>
+                    fhsjkfds kf k fhksdfhsdkhf kdshfdks hk
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col content-right new-onboarding">
+          <form>
+            <h4 class="mb-3 font-weight-bold">Your Details</h4>  
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="booking_name">Full Name</label>
+                <input value="Boris Johnson" class=" form-control" autofocus="autofocus" required="required" readonly="readonly" type="text" name="booking[name]" id="booking_name">
+                <div class="invalid-feedback">
+                  Please enter your name
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="booking_email">Email</label>
+              <input value="b.johnson@gmail.com" class=" form-control" required="required" readonly="readonly" type="text" name="booking[email]" id="booking_email">
+            </div>
+            <hr class="mb-5 mb-4">
+            <h4 class="mb-3 font-weight-bold">
+              Payment of £345.00
+              </h4>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                  <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
+                  <input type="text" name="fake_card_details" id="fake_card_details" value="4242 4242 4242 4242                                                          10 / 20    123" class="form-control" required="required" readonly="readonly">
+              </div>
+            </div>
+            <div class="actions">
+              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg btn-block mt-4 mb-4">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab">sf sjdfjdsl fjldsfdls fdsfl...</div>
 </div>
+
+
+
     
   
