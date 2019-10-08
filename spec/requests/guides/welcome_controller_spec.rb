@@ -9,12 +9,24 @@ RSpec.describe "Guides::WelcomeController", type: :request do
                       organisation: organisation,
                       owner: true)
   end
+  let(:response_body) do
+    "#{file_fixture("stripe_api/successful_account_link.json").read}"
+  end
 
   describe "#new" do
     include_examples "authentication"
 
     def do_request(url: "/guides/welcome")
       get url
+    end
+
+    before do
+      stub_request(:post, "https://api.stripe.com/v1/account_links").
+        with(body: {
+            "failure_url"=>"http://www.example.com/guides/welcome",
+            "success_url"=>"http://www.example.com/guides/welcome",
+            "type"=>"custom_account_verification"}).
+        to_return(status: 200, body: response_body, headers: {})
     end
 
     context "signed in" do

@@ -35,10 +35,11 @@ RSpec.describe Organisation, type: :model do
       it { should allow_value(Faker::Lorem.word).for(:name) }
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
     end
-    context "stripe_account_id" do
-      it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id) }
-      it { should_not allow_value("!<>*&^%").for(:stripe_account_id) }
+    context "stripe_account_id_test" do
+      it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id_test) }
+      it { should_not allow_value("!<>*&^%").for(:stripe_account_id_test) }
     end
+    # TODO: stripe_account_id
     context "subdomain" do
       it { should allow_value(Faker::Internet.domain_word).for(:subdomain) }
       it { should_not allow_value("-#{Faker::Internet.domain_word}").for(:subdomain) } # beginning with "-"

@@ -6,6 +6,7 @@ class Organisation < ApplicationRecord
   validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
   validates :name, format: /\A[\sa-zA-Z0-9_.'\-]+\z/, allow_nil: true
   validates :stripe_account_id, format: /\A[a-zA-Z0-9_\-]{5,50}\z/, allow_blank: true #TODO: move this to stripe_account
+  validates :stripe_account_id_test, format: /\A[a-zA-Z0-9_\-]{5,50}\z/, allow_blank: true #TODO: move this to stripe_account
   validates :subdomain, format: /\A([a-zA-Z0-9]{1}[a-zA-Z0-9_\-]{2,30})\z/, allow_blank: true
 
   has_many :company_people
