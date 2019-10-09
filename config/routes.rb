@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   end
 
   get "guides/welcome", to: "guides/welcome#new"
+  get "guides/welcome/stripe_account_link_failure",
+    to: "guides/welcome/stripe_account_link_failure#new"
 
   namespace :guests, only: %i[] do # Devise handles all guest actions
     resources :trips, only: %i[show index]
@@ -71,6 +73,12 @@ Rails.application.routes.draw do
     resources :trips, only: %i[] do
       resources :bookings, only: %i[create edit new show update],
                            shallow: true, controller: "/public/trips/bookings"
+    end
+  end
+
+  namespace :webhooks do
+    namespace :stripe_api do
+      resources :accounts, only: %i[create]
     end
   end
 end
