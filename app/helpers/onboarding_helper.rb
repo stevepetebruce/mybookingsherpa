@@ -30,6 +30,14 @@ module OnboardingHelper
     @current_organisation.on_trial? && trip.bookings.count.zero? && count.zero?
   end
 
+  def stripe_account_link(type="custom_account_verification")
+    External::StripeApi::AccountLink.
+      create(@current_organisation.stripe_account_id,
+             failure_url: guides_welcome_stripe_account_link_failure_url,
+             success_url: guides_trips_url,
+             type: type)
+  end
+
   def trial_example_country
     @example_data.example_country_data(:country_select)
   end
