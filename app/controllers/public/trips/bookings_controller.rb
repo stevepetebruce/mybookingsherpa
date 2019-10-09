@@ -6,7 +6,8 @@ module Public
       before_action :set_booking, only: %i[edit update show]
       before_action :check_timeout, only: %i[edit update show]
       before_action :set_trip, only: %i[create new]
-      before_action :assign_current_organisation, only: %i[edit new show update]
+      before_action :assign_current_organisation, only: %i[create edit new show update]
+      before_action :assign_hide_in_trial_banner, only: %i[edit show]
 
       layout "public"
 
@@ -50,6 +51,12 @@ module Public
       def assign_current_organisation
         @current_organisation = @trip.organisation if defined? @trip
         @current_organisation ||= @booking.organisation
+      end
+
+      def assign_hide_in_trial_banner
+        @booking ||= set_booking
+
+        @hide_in_trial_banner = @booking.trip.bookings.count == 1 ? true : false
       end
 
       def live_create

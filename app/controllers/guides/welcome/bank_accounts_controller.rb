@@ -4,8 +4,7 @@ module Guides
     # The onboarding controller for creating bank accounts
     class BankAccountsController < ApplicationController
       include Onboardings::Tracking
-      layout "onboarding"
-
+      before_action :assign_hide_in_trial_banner, only: %i[new]
       before_action :authenticate_guide!
       before_action :set_current_organisation
 
@@ -22,6 +21,10 @@ module Guides
       end
 
       private
+
+      def assign_hide_in_trial_banner
+        @hide_in_trial_banner = true
+      end
 
       def onboarding_complete_tasks
         return if @current_organisation.onboarding_complete? # Don't want to delete genuine bookings
