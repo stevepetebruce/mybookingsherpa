@@ -24,6 +24,7 @@ class Organisation < ApplicationRecord
 
   delegate :complete?, to: :onboarding, prefix: true, allow_nil: true
   delegate :solo_founder?, to: :onboarding
+  delegate :stripe_account_complete?, to: :onboarding
 
   def on_trial?
     !onboarding_complete?
