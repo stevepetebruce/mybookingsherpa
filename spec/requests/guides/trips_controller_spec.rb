@@ -2,12 +2,23 @@ require "rails_helper"
 
 RSpec.describe "Guides::TripsController", type: :request do
   let!(:guide) { FactoryBot.create(:guide) }
-  let!(:organisation) { FactoryBot.create(:organisation) }
+  let!(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
   let!(:organisation_membership) do
     FactoryBot.create(:organisation_membership,
                       guide: guide,
                       organisation: organisation,
                       owner: true)
+  end
+
+  before do
+    stub_request(:post, "https://api.stripe.com/v1/account_links").
+      with(body: {
+        "account"=>%r{acct_\d+},
+        "collect"=>"currently_due",
+        "failure_url"=>"http://www.example.com/guides/welcome/stripe_account_link_failure",
+        "success_url"=>"http://www.example.com/guides/trips",
+        "type"=>"custom_account_verification"}).
+      to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
   end
 
   describe "#create POST /guides/trips/" do
