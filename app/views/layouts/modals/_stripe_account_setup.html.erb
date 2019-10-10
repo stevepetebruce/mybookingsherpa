@@ -1,0 +1,28 @@
+<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="accountModalLabel">Setting up your account</h3>
+        <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>We're going to take you on a journey, where you will hop over to our partner's site, Stripe.com, to start your account set up. 
+        You'll be be entering your business details (name, address, etc) and details of all owners/directors in the company, or just your own, if you're a solo founder.</p>
+        <p class="font-weight-bold">So you'll need:</p>
+        <ul>
+          <li>Business details...</li>
+          <li>Significant people details...</li>
+          <li>Some form of ID (a scan/photo of your passport or driving license)</li>
+          <li>And finally your bank account number so we can pay all your money</li>
+        </ul>
+        <p>Once you're done, you'll be able to take instant card payments from all your new bookings.</p>
+        <p>This can take up to 15 minutes but you can always save and continue later.</p>
+        <%= link_to stripe_account_link, class: "btn btn-primary" do %>
+          Setup your account
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
