@@ -14,10 +14,13 @@ An extra step - but a definite confirmation from the user.
       <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Psst...</strong>
       <br>
       You're in trial, so the form is filled with pretend data so you can see what a booking looks like.<br>
-      When you complete the sign up process, you can put real bookings & money through here. 😀<br>
-      If you want to skip the trial, you can <%= link_to "complete your set up here", guides_welcome_path %>.
+      When you complete the sign up process, you can put real bookings & money through here. 😀
       <br>
-      <strong>PS:</strong> when you complete your set up, none of this text will be here. It's only visible to you.
+      <strong>PS:</strong>
+      <br>
+      When you complete your set up, none of this text will be here. It's only visible to you.
+      <br>
+      If you want to skip the trial, you can <a href="" data-toggle="modal" data-target="#accountModal">complete your set up here</a>.
     </div>
   <% end %>
   <div class="row">
@@ -77,3 +80,4 @@ An extra step - but a definite confirmation from the user.
     </div>
   <% end %>
 <% end %>
+<%= render partial: "layouts/modals/stripe_account_setup" %>

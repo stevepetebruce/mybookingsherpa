@@ -44,6 +44,11 @@
   &:focus {
     color: $white;
   }
+  &.dark {
+    color: $darkslategray;
+    font-size: 2em;
+    vertical-align: middle;
+  }
 }
 
 @keyframes bottom-alert {
