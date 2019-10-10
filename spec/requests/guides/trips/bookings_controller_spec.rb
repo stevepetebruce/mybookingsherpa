@@ -16,6 +16,17 @@ RSpec.describe "Guides::Trips::BookingsController", type: :request do
       get url, params: params
     end
 
+    before do
+      stub_request(:post, "https://api.stripe.com/v1/account_links").
+        with(body: {
+          "account"=>%r{acct_\d+},
+          "collect"=>"currently_due",
+          "failure_url"=>"http://www.example.com/guides/welcome/stripe_account_link_failure",
+          "success_url"=>"http://www.example.com/guides/trips",
+          "type"=>"custom_account_verification"}).
+        to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
+    end
+
     context "signed in" do
       before { sign_in(guide) }
 

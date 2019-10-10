@@ -6,12 +6,11 @@ module OnboardingHelper
 
   def in_trial_and_created_booking?
     @current_organisation&.on_trial? &&
-      @current_organisation.bookings.exists? &&
-      @current_organisation.bookings.most_recent.last.created_at < 1.minutes.ago
+      @current_organisation.bookings.exists?
   end
 
-  def in_trial_and_created_over_a_day_ago?
-    @current_organisation&.on_trial? && @current_organisation.created_at < 1.day.ago
+  def in_trial_and_created_an_hour_ago?
+    @current_organisation&.on_trial? && @current_organisation.created_at < 1.hour.ago
   end
 
   def show_first_trial_booking_explaner_element?(trip, count)
@@ -22,7 +21,9 @@ module OnboardingHelper
   end
 
   def show_in_trial_banner?
-    in_trial_and_created_over_a_day_ago? || in_trial_and_created_booking?
+    return false if @hide_in_trial_banner
+
+    in_trial_and_created_an_hour_ago? || in_trial_and_created_booking?
   end
 
   def show_onboarding_explainer_element?(trip, count)

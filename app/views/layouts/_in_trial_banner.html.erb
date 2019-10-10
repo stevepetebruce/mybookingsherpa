@@ -1,9 +1,31 @@
 <% if defined?(background_linear_start) && defined?(background_linear_end) %>
   <nav class="navbar text-center in-trial-banner" style="margin-top: <%= extra_top_margin ? 60 : 0 %>px; background-image: linear-gradient(to bottom right, <%= background_linear_start %>, <%= background_linear_end %>);">
-  Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money. <%= link_to "Complete set up", guides_welcome_path, class: "btn btn-sm btn-light" %>
+    <% if @current_organisation.stripe_account_complete? %>
+      Hey buddy... You just need to add your bank account details, then you can start taking real bookings with real money.
+      <%= link_to new_guides_welcome_bank_account_path, class: "btn btn-sm btn-light" do %>
+        Add my bank account details
+      <% end %>
+    <% else %>
+      Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money.
+      <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#accountModal">
+        Complete set up
+      </button>
+    <% end %>
   </nav>
 <% else %>
   <nav class="navbar text-center in-trial-banner" style="margin-top: <%= extra_top_margin ? 60 : 0 %>px;">
-    Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money. <%= link_to "Complete set up", guides_welcome_path, class: "btn btn-sm btn-light" %>
+    <% if @current_organisation.stripe_account_complete? %>
+      Hey buddy... You just need to add your bank account details, then you can start taking real bookings with real money.
+      <%= link_to new_guides_welcome_bank_account_path, class: "btn btn-sm btn-light" do %>
+        Add my bank account details
+      <% end %>
+    <% else %>
+      Hey buddy... you're in trial mode. That's fine but if you complete your set up then you can start taking real bookings with real money.
+      <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#accountModal">
+        Complete set up
+      </button>
+    <% end %>
   </nav>
 <% end %>
+
+<%= render partial: "layouts/modals/stripe_account_setup" %>
