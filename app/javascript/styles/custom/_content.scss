@@ -18,3 +18,14 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+a {
+  text-decoration: none;
+  background-color: transparent;
+  color: $darkslategray;
+}
+
+a:hover {
+  text-decoration: none;
+  color: $black;
+}
