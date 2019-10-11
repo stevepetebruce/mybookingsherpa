@@ -1,5 +1,7 @@
-.card {
+
+.accordion > .card {
   border: 0;
+  overflow: visible;
   @include border-radius(2px);
   .card-body {
     padding: $card-padding-y $card-padding-x;
@@ -13,6 +15,8 @@
   .card-header {
     padding: $cardheader-padding-y $cardheader-padding-x;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 0;
+    background-color: #fff;
   }
   .pointer {
     cursor: pointer;
