@@ -4,7 +4,7 @@
   font-size: 17px;
   height: 42px;
   border-radius: 2px;
-  background-color: $ghost-white;
+  background-color: $white;
 }
 .form-control::-ms-expand {
     background-color: transparent;
@@ -46,6 +46,8 @@ select.form-control:focus::-ms-value {
 [type="date"] {
   background:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB3aWR0aD0iMTc5MiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTkyIDE2NjRoMjg4di0yODhoLTI4OHYyODh6bTM1MiAwaDMyMHYtMjg4aC0zMjB2Mjg4em0tMzUyLTM1MmgyODh2LTMyMGgtMjg4djMyMHptMzUyIDBoMzIwdi0zMjBoLTMyMHYzMjB6bS0zNTItMzg0aDI4OHYtMjg4aC0yODh2Mjg4em03MzYgNzM2aDMyMHYtMjg4aC0zMjB2Mjg4em0tMzg0LTczNmgzMjB2LTI4OGgtMzIwdjI4OHptNzY4IDczNmgyODh2LTI4OGgtMjg4djI4OHptLTM4NC0zNTJoMzIwdi0zMjBoLTMyMHYzMjB6bS0zNTItODY0di0yODhxMC0xMy05LjUtMjIuNXQtMjIuNS05LjVoLTY0cS0xMyAwLTIyLjUgOS41dC05LjUgMjIuNXYyODhxMCAxMyA5LjUgMjIuNXQyMi41IDkuNWg2NHExMyAwIDIyLjUtOS41dDkuNS0yMi41em03MzYgODY0aDI4OHYtMzIwaC0yODh2MzIwem0tMzg0LTM4NGgzMjB2LTI4OGgtMzIwdjI4OHptMzg0IDBoMjg4di0yODhoLTI4OHYyODh6bTMyLTQ4MHYtMjg4cTAtMTMtOS41LTIyLjV0LTIyLjUtOS41aC02NHEtMTMgMC0yMi41IDkuNXQtOS41IDIyLjV2Mjg4cTAgMTMgOS41IDIyLjV0MjIuNSA5LjVoNjRxMTMgMCAyMi41LTkuNXQ5LjUtMjIuNXptMzg0LTY0djEyODBxMCA1Mi0zOCA5MHQtOTAgMzhoLTE0MDhxLTUyIDAtOTAtMzh0LTM4LTkwdi0xMjgwcTAtNTIgMzgtOTB0OTAtMzhoMTI4di05NnEwLTY2IDQ3LTExM3QxMTMtNDdoNjRxNjYgMCAxMTMgNDd0NDcgMTEzdjk2aDM4NHYtOTZxMC02NiA0Ny0xMTN0MTEzLTQ3aDY0cTY2IDAgMTEzIDQ3dDQ3IDExM3Y5NmgxMjhxNTIgMCA5MCAzOHQzOCA5MHoiLz48L3N2Zz4=) 97% 50% no-repeat ;
   background-size: 20px 20px;
+  background-color: $white;
+
 }
 [type="date"]::-webkit-inner-spin-button {
   display: none;
