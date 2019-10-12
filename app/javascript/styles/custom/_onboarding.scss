@@ -102,6 +102,10 @@
   height: 6px;
 }
 
+.progress-bar {
+  background-color: $dodger-blue;
+}
+
 .one,
 .two,
 .three,
@@ -131,7 +135,7 @@
 }
 
 .primary-color {
-  background-color: #42a5f5;
+  background-color: $dodger-blue;
 }
 
 .no-color {
