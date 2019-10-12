@@ -46,9 +46,12 @@
   }
 }
 
-.accordion > .card .card-header {
-  margin-bottom: 0px;
-}
+.accordion > .card {
+  overflow: visible;
+  .card-header {
+    margin-bottom: 0px;
+  }
+} 
 
 
 /*  Trips view accordian icons */
