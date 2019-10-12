@@ -1,16 +1,16 @@
 
-.accordion > .card {
+.card {
   border: 0;
   overflow: visible;
   @include border-radius(2px);
-  .card-body {
-    padding: $card-padding-y $card-padding-x;
-    + .card-body {
-      padding-top: 0;
+    .card-body {
+      padding: $card-padding-y $card-padding-x;
+      + .card-body {
+        padding-top: 0;
+      }
+      .border-bottom {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
-    .border-bottom {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
   }
   .card-header {
     padding: $cardheader-padding-y $cardheader-padding-x;
@@ -44,6 +44,10 @@
   &.card-shadow {
     box-shadow: 0 6px 14px 0px rgba(0, 0, 0, 0.1);
   }
+}
+
+.accordion > .card .card-header {
+  margin-bottom: 0px;
 }
 
 
