@@ -43,6 +43,9 @@ module Webhooks
       end
 
       def handle_event
+        # TODO: on success: capture payment:
+        # https://stripe.com/docs/api/payment_intents/capture
+        # https://stripe.com/docs/payments/intents#intent-statuses
         case event.type
         when "payment_intent.amount_capturable_updated"
           # TODO: need confirmation? etc...
