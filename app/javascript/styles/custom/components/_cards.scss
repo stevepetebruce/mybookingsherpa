@@ -16,6 +16,7 @@
     padding: $cardheader-padding-y $cardheader-padding-x;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
     margin-bottom: 0;
+    margin-top: 12px;
     background-color: #fff;
   }
   .pointer {
@@ -68,13 +69,13 @@
 /*  Trips view accordian guest hover */
 
 .ticket-card {
-  font-size: 0.875rem;
-  &:hover { 
-    background-color: $ghost-white;
+  font-size: 0.875rem; 
+  &:hover {
+    background-color: #f7fafc;
     cursor: pointer;
   }
-  &:active { 
-    background-color: $ghost-white;
+  &:active {
+    background-color: #f7fafc; 
   }
 }
 
@@ -84,4 +85,6 @@
 
 .avatar {
   transition: 0.2s;
+  margin: 0 8px;
+  background-color: #d9e7f1;
 }
