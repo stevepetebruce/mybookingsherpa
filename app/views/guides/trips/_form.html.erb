@@ -126,7 +126,7 @@
     <% end %>
   </div>
   <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab"><div class="container-fluid full-height">
-      <div class="row row-height" style="overflow: hidden;">
+      <div class="row row-height border" style="overflow: hidden;">
         <div class="col-lg-4 content-left">
           <div class="content-left-wrapper bg_img">
             <div class="wrapper">
@@ -134,15 +134,16 @@
                 
                 <h1 class="font-weight-bold mb-0" data-target="trip-preview.namePreview">Trip Name</h1>
                 <h3 class="mb-5" data-target="trip-preview.datePreview">
-                  12 - 14 December
+                  Dates displayed here
                 </h3>
-                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span><span data-target="trip-preview.depositPreview">123</span></h2>
-                <h5 class="mb-3"><span data-target="currency-select.symbol">£</span><span data-target="trip-preview.depositRemainderPreview">123</span> will be taken on <span data-target="trip-preview.depositDatePreview">2020-06-03</span></h5>
-                <h1><span class="h2 mr-3 font-weight-light">Total: <span data-target="currency-select.symbol">$</span><span data-target="trip-preview.fullCostPreview">300</span></h1>
+                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <span data-target="trip-preview.currencyPreview">€</span><span data-target="trip-preview.depositPreview">123</span></h2>
+                <h5 class="mb-3"><span data-target="trip-preview.currencyPreview">€</span><span data-target="trip-preview.depositRemainderPreview">123</span> will be taken on <span data-target="trip-preview.depositDatePreview">Deposit date</span></h5>
+                <h1><span class="h2 mr-3 font-weight-light">Total: <span data-target="trip-preview.currencyPreview">€</span><span data-target="trip-preview.fullCostPreview"></span></h1>
                 <div id="summary" class="mt-5">
-                  <p data-target="trip-preview.descriptionPreview">
-                    fhsjkfds kf k fhksdfhsdkhf kdshfdks hk
+                  <p data-target="trip-preview.descriptionPreview" class="collapse" id="collapseSummary">
+                    Description is displayed here...
                   </p>
+                  <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
                 </div>
               </div>
             </div>
@@ -166,7 +167,7 @@
             </div>
             <hr class="mb-5 mb-4">
             <h4 class="mb-3 font-weight-bold">
-              Payment of <span data-target="currency-select.symbol">£</span>345.00
+              Payment of <span data-target="trip-preview.currencyPreview">€</span><span data-target="trip-preview.fullCostPreview"> </span>
               </h4>
             <div class="row">
               <div class="col-md-12 mb-3">
