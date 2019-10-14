@@ -14,10 +14,10 @@
       <% end %>
     <% end %>
   </span>
-  <nav class="my-2 my-md-0 mr-md-3">
+  <nav class="my-md-0 mr-md-3">
     <% if guide_signed_in? %>
-    <ul class="ml-auto">
-      <%= link_to(guides_trips_path, class: "dropdown-item mr-2") do %>
+    <ul class="navbar-nav ml-auto">
+      <%= link_to(guides_trips_path, class: "btn btn-light mr-2") do %>
         My Trips
       <% end %>
       <li class="nav-item dropdown">
