@@ -1,11 +1,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [  "datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
-                      "depositDatePreview", "descriptionInput", "descriptionPreview", "depositPercentageInput",
-                      "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
-                      "namePreview", "paymentWindowWeeksInput", "startDateInput" 
-                    ]
+  static targets = ["datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
+                    "depositDatePreview", "descriptionInput", "descriptionPreview", "depositPercentageInput",
+                    "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
+                    "namePreview", "paymentWindowWeeksInput", "startDateInput"]
   
   previewUpdate() {
     // Trip Dates
@@ -28,7 +27,6 @@ export default class extends Controller {
     this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Description is displayed here...";
 
     this.fullCostPreviewTargets.map((target, index) => {
-      console.log(target, index);
       this.fullCostPreviewTargets[index].innerHTML = this.fullCostInputTarget.value || "100";
     });
 
@@ -36,9 +34,11 @@ export default class extends Controller {
     this.depositRemainderPreviewTarget.innerHTML = this.fullCostInputTarget.value - ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
 
     // Full payment Date
-    const tripDate = new Date(this.startDateInputTarget.value);
-    const paymentDate = new Date(tripDate);
-    paymentDate.setDate(tripDate.getDate() - this.paymentWindowWeeksInputTarget.value * 7);
-    this.depositDatePreviewTarget.innerHTML = paymentDate.toISOString().split('T')[0];
+    if (this.startDateInputTarget.value) {
+      const tripDate = new Date(this.startDateInputTarget.value);
+      const paymentDate = new Date(tripDate);
+      paymentDate.setDate(tripDate.getDate() - this.paymentWindowWeeksInputTarget.value * 7);
+      this.depositDatePreviewTarget.innerHTML = paymentDate.toISOString().split('T')[0];
+    }
   }
 };
