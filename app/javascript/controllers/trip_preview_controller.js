@@ -1,10 +1,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [  "currencyInput", "currencyPreview", "datePreview", "depositPreview", "depositRemainderPreview", 
-                      "depositPreviewContainer", "depositDatePreview", "descriptionInput", "descriptionPreview", 
-                      "depositPercentageInput", "endDateInput", "fullCostInput", "fullCostPreview", 
-                      "nameInput", "namePreview", "paymentWindowWeeksInput", "startDateInput" 
+  static targets = [  "datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
+                      "depositDatePreview", "descriptionInput", "descriptionPreview", "depositPercentageInput",
+                      "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
+                      "namePreview", "paymentWindowWeeksInput", "startDateInput" 
                     ]
   
   previewUpdate() {
@@ -35,19 +35,6 @@ export default class extends Controller {
     this.depositPreviewTarget.innerHTML = ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
     this.depositRemainderPreviewTarget.innerHTML = this.fullCostInputTarget.value - ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
 
-    this.currencyPreviewTargets.map((target, index) => {
-      switch(this.currencyInputTarget.value) {
-        case "gbp":
-          this.currencyPreviewTargets[index].innerHTML = "&pound;"
-          break;
-        case "usd":
-          this.currencyPreviewTargets[index].innerHTML = "&dollar;"
-          break;
-        default:
-          this.currencyPreviewTargets[index].innerHTML = "&euro;"
-      }     
-    });
-    
     // Full payment Date
     const tripDate = new Date(this.startDateInputTarget.value);
     const paymentDate = new Date(tripDate);
