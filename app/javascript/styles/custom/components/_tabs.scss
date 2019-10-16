@@ -1,3 +1,30 @@
+.nav-tabs-wrapper {
+  background: linear-gradient(60deg,darken($dodger-blue,10%),$dodger-blue);
+  padding: 6px 0 8px 0;
+  margin-bottom: 12px;
+}
 .tab-content {
   border: 0;
+}
+.nav-tabs {
+  border: 0;
+  border-radius: 12px;
+  padding: 0 15px;
+  .nav-item {
+    .nav-link {
+      border: 0;
+      color: $white;
+      font-weight: 500;
+      border-radius: 12px;
+      line-height: 20px;
+      text-transform: uppercase;
+      padding: 10px 15px;
+      background-color: transparent;
+      transition: background-color .3s 0s;
+      &.active {
+        background-color: hsla(0,0%,100%,.2);
+        transition: background-color .3s .2s;
+      }
+    }
+  }
 }
