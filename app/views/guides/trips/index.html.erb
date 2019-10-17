@@ -1,4 +1,4 @@
-<div class="container-fluid page-body-wrapper content">
+<div class="container page-body-wrapper content">
 <!-- main --> 
 <div class="main-panel">
   <div class="content-wrapper">
@@ -100,7 +100,7 @@
                           <!-- Loop throuh individual in trip -->
                           <% trip.bookings.each do |booking| %>
                             <%= link_to guides_booking_path(booking) do %>
-                              <div class="row ticket-card pt-3 pb-2 border-bottom">
+                              <div class="row ticket-card pt-2 pb-2 border-bottom">
                                 <div class="d-sm-none d-md-block d-none position-relative">
                                   <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
                                   <% if booking.flag_icon.present? %>
@@ -109,11 +109,11 @@
                                 </div>
                                 <div class="col-12 col-lg-6 col-md-6 col-sm-12">
                                   <div class="d-flex">
-                                    <p class="text-primary mb-0 mt-1 no-wrap h3 font-weight-light">
+                                    <h4 class="mb-0 mt-1 no-wrap font-weight-bold">
                                       <%= booking.guest_or_booking_name %>
-                                    </p>
+                                    </h4>
                                     <% if Bookings::Status.new(booking).personal_details_incomplete? %>
-                                      <small class="mt-2 ml-1">(personal details incomplete)</small>
+                                      <small class="mt-2 ml-1 text-muted">(personal details incomplete)</small>
                                     <% end %>
                                   </div>
                                 </div>
