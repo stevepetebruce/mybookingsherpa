@@ -1,4 +1,12 @@
 .avatar {
   margin: 0 8px;
   background-color: darken( $ghost-white, 8% );
+  border-radius: 50em;
 }
+
+.avatar-xs {
+  width: 20px; }
+.avatar-sm {
+  width: 36px; }
+.avatar-lg {
+  width: 72px; }

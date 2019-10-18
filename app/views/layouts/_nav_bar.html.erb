@@ -1,19 +1,23 @@
-<nav class="navbar page-header">
-  <% if guide_signed_in? %>
-    <%= link_to main_app.guides_trips_path, class: "navbar-brand d-none d-sm-block" do %>
-      <img src="<%= asset_pack_path 'media/images/logos/logo.svg' %>" />
+
+<div class="navbar page-header bg-white border-bottom navbar-expand-sm navbar-light bg-light">
+  <span class="my-0 mr-md-auto font-weight-normal">
+    <% if guide_signed_in? %>
+      <%= link_to main_app.guides_trips_path, class: "navbar-brand d-none d-sm-block" do %>
+        <img src="<%= asset_pack_path 'media/images/logos/logo.svg' %>" />
+      <% end %>
+      <%= link_to main_app.guides_trips_path, class: "navbar-brand d-sm-none" do %>
+        <img src="<%= asset_pack_path 'media/images/logos/logo-mini.svg' %>" />
+      <% end %>
+    <% else %>
+      <%= link_to ENV.fetch("BASE_DOMAIN", "https://app.mybookingsherpa.com/guides/sign_in"), class: "navbar-brand" do %>
+        <img src="<%= asset_pack_path 'media/images/logos/logo.svg' %>" />
+      <% end %>
     <% end %>
-    <%= link_to main_app.guides_trips_path, class: "navbar-brand d-sm-none" do %>
-      <img src="<%= asset_pack_path 'media/images/logos/logo-mini.svg' %>" />
-    <% end %>
-  <% else %>
-    <%= link_to ENV.fetch("BASE_DOMAIN", "https://app.mybookingsherpa.com/guides/sign_in"), class: "navbar-brand" do %>
-      <img src="<%= asset_pack_path 'media/images/logos/logo.svg' %>" />
-    <% end %>
-  <% end %>
-  <% if guide_signed_in? %>
+  </span>
+  <nav class="my-md-0 mr-md-3">
+    <% if guide_signed_in? %>
     <ul class="navbar-nav ml-auto">
-      <%= link_to(guides_trips_path, class: "dropdown-item mr-2") do %>
+      <%= link_to(guides_trips_path, class: "btn btn-light mr-2") do %>
         My Trips
       <% end %>
       <li class="nav-item dropdown">
@@ -45,4 +49,6 @@
       </li>
     </ul>
   <% end %>
-</nav>
+  </nav>
+</div>
+
