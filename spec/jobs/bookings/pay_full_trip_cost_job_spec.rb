@@ -50,7 +50,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           and_return(true)
 
         allow(Stripe::Charge).to receive(:create).
-          and_raise(Stripe::CardError.new("Card declined", nil, nil, json_body: { error: { message: "Card declined" } }))
+          and_raise(Stripe::CardError.new("Card declined", nil, json_body: { error: { message: "Card declined" } }))
       end
 
       let(:payment_required?) { true }
