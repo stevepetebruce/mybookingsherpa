@@ -8,6 +8,7 @@ module External
       end
 
       def create(attributes)
+        puts '!!attributes ' + attributes.inspect
         Stripe::PaymentIntent.create(attributes)
       end
 
