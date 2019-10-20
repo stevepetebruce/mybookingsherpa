@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   namespace :webhooks do
     namespace :stripe_api do
       resources :accounts, only: %i[create]
+      resources :payment_intents, only: %i[create]
     end
   end
 end

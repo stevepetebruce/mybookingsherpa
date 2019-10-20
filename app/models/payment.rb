@@ -1,5 +1,5 @@
 class Payment < ApplicationRecord
-  belongs_to :booking
+  belongs_to :booking, optional: true
 
   scope :most_recent, -> { order(created_at: :desc) }
 
@@ -16,6 +16,6 @@ class Payment < ApplicationRecord
   private
 
   def update_booking_payment_status
-    Bookings::UpdatePaymentStatusJob.perform_later(booking)
+    Bookings::UpdatePaymentStatusJob.perform_later(booking) if booking
   end
 end
