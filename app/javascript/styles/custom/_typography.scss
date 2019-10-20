@@ -69,7 +69,6 @@ h6 {
   font-size: 0.9375rem;
 }
 
-
 .font-weight-light {
   font-weight: 300;
 }
@@ -92,6 +91,10 @@ h6 {
 
 .text-gray {
   color: $text-muted;
+}
+
+.text-primary {
+  color: $primary;
 }
 
 .display-1 {

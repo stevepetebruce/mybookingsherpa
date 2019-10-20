@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-12">
         <% if current_guide.trips.exists? %>
-          <div class="card card-shadow mt-5">
+          <div class="card card-shadow card-rounded mt-5">
             <div class="card-body">
               <h1 class="card-title font-weight-bold mb-4">
                 <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
@@ -32,7 +32,7 @@
               <div class="row">
                 <div class="col col-lg-7"></div>
                 <div class="col col-lg-4 d-sm-none d-md-none d-lg-block d-none">
-                  <h4>Places Filled</h4>
+                  <h5 class="text-uppercase mb-1">Places Filled</h5>
                 </div>
                 <div class="col col-lg-1"></div>
               </div>
@@ -46,7 +46,7 @@
                           <div class="col col-md-8 col-sm-12" data-hide-element="<%= element_to_hide(trip, count) %>">
                             <span class="<%= 'cancelled-trip' if trip.cancelled? %>" data-hide-element="<%= element_to_hide(trip, count) %>"><%= trip.name %></span>
                           </div>
-                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0" data-hide-element="<%= element_to_hide(trip, count) %>">
+                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-light mb-0" data-hide-element="<%= element_to_hide(trip, count) %>">
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
                           <% if show_first_trial_booking_explaner_element?(trip, count) %>
@@ -111,20 +111,22 @@
                                 </div>
                                 <div class="col-12 col-lg-6 col-md-6 col-sm-12">
                                   <div class="d-flex">
-                                    <h4 class="mb-0 mt-1 no-wrap font-weight-bold">
+                                    <h4 class="mb-0 no-wrap text-primary">
                                       <%= booking.guest_or_booking_name %>
                                     </h4>
                                     <% if Bookings::Status.new(booking).personal_details_incomplete? %>
-                                      <small class="mt-2 ml-1 text-muted">(personal details incomplete)</small>
+                                      <small class="mt-1 ml-2 text-muted">personal details incomplete</small>
                                     <% end %>
                                   </div>
                                 </div>
                                 <div class="col-9 col-lg-4 col-md-3 col-sm-10">
-                                  <% if booking.refunded? %>
-                                    <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
-                                  <% else %>
-                                    <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
-                                  <% end %>
+                                  <small>
+                                    <% if booking.refunded? %>
+                                      <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
+                                    <% else %>
+                                      <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
+                                    <% end %>
+                                  </small>
                                 </div>
                                 <div class="col-xs-auto mb-1">
                                   <% if booking.guest_or_booking_allergies? %>

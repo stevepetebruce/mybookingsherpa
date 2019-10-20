@@ -10,7 +10,7 @@
   background-color: #fff;
   height: 12px;
   width: 12px;
-  margin: 0 2px;
+  margin: 0;
  
   &.dot-success {
     background-color: green;
@@ -28,8 +28,8 @@
     border: solid 1px theme-color("secondary");
   }
   &.dot-sm {
-    height: 10px;
-    width: 10px;
+    height: 9px;
+    width: 9px;
   }
   &.dot-lg {
     margin: 0 4px;
