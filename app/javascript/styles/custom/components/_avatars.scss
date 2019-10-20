@@ -1,12 +1,20 @@
 .avatar {
-  margin: 0 8px;
-  background-color: darken( $ghost-white, 8% );
   border-radius: 50em;
+  background-color: $primary;
+  & > img {
+    border-radius: 50%;
+    height: auto;
+    margin: 0;
+    width: 100%;
+  }
 }
 
 .avatar-xs {
-  width: 20px; }
+  width: 20px; 
+}
 .avatar-sm {
-  width: 32px; }
+  width: 26px; 
+}
 .avatar-lg {
-  width: 72px; }
+  width: 72px; 
+}

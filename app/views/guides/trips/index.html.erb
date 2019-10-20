@@ -74,7 +74,7 @@
                     <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                       <div class="card-body">
                         <div class="fluid-container">
-                          <div class="row border-bottom pb-3" >
+                          <div class="row pb-3 guest-link-container">
                             <div class="col-12 col-md-8 mt-1 text-nowrap d-flex justify-content-start"> 
                               <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 mr-2 text-muted">New Booking Link</h5>
                               <div class="input-group-append mt-0" data-controller="clipboard">    
@@ -101,9 +101,11 @@
                           <!-- Loop throuh individual in trip -->
                           <% trip.bookings.each do |booking| %>
                             <%= link_to guides_booking_path(booking) do %>
-                              <div class="row ticket-card pt-2 pb-2 border-bottom">
+                              <div class="row ticket-card pt-2 pb-2">
                                 <div class="d-sm-none d-md-block d-none position-relative">
-                                  <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
+                                  <div class="avatar avatar-sm">
+                                    <%= image_tag booking.gravatar_url, alt: "guest profile image" %>
+                                  </div>
                                   <% if booking.flag_icon.present? %>
                                     <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
                                   <% end %>

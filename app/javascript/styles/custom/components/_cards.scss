@@ -54,6 +54,10 @@
   }
 } 
 
+.guest-link-container {
+  border-bottom: solid 1px $light-gray;
+}
+
 /*  Trips view accordian icons */
 [data-toggle="collapse"] .fa-chevron-circle-down:before {  
   content: "\f183";
@@ -65,9 +69,8 @@
 }
 
 /*  Trips view accordian guest hover */
-
 .ticket-card {
-  font-size: 0.875rem; 
+  border-bottom: solid 1px $light-gray;
   &:hover {
     background-color: #f7fafc;
     cursor: pointer;
@@ -77,12 +80,11 @@
   }
 }
 
-.ticket-card:hover .avatar {
+a.test:hover .avatar {
   transform: scale(1.06);
 }
 
 .avatar {
   transition: 0.2s;
-  margin: 0 8px;
-  background-color: #d9e7f1;
+  margin: 0 0 0 14px;
 }
