@@ -82,8 +82,10 @@
                                 <div class="outer-text-wrapper" data-action="click->clipboard#copyClipboard">
                                   <small class="clipboard-input" data-target="clipboard.clipboardInput"><%= trip.new_public_booking_link %></small>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
-                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                <div class="btn-group ml-1" role="group" aria-label="First group">
+                                  <button class="btn btn-sm btn-outline-secondary px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
+                                  <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                </div>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
                                   <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
                                 <% end %>
