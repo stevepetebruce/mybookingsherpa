@@ -79,6 +79,10 @@
       "description": "Secret key for Test Stripe API - used on the server",
       "required": false
     },
+    "STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS": {
+      "description": "Secret key for signing webhooks post from Stripe API",
+      "required": false
+    },
     "SUPPORT_EMAIL_ADDRESS": {
       "description": "Email address that all system emails will be sent from",
       "required": false,
