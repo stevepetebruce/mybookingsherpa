@@ -154,7 +154,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         context "user enters an card that attaches to the customer but the charge fails" do
           before do
             allow(Stripe::Charge).to receive(:create).
-              and_raise(Stripe::CardError.new("Card declined", nil, nil, json_body: { error: { message: "Card declined" }}))
+              and_raise(Stripe::CardError.new("Card declined", nil, json_body: { error: { message: "Card declined" }}))
           end
 
           it "should redirect back with error message" do
