@@ -7,6 +7,10 @@ module BookingDecorator
     define_method("guest_or_booking_#{field}") { guest&.send(field).presence || send(field) }
   end
 
+  def amount_due
+    Bookings::CostCalculator.amount_due(self)
+  end
+
   def flag_icon
     "flag-icon-#{guest_or_booking_country.downcase}" if guest_or_booking_country.present?
   end
@@ -38,7 +42,7 @@ module BookingDecorator
 
   def human_readable_amount_due
     "#{Currency.iso_to_symbol(currency)}" \
-      "#{Currency.human_readable(Bookings::Payment.amount_due(self))}"
+      "#{Currency.human_readable(amount_due)}"
   end
 
   def human_readable_dietary_requirements
@@ -62,7 +66,7 @@ module BookingDecorator
   end
 
   def only_paying_deposit?
-    Bookings::Payment.amount_due(self) == deposit_cost
+    amount_due == deposit_cost
   end
 
   def payment_status_icon

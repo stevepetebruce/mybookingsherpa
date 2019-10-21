@@ -10,6 +10,10 @@ module Bookings
       calculate_amount_due
     end
 
+    def self.amount_due(booking)
+      new(booking).amount_due
+    end
+
     private
 
     def after_full_payment_window?

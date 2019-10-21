@@ -18,10 +18,6 @@ module Bookings
       External::StripeApi::Charge.create(attributes)
     end
 
-    def self.amount_due(booking)
-      new(booking).amount_due
-    end
-
     private
 
     def application_fee_amount
