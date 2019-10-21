@@ -15,10 +15,6 @@ module Public
       def new
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@current_organisation.country_code)
-
-        # TODO: Create another payment intent when there's an error with payment or retrieve previous one?
-        # ie: test putting crap data in the form.... I think it's OK to recreate a new payment intent each time?
-        # TODO: don't need to create an Intent when in trial mode....?
         @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
       end
 
@@ -28,7 +24,7 @@ module Public
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
         @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
 
-        attach_stripe_customer_to_guest #TODO: Do we need to do all this if the organisation is in trial?
+        attach_stripe_customer_to_guest
 
         @booking.organisation_on_trial? ? test_create : live_create
       end
