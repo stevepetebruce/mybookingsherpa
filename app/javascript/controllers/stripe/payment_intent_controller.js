@@ -27,16 +27,7 @@ export default class extends Controller {
         this.cardErrorsTarget.textContent = event.error.message;
         this.submitButtonTarget.disabled = false;
       } else if (paymentIntent.requires_action) {
-        stripe.handleCardAction(paymentIntent.payment_intent_client_secret)
-        .then(function(result) {
-          if (result.error) {
-            // Show error in payment form
-          } else {
-            // The card action has been handled
-            // The PaymentIntent can be confirmed again on the server
-            this.handlePaymentMethod(paymentIntent.payment_method);
-          }
-        });
+        this.authenticationRequired(paymentIntent);
       } else {
         this.handlePaymentMethod(paymentIntent.payment_method);
       }
@@ -79,6 +70,19 @@ export default class extends Controller {
         iconColor: "#fa755a"
       }
     };
+  }
+
+  authenticationRequired(paymentIntent) {
+    stripe.handleCardAction(paymentIntent.payment_intent_client_secret)
+    .then(function(result) {
+      if (result.error) {
+        // Show error in payment form
+      } else {
+        // The card action has been handled
+        // The PaymentIntent can be confirmed again on the server
+        this.handlePaymentMethod(paymentIntent.payment_method);
+      }
+    });
   }
 
   handlePaymentMethod(paymentMethod) {
