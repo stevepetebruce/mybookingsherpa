@@ -8,7 +8,7 @@
     </li>
   </ul>
 </div>
-<div class="tab-content" id="pills-tabContent">
+<div class="tab-content" id="pills-tabContent" data-controller="trip-preview">
   <div class="tab-pane fade show active" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab"> 
     <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
       <div class="row">
