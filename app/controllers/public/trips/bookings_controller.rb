@@ -15,18 +15,22 @@ module Public
       def new
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@current_organisation.country_code)
+
+        # TODO: Create another payment intent when there's an error with payment or retrieve previous one?
+        # ie: test putting crap data in the form.... I think it's OK to recreate a new payment intent each time?
+        # TODO: don't need to create an Intent when in trial mode....?
+        @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
       end
 
       # POST /bookings
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
+        @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
 
-        if @booking.organisation_on_trial?
-          test_create
-        else
-          live_create
-        end
+        attach_stripe_customer_to_guest #TODO: Do we need to do all this if the organisation is in trial?
+
+        @booking.organisation_on_trial? ? test_create : live_create
       end
 
       # GET /bookings/1/edit
@@ -60,14 +64,13 @@ module Public
       end
 
       def live_create
-        attach_stripe_customer_to_guest(@booking)
-
-        if @booking.save && payment_successful?
+        if @booking.save && update_or_create_payment
           successful_booking_jobs
           redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
-        else
-          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
-          render :new
+        # TODO:
+        # else
+        #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
+        #   render :new
         end
       end
 
@@ -88,8 +91,8 @@ module Public
         params.dig(:booking, :allergies)
       end
 
-      def attach_stripe_customer_to_guest(booking)
-        booking.guest.update(stripe_customer_id: stripe_customer_id(booking))
+      def attach_stripe_customer_to_guest
+        @booking.guest.update(stripe_customer_id: stripe_customer_id)
       end
 
       def booking_params
@@ -98,10 +101,6 @@ module Public
                  :date_of_birth, :email, :name, :next_of_kin_name,
                  :next_of_kin_phone_number, :phone_number, :post_code).
           reject { |_k, v| v.blank? }
-      end
-
-      def charge
-        @charge ||= Bookings::Payment.new(@booking).charge
       end
 
       def check_timeout
@@ -137,16 +136,16 @@ module Public
         @booking.created_at > TIMEOUT_WINDOW_MINUTES.minutes.ago
       end
 
-      def payment_successful?
-        begin
-          Payments::Factory.new(@booking, charge).create
-        rescue Stripe::CardError => e
-          @stripe_api_error = "Payment unsuccessful. #{e&.json_body&.dig(:error, :message)}"
-        rescue Stripe::StripeError => e
-          @stripe_api_error = "Payment unsuccessful. #{type_of_exception(e)}. Please try again or contact Guide for help."
+      def update_or_create_payment
+        # TODO: Refactor... There's a possible race condition here:
+        # When the Stripe webhook comes back at same time as this is called...
+        # Then two payments would be created?
+        # Move to delayed background job?
+        Payment.transaction do
+          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
+            first_or_create.
+            update(booking: @booking)
         end
-
-        defined?(@stripe_api_error) ? false : true
       end
 
       def set_booking
@@ -157,12 +156,17 @@ module Public
         @trip = Trip.find_by_slug(params[:trip_id])
       end
 
-      def stripe_customer_id(booking)
-        Bookings::StripeCustomer.new(booking, stripe_token).id
+      def stripe_customer_id
+        # TODO: what if this is a returning customer?
+        @stripe_customer_id ||= Bookings::StripeCustomer.new(@booking, stripe_payment_method).id
       end
 
-      def stripe_token
-        params[:stripeToken]
+      def stripe_payment_intent_id
+        params[:payment_intent_id]
+      end
+
+      def stripe_payment_method
+        params[:stripePaymentMethod]
       end
 
       def successful_booking_jobs
@@ -170,12 +174,10 @@ module Public
         # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
         # 10 min wait to let them fill in their details in booking edit page, then send updated email
         # content based on that state...
+        # TODO: Should we only send these when we get the webhook back from stripe with payment success?
+        # Or send them straight out when in trial mode (both to guide)
         Guests::BookingMailer.with(booking: @booking).new.deliver_later
         Guides::BookingMailer.with(booking: @booking).new.deliver_later
-      end
-
-      def type_of_exception(exception)
-        exception.inspect.split(":").last.gsub(">", "")
       end
     end
   end

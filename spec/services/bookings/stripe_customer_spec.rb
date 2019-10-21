@@ -2,18 +2,18 @@ require "rails_helper"
 
 RSpec.describe Bookings::StripeCustomer, type: :model do
   describe "#id" do
-    subject(:id) { described_class.new(booking, stripe_token).id }
+    subject(:id) { described_class.new(booking, stripe_payment_method).id }
 
     let(:create_attributes) do
       {
         description: "#{guest.email}",
-        token: stripe_token,
+        payment_method: stripe_payment_method,
         use_test_api: booking.organisation_on_trial?
       }
     end
     let(:booking) { FactoryBot.create(:booking, guest: guest) }
     let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
-    let(:stripe_token) { "tok_#{Faker::Crypto.md5}" }
+    let(:stripe_payment_method) { "pm_#{Faker::Crypto.md5}" }
 
     context "booking / guest does not have an existing stripe_customer_id" do
       let!(:guest) { FactoryBot.create(:guest, stripe_customer_id: nil) }

@@ -1,9 +1,9 @@
 module Bookings
   # Retreives either existing stripe_customer_id or a new one from Stripe API
   class StripeCustomer
-    def initialize(booking, stripe_token)
+    def initialize(booking, payment_method)
       @booking = booking
-      @stripe_token = stripe_token
+      @payment_method = payment_method
     end
 
     def id
@@ -17,7 +17,7 @@ module Bookings
     def attributes
       {
         description: @booking.guest_email,
-        token: @stripe_token,
+        payment_method: @payment_method,
         use_test_api: @booking.organisation_on_trial?
       }
     end
