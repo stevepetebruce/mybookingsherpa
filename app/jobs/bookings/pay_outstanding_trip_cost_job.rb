@@ -1,32 +1,52 @@
 module Bookings
+  # ref: https://stripe.com/docs/payments/cards/charging-saved-cards#create-payment-intent-off-session
   class PayOutstandingTripCostJob < ApplicationJob
     queue_as :default
 
     def perform(booking)
-      return unless full_payment_required?(booking)
+      @booking = booking
 
-      Payments::Factory.new(booking, charge(booking)).create
+      return unless full_payment_required?
+
+      # TODO: refactor this so it uses Bookings::PaymentIntents.create(@booking)
+      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
     end
 
     private
 
-    def charge(booking)
-      begin
-        response = Bookings::Payment.new(booking).charge
-      rescue Stripe::CardError => e
-        response = @stripe_api_error = "Payment unsuccessful. #{e&.json_body&.dig(:error, :message)}"
-      rescue Stripe::StripeError => e
-        response = @stripe_api_error = "Payment unsuccessful. #{type_of_stripe_exception(e)}. Please try again or contact Guide for help."
-      end
-      response
+    def amount_due
+      @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
-    def full_payment_required?(booking)
-      Bookings::PaymentStatus.new(booking).payment_required?
+    def attributes
+      {
+        amount: amount_due,
+        # TODO: application_fee_amount: application_fee_amount,
+        confirm: true,
+        currency: @booking.currency,
+        customer: @booking.stripe_customer_id,
+        metadata: { booking_id:  @booking.id },
+        off_session: true,
+        payment_method: stripe_payment_method_id,
+        statement_descriptor: charge_description
+      }
     end
 
-    def type_of_stripe_exception(exception)
-      exception.inspect.split(":").last.gsub(">", "")
+    def charge_description
+      @booking.trip_name.truncate(22, separator: " ")
+    end
+
+    def full_payment_required?
+      Bookings::PaymentStatus.new(@booking).payment_required?
+    end
+
+    def stripe_payment_method_id
+      @stripe_payment_method_id ||=
+        External::StripeApi::PaymentMethod.list(@booking.stripe_customer_id)&.first&.id
+    end
+
+    def use_test_api?
+      @booking.organisation_on_trial?
     end
   end
 end
