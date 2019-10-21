@@ -24,7 +24,7 @@ export default class extends Controller {
         this.data.get("secret"), card);
 
       if (error) {
-        this.cardErrorsTarget.textContent = event.error.message;
+        this.cardErrorsTarget.textContent = error.message;
         this.submitButtonTarget.disabled = false;
       } else if (paymentIntent.requires_action) {
         this.authenticationRequired(paymentIntent);
@@ -40,6 +40,18 @@ export default class extends Controller {
         this.cardErrorsTarget.textContent = event.error.message;
       } else {
         this.cardErrorsTarget.textContent = "";
+      }
+    });
+  }
+
+  authenticationRequired(paymentIntent) {
+    stripe.handleCardAction(paymentIntent.payment_intent_client_secret)
+    .then(function(result) {
+      if (result.error) {
+        this.cardErrorsTarget.textContent = result.error.message;
+      } else {
+        this.cardErrorsTarget.textContent = "";
+        this.handlePaymentMethod(paymentIntent.payment_method);
       }
     });
   }
@@ -70,19 +82,6 @@ export default class extends Controller {
         iconColor: "#fa755a"
       }
     };
-  }
-
-  authenticationRequired(paymentIntent) {
-    stripe.handleCardAction(paymentIntent.payment_intent_client_secret)
-    .then(function(result) {
-      if (result.error) {
-        // Show error in payment form
-      } else {
-        // The card action has been handled
-        // The PaymentIntent can be confirmed again on the server
-        this.handlePaymentMethod(paymentIntent.payment_method);
-      }
-    });
   }
 
   handlePaymentMethod(paymentMethod) {
