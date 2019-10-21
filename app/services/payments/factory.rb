@@ -16,16 +16,8 @@ module Payments
       parsed_response.fetch("amount")
     end
 
-    def failed_response
-      {
-        "amount" => 0,
-        "failure_code" => "card declined",
-        "failure_message" => @raw_response
-      }
-    end
-
     def parsed_response
-      @parsed_response ||= @raw_response.is_a?(String) ? failed_response : @raw_response.to_h.stringify_keys
+      @raw_response.to_h.stringify_keys
     end
   end
 end
