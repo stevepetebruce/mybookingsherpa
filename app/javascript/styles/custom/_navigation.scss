@@ -59,6 +59,14 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.nav-link-round {
+  background-color: $white;
+  border-radius: 50%;
+  :hover {
+    background-color: $light-gray;
+    border-radius: 50%;
+  }
+}
 .page-header {
   height: 60px;
   width: 100%;
