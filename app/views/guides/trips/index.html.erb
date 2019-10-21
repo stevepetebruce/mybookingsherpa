@@ -1,20 +1,19 @@
 <div class="container page-body-wrapper content">
 <!-- main --> 
 <div class="main-panel">
-  <div class="content-wrapper">
-    <div class="row">
-      <div class="col-12">
+  <div class="content-wrapper row mt-3">
+      <div class="col-12 mt-5">
+        <h1 class="card-title font-weight-bold mb-4">
+          <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
+          <span class="small">
+            <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
+              <i class="fa fa-plus-circle text-primary"></i>
+            </a>
+          </span>
+        </h1>
         <% if current_guide.trips.exists? %>
-          <div class="card card-shadow card-rounded mt-5">
+          <div class="card card-shadow card-rounded">
             <div class="card-body">
-              <h1 class="card-title font-weight-bold mb-4">
-                <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
-                <span class="small">
-                  <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
-                    <i class="fa fa-plus-circle text-primary"></i>
-                  </a>
-                </span>
-              </h1>
               <% if params[:completed_set_up] %>
                 <!-- On-boarding complete --> 
                 <div class="onboard-message fullwidth mt5 mb0">
@@ -193,6 +192,5 @@
           </div>
         <% end %>
       </div>
-    </div>
   </div>
 </div>
