@@ -325,7 +325,7 @@ RSpec.describe BookingDecorator, type: :model do
 
     context "when only deposit is due to be paid" do
       before do
-        allow(Bookings::Payment).to receive(:amount_due).with(booking).and_return(booking.deposit_cost)
+        allow(Bookings::CostCalculator).to receive(:amount_due).with(booking).and_return(booking.deposit_cost)
       end
 
       it "should be true" do
@@ -335,7 +335,7 @@ RSpec.describe BookingDecorator, type: :model do
 
     context "when full amount is due to be paid" do
       before do
-        allow(Bookings::Payment).to receive(:amount_due).with(booking).and_return(booking.full_cost)
+        allow(Bookings::CostCalculator).to receive(:amount_due).with(booking).and_return(booking.full_cost)
       end
 
       it "should be true" do
