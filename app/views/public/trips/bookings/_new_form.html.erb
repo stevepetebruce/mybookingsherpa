@@ -4,7 +4,7 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 
-<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--card", stripe__card_key: booking.stripe_publishable_key, target: "stripe--card.form" }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path }) do |form| %>
   <% # reinstate error / warning notices %>
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
@@ -63,21 +63,27 @@ An extra step - but a definite confirmation from the user.
         </div>
       <% else %>
         <label for="card-element">Credit or debit card</label>
-        <div data-target="stripe--card.cardElement">
+        <div data-target="stripe--payment-intent.cardElement">
           <!-- A Stripe Element will be inserted here. -->
         </div>
         <!-- Used to display Element errors. -->
-        <div data-target="stripe--card.cardErrors" role="alert"></div>
+        <div data-target="stripe--payment-intent.cardErrors" role="alert"></div>
       <% end %>
     </div>
   </div>
   <div class="actions">
-    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--card.submitButton" } %>
+    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--payment-intent.submitButton" } %>
   </div>
+  <% if @booking.only_paying_deposit? %>
+    <small>
+    By submitting this payment I authorise <%= @current_organisation.name || "you" %> to send instructions to my card issuer to take an initial deposit (<%= @booking.human_readable_amount_due %> now) and then a full payment (<%= @booking.human_readable_full_cost_minus_deposit %> on <%= @booking.human_readable_full_payment_date %>) from my card.
+    </small>
+  <% end %>
   <% if booking.organisation_on_trial? %>
     <div class="onboard-message fullwidth text-center">
       <i class="fa fa-info-circle fa-lg text-secondary"></i> Now hit that big button ☝️and see what happens next...
     </div>
   <% end %>
+  <%= hidden_field_tag :payment_intent_id, @payment_intent.id %>
 <% end %>
 <%= render partial: "layouts/modals/stripe_account_setup" %>

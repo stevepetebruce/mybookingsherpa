@@ -1,7 +1,7 @@
-// Handles creating a card token from the data entered into Stripe's form elements.
+// Handles creating a payment intent from the data entered into Stripe's form elements.
 // Refs: 
-// https://stripe.com/docs/api/tokens/create_card
-// https://stripe.com/docs/stripe-js/reference#stripe-create-token
+// https://stripe.com/docs/payments/cards/saving-cards-after-payment
+// https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment
 import { Controller } from "stimulus";
 
 export default class extends Controller {
@@ -18,18 +18,17 @@ export default class extends Controller {
   addFormSubmissionHandler(card, stripe) {
     this.formTarget.addEventListener("submit", async (event) => {
       event.preventDefault();
+      this.submitButtonTarget.disabled = true;
 
-      const {token, error} = await stripe.createToken(card);
-
-      this.submitButtonTarget.disabled = false;
+      const {paymentIntent, error} = await stripe.handleCardPayment(
+        this.data.get("secret"), card);
 
       if (error) {
-        this.cardErrorsTarget.textContent = error.message;
+        this.cardErrorsTarget.textContent = event.error.message;
+        this.submitButtonTarget.disabled = false;
       } else {
-        this.setTokenAndPostFormIfValid(token);
+        this.handlePaymentMethod(paymentIntent.payment_method);
       }
-
-      this.formTarget.classList.add("was-validated");
     });
   }
 
@@ -71,20 +70,16 @@ export default class extends Controller {
     };
   }
 
-  setTokenAndPostFormIfValid(token) {
+  handlePaymentMethod(paymentMethod) {
     if (this.formTarget.checkValidity() === true) {
-      this.stripeTokenHandler(token);
+      const hiddenInput = document.createElement("input");
+
+      hiddenInput.setAttribute("type", "hidden");
+      hiddenInput.setAttribute("name", "stripePaymentMethod");
+      hiddenInput.setAttribute("value", paymentMethod);
+
+      this.formTarget.appendChild(hiddenInput);
+      this.formTarget.submit();
     }
-  }
-
-  stripeTokenHandler(token) {
-    const hiddenInput = document.createElement("input");
-
-    hiddenInput.setAttribute("type", "hidden");
-    hiddenInput.setAttribute("name", "stripeToken");
-    hiddenInput.setAttribute("value", token.id);
-
-    this.formTarget.appendChild(hiddenInput);
-    this.formTarget.submit();
   }
 }

@@ -9,14 +9,14 @@ RSpec.describe External::StripeApi::Customer, type: :model do
       let!(:attributes) do
         {
           description: "Customer for #{Faker::Internet.email}",
-          token: "tok_#{Faker::Crypto.md5}",
+          payment_method: "pm_#{Faker::Crypto.md5}",
           use_test_api: use_test_api
         }
       end
       let(:expected_attributes) do
         {
           description: attributes[:description],
-          source: attributes[:token]
+          payment_method: attributes[:payment_method]
         }
       end
 

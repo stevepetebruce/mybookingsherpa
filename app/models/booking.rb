@@ -19,7 +19,7 @@ class Booking < ApplicationRecord
   delegate :cancelled?, :description, :full_payment_window_weeks, :guest_count,
            :maximum_number_of_guests, :name, :slug, :start_date,
            to: :trip, prefix: true
-  delegate :stripe_customer_id, to: :guest
+  delegate :stripe_customer_id, to: :guest, allow_nil: true
 
   delegate :logo_image, :on_trial?, :subdomain, to: :organisation, prefix: true
 
