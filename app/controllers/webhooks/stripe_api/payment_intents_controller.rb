@@ -44,8 +44,8 @@ module Webhooks
 
       def handle_event
         case event.type
+        when "payment_intent.created"
         when "payment_intent.amount_capturable_updated"
-          # TODO: need confirmation? etc...
         when "payment_intent.succeeded"
           update_or_create_payment
         when "payment_intent.payment_failed"
