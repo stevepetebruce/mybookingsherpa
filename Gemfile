@@ -12,6 +12,7 @@ gem "devise", ">= 4.6.0"
 gem "faker" # TODO: move back to :development, :test, after user testing.
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
+gem "rollbar"
 gem "sidekiq"
 gem "skylight"
 gem "stripe"
