@@ -48,7 +48,7 @@ module Bookings
         setup_future_usage: setup_future_usage,
         statement_descriptor: statement_descriptor,
         transfer_data: transfer_data
-      }
+      }.reject { |_k, v| v == 0 }
     end
 
     def below_minimum_trip_cost?

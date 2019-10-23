@@ -73,6 +73,8 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
       end
 
       # TODO: also need to test when paying deposit.
+      # When the application_fee_amount == 0. 
+      # It is now rejected - as it was breaking the call to Stripe
     end
   end
 
