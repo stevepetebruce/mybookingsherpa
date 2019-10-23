@@ -103,11 +103,11 @@
           <div class="row">
             <div class="col-md-3 mb-3">
               <%= form.label :minimum_number_of_guests, "Minimum" %>
-              <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, class: "form-control" %>
+              <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, required: true, class: "form-control" %>
             </div>
             <div class="col-md-3 mb-3">
               <%= form.label :maximum_number_of_guests, "Maximum" %>
-                <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, class: "form-control" %>
+                <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, required: true, class: "form-control" %>
             </div>
           </div>
         </div>
