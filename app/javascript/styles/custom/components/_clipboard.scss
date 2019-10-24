@@ -1,5 +1,5 @@
 .clipboard-input {
-  font-size: 75%;
+  font-size: 80%;
   float: right;
   -webkit-user-select: all; 
   user-select: all;
@@ -19,7 +19,7 @@
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
-  background-color: $white-smoke;
+  background-color: $light-gray;
   border-right: 0;
   padding: 5px 8px 5px 5px;
 }

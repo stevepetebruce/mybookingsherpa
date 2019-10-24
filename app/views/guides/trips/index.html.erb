@@ -3,11 +3,11 @@
 <div class="main-panel">
   <div class="content-wrapper row mt-3">
       <div class="col-12 mt-5">
-        <h1 class="card-title font-weight-bold mb-4">
+        <h1 class="font-weight-bold mb-3 ml-3">
           <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
           <span class="small">
             <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
-              <i class="fa fa-plus-circle text-primary"></i>
+              <i class="fa fa-plus-circle text-light"></i>
             </a>
           </span>
         </h1>
@@ -82,8 +82,8 @@
                                   <small class="clipboard-input" data-target="clipboard.clipboardInput"><%= trip.new_public_booking_link %></small>
                                 </div>
                                 <div class="btn-group ml-1" role="group" aria-label="First group">
-                                  <button class="btn btn-sm btn-outline-secondary px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
-                                  <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                  <button class="btn btn-sm btn-outline-secondary rounded mr-1 px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
+                                  <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
                                 </div>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
                                   <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
@@ -92,8 +92,8 @@
                               </div>
                             </div>
                             <div class="col-12 col-md-4">
-                              <%= link_to "Spreadsheet view", guides_trip_bookings_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1" %>
-                              <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1", data: { edit_link: trip.id } do %>
+                              <%= link_to "Spreadsheet view", guides_trip_bookings_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1" %>
+                              <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1", data: { edit_link: trip.id } do %>
                                 Edit Trip
                               <% end %>
                             </div>
@@ -185,7 +185,7 @@
                       <li><i class="fa fa-check text-primary mr-1"></i> Number of guests</li>
                       <li><i class="fa fa-check text-primary mr-1"></i> Price and deposit</li>
                     </ul>
-                    <a class="btn btn-primary" href="/guides/trips/new" role="button">Add a Trip</a>
+                    <a class="btn btn-outline-primary rounded" href="/guides/trips/new" role="button">Add a Trip</a>
                   </div>
                 </div>
             </div>
