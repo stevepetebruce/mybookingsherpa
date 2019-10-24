@@ -13,19 +13,19 @@
   margin: 0;
  
   &.dot-success {
-    background-color: green;
+    background-color: $success;
   }
   &.dot-warning {
-    background-color: theme-color("warning");
+    background-color: $warning;
   }
   &.dot-danger {
-    background-color: theme-color("danger");
+    background-color: $danger;
   }
   &.dot-grey {
-    background-color: theme-color("secondary");
+    background-color: $secondary;
   }
   &.dot-border {
-    border: solid 1px theme-color("secondary");
+    border: solid 1px $secondary;
   }
   &.dot-sm {
     height: 9px;
