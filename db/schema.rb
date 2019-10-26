@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_132809) do
+ActiveRecord::Schema.define(version: 2019_10_26_070409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2019_10_13_132809) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stripe_payment_intent_id"
+    t.integer "status", default: 0
     t.index ["booking_id"], name: "index_payments_on_booking_id"
   end
 

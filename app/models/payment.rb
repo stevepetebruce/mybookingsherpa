@@ -1,4 +1,5 @@
 class Payment < ApplicationRecord
+  enum status: %i[pending success failed refunded]
   belongs_to :booking, optional: true
 
   scope :most_recent, -> { order(created_at: :desc) }
