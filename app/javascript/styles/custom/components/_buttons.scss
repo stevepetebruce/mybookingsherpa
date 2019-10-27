@@ -1,0 +1,101 @@
+
+@mixin btn($bg, $active-bg: darken($bg,7%)) {
+  background-color: $bg;
+  border-color: $bg;
+
+  &:hover {
+    background: $bg;
+    border-color: $bg;
+  }
+  
+  &:active {
+    background-color: $active-bg !important;
+    border-color: $active-bg !important;
+  }
+}
+
+@mixin outline-btn($bg) {
+  background-color: transparent;
+  border-color: $bg !important;
+  color: $bg;
+
+  &:hover {
+    background: $bg;
+    color: white;
+  }
+
+  &:active {
+    background: darken($bg,7%) !important;
+    border-color: darken($bg,7%) !important;
+    color: white !important;
+  }
+}
+
+.btn {
+  border-radius: $btn-border-radius;
+  font-size: $btn-font-size;
+  padding: $btn-padding-y $btn-padding-x;
+  -webkit-transition: .3s;
+  transition: .3s;
+	
+  &.btn-sm {
+    padding: $btn-padding-y-sm $btn-padding-x-sm;
+    font-size: $btn-font-size-sm;
+  }
+
+  &.btn-lg {
+    padding: $btn-padding-y-lg $btn-padding-x-lg;
+    font-size: $btn-font-size-lg;
+  }
+
+  &.rounded {
+    border-radius: 100rem !important;
+  }
+
+  &[class*=outline] {
+    border-width: 1px;
+  }
+}
+
+// buttons colors
+.btn-primary {
+  @include btn($primary);
+}
+.btn-secondary {
+  @include btn($secondary);
+}
+.btn-success {
+  @include btn($success);
+}
+.btn-danger {
+  @include btn($danger);
+}
+.btn-warning {
+  @include btn($warning);
+  color: $white;
+}
+
+// outline buttons
+.btn-outline-primary {
+  @include outline-btn($primary);
+}
+.btn-outline-secondary {
+  @include outline-btn($secondary-dark);
+  color: $darkslategray;
+}
+.btn-outline-success {
+  @include outline-btn($success);
+}
+.btn-outline-danger {
+  @include outline-btn($danger);
+}
+.btn-outline-warning {
+  @include outline-btn($warning);
+}
+.btn-outline-light {
+	@include outline-btn($secondary);
+	color: $secondary-dark;
+  &:hover {
+    color: $secondary-dark;
+  }
+}

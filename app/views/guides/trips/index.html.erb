@@ -1,20 +1,19 @@
-<div class="container-fluid page-body-wrapper content">
+<div class="container page-body-wrapper content">
 <!-- main --> 
 <div class="main-panel">
-  <div class="content-wrapper">
-    <div class="row">
-      <div class="col-12">
+  <div class="content-wrapper row mt-3">
+      <div class="col-12 mt-5">
+        <h1 class="font-weight-bold mb-3 ml-3">
+          <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
+          <span class="small">
+            <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
+              <i class="fa fa-plus-circle text-primary"></i>
+            </a>
+          </span>
+        </h1>
         <% if current_guide.trips.exists? %>
-          <div class="card card-shadow mt-5">
+          <div class="card card-shadow card-rounded">
             <div class="card-body">
-              <h1 class="card-title font-weight-bold mb-4">
-                <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
-                <span class="small">
-                  <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
-                    <i class="fa fa-plus-circle text-primary"></i>
-                  </a>
-                </span>
-              </h1>
               <% if params[:completed_set_up] %>
                 <!-- On-boarding complete --> 
                 <div class="onboard-message fullwidth mt5 mb0">
@@ -32,7 +31,7 @@
               <div class="row">
                 <div class="col col-lg-7"></div>
                 <div class="col col-lg-4 d-sm-none d-md-none d-lg-block d-none">
-                  <h4>Places Filled</h4>
+                  <h5 class="text-uppercase mb-1">Places Filled</h5>
                 </div>
                 <div class="col col-lg-1"></div>
               </div>
@@ -46,7 +45,7 @@
                           <div class="col col-md-8 col-sm-12" data-hide-element="<%= element_to_hide(trip, count) %>">
                             <span class="<%= 'cancelled-trip' if trip.cancelled? %>" data-hide-element="<%= element_to_hide(trip, count) %>"><%= trip.name %></span>
                           </div>
-                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-normal mb-0" data-hide-element="<%= element_to_hide(trip, count) %>">
+                          <div class="col-md-4 col-sm-12 text-gray h4 font-weight-light mb-0" data-hide-element="<%= element_to_hide(trip, count) %>">
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
                           <% if show_first_trial_booking_explaner_element?(trip, count) %>
@@ -75,15 +74,17 @@
                     <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                       <div class="card-body">
                         <div class="fluid-container">
-                          <div class="row border-bottom pb-3" >
+                          <div class="row pb-3 guest-link-container">
                             <div class="col-12 col-md-8 mt-1 text-nowrap d-flex justify-content-start"> 
                               <h5 class="d-none d-sm-none d-md-none d-lg-block mb-0 mt-1 mr-2 text-muted">New Booking Link</h5>
                               <div class="input-group-append mt-0" data-controller="clipboard">    
                                 <div class="outer-text-wrapper" data-action="click->clipboard#copyClipboard">
                                   <small class="clipboard-input" data-target="clipboard.clipboardInput"><%= trip.new_public_booking_link %></small>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
-                                <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                <div class="btn-group ml-1" role="group" aria-label="First group">
+                                  <button class="btn btn-sm btn-outline-secondary rounded mr-1 px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy new booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
+                                  <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Open new booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                </div>
                                 <% if show_onboarding_explainer_element?(trip, count) %>
                                   <div class="pointer-hand hand-left" data-hide-element-target="pointer-two">👈</div>
                                 <% end %>
@@ -91,8 +92,8 @@
                               </div>
                             </div>
                             <div class="col-12 col-md-4">
-                              <%= link_to "Spreadsheet view", guides_trip_bookings_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1" %>
-                              <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary edit-trip-link mt-1", data: { edit_link: trip.id } do %>
+                              <%= link_to "Spreadsheet view", guides_trip_bookings_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1" %>
+                              <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1", data: { edit_link: trip.id } do %>
                                 Edit Trip
                               <% end %>
                             </div>
@@ -100,29 +101,33 @@
                           <!-- Loop throuh individual in trip -->
                           <% trip.bookings.each do |booking| %>
                             <%= link_to guides_booking_path(booking) do %>
-                              <div class="row ticket-card pt-3 pb-2 border-bottom">
+                              <div class="row ticket-card pt-2 pb-2">
                                 <div class="d-sm-none d-md-block d-none position-relative">
-                                  <%= image_tag booking.gravatar_url, class: "avatar avatar-sm", alt: "guest profile image" %>
+                                  <div class="avatar avatar-sm">
+                                    <%= image_tag booking.gravatar_url, alt: "guest profile image" %>
+                                  </div>
                                   <% if booking.flag_icon.present? %>
                                     <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
                                   <% end %>
                                 </div>
                                 <div class="col-12 col-lg-6 col-md-6 col-sm-12">
                                   <div class="d-flex">
-                                    <p class="text-primary mb-0 mt-1 no-wrap h3 font-weight-light">
+                                    <h4 class="mb-0 no-wrap text-primary">
                                       <%= booking.guest_or_booking_name %>
-                                    </p>
+                                    </h4>
                                     <% if Bookings::Status.new(booking).personal_details_incomplete? %>
-                                      <small class="mt-2 ml-1">(personal details incomplete)</small>
+                                      <small class="mt-1 ml-2 text-muted">personal details incomplete</small>
                                     <% end %>
                                   </div>
                                 </div>
                                 <div class="col-9 col-lg-4 col-md-3 col-sm-10">
-                                  <% if booking.refunded? %>
-                                    <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
-                                  <% else %>
-                                    <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
-                                  <% end %>
+                                  <small>
+                                    <% if booking.refunded? %>
+                                      <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
+                                    <% else %>
+                                      <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
+                                    <% end %>
+                                  </small>
                                 </div>
                                 <div class="col-xs-auto mb-1">
                                   <% if booking.guest_or_booking_allergies? %>
@@ -182,13 +187,12 @@
                       <li><i class="fa fa-check text-primary mr-1"></i> Number of guests</li>
                       <li><i class="fa fa-check text-primary mr-1"></i> Price and deposit</li>
                     </ul>
-                    <a class="btn btn-primary" href="/guides/trips/new" role="button">Add a Trip</a>
+                    <a class="btn btn-outline-primary rounded" href="/guides/trips/new" role="button">Add a Trip</a>
                   </div>
                 </div>
             </div>
           </div>
         <% end %>
       </div>
-    </div>
   </div>
 </div>

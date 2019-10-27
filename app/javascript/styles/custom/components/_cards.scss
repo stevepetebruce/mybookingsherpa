@@ -9,12 +9,12 @@
         padding-top: 0;
       }
       .border-bottom {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     }
   }
   .card-header {
     padding: $cardheader-padding-y $cardheader-padding-x;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 0;
     margin-top: 12px;
     background-color: #fff;
@@ -23,20 +23,20 @@
     cursor: pointer;
   }
   &.card-outline-success{
-		border: 1px solid theme-color("success");
-	}
-	&.card-outline-primary{
-		border: 1px solid theme-color("primary");
-	}
-	&.card-outline-warning{
-		border: 1px solid theme-color("warning");
-	}
-	&.card-outline-danger{
-		border: 1px solid theme-color("danger");
-	}
-	&.card-rounded{
-		@include border-radius(5px);
-	}
+    border: 1px solid theme-color("success");
+  }
+  &.card-outline-primary{
+    border: 1px solid theme-color("primary");
+  }
+  &.card-outline-warning{
+    border: 1px solid theme-color("warning");
+  }
+  &.card-outline-danger{
+    border: 1px solid theme-color("danger");
+  }
+  &.card-rounded{
+    @include border-radius(12px);
+  }
 
   &.card-faded {
     background: #b5b0b2;
@@ -54,9 +54,11 @@
   }
 } 
 
+.guest-link-container {
+  border-bottom: solid 1px $light-gray;
+}
 
 /*  Trips view accordian icons */
-
 [data-toggle="collapse"] .fa-chevron-circle-down:before {  
   content: "\f183";
   font-size: 20px;
@@ -67,9 +69,8 @@
 }
 
 /*  Trips view accordian guest hover */
-
 .ticket-card {
-  font-size: 0.875rem; 
+  border-bottom: solid 1px $light-gray;
   &:hover {
     background-color: #f7fafc;
     cursor: pointer;
@@ -79,12 +80,11 @@
   }
 }
 
-.ticket-card:hover .avatar {
+a.test:hover .avatar {
   transform: scale(1.06);
 }
 
 .avatar {
   transition: 0.2s;
-  margin: 0 8px;
-  background-color: #d9e7f1;
+  margin: 0 0 0 14px;
 }

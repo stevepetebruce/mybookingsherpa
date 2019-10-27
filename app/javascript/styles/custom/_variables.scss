@@ -1,57 +1,22 @@
 ////////// COLOURS //////////
-
 $black: #000;
 $white: #ffffff;
 $white-smoke: #F9F9F9;
 $ghost-white: #f7fafc;
 $violet: #41478a;
 $darkslategray: #2e383e;
-$light-gray: #cccccc;
+$light-gray: #F2F2F2;
 $dodger-blue: #42a5f5;
 $blue-teal-gradient: linear-gradient(88deg, #318be3, #04befe);
-$blue: #0a65ba;
-$indigo: #6610f2;
-$purple: #745af2;
-$pink: #e83e8c;
-$red: #ed0013;
-$orange: #FFC105;
-$yellow: #ffc107;
-$green: #0eb71c;
-$teal: #58d8a3;
-$cyan: #17a2b8;
+$blue: #2096db;
+$primary: #1da1f2;
+$secondary: #DDD;
+$secondary-dark: #a5a5a5;
+$success: #00c851;
+$danger: #fc3741;
+$warning: #ffae00;
+$info: #33b5e5;
 $white: #ffffff;
-$colors: (
-  blue: $blue,
-  indigo: $indigo,
-  purple: $purple,
-  pink: $pink,
-  red: $red,
-  orange: $orange,
-  yellow: $yellow,
-  green: $green,
-  teal: $teal,
-  cyan: $cyan,
-  white: $white,
-  white-smoke: #f2f7f8,
-  gray: $gray-600,
-  gray-light: #636c72,
-  gray-lightest: #f7f7f9,
-  gray-dark: #292b2c
-);
-$theme-colors: (
-  primary: $blue,
-  secondary: $gray-400,
-  success: $green,
-  info: $purple,
-  warning: $orange,
-  danger: $red,
-  light: $gray-100,
-  dark: #424964,
-  teal: $teal,
-);
-////////// COLOURS //////////
-
-
 
 ////////// TEMPLATE VARIABLES //////////
 $content-bg: #f5f5f5;
@@ -63,9 +28,22 @@ $border-color: #e6e6e6;
 ////////// FONTS //////////
 $type-1: 'Source Sans Pro', sans-serif;
 $default-font-size: 1rem;
-$text-muted: #a0a0a0;
+$text-muted: #939393;
 $body-color: #444444;
 ////////// FONTS //////////
+
+////////// buttons //////////
+$btn-border-radius: 2px;
+// font-sizes
+$btn-font-size: 15px;
+$btn-font-size-sm: 13px;
+$btn-font-size-lg: 17px;
+$btn-padding-y: .6rem;
+$btn-padding-x: 1.8rem;
+$btn-padding-y-sm: .3rem;
+$btn-padding-x-sm: 1.5rem;
+$btn-padding-y-lg: .8rem;
+$btn-padding-x-lg: 2.2rem;
 
 ////////// CARDS //////////
 $border-property: 1px solid $border-color;
@@ -75,7 +53,6 @@ $card-padding-x: 1.01rem;
 $cardheader-padding-y: .48rem;
 $cardheader-padding-x: .41rem;
 ////////// CARDS //////////
-
 
 ////////// Responsive sizes //////////
 $large-device-width: 1199px; // Large devices (desktops, less than 1200px)
