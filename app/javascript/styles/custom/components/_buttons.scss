@@ -51,6 +51,9 @@
   &.rounded {
     border-radius: 100rem !important;
   }
+  &.uppercase {
+    text-transform: uppercase;
+  }
 
   &[class*=outline] {
     border-width: 1px;

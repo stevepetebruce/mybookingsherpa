@@ -89,7 +89,7 @@
           </div>
           <div class="mb-3">
             <%= form.label :a_brief_description_of_your_trip %>
-            <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 8, autofocus: auto_focus(@trip, form_field: :description) %>
+            <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 3, autofocus: auto_focus(@trip, form_field: :description) %>
             <div class="invalid-feedback">
               <%= "Please enter a valid description" %>
             </div>
@@ -112,8 +112,8 @@
           </div>
         </div>
       </div>
-      <div class="mt-3 mb-5 text-center">
-        <button class="btn btn-lg btn-primary" type="submit"><%= @trip.new_record? ? "Add my trip" : "Update my trip" %></button>
+      <div class="mt-3 mb-1 text-center">
+        <button class="btn btn-primary rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
       </div>
     <% end %>
   </div>
@@ -167,8 +167,8 @@
                   <input type="text" name="fake_card_details" id="fake_card_details" value="4242 4242 4242 4242                                                 10 / 20    123" class="form-control" required="required" readonly="readonly">
               </div>
             </div>
-            <div class="actions">
-              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg btn-block mt-4 mb-4">
+            <div class="actions text-center">
+              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg uppercase rounded mt-4 mb-4">
             </div>
           </form>
         </div>
