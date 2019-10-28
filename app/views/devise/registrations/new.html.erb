@@ -3,8 +3,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">MyBookingSherpa's Terms and Conditions</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h3 class="modal-title" id="exampleModalLabel">MyBookingSherpa's Terms and Conditions</h3>
+        <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -19,73 +19,68 @@
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sml rounded" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-<div class="container-fluid full-height">
-  <div class="row row-height">
-    <div class="col-lg-4 content-left">
-      <div class="content-left-wrapper bg_img bg1">
-        <div class="onboard-logo"><img src="<%= asset_pack_path 'media/images/onboarding/logo-lt.svg' %>" alt="Logo"></div>
-        <div class="wrapper">
-          <div class="py-4 text-center">
-            <!-- <p class="quotation-mark">
-              “
-            </p>
-            <h3 class="quote-text">
-            </h3>
-            <div class="blog-post-actions">
-              <p class="blog-post-bottom">
-              </p>
+<div class="container page-body-wrapper content">
+<!-- main --> 
+  <div class="main-panel">
+    <div class="content-wrapper row mt-3">
+      <div class="col-12 mt-5">
+        <div class="card card-shadow card-rounded mt-5 offset-md-1 col-md-10">
+          <div class="card-body p-0 row overflow-hidden">
+            <div class="col-lg-5 content-left">
+              <div class="content-left-wrapper bg_img">
+                <div class="wrapper">
+                  <div class="py-4 text-center">
+                    <h2 class="font-weight-bold">Welcome</h2>
+                    <h4 class="pb-4">Start your journey to simplify group bookings</h4>
+                  </div>
+                </div>
+              </div>
             </div>
-            -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col content-right">
-      <div class="row">
-        <div class="row ow-eq-height flex-fill">
-          <div class="col-sm-12 col-md-12 col-lg-4">
-            <h2 class="mt-3">Welcome...</h2>
-            <h2 class="mt-3">Your first step to simplifying your group bookings</h2>
-          </div>
-          <div class="p-2 col-sm-12 col-md-12 col-lg-8">
-            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-            <%= devise_error_messages! %>
-              <div class="col-md-12 mb-3">
-                <%= f.label :email_address %>
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control" %>
-                <div class="invalid-feedback">
-                  Please enter a vali Email Address
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
-                <%= f.label :password %>
-                <% if @minimum_password_length %>
-                  <span class="small"><i>(<%= @minimum_password_length %> characters minimum)</i></span>
+            <div class="col-lg-7 content-right px-0">
+              <div class="mt-0">
+                <span class="text-center">
+                  <h1 class="font-weight-bold">Sign Up</h1>
+                </span>
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+                <%= devise_error_messages! %>
+                  <div class="col-md-12 mb-3">
+                    <%= f.label :email_address %>
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control" %>
+                    <div class="invalid-feedback">
+                      Please enter a vali Email Address
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <%= f.label :password %>
+                    <% if @minimum_password_length %>
+                      <span class="small"><i>(<%= @minimum_password_length %> characters minimum)</i></span>
+                    <% end %>
+                    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true, class: "form-control" %>
+                    <div class="invalid-feedback">
+                      Please enter your password
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <small>
+                      I agree to MyBookingSherpa's <a href="#" class="font-italic text-primary" data-toggle="modal" data-target="#tosModal">terms and conditions</a><span><i> (required) </i></span> 
+                      <%= f.check_box :accepted_tos, checked: false, required: true %>
+                    </small>
+                  </div>
+                  <div class="col-md-12 mb-3 text-center">
+                <!--     <a href="onboard.html"><input type="submit" name="commit" value="Next Step" class="btn btn-primary btn-lg btn-block mt-4 mb-4"></a> -->
+                    <%= f.submit "Next Step", class: "btn btn-primary btn-lg rounded mt-4 mb-4" %>
+                  </div>
+                  <div class="col-md-12 mb-3 text-center">
+                    <%= link_to "Already signed up? Log in here", new_session_path(resource_name), class: "small text-primary" %>
+                  </div>
                 <% end %>
-                <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true, class: "form-control" %>
-                <div class="invalid-feedback">
-                  Please enter your password
-                </div>
               </div>
-              <div class="col-md-12 mb-3">
-                <small>
-                  I agree to MyBookingSherpa's <a href="#" class="-font-italic" data-toggle="modal" data-target="#tosModal">terms and conditions</a><span><i> (required)</i></span>
-                  <%= f.check_box :accepted_tos, checked: false, required: true %>
-                </small>
-              </div>
-              <div class="col-md-12 mb-3">
-            <!--     <a href="onboard.html"><input type="submit" name="commit" value="Next Step" class="btn btn-primary btn-lg btn-block mt-4 mb-4"></a> -->
-                <%= f.submit "Next Step", class: "btn btn-primary btn-lg btn-block mt-4 mb-4" %>
-              </div>
-              <div class="col-md-12 mb-3 text-center">
-                <%= link_to "Already signed up? Log in here", new_session_path(resource_name), class: "small" %>
-              </div>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
