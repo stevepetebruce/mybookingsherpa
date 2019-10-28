@@ -92,8 +92,36 @@ h6 {
   color: $text-muted;
 }
 
-.text-primary {
+@mixin rollovers($color) {
+  color: darken($color, 8%) !important;;
+}
+
+a.text-primary {
   color: $blue !important;
+  &:hover {
+    @include rollovers($blue);
+    text-decoration: underline;
+  }
+}
+
+a.text-secondary {
+  color: $secondary !important;
+  &:hover {
+    @include rollovers($secondary);
+    text-decoration: underline;
+  }
+}
+
+.text-success {
+  color: $success !important;
+}
+
+.text-warning {
+  color: $warning !important;
+}
+
+.text-danger {
+  color: $danger !important;
 }
 
 .display-1 {
