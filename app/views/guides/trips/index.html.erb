@@ -1,18 +1,18 @@
 <div class="container page-body-wrapper content">
 <!-- main --> 
-<div class="main-panel">
-  <div class="content-wrapper row mt-3">
+  <div class="main-panel">
+    <div class="content-wrapper row mt-3">
       <div class="col-12 mt-5">
-        <h1 class="font-weight-bold mb-3 ml-3">
-          <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
-          <span class="small">
-            <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
-              <i class="fa fa-plus-circle text-primary"></i>
-            </a>
-          </span>
-        </h1>
         <% if current_guide.trips.exists? %>
-          <div class="card card-shadow card-rounded mt-5">
+          <h1 class="font-weight-bold mb-3 ml-3">
+            <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
+            <span class="small">
+              <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
+                <i class="fa fa-plus-circle text-primary"></i>
+              </a>
+            </span>
+          </h1>
+          <div class="card card-shadow card-rounded">
             <div class="card-body">
               <% if params[:completed_set_up] %>
                 <!-- On-boarding complete --> 
@@ -163,36 +163,41 @@
             </div>
           </div>
         <% else %>
-          <div class="card card-shadow mt-5 offset-md-2 col-md-8">
+          <div class="card card-shadow card-rounded mt-5 offset-md-1 col-md-10">
             <div class="card-body p-0 row overflow-hidden">
-                <div class="col-lg-5 content-left">
-                  <div class="content-left-wrapper bg_img">
-                    <div class="wrapper">
-                      <div class="py-4 text-center">
-                        <% if current_guide.name.present? %>
-                          <h2 class="font-weight-bold mb-0">Hi<br><%= current_guide.name %></h2>
-                        <% end %>
-                      </div>
+              <div class="col-lg-5 content-left">
+                <div class="content-left-wrapper bg_img">
+                  <div class="wrapper">
+                    <div class="py-4 text-center">
+                      <h2 class="font-weight-bold">Welcome</h2>
+                      <% if current_guide.name.present? %>
+                        <h2 class="font-weight-bold"><%= current_guide.name %></h2>
+                      <% end %>
+                      <h4 class="pb-4">Start your journey to simplify group bookings</h4>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-7 content-right">
-                  <div class="mt-2">
-                    <h1 class="font-weight-bold">Add your first trip</h1>
-                    <h4 class="mt-4">All you need to set up your first trip and start receiving bookings:</h4>
-                    <ul class="list-unstyled">
-                      <li><i class="fa fa-check text-primary mr-1"></i> Trip name</li>
-                      <li><i class="fa fa-check text-primary mr-1"></i> Trip description</li>
-                      <li><i class="fa fa-check text-primary mr-1"></i> Start and end date</li>
-                      <li><i class="fa fa-check text-primary mr-1"></i> Number of guests</li>
-                      <li><i class="fa fa-check text-primary mr-1"></i> Price and deposit</li>
-                    </ul>
-                    <a class="btn btn-outline-primary rounded" href="/guides/trips/new" role="button">Add a Trip</a>
+              </div>
+              <div class="col-lg-7 content-right">
+                <div class="mt-2">
+                  <h1 class="font-weight-bold">Add your first trip</h1>
+                  <h4 class="mt-4">All you need to set up your first trip and start receiving online payments:</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="fa fa-check text-primary mr-1"></i> Trip name</li>
+                    <li><i class="fa fa-check text-primary mr-1"></i> Trip description</li>
+                    <li><i class="fa fa-check text-primary mr-1"></i> Start and end date</li>
+                    <li><i class="fa fa-check text-primary mr-1"></i> Number of guests</li>
+                    <li><i class="fa fa-check text-primary mr-1"></i> Price and deposit</li>
+                  </ul>
+                  <div class="col text-center">
+                    <a class="btn btn-primary btn-lg rounded uppercase my-3" href="/guides/trips/new" role="button">Add a Trip</a>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         <% end %>
       </div>
+    </div>
   </div>
 </div>
