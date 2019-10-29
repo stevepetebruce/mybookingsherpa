@@ -17,7 +17,7 @@ module Guides
         External::StripeApi::AccountLink.
           create(@current_organisation.stripe_account_id,
                  failure_url: guides_welcome_stripe_account_link_failure_url,
-                 success_url: guides_trips_url)
+                 success_url: new_guides_welcome_bank_account_url)
       end
 
       def set_current_organisation
