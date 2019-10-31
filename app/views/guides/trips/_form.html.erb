@@ -120,7 +120,7 @@
   <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab">
     <div class="container-fluid full-height">
       <div class="row row-height border" style="overflow: hidden;">
-        <div class="col-lg-4 content-left">
+        <div class="col-lg-5 content-left">
           <div class="content-left-wrapper bg_img">
             <div class="wrapper">
               <div class="py-4 text-center"> 
@@ -141,21 +141,18 @@
             </div>
           </div>
         </div>
-        <div class="col content-right new-onboarding">
+        <div class="col content-right new-onboarding  mb-3">
           <form>
-            <h4 class="mb-3 font-weight-bold">Your Details</h4>
+            <h4 class="mb-3 mt-5 font-weight-bold">Your Details</h4>
             <div class="row">
               <div class="col-md-12 mb-3">
                 <label for="booking_name">Full Name</label>
-                <input value="Boris Johnson" class=" form-control" autofocus="autofocus" required="required" readonly="readonly" type="text" name="booking[name]" id="booking_name">
-                <div class="invalid-feedback">
-                  Please enter your name
-                </div>
+                <input class="form-control" autofocus="autofocus" required="required" readonly="readonly" type="text" name="booking[name]" id="booking_name">
               </div>
             </div>
             <div class="mb-3">
               <label for="booking_email">Email</label>
-              <input value="b.johnson@gmail.com" class=" form-control" required="required" readonly="readonly" type="text" name="booking[email]" id="booking_email">
+              <input class="form-control" required="required" readonly="readonly" type="text" name="booking[email]" id="booking_email">
             </div>
             <hr class="mb-5 mb-4">
             <h4 class="mb-3 font-weight-bold">
@@ -164,11 +161,11 @@
             <div class="row">
               <div class="col-md-12 mb-3">
                   <span>Credit or debit card number</span> <span style="padding-left: 235px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
-                  <input type="text" name="fake_card_details" id="fake_card_details" value="4242 4242 4242 4242                                                 10 / 20    123" class="form-control" required="required" readonly="readonly">
+                  <input type="text" name="fake_card_details" id="fake_card_details" class="form-control" required="required" readonly="readonly">
               </div>
             </div>
             <div class="actions text-center">
-              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg uppercase rounded mt-4 mb-4">
+              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg uppercase rounded mt-4 mb-4" disabled>
             </div>
           </form>
         </div>
