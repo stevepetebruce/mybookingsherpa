@@ -16,7 +16,7 @@ RSpec.describe "Guides::TripsController", type: :request do
         "account"=>%r{acct_\d+},
         "collect"=>"currently_due",
         "failure_url"=>"http://www.example.com/guides/welcome/stripe_account_link_failure",
-        "success_url"=>"http://www.example.com/guides/trips",
+        "success_url"=>"http://www.example.com/guides/welcome/bank_accounts/new",
         "type"=>"custom_account_verification"}).
       to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
   end
