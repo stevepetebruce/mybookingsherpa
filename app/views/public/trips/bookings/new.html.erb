@@ -1,7 +1,7 @@
-  <div class="container-fluid full-height">
-    <div class="row row-height">
-      <div class="col-lg-4 content-left" style="">
-        <div class="content-left-wrapper bg_img">
+  <div class="container full-height">
+    <div class="row row-height py-5">
+      <div class="col-lg-4">
+        <div class="content-left-wrapper rounded bg_img">
           <div class="wrapper">
             <div class="py-4 text-center">
               <% if @booking.organisation.logo_image.attached? %>
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="col content-right new-onboarding">
+      <div class="col content-right new-onboarding card card-shadow card-rounded py-5">
         <%= render "new_form", booking: @booking %>
       </div>
     </div>

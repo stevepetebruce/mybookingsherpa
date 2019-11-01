@@ -6,27 +6,12 @@
   }
 }
 
-.content-left {
-  margin: 0 0 0 -55px;
-  -webkit-transform: skew(5deg);
-  -moz-transform: skew(5deg);
-  -o-transform: skew(5deg);
-  overflow: hidden;
-  @include tablet {
-    margin: 0 0 0 0px;
-    -webkit-transform: skew(0deg);
-    -moz-transform: skew(0deg);
-    -o-transform: skew(0deg);
-  }
-}
-
 .content-left-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
   text-align: center;
-  box-shadow: inset -5px 0px 8px -6px #000;
   color: #fff;
   background: url('https://www.mybookingsherpa.com/img/mountains-bg.jpg') center center no-repeat;
   padding: 0 50px;
@@ -46,9 +31,6 @@
     position: relative;
     height: 100%;
     margin: 0 0 0 20px;
-    -webkit-transform: skew(-5deg);
-    -moz-transform: skew(-5deg);
-    -o-transform: skew(-5deg);
     display: flex;
     justify-content: center;
     align-items: center;
