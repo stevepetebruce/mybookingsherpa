@@ -24,6 +24,14 @@ RSpec.describe Trip, type: :model do
         expect(trip.slug).to eq trip.name.parameterize(separator: "_")
       end
 
+      context "trip with name with odd characters in" do
+        before { trip.update(name: "my new trip !!! <>,.!!!") }
+
+        it "should be able to handle/make URL-friendly slugs" do
+          expect(trip.slug).to eq "my_new_trip"
+        end
+      end
+
       context "a trip with the same name already exists" do
         let!(:trip_with_same_name) { FactoryBot.create(:trip, name: trip.name) }
 
