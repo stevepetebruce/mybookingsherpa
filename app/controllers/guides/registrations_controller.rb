@@ -1,7 +1,7 @@
 class Guides::RegistrationsController < Devise::RegistrationsController
   after_action :create_organisation, only: %i[create]
 
-  layout "onboarding"
+  layout "minimal"
 
   def create
     super

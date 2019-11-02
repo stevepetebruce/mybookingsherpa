@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- modal start -->
 <div class="modal fade" id="tosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -24,65 +24,60 @@
     </div>
   </div>
 </div>
-<div class="container page-body-wrapper content">
-<!-- main --> 
-  <div class="main-panel">
-    <div class="content-wrapper row mt-3">
-      <div class="col-12 mt-5">
-        <div class="card card-shadow card-rounded mt-5 offset-md-1 col-md-10">
-          <div class="card-body p-0 row overflow-hidden">
-            <div class="col-lg-5 content-left">
-              <div class="content-left-wrapper bg_img">
-                <div class="wrapper">
-                  <div class="py-4 text-center">
-                    <h2 class="font-weight-bold">Welcome</h2>
-                    <h4 class="pb-4">Start your journey to simplify group bookings</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-7 content-right px-0">
-              <div class="mt-0">
-                <span class="text-center">
-                  <h1 class="font-weight-bold">Sign Up</h1>
-                </span>
-                <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-                <%= devise_error_messages! %>
-                  <div class="col-md-12 mb-3">
-                    <%= f.label :email_address %>
-                    <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control" %>
-                    <div class="invalid-feedback">
-                      Please enter a vali Email Address
-                    </div>
-                  </div>
-                  <div class="col-md-12 mb-3">
-                    <%= f.label :password %>
-                    <% if @minimum_password_length %>
-                      <span class="small"><i>(<%= @minimum_password_length %> characters minimum)</i></span>
-                    <% end %>
-                    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true, class: "form-control" %>
-                    <div class="invalid-feedback">
-                      Please enter your password
-                    </div>
-                  </div>
-                  <div class="col-md-12 mb-3">
-                    <small>
-                      I agree to MyBookingSherpa's <a href="#" class="font-italic text-primary" data-toggle="modal" data-target="#tosModal">terms and conditions</a><span><i> (required) </i></span> 
-                      <%= f.check_box :accepted_tos, checked: false, required: true %>
-                    </small>
-                  </div>
-                  <div class="col-md-12 mb-3 text-center">
-                <!--     <a href="onboard.html"><input type="submit" name="commit" value="Next Step" class="btn btn-primary btn-lg btn-block mt-4 mb-4"></a> -->
-                    <%= f.submit "Next Step", class: "btn btn-primary btn-lg rounded mt-4 mb-4" %>
-                  </div>
-                  <div class="col-md-12 mb-3 text-center">
-                    <%= link_to "Already signed up? Log in here", new_session_path(resource_name), class: "small text-primary" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
+<!-- modal end -->
+
+<div class="container-fluid full-height">
+  <div class="row row-height">
+    <div class="col-lg-4 content-left" style="">
+      <div class="content-left-wrapper bg_img">
+        <div class="wrapper">
+          <div class="py-4 text-center">
+            <h2 class="font-weight-bold pb-4">MyBookingSherpa</h2>
+            <h4 class="pb-4">Welcome to the world of instant card payments for all your bookings</h4>
+            <h4 class="font-weight-bold mb-1">One link</h4>
+            <h4 class="font-weight-bold mb-1">One click</h4>
+            <h4 class="font-weight-bold mb-1">One new booking</h4>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-7 content-right px-0">
+      <div class="mt-3">
+        <span class="text-center">
+          <h1 class="font-weight-bold">Sign Up</h1>
+        </span>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= devise_error_messages! %>
+          <div class="col-md-12 mb-3">
+            <%= f.label :email_address %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control" %>
+            <div class="invalid-feedback">
+              Please enter a vali Email Address
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+              <span class="small"><i>(<%= @minimum_password_length %> characters minimum)</i></span>
+            <% end %>
+            <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true, class: "form-control" %>
+            <div class="invalid-feedback">
+              Please enter your password
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <small>
+              I agree to MyBookingSherpa's <a href="#" class="font-italic text-primary" data-toggle="modal" data-target="#tosModal">terms and conditions</a><span><i> (required) </i></span> 
+              <%= f.check_box :accepted_tos, checked: false, required: true %>
+            </small>
+          </div>
+          <div class="col-md-12 mb-3 text-center">
+            <%= f.submit "SIGN UP", class: "btn btn-primary btn-lg rounded mt-4 mb-4" %>
+          </div>
+          <div class="col-md-12 mb-3 text-center">
+            Already signed up? <%= link_to "Log in here", new_session_path(resource_name), class: "text-primary" %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

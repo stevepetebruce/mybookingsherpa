@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="https://mybookingsherpa.com"/>
+    <% if Rails.env.production? %>
+      <%= render "layouts/vendor_code/google_tag_manager_head" %>
+    <% end %>
+    <title>MyBookingSherpa</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
+    <%= stylesheet_pack_tag "application", "data-turbolinks-track": "reload" %>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body class="header-fixed">
+    <% if Rails.env.production? %>
+      <%= render "layouts/vendor_code/google_tag_manager_body" %>
+    <% end %>
+    <%= flash_messages %>
+    <%= yield %>
+  </body>
+</html>
