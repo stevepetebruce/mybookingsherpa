@@ -1,7 +1,7 @@
 module Guides
   class TripsController < ApplicationController
     before_action :authenticate_guide!
-    before_action :set_current_organisation, only: %i[create edit index new]
+    before_action :set_current_organisation
     before_action :set_trip, only: %i[edit update]
     before_action :set_show_past_trips, only: %i[index]
 
