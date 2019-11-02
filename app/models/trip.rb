@@ -10,7 +10,7 @@ class Trip < ApplicationRecord
   validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, presence: true
   validate :start_date_before_end_date
-  validates :name, format: /\A[a-zA-Z0-9_.'\-\s]+\z/, presence: true # TODO: make this unique within an organisation's scope
+  validates :name, presence: true # TODO: make this unique within an organisation's scope
   validates :minimum_number_of_guests,
             numericality: { only_integer: true },
             allow_nil: true
@@ -69,11 +69,11 @@ class Trip < ApplicationRecord
 
   def start_date_before_end_date
     return if start_date.nil? && end_date.nil?
-    return if start_date <= end_date
+    return if start_date < end_date
 
     errors.add(:base,
                :start_date_after_end_date,
-               message: "start date must be before end date")
+               message: "start date must not be after end date")
   end
 
   def valid_date_format

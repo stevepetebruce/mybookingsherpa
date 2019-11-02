@@ -274,7 +274,7 @@ RSpec.describe "Guides::TripsController", type: :request do
       end
 
       context "invalid and unsuccessful" do
-        let!(:params) { { trip: { name: "https://hacker.com" } } }
+        let!(:params) { { trip: { name: nil } } }
 
         it "should not update the guest" do
           do_request(params: params)
