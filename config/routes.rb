@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   # Nested resources
   namespace :guides, only: %i[] do # Devise handles all guest actions
     resources :bookings, only: %i[show]
-    resources :trips, only: %i[create index edit new update]
+    resources :trips, only: %i[create destroy edit index new update]
     resources :trips, only: %i[] do
       resources :bookings, only: %i[index], controller: "/guides/trips/bookings"
     end
