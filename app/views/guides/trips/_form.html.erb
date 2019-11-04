@@ -8,7 +8,7 @@
     </li>
   </ul>
 </div>
-<div class="tab-content" id="pills-tabContent" data-controller="trip-preview">
+<div class="tab-content" id="pills-tabContent" data-controller="trip-preview copy-date">
   <div class="tab-pane fade show active" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab"> 
     <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
       <div class="row justify-content-md-center">
@@ -43,7 +43,7 @@
           <div class="row">
             <div class="col-md-3 mb-3">
               <%= form.label :start_date %>
-              <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
+              <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
               <div class="invalid-feedback">
                 <%= "Please enter a valid start date" %>
               </div>
@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-3 mb-3">
               <%= form.label :end_date %>
-              <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
+              <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
               <div class="invalid-feedback">
                 <%= "Please enter a valid end date" %>
               </div>
