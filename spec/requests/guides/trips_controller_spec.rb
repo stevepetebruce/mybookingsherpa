@@ -83,6 +83,62 @@ RSpec.describe "Guides::TripsController", type: :request do
     end
   end
 
+  describe "#destroy DELETE /guides/trips/:id" do
+    include_examples "authentication"
+
+    def do_request(url: "/guides/trips/#{trip.id}", params: {})
+      delete url, params: params
+    end
+
+    let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
+
+    context "signed in" do
+      before { sign_in(guide) }
+
+      context "valid and successful" do
+        context "a trip without any bookings" do
+          it "should delete the trip" do
+            expect { do_request }.to change{ guide.trips.count }.from(1).to(0)
+          end
+
+          it "should redirect_to guides_trips_path" do
+            do_request
+
+            expect(response).to redirect_to guides_trips_path
+          end
+        end
+
+        context "a trip with bookings" do
+          before { FactoryBot.create(:booking, trip: trip) }
+
+          it "should not delete the trip" do
+            expect { do_request }.to_not change{ guide.trips.count }
+          end
+
+          it "should redirect_to guides_trips_path with correct error message" do
+            do_request
+
+            expect(response).to redirect_to guides_trips_path
+            # TODO: doesn't look like we're surfacing error messages in the views
+            # expect(response.body).to include("can not delete trip with bookings")
+          end
+        end
+      end
+
+      context "invalid and unsuccesful" do
+        before { allow_any_instance_of(Trip).to receive(:destroy).and_return(false) }
+
+        it "should redirect_to guides_trips_path with correct error message" do
+          do_request
+
+          expect(response).to redirect_to guides_trips_path
+          # TODO: doesn't look like we're surfacing error messages in the views
+          # expect(response.body).to include("problem deleting trip")
+        end
+      end
+    end
+  end
+
   describe "#edit GET /guides/trips/:id/edit" do
     include_examples "authentication"
 

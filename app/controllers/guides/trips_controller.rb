@@ -2,7 +2,7 @@ module Guides
   class TripsController < ApplicationController
     before_action :authenticate_guide!
     before_action :set_current_organisation
-    before_action :set_trip, only: %i[edit update]
+    before_action :set_trip, only: %i[destroy edit update]
     before_action :set_show_past_trips, only: %i[index]
 
     def create
@@ -13,6 +13,20 @@ module Guides
       else
         flash.now[:alert] = "Problem creating trip. #{@trip.errors.full_messages.to_sentence}"
         render :new
+      end
+    end
+
+    def destroy
+      if @trip.bookings.exists?
+        @trip.errors.add(:base, :bookings, message: "can not delete trip with bookings")
+        redirect_to guides_trips_path and return
+      end
+
+      if @trip.destroy
+        redirect_to guides_trips_path
+      else
+        flash.now[:alert] = "Problem deleting trip. #{@trip.errors.full_messages.to_sentence}"
+        redirect_to guides_trips_path
       end
     end
 

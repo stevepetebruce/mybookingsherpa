@@ -96,6 +96,11 @@
                               <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1", data: { edit_link: trip.id } do %>
                                 Edit
                               <% end %>
+                              <% unless trip.bookings.exists? %>
+                                <%= link_to guides_trip_path(trip), method: :delete, data: { confirm: "Are you sure you want to PERMANENTLY delete #{trip.name}?", toggle: "tooltip", placement: "top", tooltip: "Delete trip", tooltip_position: "top"}, class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1" do %>
+                                  <i class="fa fa-trash"></i>
+                                <% end %>
+                              <% end %>
                             </div>
                           </div>
                           <!-- Loop throuh individual in trip -->
