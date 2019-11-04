@@ -2,8 +2,8 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
-                    "depositDatePreview", "descriptionInput", "descriptionPreview", "depositPercentageInput",
-                    "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
+                    "depositDatePreview", "depositWrapper", "descriptionInput", "descriptionPreview",
+                    "depositPercentageInput", "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
                     "namePreview", "paymentWindowWeeksInput", "startDateInput"]
   
   previewUpdate() {
@@ -29,6 +29,12 @@ export default class extends Controller {
     this.fullCostPreviewTargets.map((target, index) => {
       this.fullCostPreviewTargets[index].innerHTML = this.fullCostInputTarget.value || "100";
     });
+
+    if (this.depositPercentageInputTarget.value) {
+      this.depositWrapperTarget.style.display = "block";
+    } else {
+      this.depositWrapperTarget.style.display = "none";
+    }
 
     this.depositPreviewTarget.innerHTML = ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
     this.depositRemainderPreviewTarget.innerHTML = this.fullCostInputTarget.value - ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
