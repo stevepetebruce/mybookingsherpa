@@ -24,8 +24,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json) } }
+        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
@@ -44,8 +45,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_with_booking_id.json").read}")
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json) } }
+        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
@@ -65,8 +67,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_amount_capturable_updated.json").read}")
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json) } }
+        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
@@ -80,8 +83,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed.json").read}")
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json) } }
+        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
@@ -95,8 +99,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_bad_request.json").read}")
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json) } }
+        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)

@@ -1,30 +1,48 @@
 module Webhooks
   module StripeApi
     class AccountsController < ApplicationController
+      protect_from_forgery except: :create
+
       def create
-        # TODO: put this in a background job?
-        # TODO: check for some sense of non-malicious data... validate format?
-        # https://stripe.com/docs/webhooks/signatures
-        update_stripe_account_complete
+        update_stripe_account_completion_status
         head :ok
       end
 
       private
 
+      def end_point_secret
+        ENV.fetch("STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS")
+      end
+
+      def event
+        @event ||= Stripe::Webhook.construct_event(payload, signature_header, end_point_secret)
+      end
+
       def organisation
         @organisation ||= Organisation.find_by_stripe_account_id(stripe_account_id)
       end
 
+      def payload
+        request.body.read
+      end
+
+      def signature_header
+        request.env["HTTP_STRIPE_SIGNATURE"]
+      end
+
       def stripe_account_complete?
-        # TODO: marshall the result - so it defaults to false is there's an error, etc...
-        params["data"].dig("object", "charges_enabled") || false
+        stripe_account_object&.charges_enabled
       end
 
       def stripe_account_id
-        params["account"]
+        stripe_account_object&.id
       end
 
-      def update_stripe_account_complete
+      def stripe_account_object
+        @stripe_account_object ||= event.data.object
+      end
+
+      def update_stripe_account_completion_status
         organisation.onboarding.update(stripe_account_complete: stripe_account_complete?)
       end
     end
