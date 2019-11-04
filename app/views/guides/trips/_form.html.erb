@@ -139,8 +139,10 @@
                 <h3 class="mb-5" data-target="trip-preview.datePreview">
                   Start date - End date
                 </h3>
-                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.depositPreview">💰</span></h2>
-                <h5 class="mb-3"><span data-target="trip-preview.currencyPreview"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.depositRemainderPreview">💰</span> will be taken on <span data-target="trip-preview.depositDatePreview">(deposit date)</span></h5>
+                <div data-target="trip-preview.depositWrapper" style="display: none;">
+                  <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due: </span> <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.depositPreview">💰</span></h2>
+                  <h5 class="mb-3"><span data-target="trip-preview.currencyPreview"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.depositRemainderPreview">💰</span> will be taken on <span data-target="trip-preview.depositDatePreview">(deposit date)</span></h5>
+                </div>
                 <h1><span class="h2 mr-3 font-weight-light">Total: <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.fullCostPreview">💰💰💰</span></h1>
                 <div id="summary" class="mt-5">
                   <p data-target="trip-preview.descriptionPreview" class="collapse" id="collapseSummary">
