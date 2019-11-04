@@ -5,6 +5,10 @@ export default class extends Controller {
                     "depositDatePreview", "depositWrapper", "descriptionInput", "descriptionPreview",
                     "depositPercentageInput", "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
                     "namePreview", "paymentWindowWeeksInput", "startDateInput"]
+
+  connect() {
+    this.previewUpdate();
+  }
   
   previewUpdate() {
     // Trip Dates
