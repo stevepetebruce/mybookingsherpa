@@ -1,136 +1,118 @@
-<div class="nav-tabs-wrapper mb-4">
-  <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="pills-edit-tab" data-toggle="pill" href="#pills-edit" role="tab" aria-controls="pills-edit" aria-selected="true">Trip Details</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="pills-preview-tab" data-toggle="pill" href="#pills-preview" role="tab" aria-controls="pills-preview" aria-selected="false">Live Preview</a>
-    </li>
-  </ul>
-</div>
-<div class="tab-content" id="pills-tabContent" data-controller="trip-preview copy-date">
-  <div class="tab-pane fade show active" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab"> 
-    <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
-      <div class="row justify-content-md-center">
-        <div class="col-md-10">
-          <div class="mb-3">
-            <%= form.label :trip_name %>
-            <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
-            <div class="invalid-feedback">
-              <%= "Please enter a valid trip name" %>
+<div data-controller="copy-date currency-select trip-preview">
+  <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }) do |form| %>
+    <div class="row justify-content-md-center">
+      <div class="col-md-10">
+        <div class="mb-3">
+          <%= form.label :trip_name %>
+          <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
+          <div class="invalid-feedback">
+            <%= "Please enter a valid trip name" %>
+          </div>
+          <% if @trip.errors[:name].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid trip name
             </div>
-            <% if @trip.errors[:name].present? %>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :a_brief_description_of_your_trip %>
+          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 3, autofocus: auto_focus(@trip, form_field: :description) %>
+          <div class="invalid-feedback">
+            <%= "Please enter a valid description" %>
+          </div>
+          <% if @trip.errors[:description].present? %>
+            <div class="invalid-feedback" style="display: block;">
+              Please enter a valid trip description
+            </div>
+          <% end %>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <%= form.label :start_date %>
+            <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
+            <div class="invalid-feedback">
+              <%= "Please enter a valid start date" %>
+            </div>
+            <% if @trip.errors[:start_date].present? %>
               <div class="invalid-feedback" style="display: block;">
-                Please enter a valid trip name
+                Please enter a valid start date
               </div>
             <% end %>
           </div>
-          <div class="row">
-            
-          </div>
-          <div class="mb-3">
-            <%= form.label :a_brief_description_of_your_trip %>
-            <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 3, autofocus: auto_focus(@trip, form_field: :description) %>
+          <div class="col-md-3 mb-3">
+            <%= form.label :end_date %>
+            <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
             <div class="invalid-feedback">
-              <%= "Please enter a valid description" %>
+              <%= "Please enter a valid end date" %>
             </div>
-            <% if @trip.errors[:description].present? %>
+            <% if @trip.errors[:end_date].present? %>
               <div class="invalid-feedback" style="display: block;">
-                Please enter a valid trip description
+                Please enter a valid end date
               </div>
             <% end %>
           </div>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <%= form.label :start_date %>
-              <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
-              <div class="invalid-feedback">
-                <%= "Please enter a valid start date" %>
-              </div>
-              <% if @trip.errors[:start_date].present? %>
-                <div class="invalid-feedback" style="display: block;">
-                  Please enter a valid start date
-                </div>
-              <% end %>
-            </div>
-            <div class="col-md-3 mb-3">
-              <%= form.label :end_date %>
-              <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
-              <div class="invalid-feedback">
-                <%= "Please enter a valid end date" %>
-              </div>
-              <% if @trip.errors[:end_date].present? %>
-                <div class="invalid-feedback" style="display: block;">
-                  Please enter a valid end date
-                </div>
-              <% end %>
-            </div>
-            <div class="col-md-3 mb-3">
-              <%= form.label :minimum_number_of_guests, "Minimum number of guests" %>
-              <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, required: true, class: "form-control" %>
-            </div>
-            <div class="col-md-3 mb-3">
-              <%= form.label :maximum_number_of_guests, "Maximum number of guests" %>
-                <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, required: true, class: "form-control" %>
-            </div>
+          <div class="col-md-3 mb-3">
+            <%= form.label :minimum_number_of_guests, "Minimum number of guests" %>
+            <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, required: true, class: "form-control" %>
           </div>
-          <div class="row mt-4">
-            <div class="col-md-6 mb-3">
-              <ul class="list-group mb-3">
-                <h4 class="mb-3 font-weight-bold">Price</h4>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div class="col-md-6 mb-3">
-                    <%= form.label :currency %>
-                      <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customselect", data: { target: "currency-select.source trip-preview.currencyInput", action: "currency-select#switchCurrency" }} %>
+          <div class="col-md-3 mb-3">
+            <%= form.label :maximum_number_of_guests, "Maximum number of guests" %>
+              <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, required: true, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6 mb-3">
+            <ul class="list-group mb-3">
+              <h4 class="mb-3 font-weight-bold">Price</h4>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div class="col-md-6 mb-3">
+                  <%= form.label :currency %>
+                    <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customselect", data: { target: "currency-select.source trip-preview.currencyInput", action: "currency-select#switchCurrency" }} %>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <%= form.label :full_cost, "Cost per guest" %>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+                    </div>
+                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
                   </div>
-                  <div class="col-md-6 mb-3">
-                    <%= form.label :full_cost, "Cost per guest" %>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
-                      </div>
-                      <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-3">
+            <h4 class="mb-3 font-weight-bold">Deposit <small class="text-muted text-small">(optional - leave blank if full payment required)</small></h4>
+            <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between lh-condensed border-bottom-0">
+                <div class="col-md-6 mb-3">
+                  <%= form.label :deposit_percentage %> 
+                  <div class="input-group">
+                    <%= form.number_field :deposit_percentage, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
+                    <div class="input-group-append">
+                      <span class="input-group-text">%</span>
                     </div>
                   </div>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-6 mb-3">
-              <h4 class="mb-3 font-weight-bold">Deposit <small class="text-muted text-small">(optional - leave blank if full payment required)</small></h4>
-              <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-condensed border-bottom-0">
-                  <div class="col-md-6 mb-3">
-                    <%= form.label :deposit_percentage %> 
-                    <div class="input-group">
-                      <%= form.number_field :deposit_percentage, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
-                      <div class="input-group-append">
-                        <span class="input-group-text">%</span>
-                      </div>
-                    </div>
-                    <small class="text-muted">Deposit (% of full trip cost)</small>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <%= form.label :full_payment_window_weeks, "Full payment window" %>
-                      <%= form.number_field :full_payment_window_weeks, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
-                      <small class="text-muted">Weeks before (trip start date)<br> full payment required</small>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                  <small class="text-muted">Deposit (% of full trip cost)</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <%= form.label :full_payment_window_weeks, "Full payment window" %>
+                    <%= form.number_field :full_payment_window_weeks, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
+                    <small class="text-muted">Weeks before (trip start date)<br> full payment required</small>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <div class="mt-3 mb-1 text-center">
-        <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
-      </div>
-    <% end %>
-  </div>
-  <div class="tab-pane fade" id="pills-preview" role="tabpanel" aria-labelledby="pills-preview-tab">
-    <div class="col-md-12 mb-3 text-center">
-      (This is what your guests will see 👇 when you share the new booking link with them.)
     </div>
-    <div class="container-fluid full-height">
-      <div class="row row-height border" style="overflow: hidden;">
+    
+    <div class="col-md-12 mb-3 text-center mt-2">
+      <h2 class="font-weight-bold">Live Preview</h2>
+      <h4>This is what your guests will see 👇 when you share the new booking link with them.</h4>
+    </div>
+    <div class="container-fluid">
+      <div class="row border" style="overflow: hidden;">
         <div class="col-lg-5 content-left">
           <div class="content-left-wrapper bg_img">
             <div class="wrapper">
@@ -154,35 +136,33 @@
             </div>
           </div>
         </div>
-        <div class="col content-right new-onboarding  mb-3">
-          <form>
-            <h4 class="mb-3 mt-5 font-weight-bold">Your Details</h4>
-            <div class="row">
-              <div class="col-md-12 mb-3">
-                <label for="booking_name">Full Name</label>
-                <input class="form-control" autofocus="autofocus" required="required" readonly="readonly" type="text" name="booking[name]" id="booking_name">
-              </div>
+        <div class="col content-right new-onboarding mb-3 d-block">
+          <h4 class="mb-3 mt-5 font-weight-bold">Your Details</h4>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="booking_name">Full Name</label>
+              <input class="form-control" required="required" readonly="readonly" type="text">
             </div>
-            <div class="mb-3">
-              <label for="booking_email">Email</label>
-              <input class="form-control" required="required" readonly="readonly" type="text" name="booking[email]" id="booking_email">
+          </div>
+          <div class="mb-3">
+            <label for="booking_email">Email</label>
+            <input class="form-control" required="required" readonly="readonly" type="text">
+          </div>
+          <hr class="mb-5 mb-4">
+          <h4 class="mb-3 font-weight-bold">
+            Payment of <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.fullCostPreview"> </span>
+            </h4>
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <span>Credit or debit card number</span> <span style="padding-left: 235px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
+              <input type="text" name="fake_card_details" id="fake_card_details" class="form-control" required="required" readonly="readonly">
             </div>
-            <hr class="mb-5 mb-4">
-            <h4 class="mb-3 font-weight-bold">
-              Payment of <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.fullCostPreview"> </span>
-              </h4>
-            <div class="row">
-              <div class="col-md-12 mb-3">
-                  <span>Credit or debit card number</span> <span style="padding-left: 235px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
-                  <input type="text" name="fake_card_details" id="fake_card_details" class="form-control" required="required" readonly="readonly">
-              </div>
-            </div>
-            <div class="actions text-center">
-              <input type="submit" name="commit" value="Book My Place" class="btn btn-primary btn-lg uppercase rounded mt-4 mb-4" disabled>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="mt-5 mb-1 text-center">
+      <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
+    </div>
+  <% end %>
 </div>
