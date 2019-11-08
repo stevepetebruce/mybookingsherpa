@@ -5,7 +5,7 @@ ul.formline {
 
 ul.formline:before {
   content: ' ';
-  background: #d4d9df;
+  background: $secondary;
   display: inline-block;
   position: absolute;
   left: 29px;
@@ -30,7 +30,7 @@ ul.formline > li:before {
   display: inline-block;
   position: absolute;
   border-radius: 50%;
-  border: 3px solid $light-gray;
+  border: 3px solid $secondary;
   left: 20px;
   width: 20px;
   height: 20px;
@@ -50,7 +50,7 @@ ul.formline > li:before {
   border: 1px solid rgba(255,255,255,0);
   border-radius: 5px;
   &:hover {
-    border: 1px $light-gray solid;
+    border: 1px $secondary solid;
   }
   input {
     position: absolute;
@@ -61,7 +61,7 @@ ul.formline > li:before {
 
 .radiocontainer {
   &:hover input ~ .customradio {
-    background-color: $light-gray;
+    background-color: $secondary-dark;
   }
   input:checked ~ .customradio {
     background-color: $dodger-blue;
@@ -90,7 +90,7 @@ ul.formline > li:before {
   width: 21px;
   background-color: $white;
   border-radius: 50%;
-  border: 1px solid $light-gray;
+  border: 1px solid $secondary-dark;
 }
 
 .customradio:after {
@@ -106,7 +106,7 @@ ul.formline > li:before {
   height: 22px;
   width: 22px;
   background-color: $white;
-  border: 1px solid $light-gray;
+  border: 1px solid $secondary-dark;
   &:after {
     content: "";
     position: absolute;
@@ -115,7 +115,7 @@ ul.formline > li:before {
 }
 .checkcontainer {
   &:hover input ~ .customcheck {
-    background-color: #ccc;
+    background-color: $secondary;
   }
   input:checked ~ .customcheck {
     background-color: $dodger-blue;
@@ -164,7 +164,7 @@ select:not([multiple]) {
 
 #selectoptions {
   display: none;
-  border: 1px $light-gray solid;
+  border: 1px $secondary solid;
   box-shadow: 0 0 8px 0 rgba(0,0,0,.10);
   padding: 12px;
   background-color: $white;
