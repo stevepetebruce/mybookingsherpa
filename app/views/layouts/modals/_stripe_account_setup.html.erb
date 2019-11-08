@@ -14,16 +14,13 @@
                 </div>
                 <h4 class="mt-4">Your journey is almost complete... You will now hop over to our partner's site, Stripe.com, to set up your account.</h4>
                 <p><a href='<%= "https://stripe.com/#{@current_organisation&.country_code || 'gb'}/customers" %>' target="_blank" class="text-primary">Stripe.com</a> handles billions of transactions with world-class security and identity verification. Powering online business for millions of companies around the world.</p>
-                <p>You'll be be entering your business details (name, address, etc) and details of all owners/directors in the company, or just your own, if you're a solo founder.</p>
-                <p>So you'll need:</p>
+                <p>You will need:</p>
                 <ul class="list-unstyled">
                   <li><i class="fa fa-check text-primary mr-1"></i> Business details (name, address, etc)...</li>
                   <li><i class="fa fa-check text-primary mr-1"></i> Details of significant people within the business...</li>
                   <li><i class="fa fa-check text-primary mr-1"></i> Some form of ID (a scan/photo of passport or driving license)</li>
-                  <li><i class="fa fa-check text-primary mr-1"></i> And finally your bank account number, allowing you to receive guest payments</li>
+                  <li><i class="fa fa-check text-primary mr-1"></i> And finally your bank account number, allowing you to receive instant card payments</li>
                 </ul>
-                <p>Once you're done, you'll be able to take instant card payments from all your new bookings.</p>
-                <p>This can take a few minutes but you can always save and continue later.</p>
                 <div class="text-center my-4">
                   <%= link_to stripe_account_link, class: "btn btn-primary btn-lg rounded uppercase" do %>
                     Set up my account
