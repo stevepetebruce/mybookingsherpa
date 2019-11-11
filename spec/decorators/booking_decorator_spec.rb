@@ -306,8 +306,8 @@ RSpec.describe BookingDecorator, type: :model do
       let!(:full_payment_window_weeks) { Faker::Number.between(5, 10) }
       let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: full_payment_window_weeks) }
 
-      it "should return the corfect date in the correct format" do
-        expect(human_readable_full_payment_date).to match(/\A[0-9]{4}-[0-9]{2}-[0-9]{2}\z/)
+      it "should return the corect date in the correct format" do
+        expect(human_readable_full_payment_date).to match(/\A[0-9]{2}-[0-9]{2}-[0-9]{4}\z/)
       end
     end
 

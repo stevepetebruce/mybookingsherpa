@@ -62,7 +62,7 @@ module BookingDecorator
   end
 
   def human_readable_full_payment_date
-    full_payment_date&.strftime("%F") || ""
+    full_payment_date&.strftime("%d-%m-%Y") || ""
   end
 
   def only_paying_deposit?
