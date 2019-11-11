@@ -8,7 +8,9 @@ module Guides
       before_action :authenticate_guide!
       before_action :set_current_organisation
 
-      def new; end
+      def new
+        redirect_to guides_trips_path unless @current_organisation.stripe_account_complete?
+      end
 
       def create
         # TODO: create / capture raw_stripe_api_response
