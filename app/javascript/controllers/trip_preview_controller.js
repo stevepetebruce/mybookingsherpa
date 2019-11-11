@@ -48,7 +48,7 @@ export default class extends Controller {
       const tripDate = new Date(this.startDateInputTarget.value);
       const paymentDate = new Date(tripDate);
       paymentDate.setDate(tripDate.getDate() - this.paymentWindowWeeksInputTarget.value * 7);
-      this.depositDatePreviewTarget.innerHTML = paymentDate.toISOString().split('T')[0];
+      this.depositDatePreviewTarget.innerHTML = paymentDate.toISOString().split('T')[0].split("-").reverse().join("-");
     }
   }
 };
