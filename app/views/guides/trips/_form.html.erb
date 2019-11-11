@@ -163,6 +163,9 @@
     </div>
     <div class="mt-5 mb-1 text-center">
       <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
+      <div class="mt-5">
+        <%= link_to "Cancel and return to My Trips", guides_trips_path, class: "text-primary" %>
+      </div>
     </div>
   <% end %>
 </div>
