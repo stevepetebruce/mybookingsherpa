@@ -27,11 +27,11 @@ export default class extends Controller {
       }
     }
 
-    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Title";
-    this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Description is displayed here...";
+    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
+    this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Trip description will be displayed here...";
 
     this.fullCostPreviewTargets.map((target, index) => {
-      this.fullCostPreviewTargets[index].innerHTML = this.fullCostInputTarget.value || "100";
+      this.fullCostPreviewTargets[index].innerHTML = this.fullCostInputTarget.value || "💰💰💰";
     });
 
     if (this.depositPercentageInputTarget.value) {
