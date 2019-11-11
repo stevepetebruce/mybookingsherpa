@@ -106,50 +106,48 @@
                           </div>
                           <!-- Loop throuh individual in trip -->
                           <% trip.bookings.each do |booking| %>
-                            <%= link_to guides_booking_path(booking) do %>
-                              <div class="row ticket-card pt-2 pb-2">
-                                <div class="d-sm-none d-md-block d-none position-relative">
-                                  <div class="avatar avatar-sm">
-                                    <%= image_tag booking.gravatar_url, alt: "guest profile image" %>
-                                  </div>
-                                  <% if booking.flag_icon.present? %>
-                                    <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
-                                  <% end %>
+                            <div class="row ticket-card pt-2 pb-2">
+                              <div class="d-sm-none d-md-block d-none position-relative">
+                                <div class="avatar avatar-sm">
+                                  <%= image_tag booking.gravatar_url, alt: "guest profile image" %>
                                 </div>
-                                <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-                                  <div class="d-flex">
-                                    <h4 class="mb-0 no-wrap text-primary">
-                                      <%= booking.guest_or_booking_name %>
-                                    </h4>
-                                    <% if Bookings::Status.new(booking).personal_details_incomplete? %>
-                                      <small class="mt-1 ml-2 text-muted">personal details incomplete</small>
-                                    <% end %>
-                                  </div>
-                                </div>
-                                <div class="col-9 col-lg-4 col-md-3 col-sm-10">
-                                  <small>
-                                    <% if booking.refunded? %>
-                                      <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
-                                    <% else %>
-                                      <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
-                                    <% end %>
-                                  </small>
-                                </div>
-                                <div class="col-xs-auto mb-1">
-                                  <% if booking.guest_or_booking_allergies? %>
-                                    <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.human_readable_allergies %>" data-tooltip-position="top">
-                                      <img src="<%= asset_pack_path 'media/images/icons/medical-red.svg' %>" class="custom-icon"/>
-                                    </span>
-                                  <% end %>
-                                  <% if booking.guest_or_booking_dietary_requirements? %>
-                                    <span data-toggle="tooltip" data-placement="top" data-tooltip="Diet: <%= booking.human_readable_dietary_requirements %>" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" class="custom-icon" /></span>
-                                  <% end %>
-                                  <% if booking.guest_or_booking_other_information %>
-                                    <span data-toggle="tooltip" data-placement="top" data-tooltip="Additional information" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/info-yellow.svg' %>" class="custom-icon" /></span>
+                                <% if booking.flag_icon.present? %>
+                                  <span class="flag-icon flag-icon-circled flag-icon-profile <%= booking.flag_icon %>"></span>
+                                <% end %>
+                              </div>
+                              <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                                <div class="d-flex">
+                                  <h4 class="mb-0 no-wrap">
+                                    <%= booking.guest_or_booking_name %>
+                                  </h4>
+                                  <% if Bookings::Status.new(booking).personal_details_incomplete? %>
+                                    <small class="mt-1 ml-2 text-muted">personal details incomplete</small>
                                   <% end %>
                                 </div>
                               </div>
-                            <% end %>
+                              <div class="col-9 col-lg-4 col-md-3 col-sm-10">
+                                <small>
+                                  <% if booking.refunded? %>
+                                    <span class="dot dot-sm dot-paid dot-danger"></span> Fully refunded <!-- May not have the date... on 12/12/2020 -->
+                                  <% else %>
+                                    <span class="dot dot-sm dot-paid <%= booking.payment_status_icon %>"></span> <%= booking.payment_status_text %>
+                                  <% end %>
+                                </small>
+                              </div>
+                              <div class="col-xs-auto mb-1">
+                                <% if booking.guest_or_booking_allergies? %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Allergies: <%= booking.human_readable_allergies %>" data-tooltip-position="top">
+                                    <img src="<%= asset_pack_path 'media/images/icons/medical-red.svg' %>" class="custom-icon"/>
+                                  </span>
+                                <% end %>
+                                <% if booking.guest_or_booking_dietary_requirements? %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Diet: <%= booking.human_readable_dietary_requirements %>" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/diet-yellow.svg' %>" class="custom-icon" /></span>
+                                <% end %>
+                                <% if booking.guest_or_booking_other_information %>
+                                  <span data-toggle="tooltip" data-placement="top" data-tooltip="Additional information" data-tooltip-position="top"><img src="<%= asset_pack_path 'media/images/icons/info-yellow.svg' %>" class="custom-icon" /></span>
+                                <% end %>
+                              </div>
+                            </div>
                           <% end %>
                           <!-- END Loop throuh individual in trip -->
                         </div>
