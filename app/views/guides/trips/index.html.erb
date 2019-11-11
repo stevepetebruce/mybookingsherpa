@@ -12,22 +12,12 @@
               </a>
             </span>
           </h1>
-          <div class="card card-shadow card-rounded">
+          <% if params[:completed_set_up] %>
+            <div class="card card-shadow card-rounded" data-controller="modal-onload">
+          <% else %>
+            <div class="card card-shadow card-rounded">
+          <% end %>
             <div class="card-body">
-              <% if params[:completed_set_up] %>
-                <!-- On-boarding complete --> 
-                <div class="onboard-message fullwidth mt5 mb0">
-                  <%= link_to guides_trips_path, class: "float-right" do %>
-                    <i class="fa fa-times-circle-o text-primary fa-lg icon-link"></i>
-                  <% end %>
-                  <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Congratulations!</strong>
-                  <br>
-                  You have completed the guide set up and can now start taking real bookings with real money.<i>
-                  Exciting times ahead!</i><br>
-                  Now add your first trip by clicking on the <i class="fa fa-plus-circle text-primary"></i> next to My Trips.<br>
-                  <strong>PS:</strong> All trial bookings will be removed shortly.
-                </div>
-              <% end %>
               <div class="row">
                 <div class="col col-lg-7"></div>
                 <div class="col col-lg-4 d-sm-none d-md-none d-lg-block d-none">
@@ -213,3 +203,39 @@
     </div>
   </div>
 </div>
+<!-- Onboarding modal -->
+<% if params[:completed_set_up] %>
+  <div data-controller="modal-onload" data-modal-onload-onclose-redirect-url="<%= guides_trips_url %>">
+    <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="card col-md-12">
+              <div class="card-body p-0 row">
+                <div class="offset-lg-1 col-lg-10">
+                  <div class="mt-2">
+                    <div class="text-center">
+                      <h1 class="font-weight-bold">🎉  You've done it!  🎉</h1>
+                      <h2 class="font-weight-bold">Your account is now live.</h2>
+                    </div>
+                    <p>So now you can share your LIVE new booking links, with REAL guests and accept REAL payments for your all trips.</p>
+                    <p>If there’s anything we can help you with just email: support@mybookingsherpa.com.</p>
+                    <div class="text-center mt-4">
+                      <p>With ❤️ from all the MyBookingSherpa team.</p>
+                    </div>
+                  </div>
+                    <div class="text-center my-4">
+                      <button type="button" class="btn btn-primary btn-lg rounded uppercase" data-dismiss="modal">Let's do this</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
