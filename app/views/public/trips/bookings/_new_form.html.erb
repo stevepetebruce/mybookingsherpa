@@ -9,20 +9,6 @@ An extra step - but a definite confirmation from the user.
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
   <h4 class="mb-3 font-weight-bold">Your Details</h4>
-  <% if booking.organisation_on_trial? %>
-    <div class="onboard-message fullwidth">
-      <i class="fa fa-info-circle fa-lg text-secondary"></i> <strong>Psst...</strong>
-      <br>
-      You're in trial, so the form is filled with pretend data so you can see what a booking looks like.<br>
-      When you complete the sign up process, you can put real bookings & money through here. 😀
-      <br>
-      <strong>PS:</strong>
-      <br>
-      When you complete your set up, none of this text will be here. It's only visible to you.
-      <br>
-      If you want to skip the trial, you can <a href="" data-toggle="modal" data-target="#accountModal">complete your set up here</a>.
-    </div>
-  <% end %>
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name, "Full Name" %>
@@ -58,9 +44,6 @@ An extra step - but a definite confirmation from the user.
       <% if booking.organisation_on_trial? %>
         <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
-        <div class="onboard-message fullwidth">
-          <i class="fa fa-info-circle fa-lg text-secondary"></i> This is just a pretend card number. Don't worry, <%= trial_example_first_name %> isn't really going to get charged. 
-        </div>
       <% else %>
         <label for="card-element">Credit or debit card</label>
         <div data-target="stripe--payment-intent.cardElement">
@@ -81,11 +64,6 @@ An extra step - but a definite confirmation from the user.
     <small>
     By submitting this payment I authorise <%= @current_organisation.name || "you" %> to send instructions to my card issuer to take an initial deposit (<%= @booking.human_readable_amount_due %> now) and then a full payment (<%= @booking.human_readable_full_cost_minus_deposit %> on <%= @booking.human_readable_full_payment_date %>) from my card.
     </small>
-  <% end %>
-  <% if booking.organisation_on_trial? %>
-    <div class="onboard-message fullwidth text-center">
-      <i class="fa fa-info-circle fa-lg text-secondary"></i> Now hit that big button ☝️and see what happens next...
-    </div>
   <% end %>
   <%= hidden_field_tag :payment_intent_id, @payment_intent.id %>
 <% end %>
