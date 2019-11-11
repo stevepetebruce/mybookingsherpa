@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["clipboardInput", "copiedMessage"]
+  static targets = ["clipboardHiddenInput", "clipboardInput", "copiedMessage"]
 
   highlightInputLink() {
     const linkSelection = window.getSelection();
@@ -12,9 +12,21 @@ export default class extends Controller {
     linkSelection.addRange(textSelection);
   }
 
+  selectHiddenLink() {
+    const linkSelection = window.getSelection();
+    const textSelection = document.createRange();
+
+    textSelection.selectNodeContents(this.clipboardHiddenInputTarget);
+    linkSelection.removeAllRanges();
+    linkSelection.addRange(textSelection);
+  }
+
   copyClipboard() {
-    this.highlightInputLink();
+    this.selectHiddenLink();
     document.execCommand("copy");
+
+    this.highlightInputLink();
+
     this.copiedMessageTarget.classList.add("copied");
     setTimeout(() => this.copiedMessageTarget.classList.remove("copied"), 1000);
   }
