@@ -21,10 +21,22 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
       before { sign_in(guide) }
 
       context "valid and successful" do
-        it "should successfully render" do
-          do_request
+        context "a guide who hasn't set up their Stripe account fully yet" do
+          it "should redirect to the guides' trips view" do
+            do_request
 
-          expect(response).to be_successful
+            expect(response).to redirect_to guides_trips_path
+          end
+        end
+
+        context "a guide who has set up their Stripe account" do
+          before { organisation.onboarding.update(stripe_account_complete: true) }
+
+          it "should successfully render" do
+            do_request
+
+            expect(response).to be_successful
+          end
         end
       end
     end
