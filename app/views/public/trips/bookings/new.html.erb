@@ -1,45 +1,79 @@
-  <div class="container-fluid full-height">
-    <div class="row row-height">
-      <div class="col-lg-4 content-left" style="">
-        <div class="content-left-wrapper bg_img">
-          <div class="wrapper">
-            <div class="py-4 text-center">
-              <% if @booking.organisation.logo_image.attached? %>
-                <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
-              <% end %>
-              <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %>"><%= @booking.trip_name %></h1>
-              <h3 class="mb-5">
-                <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
-              </h3>
-              <% if @booking.only_paying_deposit? %>
-                <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due now: </span> <%= @booking.human_readable_amount_due %></h2>
-              <% end %>
-              <% if @booking.only_paying_deposit? %>
-                <h5 class="mt-2">Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %><br>
-                will be taken on <%= @booking.human_readable_full_payment_date %></h5>
-              <% end %>
-              <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
-              <div id="summary" class="mt-5">
-                <p class="collapse" id="collapseSummary">
-                  <%= @booking.trip_description %>
-                </p>
-                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+<% if @booking.organisation_on_trial? %>
+  <div data-controller="modal-onload">
+    <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="card col-md-12">
+              <div class="card-body p-0 row">
+                <div class="offset-lg-1 col-lg-10">
+                  <div class="mt-2">
+                    <div class="text-center">
+                      <h1 class="font-weight-bold">The Guest View</h1>
+                    </div>
+                    <h4>We will now guide you through an example booking, so you can see how easy it is for a guest to book one of your trips.</h4>
+                    <p>You're in trial. The form is filled with pretend data, just for visual effect. 😀</p>
+                    <p>When you complete your set up, none of this text will be here. It's only visible to you.</p>
+                    <p>If you want to skip the example, you can <%= link_to "return to My Trips here", guides_trips_path, class: "text-primary" %>.</p>
+                    <p>When you complete the sign up process, you can collect real bookings through here. </p>
+                  </div>
+                  <div class="text-center my-4">
+                    <button type="button" class="btn btn-primary btn-lg rounded uppercase" data-dismiss="modal">View example booking</button>
+                  </div>
+                </div>
               </div>
             </div>
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
-              <!-- TODO: do we really need this info (below) ? -->
-              <!-- <span>Places left for this trip</span> -->
-              <!-- <span class="badge badge-secondary badge-pill"> -->
-                <!-- TODO: need to show a warning when there's no spaces left on the trip -->
-                <% # @booking.trip_maximum_number_of_guests - @booking.trip_guest_count %>
-              <!-- </span> -->
-            </h4>
           </div>
         </div>
       </div>
-      <div class="col content-right new-onboarding">
-        <%= render "new_form", booking: @booking %>
+    </div>
+  </div>
+<% end %>
+
+<div class="container-fluid full-height">
+  <div class="row row-height">
+    <div class="col-lg-4 content-left" style="">
+      <div class="content-left-wrapper bg_img">
+        <div class="wrapper">
+          <div class="py-4 text-center">
+            <% if @booking.organisation.logo_image.attached? %>
+              <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
+            <% end %>
+            <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %>"><%= @booking.trip_name %></h1>
+            <h3 class="mb-5">
+              <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
+            </h3>
+            <% if @booking.only_paying_deposit? %>
+              <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due now: </span> <%= @booking.human_readable_amount_due %></h2>
+            <% end %>
+            <% if @booking.only_paying_deposit? %>
+              <h5 class="mt-2">Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %><br>
+              will be taken on <%= @booking.human_readable_full_payment_date %></h5>
+            <% end %>
+            <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
+            <div id="summary" class="mt-5">
+              <p class="collapse" id="collapseSummary">
+                <%= @booking.trip_description %>
+              </p>
+              <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+            </div>
+          </div>
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <!-- TODO: do we really need this info (below) ? -->
+            <!-- <span>Places left for this trip</span> -->
+            <!-- <span class="badge badge-secondary badge-pill"> -->
+              <!-- TODO: need to show a warning when there's no spaces left on the trip -->
+              <% # @booking.trip_maximum_number_of_guests - @booking.trip_guest_count %>
+            <!-- </span> -->
+          </h4>
+        </div>
       </div>
+    </div>
+    <div class="col content-right new-onboarding">
+      <%= render "new_form", booking: @booking %>
     </div>
   </div>
 </div>
