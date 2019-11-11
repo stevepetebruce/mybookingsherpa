@@ -13,6 +13,12 @@ module OnboardingHelper
     @current_organisation&.on_trial? && @current_organisation.created_at < 1.hour.ago
   end
 
+  def open_first_trip_accordion?(count)
+    @current_organisation.on_trial? &&
+      @current_organisation.trips.count == 1 &&
+      count == 0
+  end
+
   def show_first_trial_booking_explaner_element?(trip, count)
     @current_organisation.on_trial? &&
       count.zero? && # this is the first trip
