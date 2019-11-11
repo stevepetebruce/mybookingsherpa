@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
   let!(:guide) { FactoryBot.create(:guide) }
-  let!(:organisation) { FactoryBot.create(:organisation) }
+  let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id: "acct_1DLYH2ESypPNvvdY") }
   let!(:organisation_membership) do
     FactoryBot.create(:organisation_membership,
                       guide: guide,
@@ -18,7 +18,14 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
     end
 
     context "signed in" do
-      before { sign_in(guide) }
+      let(:response_body) { "#{file_fixture("stripe_api/successful_company_account_update.json").read}" }
+
+      before do
+        sign_in(guide)
+
+        stub_request(:get, "https://api.stripe.com/v1/accounts/acct_1DLYH2ESypPNvvdY").
+          to_return(status: 200, body: response_body, headers: {})
+      end
 
       context "valid and successful" do
         context "a guide who hasn't set up their Stripe account fully yet" do

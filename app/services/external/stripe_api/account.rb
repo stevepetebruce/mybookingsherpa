@@ -3,11 +3,13 @@ module External
     # Encapsulates all Stripe API Connected Accounts functionality
     # Ref: https://stripe.com/docs/api/accounts
     class Account < External::StripeApi::Base
-      def initialize(account_token: nil, country_code: nil, email: nil)
+      def initialize(account_number: nil, account_token: nil, country_code: nil, email: nil, use_test_api: false)
+        @account_number = account_number
         @account_token = account_token
         @country_code = country_code
         @email = email
-        @use_test_api = false # We will never be creating these in the test API.
+        @use_test_api = use_test_api
+
         initialize_key
       end
 
@@ -27,6 +29,10 @@ module External
                                type: "custom")
       end
 
+      def self.retrieve(account_number)
+        new(account_number: account_number).retrieve
+      end
+
       # https://stripe.com/docs/api/accounts/create
       def create_live_account
         Stripe::Account.create(country: @country_code,
@@ -40,6 +46,10 @@ module External
         Stripe::Account.create(account_token: @account_token,
                                requested_capabilities: ["card_payments", "transfers"],
                                type: "custom")
+      end
+
+      def retrieve
+        Stripe::Account.retrieve(@account_number)
       end
 
       def update(stripe_account_id)

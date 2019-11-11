@@ -43,6 +43,7 @@ module Webhooks
       end
 
       def update_stripe_account_completion_status
+        # TODO: also need to make sure payouts_enabled
         organisation.onboarding.update(stripe_account_complete: stripe_account_complete?)
       end
     end
