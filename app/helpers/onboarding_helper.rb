@@ -51,10 +51,6 @@ module OnboardingHelper
     booking.organisation_on_trial? ? @example_data.example_country_data(:email) : nil
   end
 
-  def trial_example_first_name
-    @example_data.example_country_data(:full_name).split(" ").first
-  end
-
   def trial_example_full_name_or_nil(booking)
     booking.organisation_on_trial? ? @example_data.example_country_data(:full_name) : nil
   end
