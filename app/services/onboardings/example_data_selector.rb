@@ -1,11 +1,11 @@
 module Onboardings
   class ExampleDataSelector
-    def initialize(country_code = "fr")
-      @country_code = country_code
+    def initialize(index)
+      @chosen_example = all_example_data[index].presence || all_example_data[1]
     end
 
-    def example_country_data(data_field)
-      country_specific_data&.dig(:data, data_field.to_sym)
+    def value(data_field)
+      @chosen_example&.dig(:data, data_field.to_sym)
     end
 
     private
@@ -13,25 +13,25 @@ module Onboardings
     def all_example_data
       [
         {
-          country_code: "fr",
+          country_code: "us",
           data: {
-            country_select: ["France", "FR"],
-            dob: "1977-12-21",
-            email: "e.macron@gmail.com",
-            full_name: "Emmanuel Macron",
-            ice_name: "Brigitte Macron",
+            country_select: ["USA", "US"],
+            dob: "1963-12-18",
+            email: "b.pitt_1992@gmail.com",
+            full_name: "Brad Pitt",
+            ice_name: "Angelina Jolie",
             ice_phone: "+330123456789",
             phone: "+330123456789"
           },
         },
         {
-          country_code: "gb",
+          country_code: "us",
           data: {
-            country_select: ["United Kingdom", "GB"],
-            dob: "1964-06-19",
-            email: "b.johnson@gmail.com",
-            full_name: "Boris Johnson",
-            ice_name: "Nigel Farage",
+            country_select: ["USA", "US"],
+            dob: "1962-07-03",
+            email: "t.cruise_1995@hotmail.com",
+            full_name: "Tom Cruise",
+            ice_name: "Nicole Kidman",
             ice_phone: "+440123456789",
             phone: "+440123456789"
           }
@@ -40,20 +40,15 @@ module Onboardings
           country_code: "us",
           data: {
             country_select: ["USA", "US"],
-            dob: "1946-06-14",
-            email: "d.trump@gmail.com",
-            full_name: "Donald Trump",
-            ice_name: "Melania Trump",
+            dob: "1974-11-11",
+            email: "leonardo.dicaprio_2000@yahoo.com",
+            full_name: "Leonardo DiCaprio",
+            ice_name: "Brad Pitt",
             ice_phone: "+10123456789",
             phone: "+10123456789"
           }
         }
       ]
-    end
-
-    def country_specific_data
-      @country_specific_data ||= 
-        all_example_data.detect { |example_datum| example_datum[:country_code] == @country_code }
     end
   end
 end

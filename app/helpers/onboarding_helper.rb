@@ -40,30 +40,30 @@ module OnboardingHelper
   end
 
   def trial_example_country
-    @example_data.example_country_data(:country_select)
+    @example_data.value(:country_select)
   end
 
   def trial_example_dob_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:dob) : nil
+    booking.organisation_on_trial? ? @example_data.value(:dob) : nil
   end
 
   def trial_example_email_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:email) : nil
+    booking.organisation_on_trial? ? @example_data.value(:email) : nil
   end
 
   def trial_example_full_name_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:full_name) : nil
+    booking.organisation_on_trial? ? @example_data.value(:full_name) : nil
   end
 
   def trial_example_ice_name_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:ice_name) : nil
+    booking.organisation_on_trial? ? @example_data.value(:ice_name) : nil
   end
 
   def trial_example_ice_phone_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:ice_phone) : nil
+    booking.organisation_on_trial? ? @example_data.value(:ice_phone) : nil
   end
 
   def trial_example_phone_or_nil(booking)
-    booking.organisation_on_trial? ? @example_data.example_country_data(:phone) : nil
+    booking.organisation_on_trial? ? @example_data.value(:phone) : nil
   end
 end
