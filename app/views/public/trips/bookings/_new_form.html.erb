@@ -71,8 +71,11 @@ An extra step - but a definite confirmation from the user.
       <% end %>
     </div>
   </div>
-  <div class="actions">
-    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--payment-intent.submitButton" } %>
+  <div class="actions text-center">
+    <%= form.submit "Book My Place", class: "btn btn-primary btn-lg rounded uppercase mt-4 mb-4", data: { target: "stripe--payment-intent.submitButton" } %>
+    <% if booking.organisation_on_trial? %>
+      <span class="pointer-hand hand-left">👈</span>
+    <% end %> 
   </div>
   <% if @booking.only_paying_deposit? %>
     <small>
