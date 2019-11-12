@@ -38,9 +38,6 @@
                           <div class="col-md-4 col-sm-12 text-gray h4 font-weight-light mb-0" data-hide-element="<%= element_to_hide(trip, count) %>">
                             <%= "#{trip.start_date.day} - #{trip.end_date.day} #{Date::MONTHNAMES[trip.end_date.month]}" %>
                           </div>
-                          <% if show_first_trial_booking_explaner_element?(trip, count) %>
-                            <div class="pointer-hand position-absolute hand-right d-sm-none d-md-block d-none d-sm-block" data-hide-element-target="pointer-three" data-hide-element="pointer-three">👉</div>
-                          <% end %>
                         </div> 
                         <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="<%= element_to_hide(trip, count) %>">
                           <div>
@@ -61,7 +58,7 @@
                         </div>
                       </div>
                     </div>
-                    <div id="<%= "trip-#{trip.id}-card" %>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="<%= "trip-#{trip.id}-card" %>" class="collapse <%= 'show' if open_first_trip_accordion?(count) %>" aria-labelledby="headingOne" data-parent="#accordion">
                       <div class="card-body">
                         <div class="fluid-container">
                           <div class="row pb-3 guest-link-container">
