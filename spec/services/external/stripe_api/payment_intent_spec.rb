@@ -35,6 +35,50 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         create
       end
 
+      context "a statement_descriptor with non-alphanumeric characters in" do
+        let!(:amount) { Faker::Number.between(1_000, 10_000) }
+        let!(:application_fee_amount) { [0, 200, 400].sample }
+        let!(:currency) { %w[eur, gbp, usd].sample }
+        let!(:customer) { "cus_#{Faker::Crypto.md5}" }
+        let!(:destination) {  "acct_#{Faker::Bank.account_number(16)}" }
+
+        let(:attributes) do
+          {
+            amount: amount,
+            application_fee_amount: application_fee_amount,
+            currency: currency,
+            customer: customer,
+            setup_future_usage: "off_session",
+            statement_descriptor: "Ivy's Big Adventure",
+            transfer_data:
+              {
+                destination: destination
+              }
+          }
+        end
+
+        let(:sanitized_attributes) do
+          {
+            amount: amount,
+            application_fee_amount: application_fee_amount,
+            currency: currency,
+            customer: customer,
+            setup_future_usage: "off_session",
+            statement_descriptor: "Ivy_s Big Adventure",
+            transfer_data:
+              {
+                destination: destination
+              }
+          }
+        end
+
+        it "should sanitize the attributes and make a successful call to the Stripe API" do
+          expect(Stripe::PaymentIntent).to receive(:create).with(sanitized_attributes)
+
+          create
+        end
+      end
+
       it "should return a Stripe PaymentIntent object" do
         # TODO: need to get a payment intent response and return it (may be using the wrong fixture ^)
       end
