@@ -69,11 +69,11 @@ class Trip < ApplicationRecord
 
   def start_date_before_end_date
     return if start_date.nil? && end_date.nil?
-    return if start_date < end_date
+    return if end_date >= start_date
 
     errors.add(:base,
                :start_date_after_end_date,
-               message: "start date must not be after end date")
+               message: "Start date must not be after end date")
   end
 
   def valid_date_format

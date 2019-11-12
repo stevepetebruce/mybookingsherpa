@@ -114,6 +114,13 @@ RSpec.describe Trip, type: :model do
 
           it { should be true }
         end
+
+        context "start_date is on same day as end_date" do
+          let(:start_date) { Date.today }
+          let(:end_date) { Date.today }
+
+          it { should be true }
+        end
       end
 
       context "invalid" do
