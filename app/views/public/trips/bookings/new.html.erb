@@ -35,18 +35,10 @@
 
 <div class="container-fluid full-height">
   <div class="row row-height">
-    <div class="col-lg-4 content-left">
+    <div class="col-lg-4 content-left" style="">
       <div class="content-left-wrapper bg_img">
         <div class="wrapper">
           <div class="py-4 text-center">
-            <% if show_in_trial_banner? %>
-              <div class="d-flex justify-content-center">
-                <div class="in-trial">
-                  <h4 class="font-weight-bold">In Trial</h4>
-                  <p class="small">Link is not shareable</p>
-                </div>
-              </div>
-            <% end %>
             <% if @booking.organisation.logo_image.attached? %>
               <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
             <% end %>
