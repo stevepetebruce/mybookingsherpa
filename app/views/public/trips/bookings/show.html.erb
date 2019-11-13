@@ -25,11 +25,6 @@
         <div class="mt-4">
           <h2 class="font-weight-bold">All done! <%= @booking.name %>, your booking is complete.</h2>
           <h4 class="mt-4">You will receive a confirmation email with your booking details shortly.</h4>
-          <% if @booking.organisation_on_trial? %>
-            <p>
-              <%= link_to "Click here to see status of #{@booking.trip_name }", guides_trips_path, class: "btn btn-sm btn-primary uppercase rounded mr-1" %> with <%= @booking.name %> as your new guest.
-            </p>
-          <% end %>
         </div>
       </div>
     </div>
