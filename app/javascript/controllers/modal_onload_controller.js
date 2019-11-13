@@ -3,7 +3,14 @@ import { Controller } from "stimulus"
 export default class extends Controller {
 
   connect() {
-    $("#onloadModal").modal("show");
+    if (this.data.has("delay")) {
+      setTimeout(function() {
+        $("#onloadModal").modal("show");
+      }, this.data.get("delay"));
+    } else {
+      $("#onloadModal").modal("show");
+    }
+
     this.initializeOnHiddenEvent();
   }
 

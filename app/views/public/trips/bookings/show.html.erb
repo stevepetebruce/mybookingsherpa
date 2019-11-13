@@ -25,46 +25,6 @@
         <div class="mt-4">
           <h2 class="font-weight-bold">All done! <%= @booking.name %>, your booking is complete.</h2>
           <h4 class="mt-4">You will receive a confirmation email with your booking details shortly.</h4>
-          <% if @booking.organisation_on_trial? %>
-            <div data-controller="modal-onload">
-              <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                      <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      <div class="card col-md-12">
-                        <div class="card-body p-0 row">
-                          <div class="offset-lg-1 col-lg-10">
-                            <div class="mt-2">
-                              <div class="text-center">
-                                <h1 class="font-weight-bold">Trial Booking</h1>
-                              </div>
-                              <h4>Your trial booking is complete and this is what your guest will see, when you close this window.</h4>
-                              <p>As you're in trial, we're going to send you two emails.</p>
-                              <ul class="list-unstyled">
-                                <li><i class="fa fa-envelope text-primary mr-1"></i> One is what you would always receive with every new booking.</li>
-                                <li><i class="fa fa-envelope text-primary mr-1"></i> The other is what your new guest would usually receive.</li>
-                              </ul>
-                              <p></p>
-                              <p>(When you're out of trial, then this email will go straight to the new guest.)</p>
-                            </div>
-                            <div class="text-center my-4">
-                              <button type="button" class="btn btn-primary btn-sml rounded uppercase" data-dismiss="modal">View page</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p>
-              <%= link_to "Click here to see status of #{@booking.trip_name }", guides_trips_path, class: "btn btn-sm btn-primary uppercase rounded mr-1" %> with <%= @booking.name %> as your new guest.
-            </p>
-          <% end %>
         </div>
       </div>
     </div>
@@ -73,3 +33,48 @@
 <!-- TODO: If you don't reeieve the email, please: (1) Click here to resend, or 
 (2) contact support: support@mybookingsherpa.com
 -->
+
+<!-- In trial guide explainer modal -->
+<% if @booking.organisation_on_trial? %>
+  <div data-controller="modal-onload" data-modal-onload-delay="5000">
+    <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="card col-md-12">
+              <div class="card-body p-0 row">
+                <div class="offset-lg-1 col-lg-10">
+                  <div class="mt-2">
+                    <div class="text-center">
+                      <h2 class="font-weight-bold">🎉 All done! 🎉</h2>
+                    </div>
+                    <p><%= @booking.name %> is booked on your trip & the 💰 is on the way to your bank*.</p>
+                    <p>Yes... it's that easy.</p>
+                    <p>One last thing... you should receive two emails:</p>
+                    <ul class="list-unstyled">
+                      <li>
+                        <i class="fa fa-envelope text-primary mr-1"></i>
+                        <b>"You've Got A New Booking"</b> email you'll always get when you get a new booking.
+                      </li>
+                      <li>
+                        <i class="fa fa-envelope text-primary mr-1"></i>
+                        <b>"You're Booked on <%= @booking.trip_name %>"</b> email your guest would usually get*.
+                      </li>
+                    </ul>
+                    <p><small><i>* when your account is live.</i></small></p>
+                  </div>
+                  <div class="text-center my-4">
+                    <%= link_to "View My Trips", guides_trips_path, class: "btn btn-primary btn-sml rounded uppercase" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
