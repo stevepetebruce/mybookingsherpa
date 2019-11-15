@@ -4,11 +4,11 @@
   width: 100px; 
   border-radius: 50%;
   text-align: center;
-  background: #2f88bf;
+  background: $warning;
   color: $white;
-  padding-top: 28px;
+  padding-top: 8px;
   margin-bottom: 20px;
-  border: 2px solid #a4c6dd;
+  border: 2px solid darken($warning, 5%);;
   h4 {
     line-height: 18px;
     margin-bottom: 0;
