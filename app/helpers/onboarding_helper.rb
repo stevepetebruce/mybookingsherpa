@@ -16,6 +16,7 @@ module OnboardingHelper
   def open_first_trip_accordion?(count)
     @current_organisation.on_trial? &&
       @current_organisation.trips.count == 1 &&
+      @current_organisation.bookings.count == 1 &&
       count == 0
   end
 
