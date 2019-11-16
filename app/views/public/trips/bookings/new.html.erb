@@ -39,15 +39,6 @@
       <div class="content-left-wrapper bg_img">
         <div class="wrapper">
           <div class="py-4 text-center">
-            <% if show_in_trial_banner? %>
-              <div class="d-flex justify-content-center">
-                <div class="in-trial" data-toggle="tooltip" data-placement="bottom" data-tooltip="As you are in trial mode, this page cannot be used to accept payments from guests" data-tooltip-position="bottom">
-                  <i class="fa fa-exclamation-circle fa-lg"></i>
-                  <h4 class="font-weight-bold">In Trial</h4>
-                  <p class="small">Link is not shareable</p>
-                </div>
-              </div>
-            <% end %>
             <% if @booking.organisation.logo_image.attached? %>
               <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
             <% end %>
