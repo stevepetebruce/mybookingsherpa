@@ -49,6 +49,11 @@ module BookingDecorator
     guest_or_booking_dietary_requirements&.pluck(:name)&.map(&:capitalize).to_sentence
   end
 
+  def human_readable_failed_amount_due
+    "#{Currency.iso_to_symbol(currency)}" \
+      "#{Currency.human_readable(last_failed_payment.amount)}"
+  end
+
   def human_readable_full_cost
     "#{Currency.iso_to_symbol(currency)}" \
       "#{Currency.human_readable(full_cost)}"

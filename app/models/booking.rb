@@ -35,6 +35,10 @@ class Booking < ApplicationRecord
 
   before_save :update_priority
 
+  def last_failed_payment
+    payments.most_recent.failed.first
+  end
+
   def last_payment
     payments.most_recent.first
   end

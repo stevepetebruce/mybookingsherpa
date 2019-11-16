@@ -6,6 +6,7 @@ FactoryBot.define do
     booking
 
     trait :failed do
+      status { :failed }
       raw_response do
         {
           failure_code: 400,

@@ -72,6 +72,12 @@ FactoryBot.define do
       phone_number { Faker::PhoneNumber.cell_phone }
     end
 
+    trait :with_failed_payment do
+      after(:create) do |booking|
+        create :payment, :failed, booking: booking
+      end
+    end
+
     trait :with_payment do
       after(:create) do |booking|
         create :payment, booking: booking
