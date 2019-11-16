@@ -45,7 +45,7 @@ export default class extends StripeBaseController {
       account_number: this.accountNumberTarget.value,
       country: this.countryTarget.value,
       currency: this.currencyTarget.value,
-      routing_number: this.routingNumberTarget.value
+      routing_number: this.sanitizedRoutingNumber()
     });
 
     if (error) {
@@ -54,6 +54,10 @@ export default class extends StripeBaseController {
       this.tokenAccountTarget.setAttribute("value", token.id);
       this.formTokenTarget.submit();
     }
+  }
+
+  sanitizedRoutingNumber() {
+    return this.routingNumberTarget.value.replace(/\-/gi, "");
   }
 
   showEmptyFieldsErrors() {
