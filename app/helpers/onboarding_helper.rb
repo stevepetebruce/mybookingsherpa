@@ -9,10 +9,6 @@ module OnboardingHelper
       @current_organisation.bookings.exists?
   end
 
-  def in_trial_and_created_an_hour_ago?
-    @current_organisation&.on_trial? && @current_organisation.created_at < 1.hour.ago
-  end
-
   def open_first_trip_accordion?(count)
     @current_organisation.on_trial? &&
       @current_organisation.trips.count == 1 &&
@@ -30,7 +26,7 @@ module OnboardingHelper
   def show_in_trial_banner?
     return false if @hide_in_trial_banner
 
-    in_trial_and_created_an_hour_ago? || in_trial_and_created_booking?
+    in_trial_and_created_booking?
   end
 
   def show_onboarding_explainer_element?(trip, count)
