@@ -72,7 +72,12 @@ Rails.application.routes.draw do
   namespace :public do
     resources :trips, only: %i[] do
       resources :bookings, only: %i[create edit new show update],
-                           shallow: true, controller: "/public/trips/bookings"
+                           shallow: true,
+                           controller: "/public/trips/bookings" do
+        resources :failed_payments, only: %i[create new show],
+                                    controller: "/public/trips/bookings/failed_payments",
+                                    shallow: true
+      end
     end
   end
 

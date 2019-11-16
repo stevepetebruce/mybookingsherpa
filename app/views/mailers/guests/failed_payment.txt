@@ -1,0 +1,16 @@
+Failed payment for <%= @booking.trip_name %>, <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>.
+===============================================
+
+Hi <%= @booking.guest_or_booking_name %>,
+
+Your outstanding payment of <%= @booking.human_readable_failed_amount_due %> for <%= "#{@booking.trip_name}, #{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %> has failed.
+
+This is the reason given by your card provider: <%= @payment_failure_message %>
+
+<%= link_to "Click here", new_public_booking_failed_payment_url(@booking.id) %> to enter your card details and complete your booking.
+
+If you need to contact me, my email is <%= @booking.guide_email %>.
+
+Thank you
+
+<%= @booking.guide_name.presence %>
