@@ -426,7 +426,7 @@
                               The automated payment for the outstanding amount for one of your guests has failed.
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
-                              Alan Donohoe’s payment of <%= @booking.human_readable_failed_amount_due %>, for your <%= @booking.trip_name %>, <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>, has been declined.
+                              <%= @booking.name %>'s' payment of <%= @booking.human_readable_failed_amount_due %>, for your <%= @booking.trip_name %>, <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>, has been declined.
                             </p>
                             <p style="margin: 0;font-size: 18px;line-height: 28px;text-align: left; margin-bottom: 18px;">
                               This is the reason given by their card provider: <%= @payment_failure_message %>
