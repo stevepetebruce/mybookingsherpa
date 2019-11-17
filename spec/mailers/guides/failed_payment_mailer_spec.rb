@@ -16,7 +16,7 @@ RSpec.describe Guides::FailedPaymentMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to include("The automated payment for the outstanding amount for one of your guests has failed.")
+      expect(mail.body.encoded).to include("one of your guests has failed.")
     end
 
     it "should send the email to the guest" do
