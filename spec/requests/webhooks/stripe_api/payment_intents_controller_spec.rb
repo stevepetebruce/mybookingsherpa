@@ -35,8 +35,11 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         end
 
         it "should create a new payment" do
+          # expect(Payment.last.pending?).to eq true
+
           expect { do_request(params: params, headers: headers) }.to change { Payment.count }.by(1)
           expect(Payment.last.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
+          expect(Payment.last.success?).to eq true
         end
       end
 
@@ -60,6 +63,13 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
 
           expect(booking.payments.count).to eq 1
           expect(booking.payments.first.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
+          expect(booking.payments.first.success?).to eq true
+        end
+      end
+
+      context "payment already existed, (occurs when the webhook comes back AFTER the booking controller has created payment)" do
+        # TODO: and also when payment existed but payment intent failed in webhook...
+        it "should update the payment's status" do
         end
       end
 

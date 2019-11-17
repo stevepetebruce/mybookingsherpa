@@ -25,13 +25,13 @@ module Webhooks
       def create_or_update_booking_payment
         booking.payments.where(stripe_payment_intent_id: stripe_payment_intent_id).
           first_or_create.
-          update(amount: amount_received)
+          update(amount: amount_received, status: :success)
       end
 
       def create_or_update_payment
         Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
           first_or_create.
-          update(amount: amount_received)
+          update(amount: amount_received, status: :success)
       end
 
       def end_point_secret
@@ -50,6 +50,7 @@ module Webhooks
           update_or_create_payment
         when "payment_intent.payment_failed"
           # TODO: Email guest and guide...?
+          # TODO: find the payment, set it's status to failed...
         else
           # TODO: Email guest and guide...?
           head :bad_request and return
