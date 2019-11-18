@@ -189,7 +189,7 @@ module Public
       end
 
       def tld_length
-        return 1 if Rails.env.test? || Rails.env.development
+        return 1 if Rails.env.test? || Rails.env.development?
         3 # TODO: may need to change this for staging...
       end
     end
