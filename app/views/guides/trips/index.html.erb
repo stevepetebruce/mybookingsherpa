@@ -153,9 +153,9 @@
             <% # TODO: Pete could have a look at this. Not sure if it's in keeping with our style. %>
             <div class="col-md-12 pb-4 text-center">
               <% if @show_past_trips %>
-                <%= link_to "My Trips", guides_trips_path, class: "btn btn-primary" %>
+                <%= link_to "My Trips", guides_trips_path, class: "btn btn-primary btn-sm rounded uppercase" %>
               <% elsif current_guide.trips.past_trips.exists? %>
-                <%= link_to "My Past Trips", guides_trips_path(past_trips: true), class: "btn btn-primary" %>
+                <%= link_to "My Past Trips", guides_trips_path(past_trips: true), class: "btn btn-primary btn-sm rounded uppercase" %>
               <% end %>
             </div>
           </div>
