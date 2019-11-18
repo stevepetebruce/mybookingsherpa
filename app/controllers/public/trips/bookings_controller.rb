@@ -62,7 +62,11 @@ module Public
       def live_create
         if @booking.save && update_or_create_payment
           successful_booking_jobs
-          redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
+          redirect_to url_for controller: "bookings",
+                              action: "edit",
+                              id: @booking.id,
+                              subdomain: @booking.organisation_subdomain,
+                              tld_length: @booking.organisation_subdomain.present? ? 0 : 1
         # TODO:
         # else
         #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -80,7 +84,11 @@ module Public
         @booking.save
         Payments::Factory.new(@booking, test_charge).create
         successful_booking_jobs
-        redirect_to url_for(controller: "bookings", action: "edit", id: @booking.id, subdomain: @booking.organisation_subdomain, tld_length: 0)
+        redirect_to url_for controller: "bookings",
+                            action: "edit",
+                            id: @booking.id,
+                            subdomain: @booking.organisation_subdomain,
+                            tld_length: @booking.organisation_subdomain.present? ? 0 : 1
       end
 
       def allergies
