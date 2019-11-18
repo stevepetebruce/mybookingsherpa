@@ -75,7 +75,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
                     </div>
-                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
+                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, required: true, data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
                   </div>
                 </div>
               </li>
