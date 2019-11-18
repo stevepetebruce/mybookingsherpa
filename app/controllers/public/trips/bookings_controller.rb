@@ -38,7 +38,11 @@ module Public
       # PATCH/PUT /bookings/1
       def update
         if @booking.update(booking_params) && create_associations
-          redirect_to url_for(controller: "bookings", action: "show", subdomain: @booking.organisation_subdomain, id: @booking.id)
+          redirect_to url_for controller: "bookings",
+                              action: "show",
+                              id: @booking.id,
+                              subdomain: @booking.organisation_subdomain,
+                              tld_length: 3
         else
           @example_data = Onboardings::ExampleDataSelector.new(@booking.trip.bookings.count - 1)
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
@@ -66,7 +70,7 @@ module Public
                               action: "edit",
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain || "www",
-                              tld_length: 0
+                              tld_length: 3
         # TODO:
         # else
         #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -88,7 +92,7 @@ module Public
                             action: "edit",
                             id: @booking.id,
                             subdomain: @booking.organisation_subdomain || "www",
-                            tld_length: 0
+                            tld_length: 3
       end
 
       def allergies
