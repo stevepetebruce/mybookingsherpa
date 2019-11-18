@@ -38,7 +38,7 @@
 <% if @booking.organisation_on_trial? %>
   <div data-controller="modal-onload" data-modal-onload-delay="5000" data-modal-onload-onclose-redirect-url="<%= guides_trips_url %>">
     <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
             <div class="card col-md-12 mt-4">
