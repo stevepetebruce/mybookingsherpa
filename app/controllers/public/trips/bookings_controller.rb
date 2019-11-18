@@ -42,7 +42,7 @@ module Public
                               action: "show",
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain_or_www,
-                              tld_length: tld_length
+                              tld_length: 1
         else
           @example_data = Onboardings::ExampleDataSelector.new(@booking.trip.bookings.count - 1)
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
@@ -70,7 +70,7 @@ module Public
                               action: "edit",
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain_or_www,
-                              tld_length: tld_length
+                              tld_length: 1
         # TODO:
         # else
         #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -92,7 +92,7 @@ module Public
                             action: "edit",
                             id: @booking.id,
                             subdomain: @booking.organisation_subdomain_or_www,
-                            tld_length: tld_length
+                            tld_length: 1
       end
 
       def allergies
@@ -186,11 +186,6 @@ module Public
         # Or send them straight out when in trial mode (both to guide)
         Guests::BookingMailer.with(booking: @booking).new.deliver_later
         Guides::BookingMailer.with(booking: @booking).new.deliver_later
-      end
-
-      def tld_length
-        return 1 if Rails.env.test? || Rails.env.development?
-        2 # TODO: may need to change this for staging...
       end
     end
   end
