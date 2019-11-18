@@ -43,6 +43,6 @@ module TripDecorator
   end
 
   def subdomain
-    return "#{organisation_subdomain}." if organisation_subdomain
+    return "#{organisation_subdomain_or_www}."
   end
 end

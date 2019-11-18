@@ -41,8 +41,8 @@ module Public
           redirect_to url_for controller: "bookings",
                               action: "show",
                               id: @booking.id,
-                              subdomain: @booking.organisation_subdomain,
-                              tld_length: 3
+                              subdomain: @booking.organisation_subdomain_or_www,
+                              tld_length: tld_length
         else
           @example_data = Onboardings::ExampleDataSelector.new(@booking.trip.bookings.count - 1)
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
@@ -69,8 +69,8 @@ module Public
           redirect_to url_for controller: "bookings",
                               action: "edit",
                               id: @booking.id,
-                              subdomain: @booking.organisation_subdomain || "www",
-                              tld_length: 3
+                              subdomain: @booking.organisation_subdomain_or_www,
+                              tld_length: tld_length
         # TODO:
         # else
         #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -91,8 +91,8 @@ module Public
         redirect_to url_for controller: "bookings",
                             action: "edit",
                             id: @booking.id,
-                            subdomain: @booking.organisation_subdomain || "www",
-                            tld_length: 3
+                            subdomain: @booking.organisation_subdomain_or_www,
+                            tld_length: tld_length
       end
 
       def allergies
@@ -115,7 +115,7 @@ module Public
         return if newly_created?
 
         @booking.errors.add(:base, :timeout, message: "timed out please contact support")
-        redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain, trip_id: @booking.trip_slug)
+        redirect_to url_for(controller: "bookings", action: "new", subdomain: @booking.organisation_subdomain_or_www, trip_id: @booking.trip_slug)
       end
 
       def create_associations
@@ -186,6 +186,11 @@ module Public
         # Or send them straight out when in trial mode (both to guide)
         Guests::BookingMailer.with(booking: @booking).new.deliver_later
         Guides::BookingMailer.with(booking: @booking).new.deliver_later
+      end
+
+      def tld_length
+        return 1 if Rails.env.test? || Rails.env.development
+        3 # TODO: may need to change this for staging...
       end
     end
   end

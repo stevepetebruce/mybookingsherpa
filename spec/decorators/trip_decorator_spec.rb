@@ -10,7 +10,7 @@ RSpec.describe TripDecorator, type: :model do
     context "organisation in trial" do
       it "should return the in-trial warning URL" do
         expect(new_public_booking_link).to eq "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').first}"\
-            "//#{trip.organisation_subdomain}."\
+            "//#{trip.organisation_subdomain_or_www}."\
             "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').last}"\
             "/public/trips/#{trip.slug}/bookings/new"\
             "?DO_NOT_SHARE_IN_TRIAL_EXAMPLE_PLEASE_COMPLETE_YOUR_ACCOUNT_SET_UP"
@@ -22,7 +22,7 @@ RSpec.describe TripDecorator, type: :model do
 
       it "should return the live URL (without the in-trial warning" do
         expect(new_public_booking_link).to eq "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').first}"\
-          "//#{trip.organisation_subdomain}."\
+          "//#{trip.organisation_subdomain_or_www}."\
           "#{ENV.fetch('PUBLIC_BOOKING_DOMAIN').split('//').last}"\
           "/public/trips/#{trip.slug}/bookings/new"
       end

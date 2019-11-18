@@ -142,8 +142,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             url_for(controller: "bookings",
                     action: "edit",
                     id: booking.id,
-                    subdomain: booking.organisation_subdomain,
-                    tld_length: 0)
+                    subdomain: booking.organisation_subdomain_or_www,
+                    tld_length: 1)
           end
 
           it "should create the booking but not the guest" do
@@ -418,8 +418,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             url_for(controller: "bookings",
                     action: "edit",
                     id: booking.id,
-                    subdomain: booking.organisation_subdomain,
-                    tld_length: 0)
+                    subdomain: booking.organisation_subdomain_or_www,
+                    tld_length: 1)
           end
 
           it "should create the booking but not the guest" do
@@ -454,7 +454,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
     context "timeout window of booking creation has expired" do
       let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
-      let(:subdomain) { booking.organisation_subdomain }
+      let(:subdomain) { booking.organisation_subdomain_or_www }
 
       it "should redirect to the public trip new booking path" do
         do_request
@@ -490,7 +490,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
       context "within timeout window of booking being created" do
         let!(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
-        let!(:subdomain) { booking.organisation_subdomain }
+        let!(:subdomain) { booking.organisation_subdomain_or_www }
 
         context "with no allergies or dietary_requirements" do
           let(:params) { { booking: { email: email } } }
@@ -538,7 +538,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
       context "timeout window of booking creation has expired" do
         let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
-        let!(:subdomain) { booking.organisation_subdomain }
+        let!(:subdomain) { booking.organisation_subdomain_or_www }
 
         it "should redirect to the public trip new booking path" do
           do_request
@@ -578,7 +578,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
     context "timeout window of booking creation has expired" do
       let(:booking) { FactoryBot.create(:booking, created_at: 40.minutes.ago) }
-      let!(:subdomain) { booking.organisation_subdomain }
+      let!(:subdomain) { booking.organisation_subdomain_or_www }
 
 
       def do_request(url: "/public/bookings/#{booking.id}", params: {})
