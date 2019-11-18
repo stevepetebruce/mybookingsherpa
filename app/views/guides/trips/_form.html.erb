@@ -108,10 +108,9 @@
     </div>
     <div class="col-md-12 mb-3 text-center mt-2">
       <h2 class="font-weight-bold">Live Preview</h2>
-      <h4>This is what your guests will see 👇 when you share the new booking link with them.</h4>
     </div>
     <div class="container-fluid">
-      <div class="row border" style="overflow: hidden;">
+      <div class="row border card card-shadow card-rounded d-flex flex-row" style="overflow: hidden;">
         <div class="col-lg-5 content-left">
           <div class="content-left-wrapper bg_img">
             <div class="wrapper">
@@ -160,6 +159,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mt-4 mb-1 text-center">
+      <h4>This is what your guests will see ☝️ when you share the new booking link with them.</h4>
     </div>
     <div class="mt-5 mb-1 text-center">
       <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
