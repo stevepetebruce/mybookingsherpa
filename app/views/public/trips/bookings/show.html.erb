@@ -36,7 +36,7 @@
 
 <!-- In trial guide explainer modal -->
 <% if @booking.organisation_on_trial? %>
-  <div data-controller="modal-onload" data-modal-onload-delay="5000" data-modal-onload-onclose-redirect-url="<%= guides_trips_url %>">
+  <div data-controller="modal-onload" data-modal-onload-delay="5000" data-modal-onload-onclose-redirect-url="<%= url_for(controller: '/guides/trips', action: 'index', host: ENV.fetch('BASE_DOMAIN')) %>">
     <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -64,7 +64,7 @@
                     <p><small><i>* when your account is live.</i></small></p>
                   </div>
                   <div class="text-center my-4">
-                    <%= link_to "View My Trips", guides_trips_path, class: "btn btn-primary btn-lg rounded uppercase" %>
+                    <%= link_to "View My Trips", url_for(controller: "/guides/trips", action: "index", host: ENV.fetch("BASE_DOMAIN")), class: "btn btn-primary btn-lg rounded uppercase" %>
                   </div>
                 </div>
               </div>
