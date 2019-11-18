@@ -36,15 +36,12 @@
 
 <!-- In trial guide explainer modal -->
 <% if @booking.organisation_on_trial? %>
-  <div data-controller="modal-onload" data-modal-onload-delay="5000">
+  <div data-controller="modal-onload" data-modal-onload-delay="5000" data-modal-onload-onclose-redirect-url="<%= guides_trips_url %>">
     <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="card col-md-12">
+            <div class="card col-md-12 mt-4">
               <div class="card-body p-0 row">
                 <div class="offset-lg-1 col-lg-10">
                   <div class="mt-2">
@@ -67,7 +64,7 @@
                     <p><small><i>* when your account is live.</i></small></p>
                   </div>
                   <div class="text-center my-4">
-                    <%= link_to "View My Trips", guides_trips_path, class: "btn btn-primary btn-sml rounded uppercase" %>
+                    <%= link_to "View My Trips", guides_trips_path, class: "btn btn-primary btn-lg rounded uppercase" %>
                   </div>
                 </div>
               </div>
