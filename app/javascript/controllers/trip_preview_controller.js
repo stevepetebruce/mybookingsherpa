@@ -3,11 +3,14 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static targets = ["datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
                     "depositDatePreview", "depositWrapper", "descriptionInput", "descriptionPreview",
-                    "depositPercentageInput", "endDateInput", "fullCostInput", "fullCostPreview", "nameInput", 
-                    "namePreview", "paymentWindowWeeksInput", "startDateInput"]
+                    "depositPercentageInput", "endDateInput", "form", "fullCostInput", "fullCostPreview",
+                    "nameInput", "namePreview", "paymentWindowWeeksInput", "startDateInput"]
 
   connect() {
     this.previewUpdate();
+    this.formTarget.addEventListener("submit", () => {
+      this.scrollToTopIfInvalid();
+    });
   }
   
   previewUpdate() {
@@ -51,4 +54,10 @@ export default class extends Controller {
       this.depositDatePreviewTarget.innerHTML = paymentDate.toISOString().split('T')[0].split("-").reverse().join("-");
     }
   }
-};
+
+  scrollToTopIfInvalid() {
+    if (this.formTarget.checkValidity() === false) {
+      document.getElementsByClassName("container")[0].scrollIntoView({behavior: "smooth"});
+    }
+  }
+}
