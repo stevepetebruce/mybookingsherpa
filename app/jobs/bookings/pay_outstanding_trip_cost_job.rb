@@ -10,6 +10,8 @@ module Bookings
 
       # TODO: refactor this so it uses Bookings::PaymentIntents.create(@booking)
       External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+    rescue Stripe::CardError => e
+      # TODO: send FailedPaymentMailers to guide and guest
     end
 
     private

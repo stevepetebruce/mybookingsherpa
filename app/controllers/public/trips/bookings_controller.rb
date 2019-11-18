@@ -15,7 +15,7 @@ module Public
       def new
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@trip.bookings.count)
-        @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
+        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
       end
 
       # POST /bookings
