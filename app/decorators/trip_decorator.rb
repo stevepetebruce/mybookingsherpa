@@ -43,6 +43,8 @@ module TripDecorator
   end
 
   def subdomain
-    return "#{organisation_subdomain_or_www}."
+    return "" if Settings.env_staging?
+
+    "#{organisation_subdomain_or_www}."
   end
 end

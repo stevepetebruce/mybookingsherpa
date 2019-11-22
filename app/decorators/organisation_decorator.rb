@@ -4,6 +4,8 @@ module OrganisationDecorator
   end
 
   def subdomain_or_www
+    return "" if Settings.env_staging?
+
     self[:subdomain] || "www"
   end
 end
