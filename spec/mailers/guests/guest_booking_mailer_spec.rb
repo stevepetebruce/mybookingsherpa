@@ -12,7 +12,7 @@ RSpec.describe Guests::BookingMailer, type: :mailer do
 
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Successful booking for #{booking.trip_name}")
+      expect(mail.subject).to eq("You're booked on #{booking.trip_name}")
       # Isn't picking up the actual format used in mailer - with guide's name, etc.
       expect(mail.from).to eq([ENV.fetch("DEFAULT_GUIDE_FROM_EMAIL")])
       expect(mail.reply_to).to eq([ENV.fetch("DEFAULT_GUIDE_FROM_EMAIL")])
