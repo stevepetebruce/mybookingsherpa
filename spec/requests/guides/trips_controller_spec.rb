@@ -221,7 +221,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should have a link to past trips" do
                 do_request
 
-                expect(response.body).to include('<a class="btn btn-primary btn-sm rounded uppercase" href="/guides/trips?past_trips=true">My Past Trips</a>')
+                expect(response.body).to include('<a class="btn btn-primary btn-sm rounded uppercase" href="/guides/trips?past_trips=true">View Past Trips</a>')
               end
             end
 
@@ -237,7 +237,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should have a link to my (future) trips" do
                 do_request(params: params)
 
-                expect(response.body).to include('<a class="btn btn-primary btn-sm rounded uppercase" href="/guides/trips">My Trips</a>')
+                expect(response.body).to include('<a class="btn btn-primary btn-sm rounded uppercase" href="/guides/trips">View Upcoming Trips</a>')
               end
             end
           end
