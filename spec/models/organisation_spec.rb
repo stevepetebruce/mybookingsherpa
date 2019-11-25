@@ -31,16 +31,22 @@ RSpec.describe Organisation, type: :model do
       it { should validate_numericality_of(:full_payment_window_weeks).only_integer }
     end
 
-    context "name" do
+    describe "name" do
       it { should allow_value(Faker::Lorem.word).for(:name) }
       it { should_not allow_value("<SQL INJECTION>").for(:name) }
     end
-    context "stripe_account_id_test" do
+
+    describe "stripe_account_id_test" do
       it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id_test) }
       it { should_not allow_value("!<>*&^%").for(:stripe_account_id_test) }
     end
-    # TODO: stripe_account_id
-    context "subdomain" do
+
+    describe "stripe_account_id_live" do
+      it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id_live) }
+      it { should_not allow_value("!<>*&^%").for(:stripe_account_id_live) }
+    end
+
+    describe "subdomain" do
       it { should allow_value(Faker::Internet.domain_word).for(:subdomain) }
       it { should_not allow_value("-#{Faker::Internet.domain_word}").for(:subdomain) } # beginning with "-"
       it { should_not allow_value("!<>*&^%").for(:subdomain) }
@@ -96,6 +102,28 @@ RSpec.describe Organisation, type: :model do
       it "should be the plan associated with the most recently created subscription" do
         # TODO: should only have one subscription... need to delete the old one... when a new one is created
         expect(plan).to eq current_plan
+      end
+    end
+  end
+
+  describe "#stripe_account_id" do
+    subject(:stripe_account_id) { organisation.stripe_account_id }
+
+    let(:organisation) { FactoryBot.create(:organisation) }
+
+    context "organisation on trial" do
+      before { allow(organisation).to receive(:on_trial?).and_return(true) }
+
+      it "should return the organisation's stripe_account_id_test" do
+        expect(stripe_account_id).to eq organisation.stripe_account_id_test
+      end
+    end
+
+    context "organisation not on trial" do
+      before { allow(organisation).to receive(:on_trial?).and_return(false) }
+
+      it "should return the organisation's stripe_account_id_live" do
+        expect(stripe_account_id).to eq organisation.stripe_account_id_live
       end
     end
   end
