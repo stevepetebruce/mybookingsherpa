@@ -26,8 +26,7 @@ class Trip < ApplicationRecord
   has_and_belongs_to_many :guides
   has_many :organisation_memberships, through: :guides
 
-  delegate :logo_image, :name, :stripe_account_id, :stripe_account_id_test,
-    :subdomain_or_www, to: :organisation, prefix: true
+  delegate :logo_image, :name, :stripe_account_id, :subdomain_or_www, to: :organisation, prefix: true
 
   scope :future_trips, -> { end_date_asc.where("end_date > ?", Time.zone.yesterday.end_of_day) }
   scope :past_trips, -> { end_date_desc.where("end_date < ?", Time.zone.now.beginning_of_day) }

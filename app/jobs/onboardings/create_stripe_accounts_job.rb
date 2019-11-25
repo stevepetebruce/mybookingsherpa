@@ -5,7 +5,7 @@ module Onboardings
 
     def perform(organisation)
       organisation.update(stripe_account_id_test: stripe_account_test(organisation).id,
-                          stripe_account_id: stripe_account_live(organisation).id)
+                          stripe_account_id_live: stripe_account_live(organisation).id)
     end
 
     private
