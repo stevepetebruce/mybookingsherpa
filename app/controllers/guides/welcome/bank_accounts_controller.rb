@@ -14,7 +14,6 @@ module Guides
 
       def create
         # TODO: create / capture raw_stripe_api_response
-        # binding.pry
         External::StripeApi::ExternalAccount.create(current_organisation.stripe_account_id_live,
                                                     params[:token_account])
         track_onboarding_event("new_bank_account_created")

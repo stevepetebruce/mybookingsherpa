@@ -5,7 +5,7 @@ FactoryBot.define do
     start_date { Date.today }
     end_date { Date.today + 1.week }
     maximum_number_of_guests { 12 }
-    association :organisation, :with_stripe_account_id
+    association :organisation
     guides { |t| [t.association(:guide)] }
 
     after(:build) do |trip|

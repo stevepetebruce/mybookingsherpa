@@ -13,7 +13,7 @@ RSpec.describe OrganisationDecorator, type: :model do
     end
 
      context "organisation not on trial" do
-      before { organisation.onboarding.update_columns(complete: true) }
+      before { organisation.reload.onboarding.update_columns(complete: true) }
 
       it "should be the STRIPE_PUBLISHABLE_KEY_LIVE" do
         expect(stripe_publishable_key).to eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_LIVE")

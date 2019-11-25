@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Guides::Welcome::StripeAccountLinkFailureController", type: :request do
   describe "#new" do
     let!(:guide) { FactoryBot.create(:guide) }
-    let!(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
+    let!(:organisation) { FactoryBot.create(:organisation) }
     let!(:organisation_membership) do
       FactoryBot.create(:organisation_membership,
                         guide: guide,

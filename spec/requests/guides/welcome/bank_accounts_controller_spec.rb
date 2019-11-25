@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
   let!(:guide) { FactoryBot.create(:guide) }
-  let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id: "acct_1DLYH2ESypPNvvdY") }
+  let!(:organisation) { FactoryBot.create(:organisation) }
   let!(:organisation_membership) do
     FactoryBot.create(:organisation_membership,
                       guide: guide,
@@ -23,7 +23,7 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
       before do
         sign_in(guide)
 
-        stub_request(:get, "https://api.stripe.com/v1/accounts/acct_1DLYH2ESypPNvvdY").
+        stub_request(:get, "https://api.stripe.com/v1/accounts/#{organisation.stripe_account_id_live}").
           to_return(status: 200, body: response_body, headers: {})
       end
 
@@ -60,12 +60,12 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
       before { sign_in(guide) }
 
       let(:onboarding) { organisation.onboarding }
-      let!(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
+      let!(:organisation) { FactoryBot.create(:organisation) }
       let!(:params) { { token_account: token_account } }
       let(:response_body) do
         "#{file_fixture("stripe_api/successful_external_account.json").read}"
       end
-      let(:stripe_account_id) { organisation.stripe_account_id }
+      let(:stripe_account_id) { organisation.stripe_account_id_live }
       let!(:token_account) { "btok_#{Faker::Crypto.md5}" }
 
       before do
