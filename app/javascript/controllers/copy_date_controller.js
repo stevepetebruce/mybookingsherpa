@@ -4,6 +4,8 @@ export default class extends Controller {
   static targets = [ "startDateInput", "endDateInput" ]
 
   copyDate() {
-    this.endDateInputTarget.value = this.startDateInputTarget.value
+    if (!this.endDateInputTarget.value) {
+      this.endDateInputTarget.value = this.startDateInputTarget.value;
+    }
   }
 }
