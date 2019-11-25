@@ -17,7 +17,7 @@ module Guides
     private
 
     def trip_start_date_formatted
-      "#{@booking.start_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}"
+      "#{@booking.start_date.day} #{Date::MONTHNAMES[@booking.start_date.month]}"
     end
   end
 end
