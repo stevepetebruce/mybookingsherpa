@@ -15,7 +15,7 @@ module Guides
 
       def new_hosted_onboarding_url
         External::StripeApi::AccountLink.
-          create(@current_organisation.stripe_account_id,
+          create(@current_organisation.stripe_account_id_live,
                  failure_url: guides_welcome_stripe_account_link_failure_url,
                  success_url: new_guides_welcome_bank_account_url)
       end
