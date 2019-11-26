@@ -19,7 +19,7 @@ module Webhooks
       end
 
       def organisation
-        @organisation ||= Organisation.find_by_stripe_account_id(stripe_account_id)
+        @organisation ||= Organisation.find_by_stripe_account_id_live(stripe_account_id)
       end
 
       def payload

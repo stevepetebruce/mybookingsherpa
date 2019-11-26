@@ -14,7 +14,7 @@ module Guides
 
       def create
         # TODO: create / capture raw_stripe_api_response
-        External::StripeApi::ExternalAccount.create(current_organisation.stripe_account_id,
+        External::StripeApi::ExternalAccount.create(current_organisation.stripe_account_id_live,
                                                     params[:token_account])
         track_onboarding_event("new_bank_account_created")
         onboarding_complete_tasks
@@ -50,7 +50,7 @@ module Guides
       end
 
       def stripe_account
-        @stripe_account ||= External::StripeApi::Account.retrieve(current_organisation.stripe_account_id)
+        @stripe_account ||= External::StripeApi::Account.retrieve(current_organisation.stripe_account_id_live)
       end
     end
   end

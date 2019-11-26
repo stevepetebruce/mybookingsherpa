@@ -11,7 +11,7 @@ RSpec.describe "Webhooks::StripeApi::AccountsController", type: :request do
         JSON.parse("#{file_fixture("/stripe_api/webhooks/successful_account_update_charges_not_enabled.json").read}")
       end
       let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-      let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id: "acct_1FbAREIy86KmMnUD") }
+      let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id_live: "acct_1FbAREIy86KmMnUD") }
       let(:params) { event }
       let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS"] }
 
@@ -28,7 +28,7 @@ RSpec.describe "Webhooks::StripeApi::AccountsController", type: :request do
           JSON.parse("#{file_fixture("/stripe_api/webhooks/successful_account_update_charges_enabled.json").read}")
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-        let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id: "acct_1FQwLOFUyBXr3CA5") }
+        let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id_live: "acct_1FQwLOFUyBXr3CA5") }
         let(:params) { event }
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS"] }
 

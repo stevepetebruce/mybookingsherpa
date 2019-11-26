@@ -44,7 +44,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:email) { Faker::Internet.email }
       let(:guest) { Guest.last }
       let!(:guide) { FactoryBot.create(:guide) }
-      let(:organisation) { FactoryBot.create(:organisation, :not_on_trial, :with_stripe_account_id) }
+      let(:organisation) { FactoryBot.create(:organisation, :not_on_trial) }
       let!(:params) do
         {
           booking:
@@ -328,7 +328,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:email) { Faker::Internet.email }
       let(:guest) { Guest.last }
       let!(:guide) { FactoryBot.create(:guide) }
-      let(:organisation) { FactoryBot.create(:organisation, :with_stripe_account_id) }
+      let(:organisation) { FactoryBot.create(:organisation) }
       let!(:params) do
         {
           booking:
