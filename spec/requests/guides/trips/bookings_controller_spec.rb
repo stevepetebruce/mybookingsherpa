@@ -35,7 +35,7 @@ RSpec.describe "Guides::Trips::BookingsController", type: :request do
           do_request
 
           expect(response).to be_successful
-          expect(response.body).to include(guest.name)
+          expect(response.body).to include(CGI.escapeHTML(guest.name))
         end
 
         context "a trip associated with one guide" do
@@ -44,7 +44,7 @@ RSpec.describe "Guides::Trips::BookingsController", type: :request do
           it "should be visible to the guide" do
             do_request
 
-            expect(response.body).to include(trip_name)
+            expect(response.body).to include(CGI.escapeHTML(trip_name))
           end
 
           it "should not be visible to another guide" do
