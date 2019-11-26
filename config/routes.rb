@@ -55,13 +55,9 @@ Rails.application.routes.draw do
     end
     namespace :welcome, only: %i[new] do
       resources :bank_accounts, only: %i[new create]
-      resources :companies, only: %i[new create]
-      resources :company_people, only: %i[new create]
-      resources :solos, only: %i[new create]
     end
   end
 
-  get "guides/welcome", to: "guides/welcome#new"
   get "guides/welcome/stripe_account_link_failure",
     to: "guides/welcome/stripe_account_link_failure#new"
 

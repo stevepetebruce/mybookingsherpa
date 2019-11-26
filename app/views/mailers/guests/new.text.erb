@@ -2,7 +2,7 @@ Hello <%= @booking.name %>. Successful booking on <%= @booking.trip_name %>
 ===============================================
 
 <% if @booking.organisation_on_trial? %>
-(As you're in trial, this is sent to you rather than a real guest, just so you can see what they will be sent). You'll need to <%= link_to "complete your set up", guides_welcome_url %> to accept real bookings and money.</p>
+(As you're in trial, this is sent to you rather than a real guest, just so you can see what they will be sent). You'll need to <%= link_to "complete your set up", guides_trips_url %> to accept real bookings and money.</p>
 <% end %>
  
 Hi <%= @booking.guest_or_booking_name %>,
