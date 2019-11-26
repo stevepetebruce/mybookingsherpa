@@ -29,7 +29,7 @@
         <div class="row">
           <div class="col-md-3 mb-3">
             <%= form.label :start_date %>
-            <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
+            <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
             <div class="invalid-feedback">
               <%= "Please enter a valid start date" %>
             </div>
@@ -41,7 +41,7 @@
           </div>
           <div class="col-md-3 mb-3">
             <%= form.label :end_date %>
-            <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
+            <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
             <div class="invalid-feedback">
               <%= "Please enter a valid end date" %>
             </div>

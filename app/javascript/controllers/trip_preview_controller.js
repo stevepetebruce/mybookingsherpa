@@ -22,12 +22,14 @@ export default class extends Controller {
 
     if (!this.startDateInputTarget.value || !this.endDateInputTarget.value) {
       this.datePreviewTarget.innerHTML = "Dates displayed here";
-    } else {
-      if (startMonth == endMonth) {
+    } else if (this.startDateInputTarget.value !== this.endDateInputTarget.value) {
+      if (startMonth === endMonth) {
         this.datePreviewTarget.innerHTML = `${startDate} - ${endDate} ${endMonth}`;
       } else {
         this.datePreviewTarget.innerHTML = `${startDate} ${startMonth} - ${endDate} ${endMonth}`;
       }
+    } else {
+      this.datePreviewTarget.innerHTML = `${startDate} ${startMonth}`;
     }
 
     this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
