@@ -84,7 +84,7 @@ module BookingDecorator
 
   def payment_status_text
     return "Last payment failed" if payment_failed?
-    return "Payment required" if payment_required?
+    return "Deposit paid" if payment_required?
     return "Refunded" if refunded?
 
     "Fully paid"

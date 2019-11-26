@@ -386,7 +386,7 @@ RSpec.describe BookingDecorator, type: :model do
     let!(:booking) { FactoryBot.create(:booking) }
 
     context "no payments have been made yet" do
-      it { expect(payment_status_text).to eq "Payment required" }
+      it { expect(payment_status_text).to eq "Deposit paid" }
     end
 
     context "payment complete" do
