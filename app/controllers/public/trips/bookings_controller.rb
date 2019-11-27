@@ -42,7 +42,8 @@ module Public
                               action: "show",
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain_or_www,
-                              tld_length: 1
+                              tld_length: 1,
+                              host: ENV.fetch("PUBLIC_BOOKING_DOMAIN")
         else
           @example_data = Onboardings::ExampleDataSelector.new(@booking.trip.bookings.count - 1)
           flash.now[:alert] = "Problem updating booking. #{@booking.errors.full_messages.to_sentence}"
@@ -70,7 +71,8 @@ module Public
                               action: "edit",
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain_or_www,
-                              tld_length: 1
+                              tld_length: 1,
+                              host: ENV.fetch("PUBLIC_BOOKING_DOMAIN")
         # TODO:
         # else
         #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
@@ -92,7 +94,8 @@ module Public
                             action: "edit",
                             id: @booking.id,
                             subdomain: @booking.organisation_subdomain_or_www,
-                            tld_length: 1
+                            tld_length: 1,
+                            host: ENV.fetch("PUBLIC_BOOKING_DOMAIN")
       end
 
       def allergies
