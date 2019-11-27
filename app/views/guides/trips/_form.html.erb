@@ -162,6 +162,7 @@
       <h4>This is what your guests will see ☝️ when you share the new booking link with them.</h4>
     </div>
     <div class="mt-5 mb-1 text-center">
+      <button type="submit" disabled style="display: none" aria-hidden="true"></button>
       <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
       <% if @current_organisation.trips.exists? %>
         <div class="mt-5">
