@@ -144,7 +144,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
                     id: booking.id,
                     subdomain: booking.organisation_subdomain_or_www,
                     tld_length: 1,
-                    host: ENV.fetch("PUBLIC_BOOKING_DOMAIN"))
+                  )
           end
 
           it "should create the booking but not the guest" do
@@ -409,7 +409,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             params[:booking].each { |k, v| expect(booking.send(k)).to eq v.to_s }
 
             expect(response.code).to eq "302"
-            expect(response).to redirect_to(edit_public_booking_url(booking, subdomain: subdomain, host: ENV.fetch("PUBLIC_BOOKING_DOMAIN")))
+            expect(response).to redirect_to(edit_public_booking_url(booking, subdomain: subdomain))
           end
         end
 
@@ -421,7 +421,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
                     id: booking.id,
                     subdomain: booking.organisation_subdomain_or_www,
                     tld_length: 1,
-                    host: ENV.fetch("PUBLIC_BOOKING_DOMAIN"))
+                  )
           end
 
           it "should create the booking but not the guest" do
@@ -501,7 +501,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             do_request(params: params)
 
             expect(response.code).to eq "302"
-            expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain, host: ENV.fetch("PUBLIC_BOOKING_DOMAIN"))
+            expect(response).to redirect_to public_booking_url(booking, subdomain: subdomain)
 
             expect(booking.reload.email).to eq email
           end
