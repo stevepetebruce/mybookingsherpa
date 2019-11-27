@@ -44,7 +44,7 @@
                 </td>
                 <td>
                   <% if Bookings::PaymentStatus.new(booking).payment_required? %>
-                    <span class='dot dot-sm dot-danger'></span> Payment required
+                    <span class='dot dot-sm dot-warning'></span> Deposit paid
                   <% else %>
                     <span class='dot dot-sm dot-success'></span> Paid in full
                   <% end %>
