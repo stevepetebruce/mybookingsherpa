@@ -74,6 +74,10 @@ module BookingDecorator
     amount_due == deposit_cost
   end
 
+  def only_paid_deposit?
+    last_payment.amount == deposit_cost
+  end
+
   def payment_status_icon
     return "dot-danger" if payment_failed?
     return "dot-danger" if refunded?
