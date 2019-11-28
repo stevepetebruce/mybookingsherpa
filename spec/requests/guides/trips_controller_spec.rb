@@ -194,7 +194,7 @@ RSpec.describe "Guides::TripsController", type: :request do
           it "should be visible to the guide" do
             do_request
 
-            expect(response.body).to include(trip.name)
+            expect(response.body).to include(CGI.escapeHTML(trip.name))
           end
 
           it "should not be visible to another guide" do
@@ -203,7 +203,7 @@ RSpec.describe "Guides::TripsController", type: :request do
 
             do_request
 
-            expect(response.body).to_not include(trip.name)
+            expect(response.body).to_not include(CGI.escapeHTML(trip.name))
           end
         end
 
@@ -215,7 +215,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should not be visible" do
                 do_request
 
-                expect(response.body).to_not include(trip.name)
+                expect(response.body).to_not include(CGI.escapeHTML(trip.name))
               end
 
               it "should have a link to past trips" do
@@ -231,7 +231,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should be visible" do
                 do_request(params: params)
 
-                expect(response.body).to include(trip.name)
+                expect(response.body).to include(CGI.escapeHTML(trip.name))
               end
 
               it "should have a link to my (future) trips" do
@@ -249,7 +249,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should be visible" do
                 do_request
 
-                expect(response.body).to include(trip.name)
+                expect(response.body).to include(CGI.escapeHTML(trip.name))
               end
             end
 
@@ -259,7 +259,7 @@ RSpec.describe "Guides::TripsController", type: :request do
               it "should not be visible" do
                 do_request(params: params)
 
-                expect(response.body).to_not include(trip.name)
+                expect(response.body).to_not include(CGI.escapeHTML(trip.name))
               end
             end
           end

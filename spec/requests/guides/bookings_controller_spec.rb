@@ -42,7 +42,7 @@ RSpec.describe "Guides::BookingsController", type: :request do
           it "should be visible to the guide" do
             do_request
 
-            expect(response.body).to include(guest_name)
+            expect(response.body).to include(CGI.escapeHTML(guest_name))
           end
 
           it "should not be visible to another guide" do

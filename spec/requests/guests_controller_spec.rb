@@ -57,8 +57,8 @@ RSpec.describe "GuestsController", type: :request do
             do_request
 
             expect(response).to be_successful
-            expect(response.body).to include(other_guest.name)
-            expect(response.body).to_not include(guest.name)
+            expect(response.body).to include(CGI.escapeHTML(other_guest.name))
+            expect(response.body).to_not include(CGI.escapeHTML(guest.name))
             # And redirect_to?
           end
         end
