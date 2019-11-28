@@ -79,15 +79,10 @@ module Public
         end
       end
 
-      def test_charge
-        {
-          amount: @booking.full_cost
-        }
-      end
-
       def test_create
         @booking.save
-        Payments::Factory.new(@booking, test_charge).create
+        Payment.create(booking: @booking, amount: @booking.amount_due)
+
         successful_booking_jobs
         redirect_to url_for controller: "bookings",
                             action: "edit",
