@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-12 mb-3">
                   <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
-                  <%= text_field_tag :routing_number, nil, class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.routingNumber stripe--bank-account.required", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
+                  <%= text_field_tag :routing_number, nil, class: "form-control", autofocus: true, data: { target: "stripe--bank-account.routingNumber", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
                   <div class="text-danger d-none" data-target="routing_number-error">Please enter your sort code/routing number</div>
                 </div>
                 <div class="row pl-3">

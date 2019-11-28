@@ -39,14 +39,20 @@ export default class extends StripeBaseController {
   async requestStripeTokenAndSubmitForm() {
     const stripe = Stripe(this.data.get("key"));
 
-    const {token, error} = await stripe.createToken("bank_account", {
+    const bankAccountDetails = {
       account_holder_name: this.accountHolderNameTarget.value,
       account_holder_type: this.accountHolderTypeTarget.value,
       account_number: this.accountNumberTarget.value,
       country: this.countryTarget.value,
       currency: this.currencyTarget.value,
       routing_number: this.sanitizedRoutingNumber()
-    });
+    };
+
+    // This is to remove the optional routing_number key value pair
+    // ref: https://stackoverflow.com/a/57625661/5630059
+    const bankAccountDetailsFiltered = Object.entries(bankAccountDetails).reduce((a,[k,v]) => (v ? {...a, [k]:v} : a), {});
+
+    const {token, error} = await stripe.createToken("bank_account", bankAccountDetailsFiltered);
 
     if (error) {
       this.showStripeApiError(error);
