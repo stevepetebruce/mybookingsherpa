@@ -10,6 +10,9 @@
                 <h3 class="text-gray mt-1">
                   <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]} #{@booking.end_date.year}" %>
                 </h3>
+                <%= link_to(guides_trips_path, class: "btn btn-outline-secondary btn-sm rounded uppercase") do %>
+                  My Trips
+                <% end %>
               </div>
             </div>
             <div class="row justify-content-md-center mb-4">
