@@ -36,6 +36,11 @@ export default class extends Controller {
     this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
     this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Trip description will be displayed here...";
 
+    // line break in title if - character
+    this.namePreviewTarget.innerHTML = this.nameInputTarget.value.split("").map((letter, i) => {
+      return((letter === "-") ? `-<br>` : `${letter}`);
+    }).join("");
+
     if (this.descriptionInputTarget.value.length > maxDescriptionLength - 20) {
       this.descriptionMaxTarget.innerHTML = `You are approaching the maximum number of characters allowed in the description (${this.descriptionInputTarget.value.length} / ${maxDescriptionLength})`;
       this.descriptionInputTarget.value = this.descriptionInputTarget.value.slice(0, maxDescriptionLength);
