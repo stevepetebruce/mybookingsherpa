@@ -1,0 +1,50 @@
+<div class="container-fluid full-height">
+  <div class="row row-height">
+    <div class="col-lg-4 content-left" style="">
+      <div class="content-left-wrapper bg_img">
+        <div class="wrapper">
+          <div class="py-4 text-center">
+            <% if @booking.organisation.logo_image.attached? %>
+              <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
+            <% end %>
+            <h1 class="font-weight-bold mb-0"><%= @booking.trip_name %></h1>
+            <h3>
+              <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
+            </h3>
+            <div id="summary">
+              <p class="collapse" id="collapseSummary">
+                <%= @booking.trip_description %>
+              </p>
+              <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 content-right">
+      <div class="mt-4">
+        <h2 class="font-weight-bold">All done! <%= @booking.name %>, your booking is complete.</h2>
+        <h4 class="mt-4">You will receive a confirmation email with your booking details shortly.</h4>
+        <% if @booking.organisation_on_trial? %>
+          <div class="onboard-message fullwidth">
+            <p>
+              <i class="fa fa-info-circle fa-lg text-secondary"></i>
+              As you're in trial, we're going to send you two emails.
+              <br/>
+              One is what you would always receive every time you get a new booking.
+              <br/>
+              The other is what your new guest would usually receive, just for you to see what they see.
+              <br/>
+              (When you're out of trial, then this email will go straight to the new guest.)
+              <br/><br/>
+              <%= link_to "Click here to see status of #{@booking.trip_name }", guides_trips_path %> with <%= @booking.name %> as your new guest.
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- TODO: If you don't reeieve the email, please: (1) Click here to resend, or 
+(2) contact support: support@mybookingsherpa.com
+-->

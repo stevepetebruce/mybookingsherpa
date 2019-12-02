@@ -15,14 +15,14 @@ module Public
       def new
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@trip.bookings.count)
-        @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
+        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
       end
 
       # POST /bookings
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
-        @payment_intent = Bookings::PaymentIntents.find_or_create(@booking)
+        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
 
         attach_stripe_customer_to_guest
 
@@ -162,7 +162,7 @@ module Public
 
       def stripe_customer_id
         # TODO: what if this is a returning customer?
-        @stripe_customer_id ||= Bookings::StripeCustomer.new(@booking, stripe_payment_method).id
+        @stripe_customer_id ||= ::Bookings::StripeCustomer.new(@booking, stripe_payment_method).id
       end
 
       def stripe_payment_intent_id
