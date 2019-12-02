@@ -9,7 +9,7 @@ RSpec.describe Guides::FailedPaymentMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq "❗️Outstanding Payment Failed for #{booking.email} "\
-                                 "booked on #{trip.name} #{trip.start_date.strftime('%d %B')}"
+                                 "booked on #{trip.name} #{trip.start_date.strftime('%-d %B')}"
       # Isn't picking up the actual format used in mailer - with guide's name, etc.
       expect(mail.from).to eq([ENV.fetch("SUPPORT_EMAIL_ADDRESS")])
       expect(mail.reply_to).to eq([ENV.fetch("SUPPORT_EMAIL_ADDRESS")])
