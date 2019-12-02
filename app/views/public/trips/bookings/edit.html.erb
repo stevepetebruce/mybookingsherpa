@@ -1,13 +1,13 @@
-  <div class="container-fluid full-height" data-controller="checkbox-dropdown" data-action="click->checkbox-dropdown#showBookingOptions">
+  <div class="container-fluid full-height" data-controller="checkbox-dropdown trip-title" data-action="click->checkbox-dropdown#showBookingOptions">
     <div class="row row-height">
-      <div class="col-lg-4 content-left" style="">
+      <div class="col-lg-4 content-left">
         <div class="content-left-wrapper bg_img">
           <div class="wrapper">
             <div class="py-4 text-center">
               <% if @booking.organisation.logo_image.attached? %>
                 <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
               <% end %>
-              <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %> "><%= @booking.trip_name %></h1>
+              <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %> " data-target="trip-title.tripNameSource"><%= @booking.trip_name %></h1>
               <h3>
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
