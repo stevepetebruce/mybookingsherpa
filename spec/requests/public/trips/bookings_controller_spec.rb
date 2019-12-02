@@ -102,12 +102,8 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       context "valid and successful" do
         let!(:email) { Faker::Internet.email }
 
-        it "should send out the new booking email to the guest and trip provider" do
-          # pending 'integration with SCA... will need to send when webhook detects successful payment'
-          # expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
-          # TODO: mock these out with doubles and then test again
-          # expect(GuestBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
-          # expect(GuideBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
+        it "should not send out the new booking email to the guest and trip provider - this happens in the stripe payment_intent webhook" do
+          expect { do_request(params: params) }.not_to change { ActionMailer::Base.deliveries.count }
         end
 
         it "should create a new booking and payment record" do
@@ -380,11 +376,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         let!(:email) { Faker::Internet.email }
 
         it "should send out the new booking email to the guest and trip provider" do
-          # pending 'integration with SCA... will need to send when webhook detects successful payment'
-          # expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
-          # TODO: mock these out with doubles and then test again
-          # expect(GuestBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
-          # expect(GuideBookingMailer).to receive(:new)#.with(an_instance_of(Booking))
+          expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
 
         it "should create a new booking and payment record" do

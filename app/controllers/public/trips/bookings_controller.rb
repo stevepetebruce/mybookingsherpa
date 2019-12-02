@@ -66,7 +66,6 @@ module Public
 
       def live_create
         if @booking.save && update_or_create_payment
-          successful_booking_jobs
           redirect_to url_for controller: "bookings",
                               action: "edit",
                               id: @booking.id,
@@ -83,7 +82,7 @@ module Public
         @booking.save
         Payment.create(booking: @booking, amount: @booking.amount_due)
 
-        successful_booking_jobs
+        send_trial_emails
         redirect_to url_for controller: "bookings",
                             action: "edit",
                             id: @booking.id,
@@ -152,6 +151,11 @@ module Public
         end
       end
 
+      def send_trial_emails
+        Guests::BookingMailer.with(booking: @booking).new.deliver_later
+        Guides::BookingMailer.with(booking: @booking).new.deliver_later
+      end
+
       def set_booking
         @booking = Booking.find(params[:id])
       end
@@ -171,17 +175,6 @@ module Public
 
       def stripe_payment_method
         params[:stripePaymentMethod]
-      end
-
-      def successful_booking_jobs
-        # TODO: Add background jobs with sidekiq and redis to allow sending of emails in background job
-        # ex: BookingMailer.with(booking: @booking).new.deliver_later(wait: 10.minutes)
-        # 10 min wait to let them fill in their details in booking edit page, then send updated email
-        # content based on that state...
-        # TODO: Should we only send these when we get the webhook back from stripe with payment success?
-        # Or send them straight out when in trial mode (both to guide)
-        Guests::BookingMailer.with(booking: @booking).new.deliver_later
-        Guides::BookingMailer.with(booking: @booking).new.deliver_later
       end
 
       def tld_length

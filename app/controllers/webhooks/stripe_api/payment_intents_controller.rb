@@ -84,6 +84,16 @@ module Webhooks
         Payment.transaction do
           booking ? create_or_update_booking_payment : create_or_update_payment
         end
+        send_new_booking_payment_emails
+      end
+
+      def send_new_booking_payment_emails
+        Bookings::SendNewBookingEmailsJob.perform_in(time_to_allow_for_booking_creation,
+                                                     stripe_payment_intent_id)
+      end
+
+      def time_to_allow_for_booking_creation
+        15.minutes
       end
     end
   end
