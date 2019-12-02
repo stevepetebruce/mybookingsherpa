@@ -2,9 +2,9 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   static targets = ["datePreview", "depositPreview", "depositRemainderPreview", "depositPreviewContainer",
-                    "depositDatePreview", "depositWrapper", "descriptionInput", "descriptionPreview",
-                    "depositPercentageInput", "endDateInput", "form", "fullCostInput", "fullCostPreview",
-                    "nameInput", "namePreview", "paymentWindowWeeksInput", "startDateInput"]
+                    "depositDatePreview", "depositWrapper", "descriptionInput", "descriptionMax",
+                    "descriptionPreview", "depositPercentageInput", "endDateInput", "form", "fullCostInput", 
+                    "fullCostPreview", "nameInput", "namePreview", "paymentWindowWeeksInput", "startDateInput"]
 
   connect() {
     this.previewUpdate();
@@ -19,6 +19,7 @@ export default class extends Controller {
     const endDate = this.endDateInputTarget.value.slice(-2);
     const startMonth = new Date(this.startDateInputTarget.value).toLocaleString('default', { month: 'long' });
     const endMonth = new Date(this.endDateInputTarget.value).toLocaleString('default', { month: 'long' });
+    const maxDescriptionLength = 500;
 
     if (!this.startDateInputTarget.value || !this.endDateInputTarget.value) {
       this.datePreviewTarget.innerHTML = "Dates displayed here";
@@ -34,6 +35,13 @@ export default class extends Controller {
 
     this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
     this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Trip description will be displayed here...";
+
+    if (this.descriptionInputTarget.value.length > maxDescriptionLength - 20) {
+      this.descriptionMaxTarget.innerHTML = `You are approaching the maximum number of characters allowed in the description (${this.descriptionInputTarget.value.length} / ${maxDescriptionLength})`;
+      this.descriptionInputTarget.value = this.descriptionInputTarget.value.slice(0, maxDescriptionLength);
+    } else {
+      this.descriptionMaxTarget.innerHTML = "";
+    }
 
     this.fullCostPreviewTargets.map((target, index) => {
       this.fullCostPreviewTargets[index].innerHTML = this.fullCostInputTarget.value || "💰💰💰";

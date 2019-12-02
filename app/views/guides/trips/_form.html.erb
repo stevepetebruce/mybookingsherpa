@@ -15,8 +15,9 @@
           <% end %>
         </div>
         <div class="mb-3">
-          <%= form.label :a_brief_description_of_your_trip %>
-          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 3, autofocus: auto_focus(@trip, form_field: :description) %>
+          <%= form.label :a_brief_description_of_your_trip, "A brief description of your trip (maximum characters: 500)" %>
+          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
+          <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
           <div class="invalid-feedback">
             <%= "Please enter a valid description" %>
           </div>
