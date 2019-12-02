@@ -21,7 +21,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
 
     context "with valid signature" do
       context "payment_intent.succeeded event - without pre-existing booking" do
-        pending "We are now allowing time for the booking to be created - so this state should be redundant"
+        before do
+          allow(Bookings::SendNewBookingEmailsJob).to receive(:perform_in)
+        end
 
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
@@ -31,22 +33,21 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
-          pending "We are now allowing time for the booking to be created - so this state should be redundant"
           do_request(params: params, headers: headers)
 
           expect(response).to be_successful
         end
 
         it "should create a new payment" do
-          pending "We are now allowing time for the booking to be created - so this state should be redundant"
           expect { do_request(params: params, headers: headers) }.to change { Payment.count }.by(1)
           expect(Payment.last.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
           expect(Payment.last.success?).to eq true
         end
 
         it "should send out the new booking emails to the guest and guide" do
-          pending "We are now allowing time for the booking to be created - so this state should be redundant"
-          expect { do_request(params: params, headers: headers) }.to change { ActionMailer::Base.deliveries.count }.by(2)
+          # "We are now allowing time for the booking to be created - so just check the job is run"
+          do_request(params: params, headers: headers)
+          expect(Bookings::SendNewBookingEmailsJob).to have_received(:perform_in)
         end
       end
 
