@@ -1,4 +1,4 @@
-  <div class="container-fluid full-height" data-controller="checkbox-dropdown trip-title" data-action="click->checkbox-dropdown#showBookingOptions">
+  <div class="container-fluid full-height" data-controller="checkbox-dropdown trip-title toggle-trip-description" data-action="click->checkbox-dropdown#showBookingOptions">
     <div class="row row-height">
       <div class="col-lg-4 content-left">
         <div class="content-left-wrapper bg_img">
@@ -12,10 +12,12 @@
                 <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
               </h3>
               <div id="summary">
-                <p class="collapse" id="collapseSummary">
+                <p class="collapse" id="collapseSummary" data-target="toggle-trip-description.tripDescriptionSource">
                   <%= @booking.trip_description %>
                 </p>
-                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+                <div data-target="toggle-trip-description.toggleLinkSource">
+                  <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+                </div>
               </div>
             </div>
           </div>

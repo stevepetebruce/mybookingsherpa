@@ -33,7 +33,7 @@
   </div>
 <% end %>
 
-<div class="container-fluid full-height" data-controller="trip-title">
+<div class="container-fluid full-height" data-controller="trip-title toggle-trip-description">
   <div class="row row-height">
     <div class="col-lg-4 content-left">
       <div class="content-left-wrapper bg_img">
@@ -55,10 +55,12 @@
             <% end %>
             <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
             <div id="summary" class="mt-5">
-              <p class="collapse" id="collapseSummary">
+              <p class="collapse" id="collapseSummary" data-target="toggle-trip-description.tripDescriptionSource">
                 <%= @booking.trip_description %>
               </p>
-              <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+              <div data-target="toggle-trip-description.toggleLinkSource">
+                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+              </div>
             </div>
           </div>
           <h4 class="d-flex justify-content-between align-items-center mb-3">
