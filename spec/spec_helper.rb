@@ -15,6 +15,8 @@
 
 require 'simplecov'
 require 'webmock/rspec'
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!
 SimpleCov.start 'rails'
 WebMock.disable_net_connect!(allow_localhost: true)
 

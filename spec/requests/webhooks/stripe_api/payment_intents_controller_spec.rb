@@ -21,6 +21,10 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
 
     context "with valid signature" do
       context "payment_intent.succeeded event - without pre-existing booking" do
+        before do
+          allow(Bookings::SendNewBookingEmailsJob).to receive(:perform_in)
+        end
+
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
         end
@@ -35,11 +39,15 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         end
 
         it "should create a new payment" do
-          # expect(Payment.last.pending?).to eq true
-
           expect { do_request(params: params, headers: headers) }.to change { Payment.count }.by(1)
           expect(Payment.last.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
           expect(Payment.last.success?).to eq true
+        end
+
+        it "should send out the new booking emails to the guest and guide" do
+          # "We are now allowing time for the booking to be created - so just check the job is run"
+          do_request(params: params, headers: headers)
+          expect(Bookings::SendNewBookingEmailsJob).to have_received(:perform_in)
         end
       end
 
@@ -64,6 +72,10 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           expect(booking.payments.count).to eq 1
           expect(booking.payments.first.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
           expect(booking.payments.first.success?).to eq true
+        end
+
+        it "should send out the new booking emails to the guest and guide" do
+          expect { do_request(params: params, headers: headers) }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
       end
 
