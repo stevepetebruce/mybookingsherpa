@@ -1,10 +1,15 @@
 module Bookings
   # ref: https://stripe.com/docs/payments/cards/charging-saved-cards#create-payment-intent-off-session
-  class PayOutstandingTripCostJob < ApplicationJob
-    queue_as :default
+  class PayOutstandingTripCostJob
+    include Sidekiq::Worker
+    sidekiq_options queue: :default, retry: 0
 
-    def perform(booking)
-      @booking = booking
+    MINIMUM_LOWER_TRIP_COST = 20_000 # €200
+    MINIMUM_DESTINATION_FEE = 200 # €2
+    REGULAR_DESTINATION_FEE = 400 # €4
+
+    def perform(booking_id)
+      @booking = Booking.find(booking_id)
 
       return unless full_payment_required?
 
@@ -18,10 +23,14 @@ module Bookings
       @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
+    def application_fee_amount
+      below_minimum_trip_cost? ? MINIMUM_DESTINATION_FEE : REGULAR_DESTINATION_FEE
+    end
+
     def attributes
       {
         amount: amount_due,
-        # TODO: application_fee_amount: application_fee_amount,
+        application_fee_amount: application_fee_amount,
         confirm: true,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
@@ -30,6 +39,10 @@ module Bookings
         payment_method: stripe_payment_method_id,
         statement_descriptor: charge_description
       }
+    end
+
+    def below_minimum_trip_cost?
+      @booking.full_cost <= MINIMUM_LOWER_TRIP_COST
     end
 
     def charge_description

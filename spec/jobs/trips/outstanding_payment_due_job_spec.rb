@@ -25,7 +25,7 @@ RSpec.describe Trips::OutstandingPaymentDueJob, type: :job do
 
       it "should not call any other jobs" do
         expect(Trips::CancelTripEmailJob).to_not receive(:perform_later)
-        expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_later)
+        expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_async)
 
         perform_later
       end
@@ -48,7 +48,7 @@ RSpec.describe Trips::OutstandingPaymentDueJob, type: :job do
         end
 
         it "should only call Bookings::PayOutstandingTripCostJob" do
-          expect(Bookings::PayOutstandingTripCostJob).to receive(:perform_later)
+          expect(Bookings::PayOutstandingTripCostJob).to receive(:perform_async)
           expect(Trips::CancelTripEmailJob).to_not receive(:perform_later)
 
           perform_later
@@ -64,7 +64,7 @@ RSpec.describe Trips::OutstandingPaymentDueJob, type: :job do
 
         it "should only call Trips::CancelTripEmailJob" do
           expect(Trips::CancelTripEmailJob).to receive(:perform_later)
-          expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_later)
+          expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_async)
 
           perform_later
         end
@@ -74,7 +74,7 @@ RSpec.describe Trips::OutstandingPaymentDueJob, type: :job do
     context "trip that as no full_payment_date" do
       it "should not run any other jobs" do
         expect(Trips::CancelTripEmailJob).to_not receive(:perform_later)
-        expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_later)
+        expect(Bookings::PayOutstandingTripCostJob).to_not receive(:perform_async)
 
         perform_later
       end

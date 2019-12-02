@@ -31,7 +31,6 @@ module Bookings
     end
 
     def application_fee_amount
-      # TODO: need to add this in... and in PayOutstandingAmountJob....
       # ref:  https://stripe.com/docs/strong-customer-authentication/connect-platforms#step-3
       return 0 if paying_deposit?
 
