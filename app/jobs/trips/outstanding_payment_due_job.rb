@@ -21,7 +21,7 @@ module Trips
       trip.bookings.each do |booking|
         next unless outstanding_payment_required?(booking)
 
-        Bookings::PayOutstandingTripCostJob.perform_later(booking)
+        Bookings::PayOutstandingTripCostJob.perform_async(booking.id)
       end
     end
 

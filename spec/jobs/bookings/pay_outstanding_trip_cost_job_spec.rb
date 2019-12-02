@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
   before { ActiveJob::Base.queue_adapter = :inline }
 
-  describe "#perform_later" do
-    subject(:perform_later) { described_class.perform_later(booking) }
+  describe "#perform" do
+    subject(:perform) { described_class.new.perform(booking.id) }
 
     let!(:booking) { FactoryBot.create(:booking, guest: guest) }
     let(:guest) { FactoryBot.create(:guest, stripe_customer_id: stripe_customer_id) }
@@ -14,7 +14,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       stub_request(:post, "https://api.stripe.com/v1/payment_intents").
         with(body: {
             amount: booking.full_cost,
-            # TODO: application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
             confirm: true,
             currency: booking.currency,
             customer: stripe_customer_id,
@@ -45,13 +45,31 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
         allow_any_instance_of(Bookings::PaymentStatus).
           to receive(:payment_required?).
           and_return(true)
+
+        allow(External::StripeApi::PaymentIntent).to receive(:create)
       end
 
       let(:payment_required?) { true }
 
-      it "should create a charge" do
-        pending 'this should be done in the webhook now'
-        expect { perform_later }.to change { booking.payments.count }.from(0).to(1)
+      let(:expected_attributes) do
+        {
+          amount: booking.full_cost,
+          application_fee_amount: 400,
+          confirm: true,
+          currency: booking.currency,
+          customer: stripe_customer_id,
+          metadata: { booking_id: booking.id },
+          off_session: true,
+          payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f", 
+          statement_descriptor: booking.trip_name.truncate(22, separator: " ")
+        }
+      end
+
+      it "should call External::StripeApi::PaymentIntent#create" do
+        # Payments are now created in the Stripe payment_intents webhook
+        perform
+
+        expect(External::StripeApi::PaymentIntent).to have_received(:create).with(expected_attributes, use_test_api: true)
       end
     end
 
@@ -60,12 +78,16 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
         allow_any_instance_of(Bookings::PaymentStatus).
           to receive(:payment_required?).
           and_return(false)
+
+        allow(External::StripeApi::PaymentIntent).to receive(:create)
       end
 
       let(:payment_required?) { true }
 
-      it "should not create a charge" do
-        expect { perform_later }.to_not change { booking.payments.count }
+      it "should not call External::StripeApi::PaymentIntent#create" do
+        perform
+
+        expect(External::StripeApi::PaymentIntent).not_to have_received(:create)
       end
     end
 
@@ -83,7 +105,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
 
       it "should create a charge with a failed status" do
         pending 'this should be done in the webhook now'
-        expect { perform_later }.to change { booking.payments.count }.from(0).to(1)
+        expect { perform }.to change { booking.payments.count }.from(0).to(1)
         expect(booking.last_payment_failed?).to be_truthy
       end
     end
@@ -102,7 +124,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
 
       it "should create a charge with a failed status" do
         pending 'this should be done in the webhook now'
-        expect { perform_later }.to change { booking.payments.count }.from(0).to(1)
+        expect { perform }.to change { booking.payments.count }.from(0).to(1)
         expect(booking.last_payment_failed?).to be_truthy
       end
     end
