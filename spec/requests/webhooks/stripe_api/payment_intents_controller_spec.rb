@@ -25,7 +25,7 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           allow(Bookings::SendNewBookingEmailsJob).to receive(:perform_in)
         end
 
-        let(:event) do 
+        let(:event) do
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
@@ -40,7 +40,7 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
 
         it "should create a new payment" do
           expect { do_request(params: params, headers: headers) }.to change { Payment.count }.by(1)
-          expect(Payment.last.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
+          expect(Payment.last.amount).to eq 90_000 # from successful_status_without_booking_id.json
           expect(Payment.last.success?).to eq true
         end
 
@@ -52,7 +52,7 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
       end
 
       context "payment_intent.succeeded event - with pre-existing booking" do
-        let!(:booking) { FactoryBot.create(:booking, id: "2f2a2255-8b43-4574-9d33-b7f56d624026") }
+        let!(:booking) { FactoryBot.create(:booking, id: "2f2a2255-8b43-4574-9d33-b7f56d624026") } # from: successful_status_with_booking_id
         let(:event) do 
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_with_booking_id.json").read}")
         end
@@ -102,19 +102,51 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
       end
         
       context "payment_failed event" do
-        let(:event) do 
-          JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed.json").read}")
-        end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-        let(:params) { event }
-        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
+        context "with pre-existing booking" do
+          let!(:booking) { FactoryBot.create(:booking, id: "a90ce8e2-9af8-4b79-9035-b48390884565") } # from: unsuccessful_status_amount_payment_failed.json
+          let(:event) do
+            JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed_with_booking_id.json").read}")
+          end
+          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
+          let(:params) { event }
+          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
-        it "should respond with a success status code" do
-          do_request(params: params, headers: headers)
+          it "should respond with a success status code" do
+            do_request(params: params, headers: headers)
 
-          expect(response).to be_successful
+            expect(response).to be_successful
+          end
+
+          it "should send the failed payment emails" do
+            expect { do_request(params: params, headers: headers) }.to change { ActionMailer::Base.deliveries.count }.by(2)
+            expect(ActionMailer::Base.deliveries.last.subject.include?("Outstanding Payment Failed"))
+          end
         end
-        # TODO: should also probably do something else on our side...
+
+        context "without pre-existing booking" do
+          before do
+            allow(Bookings::SendFailedPaymentEmailsJob).to receive(:perform_in)
+          end
+
+          let(:event) do
+            JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed_without_booking_id.json").read}")
+          end
+          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
+          let(:params) { event }
+          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
+
+          it "should respond with a success status code" do
+            do_request(params: params, headers: headers)
+
+            expect(response).to be_successful
+          end
+
+          it "should send out the failed payment emails to the guest and guide" do
+            # "We are now allowing time for the booking to be created - so just check the job is run"
+            do_request(params: params, headers: headers)
+            expect(Bookings::SendFailedPaymentEmailsJob).to have_received(:perform_in)
+          end
+        end
       end
 
       context "bad request" do 

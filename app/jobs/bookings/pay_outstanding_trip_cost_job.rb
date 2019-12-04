@@ -37,7 +37,8 @@ module Bookings
         metadata: { booking_id:  @booking.id },
         off_session: true,
         payment_method: stripe_payment_method_id,
-        statement_descriptor: charge_description
+        statement_descriptor: charge_description,
+        transfer_data: transfer_data
       }
     end
 
@@ -56,6 +57,12 @@ module Bookings
     def stripe_payment_method_id
       @stripe_payment_method_id ||=
         External::StripeApi::PaymentMethod.list(@booking.stripe_customer_id)&.first&.id
+    end
+
+    def transfer_data
+      {
+        destination: @booking.organisation_stripe_account_id
+      }
     end
 
     def use_test_api?
