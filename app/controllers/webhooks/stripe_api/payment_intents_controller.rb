@@ -12,6 +12,10 @@ module Webhooks
 
       private
 
+      def amount
+        stripe_payment_intent.amount
+      end
+
       def amount_received
         stripe_payment_intent.amount_received
       end
@@ -49,8 +53,8 @@ module Webhooks
         when "payment_intent.succeeded"
           update_or_create_payment
         when "payment_intent.payment_failed"
-          # TODO: Email guest and guide...?
-          # TODO: find the payment, set it's status to failed...
+          payment.update(amount: amount, status: "failed")
+          send_failed_payment_emails
         else
           # TODO: Email guest and guide...?
           head :bad_request and return
@@ -63,8 +67,31 @@ module Webhooks
         request.body.read
       end
 
+      def payment
+        if booking
+          booking.payments.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
+        else
+          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
+        end
+      end
+
+      def payment_failure_message
+        event.data.object.charges.first.failure_message
+      end
+
       def payment_intent
         @payment_intent ||= event.data.object
+      end
+
+      def send_failed_payment_emails
+        Bookings::SendFailedPaymentEmailsJob.perform_in(time_to_allow_for_booking_creation,
+                                                        stripe_payment_intent_id,
+                                                        payment_failure_message)
+      end
+
+      def send_new_booking_payment_emails
+        Bookings::SendNewBookingEmailsJob.perform_in(time_to_allow_for_booking_creation,
+                                                     stripe_payment_intent_id)
       end
 
       def signature_header
@@ -85,11 +112,6 @@ module Webhooks
           booking ? create_or_update_booking_payment : create_or_update_payment
         end
         send_new_booking_payment_emails
-      end
-
-      def send_new_booking_payment_emails
-        Bookings::SendNewBookingEmailsJob.perform_in(time_to_allow_for_booking_creation,
-                                                     stripe_payment_intent_id)
       end
 
       def time_to_allow_for_booking_creation
