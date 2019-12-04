@@ -14,7 +14,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
             currency: booking.currency,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }).
           to_return(status: 200,
@@ -38,7 +38,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
@@ -58,7 +58,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
@@ -92,7 +92,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
             currency: booking.currency,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }).
           to_return(status: 200,
@@ -116,7 +116,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
@@ -136,7 +136,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " "),
+            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
