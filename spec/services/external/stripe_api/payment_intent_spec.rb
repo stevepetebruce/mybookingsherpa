@@ -49,7 +49,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy's Big Adventure",
+            statement_descriptor: "Ivy's Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination
@@ -64,7 +64,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy_s Big Adventure",
+            statement_descriptor: "Ivy_s Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination
