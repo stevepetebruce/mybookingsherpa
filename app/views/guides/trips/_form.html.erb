@@ -1,4 +1,4 @@
-<div data-controller="copy-date currency-select trip-preview">
+<div data-controller="copy-date currency-select trip-preview toggle-trip-description">
   <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { target: "trip-preview.form" } ) do |form| %>
     <div class="row justify-content-md-center">
       <div class="col-md-10">
@@ -16,7 +16,7 @@
         </div>
         <div class="mb-3">
           <%= form.label :a_brief_description_of_your_trip, "A brief description of your trip (maximum characters: 500)" %>
-          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
+          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
           <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
           <div class="invalid-feedback">
             <%= "Please enter a valid description" %>
@@ -125,10 +125,12 @@
                 </div>
                 <h1><span class="h2 mr-3 font-weight-light">Total: <span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.fullCostPreview">💰💰💰</span></h1>
                 <div id="summary" class="mt-5">
-                  <p data-target="trip-preview.descriptionPreview" class="collapse" id="collapseSummary">
+                  <p data-target="trip-preview.descriptionPreview toggle-trip-description.tripDescriptionSource" class="collapse" id="collapseSummary">
                     Trip description will be displayed here...
                   </p>
-                  <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+                  <div data-target="toggle-trip-description.toggleLinkSource">
+                    <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
+                  </div>
                 </div>
               </div>
             </div>
