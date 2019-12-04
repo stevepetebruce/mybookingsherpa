@@ -12,7 +12,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
           currency: %w[eur, gbp, usd].sample,
           customer: "cus_#{Faker::Crypto.md5}",
           setup_future_usage: %w[off_session on_session].sample,
-          statement_descriptor: Faker::Lorem.sentence.truncate(22, separator: " "),
+          statement_descriptor: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           transfer_data:
             {
               destination: "acct_#{Faker::Bank.account_number(16)}"
@@ -49,7 +49,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy's Big Adventure",
+            statement_descriptor: "Ivy's Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination
@@ -64,7 +64,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy_s Big Adventure",
+            statement_descriptor: "Ivy_s Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination

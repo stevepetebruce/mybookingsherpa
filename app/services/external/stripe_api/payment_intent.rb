@@ -21,7 +21,7 @@ module External
       def sanitized_attributes
         @attributes.map do |k, v|
           if k == :statement_descriptor
-            [k, v.gsub(/[^a-zA-Z\s\\.]/, "_")]
+            [k, v.gsub(/[^a-zA-Z0-9\s\\.]/, "_")]
           else
             [k, v]
           end
