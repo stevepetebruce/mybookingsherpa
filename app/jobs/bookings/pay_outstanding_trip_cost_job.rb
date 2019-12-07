@@ -11,6 +11,7 @@ module Bookings
     def perform(booking_id)
       @booking = Booking.find(booking_id)
 
+      # TODO: look at this... this job fails when in trial: return if @booking.organisation_on_trial?
       return unless full_payment_required?
 
       # TODO: refactor this so it uses Bookings::PaymentIntents.create(@booking)
@@ -34,7 +35,7 @@ module Bookings
         confirm: true,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
-        metadata: { booking_id:  @booking.id },
+        metadata: { booking_id: @booking.id },
         off_session: true,
         payment_method: stripe_payment_method_id,
         statement_descriptor: charge_description,
@@ -51,6 +52,9 @@ module Bookings
     end
 
     def full_payment_required?
+      # TODO: check this... once we create the payment - even if it the payment_intent fails
+      #  this will return false, when it totals up all the payments' amounts associated with
+      #  this booking...
       Bookings::PaymentStatus.new(@booking).payment_required?
     end
 

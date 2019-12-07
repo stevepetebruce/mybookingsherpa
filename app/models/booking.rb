@@ -13,11 +13,12 @@ class Booking < ApplicationRecord
   delegate :name, :email, to: :guide, prefix: true
   delegate :name, :email, to: :guest, prefix: true
 
-  delegate :currency, :deposit_cost, :full_cost, :full_payment_date,
-           :guide, :organisation_name, :organisation_stripe_account_id,
-           :start_date, :end_date, to: :trip
-  delegate :cancelled?, :description, :full_payment_window_weeks, :guest_count,
-           :maximum_number_of_guests, :name, :slug, :start_date,
+  delegate :currency, :deposit_cost, :end_date, :full_cost,
+           :full_payment_date, :guide, :organisation_name,
+           :organisation_stripe_account_id,
+           :start_date, to: :trip
+  delegate :cancelled?, :description, :full_payment_window_weeks,
+           :guest_count, :maximum_number_of_guests, :name, :slug,
            to: :trip, prefix: true
   delegate :stripe_customer_id, to: :guest, allow_nil: true
 

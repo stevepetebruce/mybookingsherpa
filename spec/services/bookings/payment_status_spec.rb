@@ -24,7 +24,7 @@ RSpec.describe Bookings::PaymentStatus, type: :model do
     context "a booking whose last payment failed" do
       let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
 
-      it "should set the booking's new_payment_status to yellow" do
+      it "should set the booking's new_payment_status to red" do
         expect(new_payment_status).to eq :payment_failed
       end
     end

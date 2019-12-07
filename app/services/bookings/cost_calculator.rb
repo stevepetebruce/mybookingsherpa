@@ -10,8 +10,16 @@ module Bookings
       calculate_amount_due
     end
 
+    def deposit_paid?
+      total_paid == @booking.deposit_cost
+    end
+
     def self.amount_due(booking)
       new(booking).amount_due
+    end
+
+    def self.deposit_paid?(booking)
+      new(booking).deposit_paid?
     end
 
     private
@@ -19,20 +27,21 @@ module Bookings
     def after_full_payment_window?
       return false if full_payment_window_weeks.blank?
 
-      (@booking.trip_start_date - full_payment_window_weeks.weeks) <
+      (@booking.start_date - full_payment_window_weeks.weeks) <
         Time.zone.now
     end
 
     def before_full_payment_window?
       return false if full_payment_window_weeks.blank?
 
-      (@booking.trip_start_date - full_payment_window_weeks.weeks) >
+      (@booking.start_date - full_payment_window_weeks.weeks) >
         Time.zone.now
     end
 
     def calculate_amount_due
       return @booking.deposit_cost if deposit_due?
       return full_cost_minus_deposit if remainder_of_full_cost_due?
+      return @booking.last_failed_payment.amount if @booking.last_payment_failed?
       return 0 if nothing_due_now?
 
       @booking.full_cost
@@ -44,10 +53,6 @@ module Bookings
                       deposit_paid?
 
       before_full_payment_window?
-    end
-
-    def deposit_paid?
-      total_paid == @booking.deposit_cost
     end
 
     def full_cost_minus_deposit
