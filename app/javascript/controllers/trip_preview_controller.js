@@ -33,13 +33,9 @@ export default class extends Controller {
       this.datePreviewTarget.innerHTML = `${startDate} ${startMonth}`;
     }
 
-    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
+    this.setTripName();
+    
     this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Trip description will be displayed here...";
-
-    // line break in title if - character
-    this.namePreviewTarget.innerHTML = this.nameInputTarget.value.split("").map((letter, i) => {
-      return((letter === "-") ? `-<br>` : `${letter}`);
-    }).join("");
 
     if (this.descriptionInputTarget.value.length > maxDescriptionLength - 20) {
       this.descriptionMaxTarget.innerHTML = `You are approaching the maximum number of characters allowed in the description (${this.descriptionInputTarget.value.length} / ${maxDescriptionLength})`;
@@ -75,4 +71,14 @@ export default class extends Controller {
       document.getElementsByClassName("container")[0].scrollIntoView({behavior: "smooth"});
     }
   }
+
+  setTripName() {
+    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
+
+    if(this.namePreviewTarget.innerHTML !== "Trip Name") {
+      this.namePreviewTarget.innerHTML = this.nameInputTarget.value.split("").map((letter, i) => {
+        return((letter === "-") ? `-<br>` : `${letter}`);
+      }).join("");
+    }
+  }  
 }
