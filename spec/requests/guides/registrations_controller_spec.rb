@@ -11,6 +11,8 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
         to_return(status: 200, body: "#{file_fixture("ip_stack_api/gb_response.json").read}", headers: {})
     end
 
+    before { FactoryBot.create(:plan, :regular) }
+
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
       let(:ip_address) { "127.0.0.1" }
@@ -27,11 +29,12 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
         }
       end
 
-      it "creates a new guide and associated organisation model" do
+      it "creates a new guide and associated organisation and subscription models" do
         do_request(params: params)
 
         expect(Guide.count).to eq 1
         expect(guide.organisations).not_to be_empty
+        expect(guide.organisation_plan.name).to eq "regular"
       end
 
       it "redirects to guides/trips index" do

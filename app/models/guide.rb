@@ -13,4 +13,11 @@ class Guide < ApplicationRecord
   validates :email, format: Regex::EMAIL, presence: true, uniqueness: true
   validates :name, format: Regex::NAME, allow_blank: true
   validates :phone_number, format: Regex::PHONE_NUMBER, allow_blank: true
+
+  delegate :plan, to: :organisation, prefix: true
+
+  def organisation
+    # TODO: later will need to a way to switch between organisations.
+    organisations.first
+  end
 end
