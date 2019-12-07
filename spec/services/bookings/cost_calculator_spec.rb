@@ -141,4 +141,29 @@ RSpec.describe Bookings::CostCalculator, type: :model do
       end
     end
   end
+
+  describe "#deposit_paid?" do
+    subject(:deposit_paid?) { described_class.deposit_paid?(booking) }
+
+    let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+    let(:full_payment_window_weeks) { 4 }
+
+    context "deposit has been paid" do
+      let!(:deposit_payment) do
+        FactoryBot.create(:payment,
+                          amount: trip.deposit_cost,
+                          booking: booking)
+      end
+
+      it "should be true" do
+        expect(deposit_paid?).to eq true
+      end
+    end
+
+    context "deposit has not been paid" do
+      it "should be true" do
+        expect(deposit_paid?).to eq false
+      end
+    end
+  end
 end

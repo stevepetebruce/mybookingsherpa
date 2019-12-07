@@ -121,6 +121,12 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
             expect { do_request(params: params, headers: headers) }.to change { ActionMailer::Base.deliveries.count }.by(2)
             expect(ActionMailer::Base.deliveries.last.subject.include?("Outstanding Payment Failed"))
           end
+
+          it "should create a charge with a failed status" do
+            do_request(params: params, headers: headers)
+
+            expect(booking.last_payment_failed?).to eq true
+          end
         end
 
         context "without pre-existing booking" do

@@ -9,19 +9,27 @@ module Bookings
       @booking = booking
     end
 
+    # TODO: delete and only use find_or_create ?
     def create
       External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
     end
 
+    # TODO: delete and only use find_or_create ?
     def self.create(booking)
       new(booking).create
     end
 
+    def find_or_create
+      if last_failed_payment_intent_id
+        External::StripeApi::PaymentIntent.retrieve(last_failed_payment_intent_id,
+                                                    use_test_api: use_test_api?)
+      else
+        create
+      end
+    end
+
     def self.find_or_create(booking)
-      # TODO: retrieve booking's payment_intent if it has one...
-      # This would be the case, for example, when there's been an error, and we need to show user feedback?
-      # find || create
-      self.create(booking)
+      new(booking).find_or_create
     end
 
     private
@@ -40,7 +48,7 @@ module Bookings
     # When paying initial/full amount (in one go)
     def attributes
       {
-        amount: @booking.amount_due,
+        amount: amount_due,
         application_fee_amount: application_fee_amount,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
@@ -52,6 +60,10 @@ module Bookings
 
     def below_minimum_trip_cost?
       @booking.full_cost <= MINIMUM_LOWER_TRIP_COST
+    end
+
+    def last_failed_payment_intent_id
+      @booking&.last_failed_payment&.stripe_payment_intent_id
     end
 
     def statement_descriptor

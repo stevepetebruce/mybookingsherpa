@@ -84,4 +84,21 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
       end
     end
   end
+
+  describe "#retrieve" do
+    subject(:retrieve) { described_class.retrieve(stripe_payment_intent_id, use_test_api: use_test_api) }
+
+    context "valid and successful" do
+      let!(:stripe_payment_intent_id) { "cus_#{Faker::Crypto.md5}" }
+      let!(:use_test_api) { [true, false].sample }
+
+      before { allow(Stripe::PaymentIntent).to receive(:retrieve) }
+
+      it "should call the Stripe PaymentIntents API with the correct attributes" do
+        expect(Stripe::PaymentIntent).to receive(:retrieve).with(stripe_payment_intent_id)
+
+        retrieve
+      end
+    end
+  end
 end

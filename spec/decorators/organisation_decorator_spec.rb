@@ -12,7 +12,7 @@ RSpec.describe OrganisationDecorator, type: :model do
       end
     end
 
-     context "organisation not on trial" do
+    context "organisation not on trial" do
       before { organisation.reload.onboarding.update_columns(complete: true) }
 
       it "should be the STRIPE_PUBLISHABLE_KEY_LIVE" do

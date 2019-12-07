@@ -1,25 +1,33 @@
 module External
   module StripeApi
     # ref: https://stripe.com/docs/payments/payment-intents/web
+    # https://stripe.com/docs/api/payment_intents
     class PaymentIntent < External::StripeApi::Base
-      def initialize(attributes, use_test_api)
-        @attributes = attributes
+      def initialize(use_test_api)
         @use_test_api = use_test_api
         initialize_key # TODO: replace with super?
       end
 
-      def create
-        Stripe::PaymentIntent.create(sanitized_attributes)
+      def create(attributes)
+        Stripe::PaymentIntent.create(sanitized_attributes(attributes))
+      end
+
+      def retrieve(payment_intent_id)
+        Stripe::PaymentIntent.retrieve(payment_intent_id)
       end
 
       def self.create(attributes, use_test_api: true)
-        new(attributes, use_test_api).create
+        new(use_test_api).create(attributes)
+      end
+
+      def self.retrieve(payment_intent_id, use_test_api: true)
+        new(use_test_api).retrieve(payment_intent_id)
       end
 
       private
 
-      def sanitized_attributes
-        @attributes.map do |k, v|
+      def sanitized_attributes(attributes)
+        attributes.map do |k, v|
           if k == :statement_descriptor
             [k, v.gsub(/[^a-zA-Z0-9\s\\.]/, "_")]
           else

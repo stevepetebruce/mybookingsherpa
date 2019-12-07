@@ -12,6 +12,8 @@ module Guests
            template_name: "new")
     end
 
+    private
+
     def email_target
       @booking.organisation_on_trial? ? @booking.guide.email : @booking.email
     end

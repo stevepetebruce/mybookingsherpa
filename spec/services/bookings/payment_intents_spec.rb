@@ -78,7 +78,6 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
     end
   end
 
-  # TODO: this is really a total duplicate of the #create method - need to look at this...
   describe "#find_or_create" do
     subject(:find_or_create) { described_class.find_or_create(booking) }
 
@@ -147,6 +146,24 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: false)
 
           find_or_create
+        end
+      end
+
+      context "last payment (intent) failed" do
+        let!(:payment) do 
+          FactoryBot.create(:payment,
+                            :failed,
+                            booking: booking,
+                            stripe_payment_intent_id: stripe_payment_intent_id)
+        end
+        let!(:stripe_payment_intent_id) { "cus_#{Faker::Crypto.md5}" }
+
+        before { allow(External::StripeApi::PaymentIntent).to receive(:retrieve) }
+
+        it "should call External::StripeApi::PaymentIntent.retrieve" do
+          find_or_create
+
+          expect(External::StripeApi::PaymentIntent).to have_received(:retrieve).with(stripe_payment_intent_id, use_test_api: true)
         end
       end
     end

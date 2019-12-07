@@ -1,7 +1,13 @@
 return unless Rails.env.development?
 
 guide = Guide.create(email: "test_alpadventureguide@hotmail.com", name: "A Guide", password: ENV.fetch("SEED_GUIDE_PASSWORD"))
-organisation = Organisation.create(currency: "eur", deposit_percentage: 10, full_payment_window_weeks: 6, name: "Alp Adventures Test", stripe_account_id: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER"), subdomain: "alpadventurestest")
+organisation = Organisation.create(currency: "eur",
+                                   deposit_percentage: 10,
+                                   full_payment_window_weeks: 6,
+                                   name: "Alp Adventures Test",
+                                   stripe_account_id_live: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER"),
+                                   stripe_account_id_test: ENV.fetch("STRIPE_TEST_ACCOUNT_NUMBER"),
+                                   subdomain: "alpadventurestest")
 OrganisationMembership.create(organisation: organisation, guide: guide, owner: true)
 
 puts 'guide ' + guide.inspect
