@@ -10,7 +10,7 @@ FactoryBot.define do
     trait :regular do
       name { "regular" }
       charge_type { :percentage }
-      percentage_amount { 1 }
+      percentage_amount { 0.01 }
     end
   end
 end

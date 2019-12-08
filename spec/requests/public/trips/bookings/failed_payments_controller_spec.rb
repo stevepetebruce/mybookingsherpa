@@ -1,8 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "Public::Trips::Bookings::FailedPaymentsController", type: :request do
-  let(:booking) { last_failed_payment.booking }
-  let(:last_failed_payment) { FactoryBot.create(:payment, :failed) }
+  let(:booking) { FactoryBot.create(:booking, organisation: organisation) }
+  let!(:last_failed_payment) { FactoryBot.create(:payment, :failed, booking: booking) }
+  let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
 
   describe "#new GET /public/bookings/:booking_id/failed_payments/new" do
     before do

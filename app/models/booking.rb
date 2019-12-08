@@ -22,7 +22,8 @@ class Booking < ApplicationRecord
            to: :trip, prefix: true
   delegate :stripe_customer_id, to: :guest, allow_nil: true
 
-  delegate :logo_image, :on_trial?, :subdomain_or_www, to: :organisation, prefix: true
+  delegate :logo_image, :on_trial?, :plan, :subdomain_or_www,
+           to: :organisation, prefix: true
 
   validates :country, format: Regex::COUNTRY, allow_blank: true
   validates :email, format: Regex::EMAIL, presence: true

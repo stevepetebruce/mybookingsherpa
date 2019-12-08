@@ -15,5 +15,11 @@ FactoryBot.define do
     trait :not_on_trial do
       association :onboarding, :onboarding_complete
     end
+
+    trait :on_regular_plan do
+      after(:create) do |organisation|
+        create :subscription, :regular_plan, organisation: organisation
+      end
+    end
   end
 end
