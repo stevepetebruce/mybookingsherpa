@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe "Public::Trips::BookingsController", type: :request do
   describe "#new GET /public/bookings/new" do
-    let(:trip) { FactoryBot.create(:trip) }
+    let(:trip) { FactoryBot.create(:trip, organisation: organisation) }
+    let(:organisation) { FactoryBot.create(:organisation, :not_on_trial, :on_regular_plan) }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/account_links").
@@ -44,7 +45,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:email) { Faker::Internet.email }
       let(:guest) { Guest.last }
       let!(:guide) { FactoryBot.create(:guide) }
-      let(:organisation) { FactoryBot.create(:organisation, :not_on_trial) }
+      let(:organisation) { FactoryBot.create(:organisation, :not_on_trial, :on_regular_plan) }
       let!(:params) do
         {
           booking:
@@ -325,7 +326,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:email) { Faker::Internet.email }
       let(:guest) { Guest.last }
       let!(:guide) { FactoryBot.create(:guide) }
-      let(:organisation) { FactoryBot.create(:organisation) }
+      let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
       let!(:params) do
         {
           booking:

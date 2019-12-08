@@ -6,15 +6,16 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(booking.id) }
 
-    let!(:booking) { FactoryBot.create(:booking, guest: guest) }
+    let!(:booking) { FactoryBot.create(:booking, guest: guest, organisation: organisation) }
     let(:guest) { FactoryBot.create(:guest, stripe_customer_id: stripe_customer_id) }
+    let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
     let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/payment_intents").
         with(body: {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: booking.full_cost * 0.01,
             confirm: true,
             currency: booking.currency,
             customer: stripe_customer_id,
@@ -54,7 +55,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       let(:expected_attributes) do
         {
           amount: booking.full_cost,
-          application_fee_amount: 400,
+          application_fee_amount: booking.full_cost * 0.01,
           confirm: true,
           currency: booking.currency,
           customer: stripe_customer_id,

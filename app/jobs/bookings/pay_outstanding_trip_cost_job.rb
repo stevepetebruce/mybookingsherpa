@@ -4,9 +4,7 @@ module Bookings
     include Sidekiq::Worker
     sidekiq_options queue: :default, retry: 0
 
-    MINIMUM_LOWER_TRIP_COST = 20_000 # €200
-    MINIMUM_DESTINATION_FEE = 200 # €2
-    REGULAR_DESTINATION_FEE = 400 # €4
+    MINIMUM_APPLICATION_FEE = 200 # £/€/$2
 
     def perform(booking_id)
       @booking = Booking.find(booking_id)
@@ -24,14 +22,14 @@ module Bookings
       @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
-    def application_fee_amount
-      below_minimum_trip_cost? ? MINIMUM_DESTINATION_FEE : REGULAR_DESTINATION_FEE
+    def application_fee
+      [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
     def attributes
       {
         amount: amount_due,
-        application_fee_amount: application_fee_amount,
+        application_fee_amount: application_fee,
         confirm: true,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
@@ -43,8 +41,9 @@ module Bookings
       }
     end
 
-    def below_minimum_trip_cost?
-      @booking.full_cost <= MINIMUM_LOWER_TRIP_COST
+    # TODO: write a spec to cover using the MINIMUM_APPLICATION_FEE
+    def calculated_application_fee
+      (amount_due * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
     end
 
     def charge_description

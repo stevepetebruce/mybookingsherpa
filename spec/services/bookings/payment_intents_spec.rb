@@ -4,14 +4,15 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
   describe "#create" do
     subject(:create) { described_class.create(booking) }
 
-    let!(:booking) { FactoryBot.create(:booking) }
+    let!(:booking) { FactoryBot.create(:booking, organisation: organisation) }
+    let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
 
     context "successful" do
       before do
         stub_request(:post, "https://api.stripe.com/v1/payment_intents").
           with(body: {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             setup_future_usage: "on_session",
             statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
@@ -34,7 +35,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -54,7 +55,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -81,14 +82,15 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
   describe "#find_or_create" do
     subject(:find_or_create) { described_class.find_or_create(booking) }
 
-    let!(:booking) { FactoryBot.create(:booking) }
+    let!(:booking) { FactoryBot.create(:booking, organisation: organisation) }
+    let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
 
     context "successful" do
       before do
         stub_request(:post, "https://api.stripe.com/v1/payment_intents").
           with(body: {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             setup_future_usage: "on_session",
             statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
@@ -111,7 +113,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -128,10 +130,11 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
       end
 
       context "organisation not on trial" do
+
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: Bookings::PaymentIntents::REGULAR_DESTINATION_FEE,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",

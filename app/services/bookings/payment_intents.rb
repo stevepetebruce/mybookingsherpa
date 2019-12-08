@@ -1,9 +1,7 @@
 module Bookings
   # Determines what params to use in the creation of Stripe PaymentIntents API
   class PaymentIntents
-    MINIMUM_LOWER_TRIP_COST = 20_000 # €200
-    MINIMUM_DESTINATION_FEE = 200 # €2
-    REGULAR_DESTINATION_FEE = 400 # €4
+    MINIMUM_APPLICATION_FEE = 200 # £/€/$2
 
     def initialize(booking)
       @booking = booking
@@ -38,18 +36,15 @@ module Bookings
       @amount_due ||= Bookings::CostCalculator.new(@booking).amount_due
     end
 
-    def application_fee_amount
-      # ref:  https://stripe.com/docs/strong-customer-authentication/connect-platforms#step-3
-      return 0 if paying_deposit?
-
-      below_minimum_trip_cost? ? MINIMUM_DESTINATION_FEE : REGULAR_DESTINATION_FEE
+    def application_fee
+      [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
     # When paying initial/full amount (in one go)
     def attributes
       {
         amount: amount_due,
-        application_fee_amount: application_fee_amount,
+        application_fee_amount: application_fee,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
         setup_future_usage: setup_future_usage,
@@ -58,8 +53,8 @@ module Bookings
       }.reject { |_k, v| v == 0 }
     end
 
-    def below_minimum_trip_cost?
-      @booking.full_cost <= MINIMUM_LOWER_TRIP_COST
+    def calculated_application_fee
+      (amount_due * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
     end
 
     def last_failed_payment_intent_id
