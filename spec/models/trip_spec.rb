@@ -109,15 +109,15 @@ RSpec.describe Trip, type: :model do
 
       context "valid" do
         context "start_date is before end_date" do
-          let(:start_date) { Date.today }
+          let(:start_date) { Time.zone.today }
           let(:end_date) { Faker::Date.between(2.days.from_now, 10.days.from_now) }
 
           it { should be true }
         end
 
         context "start_date is on same day as end_date" do
-          let(:start_date) { Date.today }
-          let(:end_date) { Date.today }
+          let(:start_date) { Time.zone.today }
+          let(:end_date) { Time.zone.today }
 
           it { should be true }
         end
@@ -126,7 +126,7 @@ RSpec.describe Trip, type: :model do
       context "invalid" do
         context "start_date is after end_date" do
           let(:start_date) { Faker::Date.between(2.days.from_now, 10.days.from_now) }
-          let(:end_date) { Date.today }
+          let(:end_date) { Time.zone.today }
 
           it { should be false }
         end
