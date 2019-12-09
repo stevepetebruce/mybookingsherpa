@@ -8,7 +8,7 @@
             <%= @show_past_trips ? "My Past Trips" : "My Trips" %>
             <span class="small">
               <a class="ml-1" href="/guides/trips/new" alt="Add a trip" data-toggle="tooltip" data-placement="top" data-tooltip="Add a trip" data-tooltip-position="top">
-                <i class="fa fa-plus-circle text-primary"></i>
+                <i class="la la-plus-circle text-primary"></i>
               </a>
             </span>
           </h1>
@@ -54,7 +54,7 @@
                           <% if show_onboarding_explainer_element?(trip, count) %>
                             <div class="pointer-hand hand-down position-absolute hand-down-index" data-hide-element-target="pointer-one">👇</div>
                           <% end %>
-                          <i class="fa fa-chevron-circle-down md-20" data-hide-element="<%= element_to_hide(trip, count) %>"></i>
+                          <i class="la la-chevron-circle-down md-20" data-hide-element="<%= element_to_hide(trip, count) %>"></i>
                         </div>
                       </div>
                     </div>
@@ -71,10 +71,10 @@
                                   </div>
                                   <div class="btn-group ml-1" role="group" aria-label="First group">
                                     <% if @current_organisation.on_trial? %>
-                                      <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="[Trial mode] Preview example booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                      <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="[Trial mode] Preview example booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="la la-external-link" data-hide-element="pointer-two"></i></a>
                                     <% else %>
-                                      <button class="btn btn-sm btn-outline-secondary rounded mr-1 px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="fa fa-copy"></i></button>
-                                      <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Sharable booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="fa fa-external-link" data-hide-element="pointer-two"></i></a>
+                                      <button class="btn btn-sm btn-outline-secondary rounded mr-1 px-2" type="button" data-toggle="tooltip" data-placement="top" data-tooltip="Copy booking link to clipboard" data-tooltip-position="top" data-action="clipboard#copyClipboard"><i class="la la-copy"></i></button>
+                                      <a href="<%= trip.new_public_booking_link %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded px-2" data-toggle="tooltip" data-placement="top" data-tooltip="Sharable booking link" data-tooltip-position="top" data-action="click->onboarding#hideTargetElement" data-hide-element="pointer-two"><i class="la la-external-link" data-hide-element="pointer-two"></i></a>
                                     <% end %>
                                   </div>
                                   <% if show_onboarding_explainer_element?(trip, count) %>
@@ -86,7 +86,7 @@
                             <div class="col-12 col-md-4">
                               <% unless trip.bookings.exists? %>
                                 <%= link_to guides_trip_path(trip), method: :delete, data: { confirm: "Are you sure you want to PERMANENTLY delete #{trip.name}?", toggle: "tooltip", placement: "top", tooltip: "Delete trip", tooltip_position: "top"}, class: "btn btn-sm btn-outline-secondary edit-trip-link rounded mt-1 px-2" do %>
-                                  <i class="fa fa-trash"></i>
+                                  <i class="la la-trash"></i>
                                 <% end %>
                               <% end %>
                               <%= link_to edit_guides_trip_path(trip), class: "btn btn-sm btn-outline-secondary rounded edit-trip-link mt-1", data: { edit_link: trip.id } do %>
@@ -182,11 +182,11 @@
                   <h1 class="font-weight-bold">Let's create your first trip</h1>
                   <h4 class="mt-4">All you need is...</h4>
                   <ul class="list-unstyled">
-                    <li><i class="fa fa-check text-primary mr-1"></i> Trip name and description</li>
-                    <!-- <li><i class="fa fa-check text-primary mr-1"></i> Trip description</li> -->
-                    <li><i class="fa fa-check text-primary mr-1"></i> Start and end date</li>
-                    <!-- <li><i class="fa fa-check text-primary mr-1"></i> Number of guests</li> -->
-                    <li><i class="fa fa-check text-primary mr-1"></i> Price and deposit</li>
+                    <li><i class="la la-check text-primary mr-1"></i> Trip name and description</li>
+                    <!-- <li><i class="la la-check text-primary mr-1"></i> Trip description</li> -->
+                    <li><i class="la la-check text-primary mr-1"></i> Start and end date</li>
+                    <!-- <li><i class="la la-check text-primary mr-1"></i> Number of guests</li> -->
+                    <li><i class="la la-check text-primary mr-1"></i> Price and deposit</li>
                   </ul>
                   <div class="col text-center">
                     <a class="btn btn-primary btn-lg rounded uppercase my-3" href="/guides/trips/new" role="button">Let's go</a>
