@@ -37,6 +37,8 @@ module Bookings
     end
 
     def application_fee
+      return 0 if @booking.only_paying_deposit?
+
       [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
@@ -70,10 +72,6 @@ module Bookings
       {
         destination: @booking.organisation_stripe_account_id
       }
-    end
-
-    def paying_deposit?
-      amount_due == @booking.deposit_cost
     end
 
     def setup_future_usage

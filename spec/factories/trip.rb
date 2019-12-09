@@ -8,6 +8,10 @@ FactoryBot.define do
     association :organisation
     guides { |t| [t.association(:guide)] }
 
+    trait :with_deposit do
+      deposit_percentage { 10 }
+    end
+
     after(:build) do |trip|
       trip.guides.first.organisation_memberships.create(owner: true,
                                                         organisation: trip.organisation)
