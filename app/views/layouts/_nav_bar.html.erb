@@ -23,18 +23,18 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% #TODO: replace with real data %>
-          <span class="fa-stack fa-1x nav-link-round">
-            <i class="fa fa-user fa-2x"></i>
+          <span class="la-stack la-1x nav-link-round">
+            <i class="la la-user la-2x"></i>
           </span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <% if @current_organisation&.onboarding_complete? && @current_organisation&.stripe_account_id %>
             <%= link_to stripe_account_link, target: "_blank", class: "dropdown-item" do %>
-              <i class="fa fa-user"></i> Manage Account
+              <i class="la la-user"></i> Manage Account
             <% end %>
           <% end %>
           <%= link_to(destroy_guide_session_path, method: :delete, class: "dropdown-item") do %>
-            <i class="fa fa-lock"></i> Sign Out
+            <i class="la la-lock"></i> Sign Out
           <% end %>
         </div>
       </li>

@@ -29,14 +29,14 @@
                         <% end %>
                       </p>
                       <p class="display4">
-                        <i class="fa fa-phone-square mr-1"></i>
+                        <i class="la la-phone mr-1"></i>
                         <% if @booking.guest_or_booking_phone_number %>
                           <a href="tel:+<%= @booking.phone_number %>" class="text-primary"><%= @booking.guest_or_booking_phone_number %></a>
                         <% else %>
                           Guest has not entered their phone number.
                         <% end %>
                         <br>
-                        <i class="fa fa-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
+                        <i class="la la-envelope-o mr-1"></i> <a href="mailto:<%= @booking.email %>" class="text-primary"><%= @booking.email %></a>
                       </p>
                     </address>
                     <p class="mt-3 mb-1">
@@ -60,7 +60,7 @@
                           </p>
                           <address>
                             <p class="display4">
-                              <i class="fa fa-phone-square mr-1"></i> <a href="tel:+<%= @booking.guest_or_booking_next_of_kin_phone_number %>" class="text-primary"><%= @booking.guest_or_booking_next_of_kin_phone_number %></a>
+                              <i class="la la-phone mr-1"></i> <a href="tel:+<%= @booking.guest_or_booking_next_of_kin_phone_number %>" class="text-primary"><%= @booking.guest_or_booking_next_of_kin_phone_number %></a>
                             </p>
                           </address>
                         <% else %>
@@ -79,19 +79,19 @@
                   <div class="media">
                     <% if @booking.full_amount_paid? %>
                       <div class="media-body col mb-5 display-4 font-weight-normal">
-                        <i class="fa fa-check-circle fa-lg text-success"></i> Paid in full 
+                        <i class="la la-check-circle la-lg text-success"></i> Paid in full 
                       </div>
                     <% elsif @booking.payment_required? %>
                       <div class="media-body col mb-5 display-4 font-weight-normal">
-                        <i class="fa fa-check-circle fa-lg text-warning"></i> Deposit paid
+                        <i class="la la-check-circle la-lg text-warning"></i> Deposit paid
                       </div>
                     <% elsif @booking.payment_failed? %>
                       <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
-                        <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Payment failed
+                        <i class="la la-exclamation-circle la-lg text-danger"></i> Payment failed
                       </div>
                     <% elsif @booking.refunded? %>
                       <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
-                        <i class="fa fa-exclamation-circle fa-lg text-danger"></i> Refunded
+                        <i class="la la-exclamation-circle la-lg text-danger"></i> Refunded
                       </div>
                     <% end %>
                   </div>
