@@ -9,6 +9,8 @@ module External
       end
 
       def create(attributes)
+        return if amount_zero?(attributes)
+
         Stripe::PaymentIntent.create(sanitized_attributes(attributes))
       end
 
@@ -25,6 +27,10 @@ module External
       end
 
       private
+
+      def amount_zero?(attributes)
+        sanitized_attributes(attributes)[:amount].zero?
+      end
 
       def sanitized_attributes(attributes)
         attributes.map do |k, v|
