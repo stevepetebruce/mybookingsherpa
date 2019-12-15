@@ -83,6 +83,30 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         # TODO: need to get a payment intent response and return it (may be using the wrong fixture ^)
       end
     end
+
+    context "when the amount (owed/ to be paid) is zero" do
+      let(:attributes) do
+        {
+          amount: 0,
+          application_fee_amount: [0, 200, 400].sample,
+          currency: %w[eur, gbp, usd].sample,
+          customer: "cus_#{Faker::Crypto.md5}",
+          setup_future_usage: %w[off_session on_session].sample,
+          statement_descriptor: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+          transfer_data:
+            {
+              destination: "acct_#{Faker::Bank.account_number(16)}"
+            }
+        }
+      end
+      let!(:use_test_api) { [true, false].sample }
+
+      it "should not make the call to Stripe (it's throws a Stripe::InvalidRequestError: Invalid positive integer)" do
+        expect(Stripe::PaymentIntent).to_not receive(:create)
+
+        create
+      end
+    end
   end
 
   describe "#retrieve" do
