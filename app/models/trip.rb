@@ -9,6 +9,7 @@ class Trip < ApplicationRecord
   validates :full_cost, presence: true
   validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, presence: true
+  validate :minimum_number_of_guests_must_not_be_greater_than_maximum
   validate :start_date_before_end_date
   validates :name, presence: true # TODO: make this unique within an organisation's scope
   validates :minimum_number_of_guests,
@@ -83,6 +84,15 @@ class Trip < ApplicationRecord
 
   def generated_slug
     @generated_slug ||= name.parameterize(separator: "_").truncate(80, omission: "")
+  end
+
+  def minimum_number_of_guests_must_not_be_greater_than_maximum
+    return if minimum_number_of_guests.nil? || maximum_number_of_guests.nil?
+    return if minimum_number_of_guests <= maximum_number_of_guests
+
+    errors.add(:base,
+               :minimum_number_of_guests_must_not_be_greater_than_maximum,
+               message: "Minimum number of guests must not be greater than maximum")
   end
 
   def set_deposit_cost

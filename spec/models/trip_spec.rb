@@ -101,6 +101,47 @@ RSpec.describe Trip, type: :model do
       it { should validate_numericality_of(:maximum_number_of_guests).only_integer }
     end
 
+    describe "minimum_number_of_guests_less_than_maximum_number_of_guests" do
+      subject { trip.valid? }
+
+      let(:trip) do 
+        FactoryBot.build(:trip,
+                         minimum_number_of_guests: minimum_number_of_guests,
+                         maximum_number_of_guests: maximum_number_of_guests)
+      end
+
+      context "minimum_number_of_guests is less than maximum_number_of_guests" do
+        let(:minimum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(from = 11, to = 20).to_i }
+
+        it { should be true }
+      end
+
+      context "minimum_number_of_guests is same as maximum_number_of_guests" do
+        let(:minimum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
+        let(:maximum_number_of_guests) { minimum_number_of_guests }
+
+        it { should be true }
+      end
+
+      context "minimum_number_of_guests is greater than maximum_number_of_guests" do
+        let(:minimum_number_of_guests) { Faker::Number.between(from = 11, to = 20).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
+
+        it { should be false }
+      end
+
+      context "minimum_number_of_guests and maximum_number_of_guests are not present" do
+        let(:minimum_number_of_guests) { nil }
+        let(:maximum_number_of_guests) { nil }
+
+        it {
+          pending 'we need to discuss if max or min no of guests are compulsory...'
+          should be true
+        }
+      end
+    end
+
     # TODO: when know format of date string we"re sending back and also test that
     describe "dates" do
       subject { trip.valid? }
