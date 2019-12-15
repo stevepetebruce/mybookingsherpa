@@ -41,7 +41,8 @@
                         </div> 
                         <div class="col col-lg-4 d-sm-none d-md-block d-none d-sm-block" data-hide-element="<%= element_to_hide(trip, count) %>">
                           <div>
-                            <% (0..trip.maximum_number_of_guests - 1).each do |i| %>
+                            <% total_no_of_guest_spaces = [trip.maximum_number_of_guests, trip.guest_count].max %>
+                            <% (0..total_no_of_guest_spaces - 1).each do |i| %>
                               <% if trip.bookings[i] %>
                                 <span class="dot dot-sm <%= trip.bookings[i].payment_status_icon %>" data-toggle="tooltip" data-placement="top" data-tooltip="<%= trip.bookings[i].name %>" data-tooltip-position="top" data-hide-element="<%= element_to_hide(trip, count) %>"></span>
                               <% else %>
