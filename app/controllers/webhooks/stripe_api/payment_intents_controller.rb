@@ -54,7 +54,7 @@ module Webhooks
           update_or_create_payment
         when "payment_intent.payment_failed"
           payment.update(amount: amount, status: "failed")
-          send_failed_payment_emails
+          send_failed_payment_emails if payment_failure_message #TODO: this is a little fragile: assumes there's no charge objects in a failed on_session payment_intent
         else
           # TODO: Email guest and guide...?
           head :bad_request and return
@@ -76,7 +76,7 @@ module Webhooks
       end
 
       def payment_failure_message
-        event.data.object.charges.first.failure_message
+        event&.data&.object&.charges&.first&.failure_message
       end
 
       def payment_intent
