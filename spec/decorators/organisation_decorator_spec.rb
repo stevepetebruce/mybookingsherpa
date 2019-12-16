@@ -7,7 +7,7 @@ RSpec.describe OrganisationDecorator, type: :model do
     subject(:stripe_publishable_key) { organisation.stripe_publishable_key }
 
     context "organisation on trial" do
-      it "should be the STRIPE_PUBLISHABLE_KEY_TEST" do
+      it "should be the STRIPE_PUBLISHABLE_KEY_LIVE" do
         expect(stripe_publishable_key).to eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_TEST")
       end
     end
@@ -19,5 +19,11 @@ RSpec.describe OrganisationDecorator, type: :model do
         expect(stripe_publishable_key).to eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_LIVE")
       end
     end
+  end
+
+  describe "#stripe_publishable_key_live" do
+    subject(:stripe_publishable_key_live) { organisation.stripe_publishable_key_live }
+
+    it { should eq ENV.fetch("STRIPE_PUBLISHABLE_KEY_LIVE") }
   end
 end
