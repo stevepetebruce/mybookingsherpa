@@ -54,11 +54,11 @@
           </div>
           <div class="col-md-3 mb-3">
             <%= form.label :minimum_number_of_guests, "Minimum number of guests" %>
-            <%= form.number_field :minimum_number_of_guests, minimunm: 0, step: 1, required: true, class: "form-control" %>
+            <%= form.number_field :minimum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
           </div>
           <div class="col-md-3 mb-3">
             <%= form.label :maximum_number_of_guests, "Maximum number of guests" %>
-              <%= form.number_field :maximum_number_of_guests, minimum: 0, step: 1, required: true, class: "form-control" %>
+              <%= form.number_field :maximum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
           </div>
         </div>
         <div class="row mt-4">
@@ -76,7 +76,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
                     </div>
-                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), minimunm: 0, step: 1.0, required: true, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
+                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), min: 0, step: 1.0, required: true, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
                   </div>
                 </div>
               </li>
@@ -89,7 +89,7 @@
             <div class="col-md-6 mb-3">
               <%= form.label :deposit_percentage %> 
               <div class="input-group">
-                <%= form.number_field :deposit_percentage, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
+                <%= form.number_field :deposit_percentage, min: 0, max: 100, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
                 <div class="input-group-append">
                   <span class="input-group-text">%</span>
                 </div>
@@ -98,7 +98,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <%= form.label :full_payment_window_weeks, "Full payment window" %>
-                <%= form.number_field :full_payment_window_weeks, minimunm: 0, step: 1, data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
+                <%= form.number_field :full_payment_window_weeks, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
               <small class="text-muted">Weeks before (trip start date)<br> full payment required</small>
             </div>
           </div>
