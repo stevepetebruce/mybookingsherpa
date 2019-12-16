@@ -115,7 +115,7 @@ module Webhooks
       end
 
       def time_to_allow_for_booking_creation
-        15.minutes
+        ENV.fetch("BOOKING_EMAILS_SENDING_DELAY", 1).minutes
       end
     end
   end
