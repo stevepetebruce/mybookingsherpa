@@ -56,7 +56,7 @@ module Bookings
     end
 
     def calculated_application_fee
-      (amount_due * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
+      (@booking.full_cost * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
     end
 
     def last_failed_payment_intent_id
