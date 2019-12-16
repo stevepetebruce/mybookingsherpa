@@ -57,9 +57,14 @@ module Bookings
       Bookings::PaymentStatus.new(@booking).payment_required?
     end
 
+    def stripe_payment_method
+      @stripe_payment_method ||=
+        External::StripeApi::PaymentMethod.list(@booking.stripe_customer_id,
+                                                use_test_api: use_test_api?)
+    end
+
     def stripe_payment_method_id
-      @stripe_payment_method_id ||=
-        External::StripeApi::PaymentMethod.list(@booking.stripe_customer_id)&.first&.id
+      stripe_payment_method&.first&.id
     end
 
     def transfer_data
