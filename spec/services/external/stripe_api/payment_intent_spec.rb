@@ -12,7 +12,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
           currency: %w[eur, gbp, usd].sample,
           customer: "cus_#{Faker::Crypto.md5}",
           setup_future_usage: %w[off_session on_session].sample,
-          statement_descriptor: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+          statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           transfer_data:
             {
               destination: "acct_#{Faker::Bank.account_number(16)}"
@@ -35,7 +35,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         create
       end
 
-      context "a statement_descriptor with non-alphanumeric characters in" do
+      context "a statement_descriptor_suffix with non-alphanumeric characters in" do
         let!(:amount) { Faker::Number.between(1_000, 10_000) }
         let!(:application_fee_amount) { [0, 200, 400].sample }
         let!(:currency) { %w[eur, gbp, usd].sample }
@@ -49,7 +49,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy's Big Adventure Berlin 2017",
+            statement_descriptor_suffix: "Ivy's Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination
@@ -64,7 +64,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             currency: currency,
             customer: customer,
             setup_future_usage: "off_session",
-            statement_descriptor: "Ivy_s Big Adventure Berlin 2017",
+            statement_descriptor_suffix: "Ivy_s Big Adventure Berlin 2017",
             transfer_data:
               {
                 destination: destination
@@ -92,7 +92,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
           currency: %w[eur, gbp, usd].sample,
           customer: "cus_#{Faker::Crypto.md5}",
           setup_future_usage: %w[off_session on_session].sample,
-          statement_descriptor: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+          statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           transfer_data:
             {
               destination: "acct_#{Faker::Bank.account_number(16)}"

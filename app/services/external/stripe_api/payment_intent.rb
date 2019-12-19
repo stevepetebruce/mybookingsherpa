@@ -34,7 +34,7 @@ module External
 
       def sanitized_attributes(attributes)
         attributes.map do |k, v|
-          if k == :statement_descriptor
+          if k == :statement_descriptor_suffix
             [k, v.gsub(/[^a-zA-Z0-9\s\\.]/, "_")]
           else
             [k, v]
