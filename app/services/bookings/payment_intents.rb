@@ -50,7 +50,7 @@ module Bookings
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
         setup_future_usage: setup_future_usage,
-        statement_descriptor: statement_descriptor,
+        statement_descriptor_suffix: statement_descriptor_suffix,
         transfer_data: transfer_data
       }.reject { |_k, v| v == 0 }
     end
@@ -63,7 +63,7 @@ module Bookings
       @booking&.last_failed_payment&.stripe_payment_intent_id
     end
 
-    def statement_descriptor
+    def statement_descriptor_suffix
       @booking.trip_name.truncate(22, separator: " ")
     end
 

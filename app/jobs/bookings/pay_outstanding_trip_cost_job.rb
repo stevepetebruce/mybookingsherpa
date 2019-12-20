@@ -36,7 +36,7 @@ module Bookings
         metadata: { booking_id: @booking.id },
         off_session: true,
         payment_method: stripe_payment_method_id,
-        statement_descriptor: charge_description,
+        statement_descriptor_suffix: statement_descriptor_suffix,
         transfer_data: transfer_data
       }
     end
@@ -46,7 +46,7 @@ module Bookings
       (@booking.full_cost * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
     end
 
-    def charge_description
+    def statement_descriptor_suffix
       @booking.trip_name.truncate(22, separator: " ")
     end
 

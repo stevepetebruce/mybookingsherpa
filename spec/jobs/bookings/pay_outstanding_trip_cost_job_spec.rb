@@ -24,7 +24,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
             },
             off_session: true,
             payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f",
-            statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           }).
         to_return(status: 200,
                   body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
@@ -62,7 +62,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           metadata: { booking_id: booking.id },
           off_session: true,
           payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f",
-          statement_descriptor: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+          statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           transfer_data: { destination: booking.organisation_stripe_account_id }
         }
       end
