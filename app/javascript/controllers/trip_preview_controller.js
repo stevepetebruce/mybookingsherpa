@@ -54,8 +54,7 @@ export default class extends Controller {
       this.depositWrapperTarget.style.display = "none";
     }
 
-    this.depositPreviewTarget.innerHTML = ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
-    this.depositRemainderPreviewTarget.innerHTML = this.fullCostInputTarget.value - ((this.fullCostInputTarget.value/100)*this.depositPercentageInputTarget.value).toFixed(2);
+    this.roundPrices();
 
     // Full payment Date
     if (this.startDateInputTarget.value) {
@@ -80,5 +79,13 @@ export default class extends Controller {
         return((letter === "-") ? `-<br>` : `${letter}`);
       }).join("");
     }
-  }  
+  } 
+
+  roundPrices() {
+    const depositPreviewAmount = this.fullCostInputTarget.value * (this.depositPercentageInputTarget.value / 100);
+    const depositPreviewAmountRoundedUp = Math.ceil(depositPreviewAmount);
+
+    this.depositPreviewTarget.innerHTML = depositPreviewAmountRoundedUp;
+    this.depositRemainderPreviewTarget.innerHTML = this.fullCostInputTarget.value - depositPreviewAmountRoundedUp;
+  }
 }
