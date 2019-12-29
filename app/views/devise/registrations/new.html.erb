@@ -54,7 +54,7 @@
         <%= devise_error_messages! %>
           <div class="col-md-12 mb-3">
             <%= f.label :email_address %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "form-control" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, value: params[:email], class: "form-control" %>
             <div class="invalid-feedback">
               Please enter a vali Email Address
             </div>
