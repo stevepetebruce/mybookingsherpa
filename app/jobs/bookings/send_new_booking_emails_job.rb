@@ -5,6 +5,7 @@ module Bookings
     def perform(stripe_payment_intent_id)
       @stripe_payment_intent_id = stripe_payment_intent_id
 
+      return unless booking
       return if paying_outstanding_amount?
 
       Guests::BookingMailer.with(booking: booking).new.deliver_later
