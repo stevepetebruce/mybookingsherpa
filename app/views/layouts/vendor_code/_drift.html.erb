@@ -23,7 +23,16 @@
   }
 }();
 drift.SNIPPET_VERSION = '0.3.1';
-drift.load('n4zvt2kb6kk6');
+drift.load('egs7ynh5mbsw');
 drift.config({ enableWelcomeMessage: false });
+
+drift.on('ready', function() {
+  <% if current_guide %>
+    drift.identify("<%= current_guide.id %>", {
+      email: "<%= current_guide.email %>",
+      name: "<%= current_guide.name.presence %>"
+    });
+  <% end %>
+});
 </script>
 <!-- End of Async Drift Code -->
