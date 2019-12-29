@@ -4,8 +4,9 @@ RSpec.describe "GuestsController", type: :request do
   let(:resource_sign_in_path) { new_guest_session_path }
 
   describe "#edit GET /guests/:id/edit" do
-    include_examples "authentication"
-    include_examples "one_time_login_token"
+    # pending "have removed these routes for launch Jan 2020"
+    # include_examples "authentication"
+    # include_examples "one_time_login_token"
 
     let(:guest) { FactoryBot.create(:guest) }
     let(:params) { {} }
@@ -20,6 +21,7 @@ RSpec.describe "GuestsController", type: :request do
 
       context "valid and successful" do
         it "should successfully render" do
+          pending "have removed these routes for launch Jan 2020"
           do_request
 
           expect(response).to be_successful
@@ -29,7 +31,8 @@ RSpec.describe "GuestsController", type: :request do
   end
 
   describe "#show get /guests/:id" do
-    include_examples "authentication"
+    # pending "have removed these routes for launch Jan 2020"
+    # include_examples "authentication"
 
     let!(:guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
@@ -42,6 +45,7 @@ RSpec.describe "GuestsController", type: :request do
 
       context "valid and successful" do
         it "should successfully render" do
+          pending "have removed these routes for launch Jan 2020"
           do_request
 
           expect(response).to be_successful
@@ -51,6 +55,7 @@ RSpec.describe "GuestsController", type: :request do
           let!(:other_guest) { FactoryBot.create(:guest, :all_override_fields_complete) }
 
           it "should not be visible to another guide" do
+            pending "have removed these routes for launch Jan 2020"
             sign_out(guest)
             sign_in(other_guest)
 
@@ -67,7 +72,8 @@ RSpec.describe "GuestsController", type: :request do
   end
 
   describe "#update PATCH /guests/:id" do
-    include_examples "authentication"
+    # pending "have removed these routes for launch Jan 2020"
+    # include_examples "authentication"
 
     let!(:guest) { FactoryBot.create(:guest) }
 
@@ -89,6 +95,7 @@ RSpec.describe "GuestsController", type: :request do
         }
 
         it "should update the guest" do
+          pending "have removed these routes for launch Jan 2020"
           do_request(params: params)
 
           guest.reload
@@ -104,6 +111,7 @@ RSpec.describe "GuestsController", type: :request do
         let!(:params) { { guest: { phone_number_override: Faker::Lorem.word } } }
 
         it "should not update the guest" do
+          pending "have removed these routes for launch Jan 2020"
           do_request(params: params)
 
           expect(response.status).to eq(200)

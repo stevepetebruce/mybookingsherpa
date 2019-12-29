@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Devise routes
-  devise_for :guests
+  # devise_for :guests # can reinstate when we are sure and secure
   devise_for :guides, controllers: {
     registrations: "guides/registrations",
     sessions: "guides/sessions"
