@@ -42,11 +42,15 @@ module Bookings
       [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
+    def application_fee_plus_stripe_card_handler_fee
+      application_fee + stripe_card_handler_fee
+    end
+
     # When paying initial/full amount (in one go)
     def attributes
       {
         amount: amount_due,
-        application_fee_amount: application_fee,
+        application_fee_amount: application_fee_plus_stripe_card_handler_fee,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
         setup_future_usage: setup_future_usage,
@@ -65,6 +69,14 @@ module Bookings
 
     def statement_descriptor_suffix
       @booking.trip_name.truncate(22, separator: " ")
+    end
+
+    def stripe_card_handler_fee
+      # TODO: hack - need to implement this properly
+      # What about non-EU cards (2.9% + 20p)
+      # ref: https://stripe.com/gb/pricing
+      # 1.4% + 20p (for EU cards)
+      ((amount_due * 0.014) + 20).to_i
     end
 
     def transfer_data

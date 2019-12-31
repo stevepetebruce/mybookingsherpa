@@ -51,11 +51,12 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       end
 
       let(:payment_required?) { true }
+      let(:stripe_card_handler_fee) { (booking.full_cost * 0.014 + 20).to_i }
 
       let(:expected_attributes) do
         {
           amount: booking.full_cost,
-          application_fee_amount: booking.full_cost * 0.01,
+          application_fee_amount: (booking.full_cost * 0.01) + stripe_card_handler_fee,
           confirm: true,
           currency: booking.currency,
           customer: stripe_customer_id,

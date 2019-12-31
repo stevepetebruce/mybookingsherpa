@@ -14,6 +14,10 @@ require "rails_helper"
 # 4) Nothing due just yet
 # True when: deposit has been paid, before full payment window
 
+# 5) full_amount_paid
+# True when: all payments made total the booking.full_cost or more
+# TODO: add test coverage for this condition
+
 RSpec.describe Bookings::CostCalculator, type: :model do
   include ActiveSupport::Testing::TimeHelpers
 

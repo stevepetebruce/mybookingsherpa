@@ -43,6 +43,7 @@ module Bookings
       return full_cost_minus_deposit if remainder_of_full_cost_due?
       return @booking.last_failed_payment.amount if @booking.last_payment_failed?
       return 0 if nothing_due_now?
+      return 0 if full_amount_paid? # TODO: add test coverage for this condition
 
       @booking.full_cost
     end
@@ -62,6 +63,10 @@ module Bookings
 
     def full_payment_window_weeks
       @booking.trip_full_payment_window_weeks
+    end
+
+    def full_amount_paid?
+      total_paid >= @booking.full_cost
     end
 
     def no_deposit_cost?

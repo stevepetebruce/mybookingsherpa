@@ -5,6 +5,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
     subject(:create) { described_class.create(booking) }
 
     let!(:booking) { FactoryBot.create(:booking, organisation: organisation, trip: trip) }
+    let!(:stripe_card_handler_fee) { booking.full_cost * 0.014 + 20 }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
     let(:trip) { FactoryBot.create(:trip) }
 
@@ -13,7 +14,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         stub_request(:post, "https://api.stripe.com/v1/payment_intents").
           with(body: {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: (booking.full_cost * 0.01 + (stripe_card_handler_fee)).to_i,
             currency: booking.currency,
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
@@ -33,6 +34,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
       end
 
       context "when only paying deposit" do
+        let!(:stripe_card_handler_fee) { (booking.deposit_cost * 0.014 + 20).to_i }
         let(:trip) do 
           FactoryBot.create(:trip,
                             :with_deposit,
@@ -44,6 +46,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.deposit_cost,
+            application_fee_amount: stripe_card_handler_fee,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "off_session",
@@ -52,7 +55,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           }
         end
 
-        it "should not charge an application_fee" do
+        it "should only charge an application_fee that is covers the Stripe card handler fee" do
           expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: true)
 
           create
@@ -63,7 +66,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: ((booking.full_cost * 0.01) + stripe_card_handler_fee).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -71,6 +74,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
+        let!(:stripe_card_handler_fee) { (booking.full_cost * 0.014 + 20).to_i }
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
           expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: true)
@@ -83,7 +87,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: ((booking.full_cost * 0.01) + stripe_card_handler_fee).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -112,13 +116,14 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
 
     let!(:booking) { FactoryBot.create(:booking, organisation: organisation) }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
+    let(:stripe_card_handler_fee) { (booking.full_cost * 0.014 + 20).to_i }
 
     context "successful" do
       before do
         stub_request(:post, "https://api.stripe.com/v1/payment_intents").
           with(body: {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: ((booking.full_cost * 0.01) + stripe_card_handler_fee).to_i,
             currency: booking.currency,
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
@@ -141,7 +146,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: ((booking.full_cost * 0.01) + stripe_card_handler_fee).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
@@ -162,7 +167,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.full_cost,
-            application_fee_amount: (booking.full_cost * 0.01).to_i,
+            application_fee_amount: ((booking.full_cost * 0.01) + stripe_card_handler_fee).to_i,
             currency: booking.currency,
             customer: nil,
             setup_future_usage: "on_session",
