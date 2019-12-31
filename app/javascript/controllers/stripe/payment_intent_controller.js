@@ -2,6 +2,7 @@
 // Refs: 
 // https://stripe.com/docs/payments/cards/saving-cards-after-payment
 // https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment
+// https://stripe.com/docs/connect/direct-charges
 import { Controller } from "stimulus";
 
 export default class extends Controller {
@@ -10,7 +11,9 @@ export default class extends Controller {
   connect() {
     if (!this.hasCardElementTarget) { return; } // handle the in trial pretend form
 
-    const stripe = Stripe(this.data.get("key"));
+    const stripe = Stripe(this.data.get("key"), {
+      stripeAccount: this.data.get("connectedStripeAccountId")
+    });
     const card = this.createCardElement(stripe);
     this.addFormSubmissionHandler(card, stripe);
   }
