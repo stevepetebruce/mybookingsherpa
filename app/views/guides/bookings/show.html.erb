@@ -97,7 +97,7 @@
                   </div>
                   <% if @booking.payment_failed? %>
                     <div class="media-body col mb-5">
-                      (please contact guest and ask them to pay outstanding amount directly into your bank account)
+                      (please contact guest and ask them to pay outstanding amount using this link: <%= link_to "update card details", new_public_booking_failed_payment_url(@booking.id), class: "text-primary", target: "_blank" %>)
                     </div>
                   <% end %>
                   <h4 class="card-title font-weight-bold">
