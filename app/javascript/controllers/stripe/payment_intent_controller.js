@@ -14,6 +14,8 @@ export default class extends Controller {
     const stripe = Stripe(this.data.get("key"), {
       stripeAccount: this.data.get("connectedStripeAccountId")
     });
+
+    // const stripe = Stripe(this.data.get("key"));
     const card = this.createCardElement(stripe);
     this.addFormSubmissionHandler(card, stripe);
   }
@@ -23,8 +25,13 @@ export default class extends Controller {
       event.preventDefault();
       this.submitButtonTarget.disabled = true;
 
-      const {paymentIntent, error} = await stripe.handleCardPayment(
-        this.data.get("secret"), card);
+      // const {paymentIntent, error} = await stripe.handleCardPayment(
+      //   this.data.get("secret"), card);
+
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: card
+      });
 
       if (error) {
         this.cardErrorsTarget.textContent = error.message;

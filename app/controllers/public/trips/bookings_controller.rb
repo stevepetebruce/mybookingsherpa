@@ -16,15 +16,44 @@ module Public
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@trip.bookings.count)
         @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
+        # puts '!!!! - @payment_intent ' + @payment_intent.inspect
       end
 
       # POST /bookings
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
-        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
+        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking,
+                                                                    stripe_payment_intent_id: stripe_payment_intent_id)
 
-        attach_stripe_customer_to_guest
+        # @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
+
+        # puts '!!!! - @payment_intent ' + @payment_intent.inspect
+
+        # attach_stripe_customer_to_guest
+        # attach_payment_method_to_customer
+
+        puts '!!! - 36 - !!!'
+        Stripe::PaymentMethod.attach(
+          stripe_payment_method, { customer: stripe_customer_id })
+
+         puts '!!! - 40 - !!!'
+        connected_payment_method = Stripe::PaymentMethod.create({
+          customer: stripe_customer_id,
+          payment_method: stripe_payment_method,
+        }, stripe_account: @booking.organisation_stripe_account_id)
+
+        puts '!!! - 46 - !!!'
+
+        connected_customer = Stripe::Customer.create({ payment_method: connected_payment_method}, stripe_account: @booking.organisation_stripe_account_id)
+
+        @booking.guest.update(stripe_customer_id: connected_customer.id)
+        puts '!!! - 51 - !!!'
+        # attach_stripe_customer_to_guest
+
+        # @payment_intent = ::Bookings::PaymentIntents.find_or_create_two(@booking, connected_payment_method)
+        # puts '!!! - 55 - !!!'
+        # puts '!!!! - @payment_intent ' + @payment_intent.inspect
 
         @booking.organisation_on_trial? ? test_create : live_create
       end
@@ -92,6 +121,18 @@ module Public
 
       def allergies
         params.dig(:booking, :allergies)
+      end
+
+      def attach_payment_method_to_customer
+        # only if need to pay outstanding amount....
+
+        # payment_method = Stripe::PaymentMethod.create({
+        #   customer: stripe_customer_id,
+        #   payment_method: stripe_payment_method,
+        # },
+        # stripe_account: @booking.organisation_stripe_account_id)
+
+        # Stripe::PaymentMethod.attach(payment_method, customer: stripe_customer_id)
       end
 
       def attach_stripe_customer_to_guest
@@ -165,9 +206,13 @@ module Public
         @trip = Trip.find_by_slug(params[:trip_id])
       end
 
+      def stripe_customer
+        @stripe_customer ||= ::Bookings::StripeCustomer.new(@booking, stripe_payment_method)
+      end
+
       def stripe_customer_id
         # TODO: what if this is a returning customer?
-        @stripe_customer_id ||= ::Bookings::StripeCustomer.new(@booking, stripe_payment_method).id
+        @stripe_customer_id ||= stripe_customer.id
       end
 
       def stripe_payment_intent_id

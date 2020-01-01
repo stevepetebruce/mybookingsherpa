@@ -3,15 +3,18 @@ module Bookings
   class PaymentIntents
     MINIMUM_APPLICATION_FEE = 200 # £/€/$2
 
-    def initialize(booking)
+    def initialize(booking, payment_method = nil)
       @booking = booking
+      @payment_method = payment_method
     end
 
     # TODO: delete and only use find_or_create ?
     def create
-      External::StripeApi::PaymentIntent.create(attributes,
-                                                @booking.organisation_stripe_account_id,
-                                                use_test_api: use_test_api?)
+      # External::StripeApi::PaymentIntent.create(attributes,
+      #                                           @booking.organisation_stripe_account_id,
+      #                                           use_test_api: use_test_api?)
+
+      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
     end
 
     # TODO: delete and only use find_or_create ?
@@ -19,17 +22,32 @@ module Bookings
       new(booking).create
     end
 
-    def find_or_create
+    def find_or_create(stripe_payment_intent_id)
       if last_failed_payment_intent_id
         External::StripeApi::PaymentIntent.retrieve(last_failed_payment_intent_id,
+                                                    @booking.organisation_stripe_account_id,
+                                                    use_test_api: use_test_api?)
+      elsif stripe_payment_intent_id
+        External::StripeApi::PaymentIntent.retrieve(stripe_payment_intent_id,
+                                                    @booking.organisation_stripe_account_id,
                                                     use_test_api: use_test_api?)
       else
         create
       end
     end
 
-    def self.find_or_create(booking)
-      new(booking).find_or_create
+    def find_or_create_two
+      External::StripeApi::PaymentIntent.create(attributes_two,
+                                                @booking.organisation_stripe_account_id,
+                                                use_test_api: use_test_api?)
+    end
+
+    def self.find_or_create(booking, stripe_payment_intent_id = nil)
+      new(booking).find_or_create(stripe_payment_intent_id)
+    end
+
+    def self.find_or_create_two(booking, payment_method)
+      new(booking, payment_method).find_or_create_two
     end
 
     private
@@ -60,7 +78,7 @@ module Bookings
     def attributes
       {
         amount: amount_due,
-        application_fee_amount: application_fee,
+        # application_fee_amount: application_fee,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
         payment_method_types: ["card"],
@@ -68,6 +86,20 @@ module Bookings
         statement_descriptor_suffix: statement_descriptor_suffix,
         # transfer_data: transfer_data
       }.reject { |_k, v| v == 0 }
+    end
+
+    def attributes_two
+      {
+        amount: amount_due,
+        application_fee_amount: application_fee,
+        currency: @booking.currency,
+        customer: @booking.stripe_customer_id,
+        payment_method: @payment_method,
+        payment_method_types: ["card"],
+        setup_future_usage: setup_future_usage,
+        statement_descriptor_suffix: statement_descriptor_suffix,
+        # transfer_data: transfer_data
+      }.reject { |_k, v| v == 0 }.compact
     end
 
     def calculated_application_fee

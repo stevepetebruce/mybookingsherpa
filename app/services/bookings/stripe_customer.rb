@@ -3,7 +3,7 @@ module Bookings
   class StripeCustomer
     def initialize(booking, payment_method)
       @booking = booking
-      @payment_method = payment_method
+      # @payment_method = payment_method
     end
 
     def id
@@ -14,10 +14,11 @@ module Bookings
 
     private
 
+    # TODO: move the use_test_api param out of the attributes hash
     def attributes
       {
         description: @booking.guest_email,
-        payment_method: @payment_method,
+        # payment_method: @payment_method,
         use_test_api: @booking.organisation_on_trial?
       }
     end
