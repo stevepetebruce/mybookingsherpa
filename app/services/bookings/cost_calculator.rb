@@ -48,7 +48,6 @@ module Bookings
     end
 
     def deposit_due?
-      # binding.pry
       return false if no_full_payment_window? ||
                       no_deposit_cost? ||
                       deposit_paid?
