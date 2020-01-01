@@ -56,3 +56,8 @@ select.form-control:focus::-ms-value {
   opacity: 0;
 }
 
+@media (max-width: 992px) {  
+  .input-group-append {
+    margin-top: 0px;
+  }
+}

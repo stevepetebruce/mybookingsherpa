@@ -66,17 +66,20 @@
             <ul class="list-group mb-3">
               <h4 class="mb-3 font-weight-bold">Price</h4>
               <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-5 mb-3">
                   <%= form.label :currency %>
                     <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customselect", data: { target: "currency-select.source trip-preview.currencyInput", action: "currency-select#switchCurrency" }} %>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-7 mb-3">
                   <%= form.label :full_cost, "Cost per guest" %>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupPrepend" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+                      <span class="input-group-text" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
                     </div>
                     <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), min: 0, step: 1.0, required: true, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
+                    <div class="input-group-append">
+                      <span class="input-group-text">.00</span>
+                    </div>
                   </div>
                 </div>
               </li>
