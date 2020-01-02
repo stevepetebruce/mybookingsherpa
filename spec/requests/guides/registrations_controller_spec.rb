@@ -11,7 +11,7 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
         to_return(status: 200, body: "#{file_fixture("ip_stack_api/gb_response.json").read}", headers: {})
     end
 
-    before { FactoryBot.create(:plan, :regular) }
+    before { FactoryBot.create(:plan, :discount) }
 
     context "valid and successful" do
       let!(:email) { Faker::Internet.email }
@@ -34,7 +34,7 @@ RSpec.describe "Guides::RegistrationsController", type: :request do
 
         expect(Guide.count).to eq 1
         expect(guide.organisations).not_to be_empty
-        expect(guide.organisation_plan.name).to eq "regular"
+        expect(guide.organisation_plan.name).to eq "discount (0.5%)"
       end
 
       it "redirects to guides/trips index" do

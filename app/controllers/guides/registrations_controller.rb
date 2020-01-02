@@ -22,11 +22,13 @@ class Guides::RegistrationsController < Devise::RegistrationsController
       organisation = Organisation.create
       OrganisationMembership.create(organisation: organisation, guide: resource, owner: true)
       Onboardings::OnboardingInitialisationJob.perform_later(organisation, request.remote_ip)
-      Subscription.create(organisation: organisation, plan: default_plan)
+      Subscription.create(organisation: organisation, plan: discount_plan)
     end
   end
 
-  def default_plan
-    Plan.find_by_name("regular")
+  # TODO: will need to manually move these guides onto the default (name: "regular")
+  #   plan 6 months after they sign up
+  def discount_plan
+    Plan.find_by_name("discount (0.5%)")
   end
 end

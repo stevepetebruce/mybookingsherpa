@@ -12,5 +12,11 @@ FactoryBot.define do
       charge_type { :percentage }
       percentage_amount { 0.01 }
     end
+
+    trait :discount do
+      name { "discount (0.5%)" }
+      charge_type { :percentage }
+      percentage_amount { 0.005 }
+    end
   end
 end
