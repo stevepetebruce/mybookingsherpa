@@ -44,6 +44,7 @@ RSpec.describe Trip, type: :model do
     end
 
     describe "#set_deposit_cost" do
+      let!(:expected_deposit_cost) { (((trip.full_cost * (deposit_percentage.to_f / 100)) / 100).ceil()) * 100 }
       let!(:full_cost) { rand(500...1_000) }
       let!(:trip) { FactoryBot.build(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
 
@@ -59,7 +60,7 @@ RSpec.describe Trip, type: :model do
         it "should set the correct deposit cost based on the trip's full_cost and deposit_percentage" do
           trip.save
 
-          expect(trip.deposit_cost).to eq((trip.full_cost * (deposit_percentage.to_f / 100)).to_i)
+          expect(trip.deposit_cost).to eq(expected_deposit_cost)
         end
       end
 

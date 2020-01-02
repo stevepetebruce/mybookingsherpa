@@ -98,7 +98,7 @@ class Trip < ApplicationRecord
   def set_deposit_cost
     return if deposit_percentage.nil?
 
-    self[:deposit_cost] = ((full_cost * (deposit_percentage.to_f / 100))).to_i
+    self[:deposit_cost] = Trips::DepositCalculator.calculate_deposit(self)
   end
 
   def set_slug

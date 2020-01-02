@@ -11,6 +11,6 @@ class Currency
   end
 
   def self.human_readable(amount_in_cents)
-    format("%.2f", (amount_in_cents / 100.0)) if amount_in_cents
+    format("%.0f", (amount_in_cents / 100.0)) if amount_in_cents
   end
 end
