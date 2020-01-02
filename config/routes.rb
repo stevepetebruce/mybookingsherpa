@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
     unauthenticated do
       root "devise/sessions#new", as: :unauthenticated_guide
+      # For launch:
+      get "/early_access_jan_2020", to: "guides/registrations#new"
     end
   end
 
