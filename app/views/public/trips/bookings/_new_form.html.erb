@@ -4,7 +4,7 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 
-<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_stripe_account_id: booking.organisation_stripe_account_id }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_stripe_account_id: booking.organisation_stripe_account_id, stripe__payment_intent_only_paying_deposit: @booking.only_paying_deposit? }) do |form| %>
   <% # reinstate error / warning notices %>
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->

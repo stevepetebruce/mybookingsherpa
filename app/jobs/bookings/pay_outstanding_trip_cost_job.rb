@@ -13,7 +13,9 @@ module Bookings
       return unless full_payment_required?
 
       # TODO: refactor this so it uses Bookings::PaymentIntents.create(@booking)
-      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+      puts 'attributes ' + attributes.inspect 
+      External::StripeApi::PaymentIntent.create(attributes, @booking.organisation_stripe_account_id, use_test_api: use_test_api?)
+      # ::Bookings::PaymentIntents.create(@booking)
     end
 
     private
@@ -36,8 +38,8 @@ module Bookings
         metadata: { booking_id: @booking.id },
         off_session: true,
         payment_method: stripe_payment_method_id,
-        statement_descriptor_suffix: statement_descriptor_suffix,
-        transfer_data: transfer_data
+        statement_descriptor_suffix: statement_descriptor_suffix #,
+        # transfer_data: transfer_data
       }
     end
 
@@ -60,6 +62,7 @@ module Bookings
     def stripe_payment_method
       @stripe_payment_method ||=
         External::StripeApi::PaymentMethod.list(@booking.stripe_customer_id,
+                                                @booking.organisation_stripe_account_id,
                                                 use_test_api: use_test_api?)
     end
 

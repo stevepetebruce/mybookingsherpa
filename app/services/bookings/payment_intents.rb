@@ -10,11 +10,15 @@ module Bookings
 
     # TODO: delete and only use find_or_create ?
     def create
-      # External::StripeApi::PaymentIntent.create(attributes,
-      #                                           @booking.organisation_stripe_account_id,
-      #                                           use_test_api: use_test_api?)
+      # 1) with connected account id:
 
-      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+      if @booking.only_paying_deposit?
+        External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+      else
+        External::StripeApi::PaymentIntent.create(attributes,
+                                                  @booking.organisation_stripe_account_id,
+                                                  use_test_api: use_test_api?)
+      end
     end
 
     # TODO: delete and only use find_or_create ?
@@ -26,6 +30,9 @@ module Bookings
       if last_failed_payment_intent_id
         External::StripeApi::PaymentIntent.retrieve(last_failed_payment_intent_id,
                                                     @booking.organisation_stripe_account_id,
+                                                    use_test_api: use_test_api?)
+      elsif stripe_payment_intent_id && @booking.only_paying_deposit?
+        External::StripeApi::PaymentIntent.retrieve(stripe_payment_intent_id,
                                                     use_test_api: use_test_api?)
       elsif stripe_payment_intent_id
         External::StripeApi::PaymentIntent.retrieve(stripe_payment_intent_id,
@@ -78,7 +85,7 @@ module Bookings
     def attributes
       {
         amount: amount_due,
-        # application_fee_amount: application_fee,
+        application_fee_amount: application_fee,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
         payment_method_types: ["card"],

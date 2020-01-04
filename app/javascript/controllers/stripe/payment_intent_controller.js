@@ -11,11 +11,20 @@ export default class extends Controller {
   connect() {
     if (!this.hasCardElementTarget) { return; } // handle the in trial pretend form
 
-    const stripe = Stripe(this.data.get("key"), {
-      stripeAccount: this.data.get("connectedStripeAccountId")
-    });
+    let stripe;
 
-    // const stripe = Stripe(this.data.get("key"));
+    // if (this.data.get("onlyPayingDeposit")) {
+    //   console.log("!!! - NOT with account");
+    //   stripe = Stripe(this.data.get("key"));
+    // } else {
+    //   console.log("!!! - with account")
+    //   stripe = Stripe(this.data.get("key"), {
+    //     stripeAccount: this.data.get("connectedStripeAccountId")
+    //   });
+    // }
+
+    stripe = Stripe(this.data.get("key"));
+
     const card = this.createCardElement(stripe);
     this.addFormSubmissionHandler(card, stripe);
   }
@@ -28,9 +37,9 @@ export default class extends Controller {
       // const {paymentIntent, error} = await stripe.handleCardPayment(
       //   this.data.get("secret"), card);
 
-      const { paymentMethod, error } = await stripe.createPaymentMethod({
-        type: "card",
-        card: card
+      const {paymentMethod, error} = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement
       });
 
       if (error) {
@@ -41,6 +50,20 @@ export default class extends Controller {
       } else {
         this.handlePaymentMethod(paymentIntent.payment_method);
       }
+
+      // const { paymentMethod, error } = await stripe.createPaymentMethod({
+      //   type: "card",
+      //   card: card
+      // });
+
+      // if (error) {
+      //   this.cardErrorsTarget.textContent = error.message;
+      //   this.submitButtonTarget.disabled = false;
+      // } else if (paymentIntent.requires_action) {
+      //   this.authenticationRequired(paymentIntent);
+      // } else {
+      //   this.handlePaymentMethod(paymentIntent.payment_method);
+      // }
     });
   }
 

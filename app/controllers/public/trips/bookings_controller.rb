@@ -23,8 +23,7 @@ module Public
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
-        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking,
-                                                                    stripe_payment_intent_id: stripe_payment_intent_id)
+        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking, stripe_payment_intent_id)
 
         # @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
 
@@ -34,6 +33,7 @@ module Public
         # attach_payment_method_to_customer
 
         puts '!!! - 36 - !!!'
+        # THIS should only be called if paying a deposit and then the full amoutn later???
         Stripe::PaymentMethod.attach(
           stripe_payment_method, { customer: stripe_customer_id })
 
@@ -49,6 +49,9 @@ module Public
 
         @booking.guest.update(stripe_customer_id: connected_customer.id)
         puts '!!! - 51 - !!!'
+
+        puts 'stripe_customer_id ' + stripe_customer_id.inspect
+        puts 'connected_customer ' + connected_customer.id.inspect
         # attach_stripe_customer_to_guest
 
         # @payment_intent = ::Bookings::PaymentIntents.find_or_create_two(@booking, connected_payment_method)

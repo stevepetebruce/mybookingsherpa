@@ -28,8 +28,10 @@ module External
         puts 'sanitized_attributes(attributes) ' + sanitized_attributes(attributes).inspect
         puts 'stripe_account ' + stripe_account.inspect
         if stripe_account
+          puts '!!! - with stripe connected account'
           res = Stripe::PaymentIntent.create(sanitized_attributes(attributes), stripe_account: stripe_account) 
         else
+          puts '!!! - without stripe connected account'
           res = Stripe::PaymentIntent.create(sanitized_attributes(attributes))
         end
         puts 'res ' + res.inspect
@@ -37,7 +39,11 @@ module External
       end
 
       def retrieve(payment_intent_id, stripe_account)
-        Stripe::PaymentIntent.retrieve(payment_intent_id, stripe_account: stripe_account)
+        if stripe_account
+          Stripe::PaymentIntent.retrieve(payment_intent_id, stripe_account: stripe_account)
+        else
+          Stripe::PaymentIntent.retrieve(payment_intent_id)
+        end
       end
 
       # def self.create(attributes, stripe_account, use_test_api: true)
@@ -48,7 +54,7 @@ module External
         new(use_test_api).create(attributes, stripe_account)
       end
 
-      def self.retrieve(payment_intent_id, stripe_account, use_test_api: true)
+      def self.retrieve(payment_intent_id, stripe_account = nil, use_test_api: true)
         new(use_test_api).retrieve(payment_intent_id, stripe_account)
       end
 
