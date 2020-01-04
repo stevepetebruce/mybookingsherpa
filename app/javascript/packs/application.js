@@ -16,7 +16,6 @@ import $ from "jquery";
 import Rails from "rails-ujs";
 
 import "../javascript/custom.js";
-import "../javascript/download_csv.js";
 
 window.jQuery = $;
 window.$ = $;
