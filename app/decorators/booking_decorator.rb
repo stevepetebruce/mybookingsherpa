@@ -88,7 +88,7 @@ module BookingDecorator
 
   def payment_status_text
     return "Last payment failed" if payment_failed?
-    return "Deposit paid" if payment_required?
+    return "Deposit paid" if payment_required? #TODO: need to look at this, there's a period before payment is attempted that will not be "Deposit paid" but eg: "Awaiting payment"
     return "Refunded" if refunded?
 
     "Fully paid"

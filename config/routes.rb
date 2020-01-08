@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     namespace :stripe_api do
       resources :accounts, only: %i[create]
       resources :payment_intents, only: %i[create]
+      resources :setup_intents, only: %i[create]
     end
   end
 end

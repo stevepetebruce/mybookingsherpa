@@ -8,18 +8,24 @@ module External
         initialize_key # TODO: replace with super?
       end
 
-      def create(attributes)
+      def create(attributes, stripe_account_id)
         return if amount_zero?(attributes)
 
-        Stripe::PaymentIntent.create(sanitized_attributes(attributes))
+        if stripe_account_id
+          Stripe::PaymentIntent.create(sanitized_attributes(attributes), stripe_account: stripe_account_id) 
+        else
+          Stripe::PaymentIntent.create(sanitized_attributes(attributes))
+        end
       end
 
       def retrieve(payment_intent_id)
         Stripe::PaymentIntent.retrieve(payment_intent_id)
       end
 
-      def self.create(attributes, use_test_api: true)
-        new(use_test_api).create(attributes)
+      def self.create(attributes, stripe_account_id = nil, use_test_api: true)
+        puts ' - - - -- - - -- - - -'
+        puts '!!! - create attributes ' + attributes.inspect
+        new(use_test_api).create(attributes, stripe_account_id)
       end
 
       def self.retrieve(payment_intent_id, use_test_api: true)

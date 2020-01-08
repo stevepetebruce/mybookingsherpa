@@ -9,7 +9,7 @@ module Bookings
 
     # TODO: delete and only use find_or_create ?
     def create
-      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+      External::StripeApi::PaymentIntent.create(attributes, @booking.organisation_stripe_account_id, use_test_api: use_test_api?)
     end
 
     # TODO: delete and only use find_or_create ?
@@ -42,16 +42,17 @@ module Bookings
       [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
-    # When paying initial/full amount (in one go)
     def attributes
       {
         amount: amount_due,
         application_fee_amount: application_fee,
+        confirm: true,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
-        setup_future_usage: setup_future_usage,
-        statement_descriptor_suffix: statement_descriptor_suffix,
-        transfer_data: transfer_data
+        metadata: { booking_id: @booking.id },
+        off_session: true,
+        payment_method: @booking.stripe_payment_method_id,
+        statement_descriptor_suffix: statement_descriptor_suffix
       }.reject { |_k, v| v == 0 }
     end
 
@@ -65,13 +66,6 @@ module Bookings
 
     def statement_descriptor_suffix
       @booking.trip_name.truncate(22, separator: " ")
-    end
-
-    def transfer_data
-      # TODO: don't we need the amount to be paid to the guide account here too?
-      {
-        destination: @booking.organisation_stripe_account_id
-      }
     end
 
     def setup_future_usage
