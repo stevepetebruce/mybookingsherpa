@@ -68,10 +68,6 @@ module Bookings
       @booking.trip_name.truncate(22, separator: " ")
     end
 
-    def setup_future_usage
-      @booking.only_paying_deposit? ? "off_session" : "on_session"
-    end
-
     def use_test_api?
       @booking.organisation_on_trial?
     end

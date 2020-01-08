@@ -19,3 +19,13 @@ module External
     end
   end
 end
+
+Stripe::SetupIntent.create(
+  metadata: {
+      booking_id: @booking.id,
+      stripe_account_id: @booking.organisation_stripe_account_id,
+      use_test_api: use_test_api?
+  },
+  payment_method_types: ["card"],
+  usage: "off_session"
+)
