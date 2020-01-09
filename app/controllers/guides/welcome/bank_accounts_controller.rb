@@ -46,11 +46,15 @@ module Guides
         return if current_organisation&.stripe_account_complete?
         return if current_organisation&.stripe_account_id.nil?
 
-        current_organisation.onboarding.update(stripe_account_complete: stripe_account.charges_enabled)
+        current_organisation.onboarding.update(stripe_account_complete: stripe_account_complete?)
       end
 
       def stripe_account
         @stripe_account ||= External::StripeApi::Account.retrieve(current_organisation.stripe_account_id_live)
+      end
+
+      def stripe_account_complete?
+        stripe_account.charges_enabled && stripe_account.payouts_enabled
       end
     end
   end
