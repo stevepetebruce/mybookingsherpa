@@ -23,8 +23,6 @@ module External
       end
 
       def self.create(attributes, stripe_account_id = nil, use_test_api: true)
-        puts ' - - - -- - - -- - - -'
-        puts '!!! - create attributes ' + attributes.inspect
         new(use_test_api).create(attributes, stripe_account_id)
       end
 

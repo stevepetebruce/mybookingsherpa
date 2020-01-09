@@ -34,7 +34,6 @@ export default class extends Controller {
       } else if (setupIntent.requires_action) {
         this.authenticationRequired(setupIntent);
       } else {
-        // this.handlePaymentMethod(setupIntent.payment_method);
         this.handlePaymentMethod();
       }
     });
@@ -92,13 +91,6 @@ export default class extends Controller {
 
   handlePaymentMethod() {
     if (this.formTarget.checkValidity() === true) {
-      // const hiddenInput = document.createElement("input");
-
-      // hiddenInput.setAttribute("type", "hidden");
-      // hiddenInput.setAttribute("name", "stripePaymentMethod");
-      // hiddenInput.setAttribute("value", paymentMethod);
-
-      // this.formTarget.appendChild(hiddenInput);
       this.formTarget.submit();
     }
   }

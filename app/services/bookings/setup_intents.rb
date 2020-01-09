@@ -18,8 +18,6 @@ module Bookings
 
     def attributes
       {
-        # confirm: true,
-        # on_behalf_of: @booking.organisation_stripe_account_id,
         metadata: {
           booking_id: @booking.id,
           stripe_account_id: @booking.organisation_stripe_account_id,
@@ -35,6 +33,3 @@ module Bookings
     end
   end
 end
-
-# NB: when attributes { confirm == true} get error:
-# You cannot confirm this SetupIntent because it's missing a payment method. Update the SetupIntent with a payment method and then confirm it again.

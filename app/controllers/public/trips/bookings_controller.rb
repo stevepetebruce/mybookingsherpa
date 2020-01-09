@@ -15,7 +15,6 @@ module Public
       def new
         @booking = @trip.bookings.new
         @example_data = Onboardings::ExampleDataSelector.new(@trip.bookings.count)
-        # @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
         @setup_intent = ::Bookings::SetupIntents.create(@booking)
       end
 
@@ -24,10 +23,6 @@ module Public
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest,
                                                            stripe_setup_intent_id: stripe_setup_intent_id))
-        # @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
-        # @setup_intent = ::Bookings::SetupIntents.find(@booking) # ???
-
-        # attach_stripe_customer_to_guest
 
         @booking.organisation_on_trial? ? test_create : live_create
       end
@@ -68,7 +63,7 @@ module Public
       end
 
       def live_create
-        if @booking.save # && update_or_create_payment
+        if @booking.save
           redirect_to url_for controller: "bookings",
                               action: "edit",
                               id: @booking.id,
@@ -142,22 +137,6 @@ module Public
         @booking.created_at > TIMEOUT_WINDOW_MINUTES.minutes.ago
       end
 
-      # def update_or_create_payment
-      #   # TODO: Refactor... There's a possible race condition here:
-      #   # When the Stripe webhook comes back at same time as this is called...
-      #   # Then two payments would be created?
-      #   # Move to delayed background job?
-      #   # Only create payments in the setup_intent webhook
-      #   # Create a unique constraint on payments on their stripe_payment_intent_id
-      #   # TODO: rename / create new field on payments: stripe_setup_intent_id (instead of stripe_payment_intent_id)?
-
-      #   # Payment.transaction do
-      #   #   Payment.where(stripe_payment_intent_id: stripe_setup_intent_id).
-      #   #     first_or_create.
-      #   #     update(booking: @booking)
-      #   # end
-      # end
-
       def send_trial_emails
         Guests::BookingMailer.with(booking: @booking).new.deliver_later
         Guides::BookingMailer.with(booking: @booking).new.deliver_later
@@ -171,18 +150,9 @@ module Public
         @trip = Trip.find_by_slug(params[:trip_id])
       end
 
-      # def stripe_customer_id
-      #   # TODO: what if this is a returning customer?
-      #   @stripe_customer_id ||= ::Bookings::StripeCustomer.new(@booking, stripe_payment_method).id
-      # end
-
       def stripe_setup_intent_id
         params[:setup_intent_id]
       end
-
-      # def stripe_payment_method
-      #   params[:stripePaymentMethod]
-      # end
 
       def tld_length
         Settings.env_staging? ? 2 : 1
