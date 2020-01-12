@@ -47,31 +47,16 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           to receive(:payment_required?).
           and_return(true)
 
-        allow(External::StripeApi::PaymentIntent).to receive(:create)
+        allow(Bookings::PaymentIntents).to receive(:create).with(booking)
       end
 
-      let(:payment_required?) { true }
-
-      let(:expected_attributes) do
-        {
-          amount: booking.full_cost,
-          application_fee_amount: booking.full_cost * 0.01,
-          confirm: true,
-          currency: booking.currency,
-          customer: stripe_customer_id,
-          metadata: { booking_id: booking.id },
-          off_session: true,
-          payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f",
-          statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-          transfer_data: { destination: booking.organisation_stripe_account_id }
-        }
-      end
-
-      it "should call External::StripeApi::PaymentIntent#create" do
+      it "should call Bookings::PaymentIntents#create" do
         # Payments are now created in the Stripe payment_intents webhook
         perform
 
-        expect(External::StripeApi::PaymentIntent).to have_received(:create).with(expected_attributes, use_test_api: true)
+        expect(Bookings::PaymentIntents).to have_received(:create).with(booking)
+        # TODO: test: expect(External::StripeApi::PaymentIntent).to have_received(:create).with(expected_attributes, use_test_api: true) ?
+        # via the call from Bookings::PaymentIntents#create - or in the spec for that model but using the expected attributes
       end
     end
 
@@ -81,7 +66,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           to receive(:payment_required?).
           and_return(false)
 
-        allow(External::StripeApi::PaymentIntent).to receive(:create)
+        allow(Bookings::PaymentIntents).to receive(:create).with(booking)
       end
 
       let(:payment_required?) { true }
@@ -89,7 +74,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       it "should not call External::StripeApi::PaymentIntent#create" do
         perform
 
-        expect(External::StripeApi::PaymentIntent).not_to have_received(:create)
+        expect(Bookings::PaymentIntents).not_to have_received(:create)
       end
     end
 

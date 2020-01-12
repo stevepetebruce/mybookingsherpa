@@ -14,18 +14,17 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           "success_url"=>"http://www.example.com/guides/welcome/bank_accounts/new",
           "type"=>"custom_account_verification"}).
         to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
-      stub_request(:post, "https://api.stripe.com/v1/payment_intents").
-        to_return(status: 200,
-                  body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
-                  headers: {})
-      stub_request(:post, "https://api.stripe.com/v1/payment_methods/pm_card_visa/attach").
-        to_return(status: 200,
-                  body: "#{file_fixture("stripe_api/successful_payment_method.json").read}",
-                  headers: {})
-      stub_request(:get, %r{https://api.stripe.com/v1/payment_intents/cus_\w+}).
-        to_return(status: 200,
-                  body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
-                  headers: {})
+
+      stub_request(:post, "https://api.stripe.com/v1/setup_intents").
+        with(body: {
+          "metadata"=> {
+            "stripe_account_id"=>organisation.stripe_account_id_live,
+            "use_test_api"=>"false"
+          },
+          "payment_method_types"=>["card"],
+          "usage"=>"off_session"
+        }).
+        to_return(status: 200, body: "#{file_fixture("stripe_api/setup_intents/successful_setup_intent.json").read}", headers: {})
     end
 
     def do_request(url: "/public/trips/#{trip.slug}/bookings/new", params: {})
@@ -66,36 +65,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       let!(:subdomain) { organisation.subdomain }
       let!(:trip) { FactoryBot.create(:trip, organisation: organisation) }
 
-      before do
-        stub_request(:post, "https://api.stripe.com/v1/charges").
-          to_return(status: 200,
-                    body: "#{file_fixture("stripe_api/successful_charge.json").read}",
-                    headers: {})
-
-        stub_request(:post, "https://api.stripe.com/v1/payment_intents").
-          to_return(status: 200,
-                    body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
-                    headers: {})
-
-        stub_request(:post, "https://api.stripe.com/v1/customers").
-          to_return(status: 200,
-                    body: "#{file_fixture("stripe_api/successful_customer.json").read}",
-                    headers: {})
-
-        stub_request(:post, "https://api.stripe.com/v1/account_links").
-          with(body: {
-            "account"=>%r{acct_\d+},
-            "collect"=>"currently_due",
-            "failure_url"=>"http://www.example.com/guides/welcome/stripe_account_link_failure",
-            "success_url"=>"http://www.example.com/guides/welcome/bank_accounts/new",
-            "type"=>"custom_account_verification"}).
-          to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
-        stub_request(:post, "https://api.stripe.com/v1/payment_methods/pm_card_visa/attach").
-          to_return(status: 200, body: "#{file_fixture("stripe_api/successful_payment_method.json").read}", headers: {})
-        stub_request(:get, %r{https://api.stripe.com/v1/payment_intents/cus_\w+}).
-          to_return(status: 200, body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}", headers: {})
-      end
-
       def do_request(url: "/public/trips/#{trip.slug}/bookings", params: {})
         post url, params: params
       end
@@ -107,11 +76,10 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           expect { do_request(params: params) }.not_to change { ActionMailer::Base.deliveries.count }
         end
 
-        it "should create a new booking and payment record" do
+        it "should create a new booking" do
           do_request(params: params)
 
           expect(trip.bookings).not_to be_empty
-          expect(booking.payments).not_to be_empty
         end
 
         context "a guest who does not yet exist" do
@@ -195,7 +163,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -219,7 +186,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -243,7 +209,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -267,7 +232,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -291,7 +255,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -315,7 +278,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
           end
         end
       end

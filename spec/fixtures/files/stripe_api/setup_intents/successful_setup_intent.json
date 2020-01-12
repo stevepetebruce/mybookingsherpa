@@ -1,0 +1,31 @@
+{
+  "id": "seti_1Fz6aaESypPNvvdYrvozOWWh",
+  "object": "setup_intent",
+  "application": null,
+  "cancellation_reason": null,
+  "client_secret": "seti_1Fz6aaESypPNvvdYrvozOWWh_secret_GW8syzIPunEJxaLlb9BnUWYa1jc2hKM",
+  "created": 1578597760,
+  "customer": null,
+  "description": null,
+  "last_setup_error": null,
+  "livemode": false,
+  "mandate": null,
+  "metadata": {
+    "stripe_account_id": "acct_1Fw8m2EHBeHRyySo",
+    "use_test_api": "false"
+  },
+  "next_action": null,
+  "on_behalf_of": null,
+  "payment_method": null,
+  "payment_method_options": {
+    "card": {
+      "request_three_d_secure": "automatic"
+    }
+  },
+  "payment_method_types": [
+    "card"
+  ],
+  "single_use_mandate": null,
+  "status": "requires_payment_method",
+  "usage": "off_session"
+}
