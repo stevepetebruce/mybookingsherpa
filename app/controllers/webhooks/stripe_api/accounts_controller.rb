@@ -31,7 +31,7 @@ module Webhooks
       end
 
       def stripe_account_complete?
-        stripe_account_object&.charges_enabled
+        stripe_account_object&.charges_enabled && stripe_account_object.payouts_enabled
       end
 
       def stripe_account_id

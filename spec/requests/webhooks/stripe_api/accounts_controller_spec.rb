@@ -23,25 +23,49 @@ RSpec.describe "Webhooks::StripeApi::AccountsController", type: :request do
         end
       end
 
-      context "when charges are enabled in Stripe" do
-        let(:event) do
-          JSON.parse("#{file_fixture("/stripe_api/webhooks/successful_account_update_charges_enabled.json").read}")
+      context "when charges_enabled = true" do
+        context "when payouts_enabled = false" do
+          let(:event) do
+            JSON.parse("#{file_fixture("/stripe_api/webhooks/successful_account_update_charges_enabled_payouts_not_enabled.json").read}")
+          end
+          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
+          let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id_live: "acct_1FQwLOFUyBXr3CA5") }
+          let(:params) { event }
+          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS"] }
+
+          it "should respond with a success status code" do
+            do_request(params: params, headers: headers)
+
+            expect(response).to be_successful
+          end
+
+          it "should update the organisation's (onboarding) stripe_account_complete" do
+            do_request(params: params, headers: headers)
+
+            expect(organisation.stripe_account_complete?).to eq false
+          end
         end
-        let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-        let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id_live: "acct_1FQwLOFUyBXr3CA5") }
-        let(:params) { event }
-        let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS"] }
 
-        it "should respond with a success status code" do
-          do_request(params: params, headers: headers)
+        context "when payouts_enabled = true" do
+          let(:event) do
+            JSON.parse("#{file_fixture("/stripe_api/webhooks/successful_account_update_charges_enabled_payouts_enabled.json").read}")
+          end
+          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
+          let!(:organisation) { FactoryBot.create(:organisation, stripe_account_id_live: "acct_1FQwLOFUyBXr3CA5") }
+          let(:params) { event }
+          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_CONNECT_ACCOUNTS"] }
 
-          expect(response).to be_successful
-        end
+          it "should respond with a success status code" do
+            do_request(params: params, headers: headers)
 
-        it "should update the organisation's (onboarding) stripe_account_complete" do
-          do_request(params: params, headers: headers)
+            expect(response).to be_successful
+          end
 
-          expect(organisation.stripe_account_complete?).to eq true
+          it "should update the organisation's (onboarding) stripe_account_complete" do
+            do_request(params: params, headers: headers)
+
+            expect(organisation.stripe_account_complete?).to eq true
+          end
         end
       end
     end
