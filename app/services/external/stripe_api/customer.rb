@@ -8,16 +8,16 @@ module External
         initialize_key
       end
 
-      def self.create(description:, payment_method:, use_test_api:)
-        new(use_test_api).create(description: description, payment_method: payment_method)
+      def self.create(attributes, stripe_account:, use_test_api: true)
+        new(use_test_api).create(attributes, stripe_account)
       end
 
       def self.retrieve(customer_id:, use_test_api:)
         new(use_test_api).retrieve(customer_id: customer_id)
       end
 
-      def create(description:, payment_method:)
-        Stripe::Customer.create(description: description, payment_method: payment_method)
+      def create(attributes, stripe_account)
+        Stripe::Customer.create(attributes, stripe_account: stripe_account)
       end
 
       def retrieve(customer_id:)

@@ -10,7 +10,9 @@ export default class extends Controller {
   connect() {
     if (!this.hasCardElementTarget) { return; } // handle the in trial pretend form
 
-    const stripe = Stripe(this.data.get("key"));
+    const stripe = Stripe(this.data.get("key"), {
+      stripeAccount: this.data.get("connectedAccountId")
+    });
     const card = this.createCardElement(stripe);
     this.addFormSubmissionHandler(card, stripe);
   }

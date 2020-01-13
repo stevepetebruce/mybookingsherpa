@@ -8,28 +8,32 @@ module External
         initialize_key # TODO: replace with super?
       end
 
-      def create(attributes)
+      def create(attributes, stripe_account_id)
         return if amount_zero?(attributes)
 
-        Stripe::PaymentIntent.create(sanitized_attributes(attributes))
+        if stripe_account_id
+          Stripe::PaymentIntent.create(sanitized_attributes(attributes), stripe_account: stripe_account_id) 
+        else
+          Stripe::PaymentIntent.create(sanitized_attributes(attributes))
+        end
       end
 
-      def retrieve(payment_intent_id)
-        Stripe::PaymentIntent.retrieve(payment_intent_id)
+      def retrieve(payment_intent_id, stripe_account_id)
+        Stripe::PaymentIntent.retrieve(payment_intent_id, stripe_account: stripe_account_id)
       end
 
-      def self.create(attributes, use_test_api: true)
-        new(use_test_api).create(attributes)
+      def self.create(attributes, stripe_account_id = nil, use_test_api: true)
+        new(use_test_api).create(attributes, stripe_account_id)
       end
 
-      def self.retrieve(payment_intent_id, use_test_api: true)
-        new(use_test_api).retrieve(payment_intent_id)
+      def self.retrieve(payment_intent_id, stripe_account_id = nil, use_test_api: true)
+        new(use_test_api).retrieve(payment_intent_id, stripe_account_id)
       end
 
       private
 
       def amount_zero?(attributes)
-        sanitized_attributes(attributes)[:amount].zero?
+        sanitized_attributes(attributes).fetch(:amount, 0).zero?
       end
 
       def sanitized_attributes(attributes)

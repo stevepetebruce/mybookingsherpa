@@ -9,7 +9,9 @@ module Bookings
 
     # TODO: delete and only use find_or_create ?
     def create
-      External::StripeApi::PaymentIntent.create(attributes, use_test_api: use_test_api?)
+      External::StripeApi::PaymentIntent.create(attributes,
+                                                @booking.organisation_stripe_account_id,
+                                                use_test_api: use_test_api?)
     end
 
     # TODO: delete and only use find_or_create ?
@@ -20,6 +22,7 @@ module Bookings
     def find_or_create
       if last_failed_payment_intent_id
         External::StripeApi::PaymentIntent.retrieve(last_failed_payment_intent_id,
+                                                    @booking.organisation_stripe_account_id,
                                                     use_test_api: use_test_api?)
       else
         create
@@ -42,40 +45,49 @@ module Bookings
       [calculated_application_fee, MINIMUM_APPLICATION_FEE].max
     end
 
-    # When paying initial/full amount (in one go)
     def attributes
       {
         amount: amount_due,
         application_fee_amount: application_fee,
+        confirm: confirm?,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
+        metadata: { booking_id: @booking.id },
+        off_session: off_session?,
+        payment_method: @booking.stripe_payment_method_id,
         setup_future_usage: setup_future_usage,
-        statement_descriptor_suffix: statement_descriptor_suffix,
-        transfer_data: transfer_data
-      }.reject { |_k, v| v == 0 }
+        statement_descriptor_suffix: statement_descriptor_suffix
+      }.reject { |_k, v| v == 0 || v.nil? }
     end
 
     def calculated_application_fee
       (@booking.full_cost * @booking.organisation_plan.percentage_amount).to_i # TODO: if we ever use flat_fee plans, need to change here.
     end
 
+    def confirm?
+      @booking.stripe_payment_method_id.present?
+    end
+
     def last_failed_payment_intent_id
       @booking&.last_failed_payment&.stripe_payment_intent_id
     end
 
-    def statement_descriptor_suffix
-      @booking.trip_name.truncate(22, separator: " ")
-    end
-
-    def transfer_data
-      # TODO: don't we need the amount to be paid to the guide account here too?
-      {
-        destination: @booking.organisation_stripe_account_id
-      }
+    def off_session?
+      @booking.only_paid_deposit? ? true : nil
     end
 
     def setup_future_usage
-      @booking.only_paying_deposit? ? "off_session" : "on_session"
+      if @booking.only_paying_deposit?
+        "off_session"
+      elsif @booking.only_paid_deposit?
+        nil # ie: setup_future_usage will not be included in the attributes
+      else
+        "on_session"
+      end
+    end
+
+    def statement_descriptor_suffix
+      @booking.trip_name.truncate(22, separator: " ")
     end
 
     def use_test_api?
