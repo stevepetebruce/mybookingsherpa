@@ -75,7 +75,7 @@ module BookingDecorator
   end
 
   def only_paid_deposit?
-    last_payment.amount == deposit_cost
+    last_payment&.amount == deposit_cost
   end
 
   def payment_status_icon

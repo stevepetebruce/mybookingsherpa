@@ -24,7 +24,7 @@ module Public
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
         @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
 
-        attach_stripe_customer_to_guest
+        attach_stripe_customer_and_payment_method_to_booking
 
         @booking.organisation_on_trial? ? test_create : live_create
       end
@@ -94,8 +94,9 @@ module Public
         params.dig(:booking, :allergies)
       end
 
-      def attach_stripe_customer_to_guest
-        @booking.guest.update(stripe_customer_id: stripe_customer_id)
+      def attach_stripe_customer_and_payment_method_to_booking
+        @booking.update(stripe_customer_id: stripe_customer_id,
+                        stripe_payment_method_id: stripe_payment_method)
       end
 
       def booking_params

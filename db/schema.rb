@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_100408) do
+ActiveRecord::Schema.define(version: 2020_01_12_124053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 2019_12_07_100408) do
     t.text "other_information"
     t.integer "priority", default: 0
     t.boolean "refunded", default: false
+    t.string "stripe_customer_id"
+    t.string "stripe_payment_method_id"
     t.index ["created_by_id"], name: "index_bookings_on_created_by_id"
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
     t.index ["trip_id"], name: "index_bookings_on_trip_id"

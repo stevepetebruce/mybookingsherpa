@@ -17,8 +17,7 @@ module Bookings
     def attributes
       {
         description: @booking.guest_email,
-        payment_method: @payment_method,
-        use_test_api: @booking.organisation_on_trial?
+        payment_method: @payment_method
       }
     end
 
@@ -39,12 +38,15 @@ module Bookings
     end
 
     def new_customer
-      External::StripeApi::Customer.create(attributes)
+      External::StripeApi::Customer.create(attributes,
+                                           stripe_account: @booking.organisation_stripe_account_id,
+                                           use_test_api: @booking.organisation_on_trial?)
     end
 
     def retrieved_customer
       @retrieved_customer ||=
-        External::StripeApi::Customer.retrieve(customer_id: @booking.stripe_customer_id, use_test_api: @booking.organisation_on_trial?)
+        External::StripeApi::Customer.retrieve(customer_id: @booking.stripe_customer_id,
+                                               use_test_api: @booking.organisation_on_trial?)
     end
   end
 end
