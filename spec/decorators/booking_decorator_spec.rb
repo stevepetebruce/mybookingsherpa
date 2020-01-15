@@ -155,9 +155,6 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
-  #  - - - - - - START
-
-
   describe "#guest_or_booking_dietary_requirements" do
     subject(:guest_or_booking_dietary_requirements) { booking.guest_or_booking_dietary_requirements }
 
@@ -256,10 +253,6 @@ RSpec.describe BookingDecorator, type: :model do
     end
   end
 
-
-
-  #  - - - - - -  END
-
   describe "#human_readable_amount_due" do
     subject(:human_readable_amount_due) { booking.human_readable_amount_due }
 
@@ -318,6 +311,12 @@ RSpec.describe BookingDecorator, type: :model do
         expect(human_readable_full_payment_date).to eq ""
       end
     end
+  end
+
+  describe "#only_paid_deposit?" do
+    subject(:only_paid_deposit?) { booking.only_paid_deposit? }
+    # TODO:
+    # Test that if there's no deposit and or no payments (ie: either are nil) that this will be false
   end
 
   describe "#only_paying_deposit?" do
