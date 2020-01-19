@@ -4,7 +4,7 @@ module Webhooks
       protect_from_forgery except: :create
 
       def create
-        update_stripe_account_completion_status
+        organisation.onboarding.update(stripe_account_complete: stripe_account_complete?) if organisation
         head :ok
       end
 
@@ -31,7 +31,7 @@ module Webhooks
       end
 
       def stripe_account_complete?
-        stripe_account_object&.charges_enabled && stripe_account_object.payouts_enabled
+        stripe_account_object.charges_enabled && stripe_account_object.payouts_enabled
       end
 
       def stripe_account_id
@@ -40,11 +40,6 @@ module Webhooks
 
       def stripe_account_object
         @stripe_account_object ||= event.data.object
-      end
-
-      def update_stripe_account_completion_status
-        # TODO: also need to make sure payouts_enabled
-        organisation.onboarding.update(stripe_account_complete: stripe_account_complete?) if organisation
       end
     end
   end
