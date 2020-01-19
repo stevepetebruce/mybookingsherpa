@@ -2,6 +2,12 @@ require "rails_helper"
 
 RSpec.describe "Guides::BookingsController", type: :request do
   let(:guide) { FactoryBot.create(:guide) }
+  let(:organisation) { FactoryBot.create(:organisation) }
+
+  before do
+    FactoryBot.create(:organisation_membership, organisation: organisation, guide: guide, owner: true)
+    FactoryBot.create(:onboarding, organisation: organisation)
+  end
 
   describe "#show get /guides/bookings/:id" do
     include_examples "authentication"
@@ -12,6 +18,8 @@ RSpec.describe "Guides::BookingsController", type: :request do
     let!(:trip) { FactoryBot.create(:trip, guides: [guide]) }
 
     def do_request(url: "/guides/bookings/#{booking.id}", params: {})
+      # TODO: remove and fix this:
+      run_hack_to_fix_habtm_trip_organisation_creation_bug
       get url, params: params
     end
 
@@ -38,6 +46,12 @@ RSpec.describe "Guides::BookingsController", type: :request do
 
         context "a guest associated with one guide" do
           let!(:other_guide) { FactoryBot.create(:guide) }
+          let(:other_organisation) { FactoryBot.create(:organisation) }
+
+          before do
+            FactoryBot.create(:organisation_membership, organisation: other_organisation, guide: other_guide, owner: true)
+            FactoryBot.create(:onboarding, organisation: other_organisation)
+          end
 
           it "should be visible to the guide" do
             do_request
@@ -54,6 +68,10 @@ RSpec.describe "Guides::BookingsController", type: :request do
           end
         end
       end
+    end
+
+    def run_hack_to_fix_habtm_trip_organisation_creation_bug
+      Organisation.all.each { |org| FactoryBot.create(:onboarding, organisation: org) unless org.onboarding }
     end
   end
 end

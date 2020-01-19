@@ -20,8 +20,6 @@ class Organisation < ApplicationRecord
 
   has_one_attached :logo_image
 
-  after_commit :create_onboarding, on: :create
-
   delegate :complete?, to: :onboarding, prefix: true, allow_nil: true
   delegate :solo_founder?, to: :onboarding
   delegate :stripe_account_complete?, to: :onboarding
@@ -42,11 +40,5 @@ class Organisation < ApplicationRecord
     return stripe_account_id_test if on_trial?
 
     stripe_account_id_live
-  end
-
-  private
-
-  def create_onboarding
-    Onboardings::FactoryJob.perform_later(self)
   end
 end

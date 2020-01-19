@@ -12,16 +12,6 @@ RSpec.describe Organisation, type: :model do
 
   it { should define_enum_for(:currency).with(%i[eur gbp usd]) }
 
-  describe "callbacks" do
-    let!(:organisation) { FactoryBot.build(:organisation) }
-
-    it "should call #create_onboarding after_create" do
-      expect(organisation).to receive(:create_onboarding)
-
-      organisation.save
-    end
-  end
-
   describe "validations" do
     describe "deposit_percentage" do
       it { should validate_numericality_of(:deposit_percentage).only_integer }
@@ -57,7 +47,7 @@ RSpec.describe Organisation, type: :model do
   describe "#on_trial?" do
     subject(:on_trial?) { organisation.on_trial? }
 
-    let(:onboarding) { organisation.onboarding }
+    let!(:onboarding) { FactoryBot.create(:onboarding, organisation: organisation) }
     let(:organisation) { FactoryBot.create(:organisation) }
 
     context "organisation who's completed onboarding" do
