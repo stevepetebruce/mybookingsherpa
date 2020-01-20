@@ -6,7 +6,6 @@ RSpec.describe "Guides::BookingsController", type: :request do
 
   before do
     FactoryBot.create(:organisation_membership, organisation: organisation, guide: guide, owner: true)
-    FactoryBot.create(:onboarding, organisation: organisation)
   end
 
   describe "#show get /guides/bookings/:id" do
@@ -45,12 +44,11 @@ RSpec.describe "Guides::BookingsController", type: :request do
         end
 
         context "a guest associated with one guide" do
-          let!(:other_guide) { FactoryBot.create(:guide) }
+          let(:other_guide) { FactoryBot.create(:guide) }
           let(:other_organisation) { FactoryBot.create(:organisation) }
 
           before do
             FactoryBot.create(:organisation_membership, organisation: other_organisation, guide: other_guide, owner: true)
-            FactoryBot.create(:onboarding, organisation: other_organisation)
           end
 
           it "should be visible to the guide" do
