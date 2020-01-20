@@ -6,16 +6,17 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(booking.id) }
 
-    let!(:booking) { FactoryBot.create(:booking, guest: guest, organisation: organisation) }
-    let(:guest) { FactoryBot.create(:guest, stripe_customer_id: stripe_customer_id) }
+    let!(:booking) { FactoryBot.create(:booking, :for_trip_with_deposit,  organisation: organisation, stripe_customer_id: stripe_customer_id, stripe_payment_method_id: stripe_payment_method_id) }
+    let(:deposit_amount) { booking.full_cost * 0.10 }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
     let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
+    let!(:stripe_payment_method_id) { "pm_#{Faker::Crypto.md5}" }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/payment_intents").
         with(body: {
             amount: booking.full_cost,
-            application_fee_amount: booking.full_cost * 0.01,
+            application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: true,
             currency: booking.currency,
             customer: stripe_customer_id,
@@ -23,7 +24,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
               booking_id: booking.id
             },
             off_session: true,
-            payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f",
+            payment_method: booking.stripe_payment_method_id,
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           }).
         to_return(status: 200,
@@ -39,6 +40,8 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
         to_return(status: 200,
                   body: "#{file_fixture("stripe_api/successful_payment_methods_list.json").read}",
                   headers: {})
+
+      FactoryBot.create(:payment, amount: deposit_amount, booking: booking)
     end
 
     context "booking whose full_payment is required" do
@@ -55,24 +58,24 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       let(:expected_attributes) do
         {
           amount: booking.full_cost,
-          application_fee_amount: booking.full_cost * 0.01,
+          application_fee_amount: (booking.full_cost * 0.01).to_i,
           confirm: true,
           currency: booking.currency,
           customer: stripe_customer_id,
           metadata: { booking_id: booking.id },
           off_session: true,
-          payment_method: "pm_1EUmyr2x6R10KRrhlYS3l97f",
+          payment_method: booking.stripe_payment_method_id,
           statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-          transfer_data: { destination: booking.organisation_stripe_account_id }
         }
       end
 
       it "should call External::StripeApi::PaymentIntent#create" do
-        pending 'Jan 2020 rush job'
-        # Payments are now created in the Stripe payment_intents webhook
+        pending 'great run of late jan 2020'
         perform
 
-        expect(External::StripeApi::PaymentIntent).to have_received(:create).with(expected_attributes, use_test_api: true)
+        expect(External::StripeApi::PaymentIntent).
+          to have_received(:create).
+          with(expected_attributes, organisation.stripe_account_id, use_test_api: true)
       end
     end
 
@@ -107,6 +110,8 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       let(:payment_required?) { true }
 
       it "should create a charge with a failed status" do
+        # TODO: need to look at this... needs manual testing....
+        # https://stripe.com/docs/testing#three-ds-cards: 4000008400001629
         pending 'this should be done in the webhook now'
         expect { perform }.to change { booking.payments.count }.from(0).to(1)
         expect(booking.last_payment_failed?).to be_truthy

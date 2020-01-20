@@ -5,6 +5,7 @@ module Guides
     class BankAccountsController < ApplicationController
       include Onboardings::Tracking
       before_action :assign_hide_in_trial_banner, only: %i[new]
+      before_action :assign_current_organisation
       before_action :authenticate_guide!
 
       def new
@@ -36,19 +37,19 @@ module Guides
       end
 
       def bank_account_complete_tasks
-        return if current_organisation.onboarding_complete? # Don't want to delete genuine bookings
+        return if @current_organisation.onboarding_complete? # Don't want to delete genuine bookings
 
         track_onboarding_event("new_bank_account_created")
-        current_organisation.onboarding.update(bank_account_complete: true,
-                                               stripe_account_complete: stripe_account_complete?)
+        @current_organisation.onboarding.update(bank_account_complete: true,
+                                                stripe_account_complete: stripe_account_complete?)
 
-        if current_organisation.onboarding.reload.complete?
+        if @current_organisation.onboarding.reload.complete?
           track_onboarding_event("trial_ended")
-          Onboardings::DestroyTrialGuestsJob.perform_later(current_organisation)
+          Onboardings::DestroyTrialGuestsJob.perform_later(@current_organisation)
         end
       end
 
-      def current_organisation
+      def assign_current_organisation
         # TODO: when a Guide owns more than one organisation, will need a way to choose btwn them.
         @current_organisation ||= current_guide&.organisation_memberships&.owners&.first&.organisation
       end
@@ -59,7 +60,7 @@ module Guides
 
       def stripe_account
         @stripe_account ||=
-          External::StripeApi::Account.retrieve(current_organisation.stripe_account_id_live)
+          External::StripeApi::Account.retrieve(@current_organisation.stripe_account_id_live)
       end
 
       def stripe_account_complete?
@@ -72,7 +73,7 @@ module Guides
 
       def stripe_external_account
         @stripe_external_account ||=
-          External::StripeApi::ExternalAccount.create(current_organisation.stripe_account_id_live,
+          External::StripeApi::ExternalAccount.create(@current_organisation.stripe_account_id_live,
                                                       params[:token_account])
       end
     end

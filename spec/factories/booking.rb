@@ -78,6 +78,10 @@ FactoryBot.define do
       end
     end
 
+    trait :for_trip_with_deposit do
+      association :trip, :with_deposit
+    end
+
     trait :with_payment do
       after(:create) do |booking|
         create :payment, booking: booking
