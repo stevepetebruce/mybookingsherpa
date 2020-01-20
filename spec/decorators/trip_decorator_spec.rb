@@ -1,8 +1,9 @@
 require "rails_helper"
 
 RSpec.describe TripDecorator, type: :model do
-  let!(:trip) { FactoryBot.create(:trip) }
+  let!(:onboarding) { FactoryBot.create(:onboarding, organisation: organisation) }
   let!(:organisation) { trip.organisation }
+  let!(:trip) { FactoryBot.create(:trip) }
 
   describe "#new_public_booking_link" do
     subject (:new_public_booking_link) { trip.new_public_booking_link }

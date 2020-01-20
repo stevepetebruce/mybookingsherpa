@@ -25,6 +25,8 @@ RSpec.describe "Guides::Trips::BookingsController", type: :request do
           "success_url"=>"http://www.example.com/guides/welcome/bank_accounts/new",
           "type"=>"custom_account_verification"}).
         to_return(status: 200, body: "#{file_fixture("stripe_api/successful_account_link.json").read}", headers: {})
+
+      FactoryBot.create(:onboarding, organisation: guide.organisation)
     end
 
     context "signed in" do
@@ -40,6 +42,12 @@ RSpec.describe "Guides::Trips::BookingsController", type: :request do
 
         context "a trip associated with one guide" do
           let!(:other_guide) { FactoryBot.create(:guide) }
+          let(:other_organisation) { FactoryBot.create(:organisation) }
+
+          before do
+            FactoryBot.create(:organisation_membership, organisation: other_organisation, guide: other_guide, owner: true)
+            FactoryBot.create(:onboarding, organisation: other_organisation)
+          end
 
           it "should be visible to the guide" do
             do_request

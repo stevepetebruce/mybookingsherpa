@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe OrganisationDecorator, type: :model do
+  let!(:onboarding) { FactoryBot.create(:onboarding, organisation: organisation) }
   let(:organisation) { FactoryBot.create(:organisation) }
 
   describe "#stripe_publishable_key" do

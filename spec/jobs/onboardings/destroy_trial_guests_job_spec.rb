@@ -5,8 +5,8 @@ RSpec.describe Onboardings::DestroyTrialGuestsJob, type: :job do
 
   describe "#perform_later" do
     subject(:perform_later) { described_class.perform_later(organisation) }
+    let!(:onboarding) {FactoryBot.create(:onboarding, organisation: organisation) }
     let!(:organisation) { FactoryBot.create(:organisation) }
-    let(:onboarding) { organisation.onboarding }
     let!(:trip) { FactoryBot.create(:trip, organisation: organisation) }
 
     context "valid and successful" do

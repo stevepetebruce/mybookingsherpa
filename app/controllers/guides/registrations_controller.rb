@@ -1,10 +1,9 @@
 class Guides::RegistrationsController < Devise::RegistrationsController
-  after_action :create_organisation_and_subscription, only: %i[create]
-
   layout "minimal"
 
   def create
     super
+    create_organisation_and_subscription
     flash.delete(:notice)
   end
 
@@ -19,10 +18,12 @@ class Guides::RegistrationsController < Devise::RegistrationsController
       # TODO: be more clever about how we select the default currency here... Could use: https://github.com/hexorx/countries
       # organisation = Organisation.create(currency: "eur", ...
 
+      # TODO: wrap this in a transaction and rescue ActiveRecord::InvalidRecord exception
       organisation = Organisation.create
       OrganisationMembership.create(organisation: organisation, guide: resource, owner: true)
-      Onboardings::OnboardingInitialisationJob.perform_later(organisation, request.remote_ip)
       Subscription.create(organisation: organisation, plan: discount_plan)
+      Onboarding.create(organisation: organisation)
+      Onboardings::OnboardingInitialisationJob.perform_later(organisation, request.remote_ip)
     end
   end
 
