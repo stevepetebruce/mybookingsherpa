@@ -1,111 +1,120 @@
 <div data-controller="copy-date currency-select trip-preview toggle-trip-description">
   <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { target: "trip-preview.form" } ) do |form| %>
-    <div class="row justify-content-md-center">
-      <div class="col-md-10">
-        <div class="mb-3">
-          <%= form.label :trip_name %>
-          <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
-          <div class="invalid-feedback">
-            <%= "Please enter a valid trip name" %>
-          </div>
-          <% if @trip.errors[:name].present? %>
-            <div class="invalid-feedback" style="display: block;">
-              Please enter a valid trip name
-            </div>
-          <% end %>
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted"><%= form.label :trip_name %></h4>
+      </div>
+      <div class="col-md-6">
+        <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
+        <div class="invalid-feedback">
+          Please enter a valid trip name
         </div>
-        <div class="mb-3">
-          <%= form.label :a_brief_description_of_your_trip, "A brief description of your trip (maximum characters: 500)" %>
-          <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
-          <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
-          <div class="invalid-feedback">
-            <%= "Please enter a valid description" %>
+        <% if @trip.errors[:name].present? %>
+          <div class="invalid-feedback" style="display: block;">
+            Please enter a valid trip name
           </div>
-          <% if @trip.errors[:description].present? %>
-            <div class="invalid-feedback" style="display: block;">
-              Please enter a valid trip description
-            </div>
-          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted"><%= form.label :a_brief_description_of_your_trip, "A brief description of your trip", class: "mb-0" %><br><small class="text-muted">(maximum characters: 500)</small></h4>
+      </div>
+      <div class="col-md-6">
+        <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
+        <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
+        <div class="invalid-feedback">
+          Please enter a valid description
         </div>
-        <div class="row">
-          <div class="col-md-3 mb-3">
-            <%= form.label :start_date %>
-            <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
-            <div class="invalid-feedback">
-              <%= "Please enter a valid start date" %>
-            </div>
-            <% if @trip.errors[:start_date].present? %>
-              <div class="invalid-feedback" style="display: block;">
-                Please enter a valid start date
-              </div>
-            <% end %>
+        <% if @trip.errors[:description].present? %>
+          <div class="invalid-feedback" style="display: block;">
+            Please enter a valid trip description
           </div>
-          <div class="col-md-3 mb-3">
-            <%= form.label :end_date %>
-            <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
-            <div class="invalid-feedback">
-              <%= "Please enter a valid end date" %>
-            </div>
-            <% if @trip.errors[:end_date].present? %>
-              <div class="invalid-feedback" style="display: block;">
-                Please enter a valid end date
-              </div>
-            <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted">Dates</h4>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :start_date %>
+        <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
+        <div class="invalid-feedback">
+          Please enter a valid start date
+        </div>
+        <% if @trip.errors[:start_date].present? %>
+          <div class="invalid-feedback" style="display: block;">
+            Please enter a valid start date
           </div>
-          <div class="col-md-3 mb-3">
-            <%= form.label :minimum_number_of_guests, "Minimum number of guests" %>
-            <%= form.number_field :minimum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
+        <% end %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :end_date %>
+        <%= form.date_field :end_date, class: "#{'is-invalid' if @trip.errors[:end_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate focus->copy-date#copyDate", target: "trip-preview.endDateInput copy-date.endDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :end_date) %>
+        <div class="invalid-feedback">
+          Please enter a valid end date
+        </div>
+        <% if @trip.errors[:end_date].present? %>
+          <div class="invalid-feedback" style="display: block;">
+            Please enter a valid end date
           </div>
-          <div class="col-md-3 mb-3">
-            <%= form.label :maximum_number_of_guests, "Maximum number of guests" %>
-              <%= form.number_field :maximum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted">Guests</h4>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :minimum_number_of_guests, "Minimum number of guests" %>
+        <%= form.number_field :minimum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :maximum_number_of_guests, "Maximum number of guests" %>
+          <%= form.number_field :maximum_number_of_guests, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", required: true, class: "form-control" %>
+      </div>
+    </div>
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted">Price</h4>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :currency %>
+          <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customselect", data: { target: "currency-select.source trip-preview.currencyInput", action: "currency-select#switchCurrency" }} %>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :full_cost, "Cost per guest" %>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
+          </div>
+          <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), min: 0, step: 1.0, required: true, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>     
+      </div>
+    </div>
+    <hr class="justify-content-md-center mt-3 mb-3 col-md-10" />
+    <div class="row form-group mb-3 justify-content-md-center mt-3">
+      <div class="col-md-4">
+        <h4 class="font-weight-bold text-muted">Optional Deposit <br><small class="text-muted">(leave blank if full payment required)</small></h4>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :deposit_percentage %> 
+        <div class="input-group">
+          <%= form.number_field :deposit_percentage, min: 0, max: 100, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
+          <div class="input-group-append">
+            <span class="input-group-text">%</span>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-md-6 mb-3">
-            <ul class="list-group mb-3">
-              <h4 class="mb-3 font-weight-bold">Price</h4>
-              <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div class="col-md-5 mb-3">
-                  <%= form.label :currency %>
-                    <%= form.select :currency, options_for_select(Trip.currencies.map {|k, v| [k.upcase, k]  }.to_h, selected: @trip.currency), {}, { class: "form-control customselect", data: { target: "currency-select.source trip-preview.currencyInput", action: "currency-select#switchCurrency" }} %>
-                </div>
-                <div class="col-md-7 mb-3">
-                  <%= form.label :full_cost, "Cost per guest" %>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@trip.currency) %></span>
-                    </div>
-                    <%= form.number_field :full_cost, value: Currency.human_readable(@trip.full_cost), min: 0, step: 1.0, required: true, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { number_to_fixed: 2, number_stepfactor: 100, action: "keyup->trip-preview#previewUpdate", target: "trip-preview.fullCostInput" }, class: "form-control" %>
-                    <div class="input-group-append">
-                      <span class="input-group-text">.00</span>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="row col-md-6 mb-3">
-            <div class="col-md-12 mb-3">
-              <h5 class="font-weight-bold text-muted">Optional Deposit <small class="text-muted">(leave blank if full payment required)</small></h5>
-            </div>
-            <div class="col-md-6 mb-3">
-              <%= form.label :deposit_percentage %> 
-              <div class="input-group">
-                <%= form.number_field :deposit_percentage, min: 0, max: 100, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.depositPercentageInput" }, class: "form-control" %>
-                <div class="input-group-append">
-                  <span class="input-group-text">%</span>
-                </div>
-              </div>
-              <small class="text-muted">Deposit (% of full trip cost)</small>
-            </div>
-            <div class="col-md-6 mb-3">
-              <%= form.label :full_payment_window_weeks, "Full payment window" %>
-                <%= form.number_field :full_payment_window_weeks, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
-              <small class="text-muted">Weeks before (trip start date)<br> full payment required</small>
-            </div>
-          </div>
-        </div>
+        <small class="text-muted">Deposit (% of full trip cost)</small>
+      </div>
+      <div class="col-md-3 mb-3">
+        <%= form.label :full_payment_window_weeks, "Full payment window" %>
+          <%= form.number_field :full_payment_window_weeks, min: 0, step: 1, onkeypress: "return event.charCode >= 48 && event.charCode <= 57", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.paymentWindowWeeksInput" }, class: "form-control" %>
+        <small class="text-muted">Weeks before (trip start date)<br> full payment required</small>
       </div>
     </div>
     <div class="col-md-12 mb-3 text-center mt-2">
