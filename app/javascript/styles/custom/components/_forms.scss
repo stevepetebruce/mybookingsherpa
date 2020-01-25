@@ -8,21 +8,24 @@
   border: 2px solid $secondary;
 }
 .form-control::-ms-expand {
-    background-color: transparent;
-    border: 0; }
+  background-color: transparent;
+  border: 0; 
+}
 .form-control:focus {
     color: #495057;
     background-color: $white;
     border-color: lighten($primary, 20%);
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+}
 .form-control:disabled, .form-control[readonly] {
-    background-color: $ghost-white;
-    opacity: 1;
-    }
+  background-color: $ghost-white;
+  opacity: 1;
+}
 select.form-control:focus::-ms-value {
   color: #495057;
-  background-color: #fff; }
+  background-color: #fff; 
+}
 
 textarea:focus,
 input[type="text"]:focus,
@@ -101,6 +104,25 @@ ul.formline > li:before {
   height: 20px;
   z-index: 9;
 }
+
+/* Guest-quantity */
+
+input.guest-number {
+  text-align: center;
+  border: 0;
+  font-size: 22px !important;
+}
+.guestQuantity .input-group {
+  width: 175px;
+}
+.guestQuantity .list-group-item {
+  border: 0;
+}
+.guestQuantity .btn:focus, .btn:active:focus, .btn.active:focus{
+  outline:none;
+  box-shadow:none;
+}
+
 
 /* Date-Input */
 

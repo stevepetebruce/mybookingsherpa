@@ -33,7 +33,7 @@
   </div>
 <% end %>
 
-<main id="main" data-controller="toggle-trip-description">
+<main id="main" data-controller="trip-title toggle-trip-description guest-quantity" data-guest-quantity-max="6" data-guest-quantity-total="0" data-guest-quantity-deposit="10">
   <section class="d-flex align-items-center bg-skew bg-skew-primary overflow-hidden text-white">
     <div class="container mb-xl-5 pt-4">
       <div class="row justify-content-center text-center">
@@ -70,12 +70,12 @@
             <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-2">
               Deposit due now
             </dt>
-            <dd class="h2 mb-0 font-serif"><%= @booking.human_readable_amount_due %></dd>
+            <dd class="h2 mb-0 font-serif"><%= @booking.human_readable_amount_due %> <span data-target="guest-quantity.depositPriceInput"></span></dd>
             <% end %>
             <% if @booking.only_paying_deposit? %>
             <dd class="font-weight-light mb-0 pb-4 border-bottom">
               <small class="text-secondary"
-                >Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %><br />
+                >Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %> <span data-target="guest-quantity.outstandingPriceInput"></span><br />
                 will be taken on <%= @booking.human_readable_full_payment_date %></small
               >
               <!-- TODO: do we really need this info (below) ? -->
@@ -87,7 +87,7 @@
               Total cost
             </dt>
             <dd class="h1 mb-0 font-serif">
-              <%= @booking.human_readable_full_cost %>
+              <%= @booking.human_readable_full_cost %> <span data-target="guest-quantity.totalPriceInput"></span>
             </dd>
           </dl>
         </aside>
