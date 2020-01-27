@@ -17,6 +17,12 @@ RSpec.describe Payment, type: :model do
     end
   end
 
+  describe "validations" do
+    context "stripe_payment_intent_id" do
+      it { should validate_uniqueness_of(:stripe_payment_intent_id).ignoring_case_sensitivity }
+    end
+  end
+
   describe "#failed?" do
     subject(:failed?) { payment.failed? }
 

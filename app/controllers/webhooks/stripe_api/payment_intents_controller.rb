@@ -26,18 +26,6 @@ module Webhooks
         @booking ||= Booking.find(@payment_intent.metadata.booking_id)
       end
 
-      def create_or_update_booking_payment
-        booking.payments.where(stripe_payment_intent_id: stripe_payment_intent_id).
-          first_or_create.
-          update(amount: amount_received, status: :success)
-      end
-
-      def create_or_update_payment
-        Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
-          first_or_create.
-          update(amount: amount_received, status: :success)
-      end
-
       def end_point_secret
         ENV.fetch("STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS")
       end
@@ -51,7 +39,7 @@ module Webhooks
         when "payment_intent.created"
         when "payment_intent.amount_capturable_updated"
         when "payment_intent.succeeded"
-          update_or_create_payment
+          successful_payment_jobs
         when "payment_intent.payment_failed"
           payment.update(amount: amount, status: "failed")
           send_failed_payment_emails if payment_failure_message #TODO: this is a little fragile: assumes there's no charge objects in a failed on_session payment_intent
@@ -89,11 +77,6 @@ module Webhooks
                                                         payment_failure_message)
       end
 
-      def send_new_booking_payment_emails
-        Bookings::SendNewBookingEmailsJob.perform_in(time_to_allow_for_booking_creation,
-                                                     stripe_payment_intent_id)
-      end
-
       def signature_header
         request.env["HTTP_STRIPE_SIGNATURE"]
       end
@@ -106,12 +89,13 @@ module Webhooks
         stripe_payment_intent.id
       end
 
-      def update_or_create_payment
-        # TODO: how to handle failures here?
-        Payment.transaction do
-          booking ? create_or_update_booking_payment : create_or_update_payment
-        end
-        send_new_booking_payment_emails
+      def successful_payment_jobs
+        Bookings::UpdateSuccessfulPaymentJob.perform_in(time_to_allow_for_booking_creation,
+                                                        amount_received,
+                                                        stripe_payment_intent_id)
+
+        Bookings::SendNewBookingEmailsJob.perform_in(time_to_allow_for_booking_creation,
+                                                     stripe_payment_intent_id)
       end
 
       def time_to_allow_for_booking_creation

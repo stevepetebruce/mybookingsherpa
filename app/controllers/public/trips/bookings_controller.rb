@@ -141,16 +141,9 @@ module Public
       end
 
       def update_or_create_payment
-        # TODO: Refactor... There's a possible race condition here:
-        # When the Stripe webhook comes back at same time as this is called...
-        # Then two payments would be created?
-        # Move to delayed background job?
-        # Create a unique constraint on payments on their stripe_payment_intent_id
-        Payment.transaction do
-          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
-            first_or_create.
-            update(booking: @booking)
-        end
+        Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
+          first_or_create.
+          update(booking: @booking)
       end
 
       def send_trial_emails

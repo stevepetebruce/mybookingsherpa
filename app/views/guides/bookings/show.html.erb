@@ -85,6 +85,10 @@
                       <div class="media-body col mb-5 display-4 font-weight-normal">
                         <i class="la la-check-circle la-lg text-warning"></i> Deposit paid
                       </div>
+                    <% elsif @booking.payment_pending? %>
+                      <div class="media-body col mb-5 display-4 font-weight-normal">
+                        <i class="la la-check-circle la-lg text-warning"></i> Payment pending
+                      </div>
                     <% elsif @booking.payment_failed? %>
                       <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
                         <i class="la la-exclamation-circle la-lg text-danger"></i> Payment failed
@@ -92,6 +96,10 @@
                     <% elsif @booking.refunded? %>
                       <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
                         <i class="la la-exclamation-circle la-lg text-danger"></i> Refunded
+                      </div>
+                    <% else %>
+                      <div class="media-body col mb-1 display-4 font-weight-normal text-danger">
+                        <i class="la la-exclamation-circle la-lg text-danger"></i> Something&#39;s not right here...<br> Please contact support.
                       </div>
                     <% end %>
                   </div>

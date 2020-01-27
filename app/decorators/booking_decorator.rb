@@ -84,12 +84,14 @@ module BookingDecorator
     return "dot-danger" if payment_failed?
     return "dot-danger" if refunded?
     return "dot-warning" if payment_required?
+    return "dot-warning" if payment_pending?
 
     "dot-success"
   end
 
   def payment_status_text
     return "Last payment failed" if payment_failed?
+    return "Payment pending" if payment_pending?
     return "Deposit paid" if payment_required?
     return "Refunded" if refunded?
 

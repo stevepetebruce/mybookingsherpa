@@ -8,6 +8,7 @@ module Bookings
     def new_payment_status
       # TODO: add a way for the status to be :refunded - will need Stripe webhook
       return :payment_failed if @booking.last_payment_failed?
+      return :payment_pending if payment_pending?
       return :payment_required if no_payments? || payment_required?
       return :payment_failed if @booking.last_failed_payment
 
@@ -34,6 +35,10 @@ module Bookings
 
     def no_payments?
       @booking.payments.empty?
+    end
+
+    def payment_pending?
+      @booking.last_payment&.pending?
     end
   end
 end

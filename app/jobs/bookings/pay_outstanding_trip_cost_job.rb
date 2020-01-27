@@ -12,7 +12,8 @@ module Bookings
       # TODO: look at this... this job fails when in trial: return if @booking.organisation_on_trial?
       return unless full_payment_required?
 
-      Bookings::PaymentIntents.create(@booking)
+      @booking.payments.create(status: :pending,
+                               stripe_payment_intent_id: payment_intent.id)
     end
 
     private
@@ -22,6 +23,10 @@ module Bookings
       #  this will return false, when it totals up all the payments' amounts associated with
       #  this booking...
       Bookings::PaymentStatus.new(@booking).payment_required?
+    end
+
+    def payment_intent
+      @payment_intent ||= Bookings::PaymentIntents.create(@booking)
     end
   end
 end
