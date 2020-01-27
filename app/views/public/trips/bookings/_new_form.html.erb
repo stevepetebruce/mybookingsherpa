@@ -37,16 +37,19 @@ An extra step - but a definite confirmation from the user.
   </div>
   <h4 class="mb-1 mt-5 font-weight-bold font-serif">Add guests</h4>
   <ul class="list-group form-group guestQuantity">
+    <!-- TODO: start loop -->
     <li class="list-group-item d-flex justify-content-between lh-condensed">
       <h4 class="my-auto text-uppercase">
         <!-- TODO: insert guest type dynamic -->Adult <small class="text-muted ml-2 text-lowercase"><!-- TODO: insert price dynamic -->£120 per person</small>
       </h4>
       <div class="input-group">
         <div class="input-group-btn my-auto">
+          <!-- TODO: insert index dynamic start at 0 - data-guest-index X4 -->
           <button class="btn btn-default" data-guest-index="0" data-action="guest-quantity#down">
             <i class="la la-minus-circle text-primary la-lg" data-guest-index="0"></i>
           </button>
         </div>
+        <!-- TODO: insert price dynamic - data-guest-price -->
         <input type="text" class="form-control guest-number p-0" value="1" data-guest-price="120" data-target="guest-quantity.guestQuantityInput" readonly/>
         <div class="input-group-btn my-auto">
           <button class="btn btn-default" data-guest-index="0" data-action="guest-quantity#up">
@@ -55,6 +58,7 @@ An extra step - but a definite confirmation from the user.
         </div>
       </div>
     </li>
+    <!-- end loop -->
     <li class="list-group-item d-flex justify-content-between lh-condensed">
       <h4 class="my-auto text-uppercase">
         Child <small class="text-muted ml-2 text-lowercase">£80 per person</small>
