@@ -6,6 +6,8 @@ class Payment < ApplicationRecord
 
   after_save :update_booking_payment_status
 
+  validates :stripe_payment_intent_id, uniqueness: true
+
   # This is breaking the status enum method failed?
   # TODO: need to check where this is used and where raw_response is updated...
   # def failed?
