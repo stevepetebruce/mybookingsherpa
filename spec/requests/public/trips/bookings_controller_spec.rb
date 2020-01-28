@@ -106,7 +106,6 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         let!(:email) { Faker::Internet.email }
 
         it "should not send out the new booking email to the guest and trip provider - this happens in the stripe payment_intent webhook" do
-          pending 'Jan 2020 rush job - II'
           expect { do_request(params: params) }.not_to change { ActionMailer::Base.deliveries.count }
         end
 
@@ -193,13 +192,12 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. Card declined")
           end
 
-          it "should create a booking and a guest with a stripe_customer_id" do
-            pending 'Jan 2020 rush job'
+          it "should create a guest and a booking with a stripe_customer_id" do
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -217,14 +215,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. RateLimitError. Please try again or contact Guide for help.")
           end
 
-          it "should create a booking and a guest with a stripe_customer_id" do
-            pending 'Jan 2020 rush job'
+          it "should create a guest and a booking with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -242,14 +239,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful.  Invalid request. Please try again or contact Guide for help.")
           end
 
-          it "should still create a booking and a guest with a stripe_customer_id" do
-            pending 'Jan 2020 rush job'
+          it "should still create a guest and a booking with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -267,14 +263,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. AuthenticationError. Please try again or contact Guide for help.")
           end
 
-          it "should still create a booking and a guest with a stripe_customer_id" do
-            pending 'Jan 2020 rush job'
+          it "should still create a guest and a booking with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -292,14 +287,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. APIConnectionError. Please try again or contact Guide for help.")
           end
 
-          it "should still create a booking and a guest with a stripe_customer_id" do
+          it "should still create a guest and a booking with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
-            pending 'Jan 2020 rush job'
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
 
@@ -317,14 +311,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. StripeError. Please try again or contact Guide for help.")
           end
 
-          it "should still create a booking and a guest with a stripe_customer_id" do
+          it "should still create a guest and a booking with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
-            pending 'Jan 2020 rush job'
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
-            expect(Guest.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_customer_id).to_not be_nil
           end
         end
       end
@@ -553,11 +546,12 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
       end
     end
     context "invalid and unsuccessful" do
-      let(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
+      let!(:booking) { FactoryBot.create(:booking, created_at: 10.minutes.ago) }
       let(:email) { Faker::Lorem.word }
 
+      before { FactoryBot.create(:onboarding, organisation: booking.organisation) }
+
       it "should redirect back with error message" do
-        pending 'Jan 2020 rush job - II'
         do_request(params: params)
 
         expect(response.code).to eq "200"

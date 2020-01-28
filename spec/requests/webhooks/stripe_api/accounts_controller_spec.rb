@@ -64,10 +64,9 @@ RSpec.describe "Webhooks::StripeApi::AccountsController", type: :request do
           end
 
           it "should update the organisation's (onboarding) stripe_account_complete" do
-            pending 'Jan 2020 rush job - II'
             do_request(params: params, headers: headers)
 
-            expect(organisation.stripe_account_complete?).to eq true
+            expect(organisation.reload.stripe_account_complete?).to eq true
           end
         end
       end

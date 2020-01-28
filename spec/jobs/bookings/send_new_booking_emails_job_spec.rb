@@ -7,7 +7,7 @@ RSpec.describe Bookings::SendNewBookingEmailsJob, type: :job do
     let!(:booking) { FactoryBot.create(:booking) }
     let(:deposit_amount) { booking.full_cost * 0.10 }
     let(:outstanding_amount) { booking.full_cost * 0.90 }
-    let!(:stripe_payment_intent_id) { "cus_#{Faker::Crypto.md5}" }
+    let!(:stripe_payment_intent_id) { "pm_#{Faker::Crypto.md5}" }
 
 
     context "booking that is not paying outstanding amount (ie, this is deposit or full payment)" do

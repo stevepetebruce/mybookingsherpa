@@ -6,6 +6,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
 
     let!(:booking) { FactoryBot.create(:booking, organisation: organisation, trip: trip) }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
+    let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
     let(:trip) { FactoryBot.create(:trip) }
 
     context "successful" do
@@ -14,10 +15,13 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           with(body: {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
+            metadata: {
+              booking_id: booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
           }).
           to_return(status: 200,
                     body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
@@ -25,12 +29,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
       end
 
       it "should not raise an exception" do
-        pending 'Jan 2020 rush job'
         expect { create }.to_not raise_exception
       end
 
       it "should return something other than nil" do
-        pending 'Jan 2020 rush job'
         expect(create).to_not be_nil
       end
 
@@ -46,17 +48,20 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         let(:attributes) do
           {
             amount: booking.deposit_cost,
+            confirm: false,
             currency: booking.currency,
-            customer: nil,
+            metadata: { "booking_id": booking.id },
             setup_future_usage: "off_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
           }
         end
 
         it "should not charge an application_fee" do
-          pending 'Jan 2020 rush job'
-          expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: true)
+          expect(External::StripeApi::PaymentIntent).
+            to receive(:create).
+            with(attributes,
+                 booking.organisation_stripe_account_id,
+                 use_test_api: true)
 
           create
         end
@@ -67,17 +72,19 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
-            customer: nil,
+            metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
-          }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")          }
         end
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
-          pending 'Jan 2020 rush job'
-          expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: true)
+          expect(External::StripeApi::PaymentIntent).
+            to receive(:create).
+            with(attributes,
+                 booking.organisation_stripe_account_id,
+                 use_test_api: true)
 
           create
         end
@@ -88,19 +95,22 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
-            customer: nil,
+            metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
           }
         end
 
         before { allow(booking).to receive(:organisation_on_trial?).and_return(false) }
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
-          pending 'Jan 2020 rush job'
-          expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: false)
+          expect(External::StripeApi::PaymentIntent).
+            to receive(:create).
+            with(attributes,
+                 booking.organisation_stripe_account_id,
+                 use_test_api: false)
 
           create
         end
@@ -124,10 +134,11 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           with(body: {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
+            metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
           }).
           to_return(status: 200,
                     body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
@@ -135,12 +146,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
       end
 
       it "should not raise an exception" do
-        pending 'Jan 2020 rush job'
         expect { find_or_create }.to_not raise_exception
       end
 
       it "should return something other than nil" do
-        pending 'Jan 2020 rush job'
         expect(find_or_create).to_not be_nil
       end
 
@@ -149,17 +158,20 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
-            customer: nil,
+            metadata: { booking_id: booking.id },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
           }
         end
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
-          pending 'Jan 2020 rush job'
-          expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: true)
+          expect(External::StripeApi::PaymentIntent).
+            to receive(:create).
+            with(attributes,
+                 booking.organisation_stripe_account_id,
+                 use_test_api: true)
 
           find_or_create
         end
@@ -171,19 +183,22 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
           {
             amount: booking.full_cost,
             application_fee_amount: (booking.full_cost * 0.01).to_i,
+            confirm: false,
             currency: booking.currency,
-            customer: nil,
+            metadata: { booking_id: booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-            transfer_data: { destination: booking.organisation_stripe_account_id }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ")
           }
         end
 
         before { allow(booking).to receive(:organisation_on_trial?).and_return(false) }
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
-          pending 'Jan 2020 rush job'
-          expect(External::StripeApi::PaymentIntent).to receive(:create).with(attributes, use_test_api: false)
+          expect(External::StripeApi::PaymentIntent).
+            to receive(:create).
+            with(attributes,
+                 booking.organisation_stripe_account_id,
+                 use_test_api: false)
 
           find_or_create
         end
@@ -201,10 +216,11 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
         before { allow(External::StripeApi::PaymentIntent).to receive(:retrieve) }
 
         it "should call External::StripeApi::PaymentIntent.retrieve" do
-          pending 'Jan 2020 rush job'
           find_or_create
 
-          expect(External::StripeApi::PaymentIntent).to have_received(:retrieve).with(stripe_payment_intent_id, use_test_api: true)
+          expect(External::StripeApi::PaymentIntent).
+            to have_received(:retrieve).
+            with(stripe_payment_intent_id, booking.organisation_stripe_account_id, use_test_api: true)
         end
       end
     end
