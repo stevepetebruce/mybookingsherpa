@@ -14,5 +14,13 @@ FactoryBot.define do
         }
       end
     end
+
+    trait :pending do
+      status { :pending }
+    end
+
+    trait :success do
+      status { :success }
+    end
   end
 end

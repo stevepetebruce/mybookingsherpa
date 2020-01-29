@@ -355,9 +355,10 @@ RSpec.describe BookingDecorator, type: :model do
     end
 
     context "booking's payment is pending / yellow" do
+      let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking) }
+
       it "should return the correct flag" do
-        # TODO:
-        # expect(payment_status_icon).to eq "dot-warning"
+        expect(payment_status_icon).to eq "dot-warning"
       end
     end
 
@@ -370,10 +371,9 @@ RSpec.describe BookingDecorator, type: :model do
     end
 
     context "booking is full paid up / green" do
-      let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
+      let!(:payment) { FactoryBot.create(:payment, :success, amount: booking.full_cost, booking: booking) }
 
       it "should return the correct flag" do
-        pending 'great rush job late jan 2020'
         expect(payment_status_icon).to eq "dot-success"
       end
     end
@@ -397,17 +397,15 @@ RSpec.describe BookingDecorator, type: :model do
     end
 
     context "payment is pending" do
-      # TODO:
-      # it { expect(payment_status_text).to eq "Pending" }
+      let!(:payment) { FactoryBot.create(:payment, :pending, amount: booking.full_cost, booking: booking) }
+
+      it { expect(payment_status_text).to eq "Payment pending" }
     end
 
     context "payment complete" do
-      let!(:payment) { FactoryBot.create(:payment, amount: booking.full_cost, booking: booking) }
+      let!(:payment) { FactoryBot.create(:payment, :success, amount: booking.full_cost, booking: booking) }
 
-      it { 
-        pending 'great rush job late jan 2020'
-        expect(payment_status_text).to eq "Fully paid"
-      }
+      it { expect(payment_status_text).to eq "Fully paid" }
     end
 
     context "last payment failed" do
