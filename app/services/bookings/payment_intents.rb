@@ -87,7 +87,7 @@ module Bookings
     end
 
     def statement_descriptor_suffix
-      @booking.trip_name.truncate(22, separator: " ")
+      @booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
     end
 
     def use_test_api?
