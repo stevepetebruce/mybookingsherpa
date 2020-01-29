@@ -9,7 +9,6 @@ RSpec.describe Bookings::SendNewBookingEmailsJob, type: :job do
     let(:outstanding_amount) { booking.full_cost * 0.90 }
     let!(:stripe_payment_intent_id) { "pm_#{Faker::Crypto.md5}" }
 
-
     context "booking that is not paying outstanding amount (ie, this is deposit or full payment)" do
       before do 
         FactoryBot.create(:payment,
@@ -25,20 +24,17 @@ RSpec.describe Bookings::SendNewBookingEmailsJob, type: :job do
 
     context "booking that is paying outstanding amount" do
       before do
-        pending 'great rush job late jan 2020'
-        # TODO: reinstate these payments... with different stripe_payment_intent_ids
-        # FactoryBot.create(:payment,
-        #                   amount: deposit_amount,
-        #                   booking: booking,
-        #                   stripe_payment_intent_id: stripe_payment_intent_id)
-        # FactoryBot.create(:payment,
-        #                   amount: outstanding_amount,
-        #                   booking: booking,
-        #                   stripe_payment_intent_id: stripe_payment_intent_id)
+        FactoryBot.create(:payment,
+                          amount: deposit_amount,
+                          booking: booking,
+                          stripe_payment_intent_id: stripe_payment_intent_id )
+        FactoryBot.create(:payment,
+                          amount: outstanding_amount,
+                          booking: booking,
+                          stripe_payment_intent_id: "pm_#{Faker::Crypto.md5}" )
       end
 
       it "should not send the guide and guest emails" do
-        pending 'great rush job late jan 2020'
         expect { perform }.not_to change { ActionMailer::Base.deliveries.count }
       end
     end
