@@ -33,49 +33,66 @@
   </div>
 <% end %>
 
-<div class="container-fluid full-height" data-controller="trip-title toggle-trip-description">
-  <div class="row row-height">
-    <div class="col-lg-4 content-left">
-      <div class="content-left-wrapper bg_img">
-        <div class="wrapper">
-          <div class="py-4 text-center">
-            <% if @booking.organisation.logo_image.attached? %>
-              <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto mb-4 logo" %>
-            <% end %>
-            <h1 class="font-weight-bold mb-0 <%= 'cancelled-trip' if @booking.trip_cancelled? %>" data-target="trip-title.tripNameSource"><%= @booking.trip_name %></h1>
-            <h3 class="mb-5">
-              <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
-            </h3>
-            <% if @booking.only_paying_deposit? %>
-              <h2 class="mb-1"><span class="h4 mr-2 font-weight-light">Deposit due now: </span> <%= @booking.human_readable_amount_due %></h2>
-            <% end %>
-            <% if @booking.only_paying_deposit? %>
-              <h5 class="mt-2">Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %><br>
-              will be taken on <%= @booking.human_readable_full_payment_date %></h5>
-            <% end %>
-            <h1 class="<%= 'mb-0' if @booking.only_paying_deposit? %>"><span class="h2 mr-3 font-weight-light">Total:</span><%= @booking.human_readable_full_cost %></h1>
-            <div id="summary" class="mt-5">
-              <p class="collapse" id="collapseSummary" data-target="toggle-trip-description.tripDescriptionSource">
-                <%= @booking.trip_description %>
-              </p>
-              <div data-target="toggle-trip-description.toggleLinkSource">
-                <a class="collapsed" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
-              </div>
-            </div>
+<main id="main" data-controller="toggle-trip-description">
+  <section class="d-flex align-items-center bg-skew bg-skew-primary overflow-hidden text-white">
+    <div class="container mb-xl-5 pt-4">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-10">
+          <h1 class="display-1 font-serif <%= 'cancelled-trip' if @booking.trip_cancelled? %>" data-target="trip-title.tripNameSource"><%= @booking.trip_name %></h1>
+          <div id="summary">
+            <p class="px-sm-5 mx-sm-5 collapse" id="collapseSummary" data-target="toggle-trip-description.tripDescriptionSource">
+              <%= @booking.trip_description %>
+            </p>
+
+          <div data-target="toggle-trip-description.toggleLinkSource">
+            <a class="collapsed btn btn-pill btn-primary rounded btn-sm" data-toggle="collapse" href="#collapseSummary" aria-expanded="false" aria-controls="collapseSummary"></a>
           </div>
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <!-- TODO: do we really need this info (below) ? -->
-            <!-- <span>Places left for this trip</span> -->
-            <!-- <span class="badge badge-secondary badge-pill"> -->
-              <!-- TODO: need to show a warning when there's no spaces left on the trip -->
-              <% # @booking.trip_maximum_number_of_guests - @booking.trip_guest_count %>
-            <!-- </span> -->
-          </h4>
+        </div>
         </div>
       </div>
     </div>
-    <div class="col content-right">
-      <%= render "new_form", booking: @booking %>
+  </section>
+  <section class="container pt-5">
+    <div class="row">
+      <div class="col-lg-4 col-xl-4 offset-xl-1 mb-5 order-lg-12">
+        <aside class="bg-white shadow rounded mt-lg-n5 p-4 sticky-top">
+          <% if @booking.organisation.logo_image.attached? %>
+            <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto p-4" %>
+          <% end %>
+          <dl class="mb-0">
+            <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-4">
+              Dates
+            </dt>
+            <dd class="h2 border-bottom mb-0 pb-4 font-serif"><%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %></dd>
+            <% if @booking.only_paying_deposit? %>
+            <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-4">
+              Deposit due now
+            </dt>
+            <dd class="h2 mb-0 font-serif"><%= @booking.human_readable_amount_due %></dd>
+            <% end %>
+            <% if @booking.only_paying_deposit? %>
+            <dd class="font-weight-light mb-0 pb-4 border-bottom">
+              <small class="text-secondary"
+                >Outstanding balance of <%= @booking.human_readable_full_cost_minus_deposit %><br />
+                will be taken on <%= @booking.human_readable_full_payment_date %></small
+              >
+              <!-- TODO: do we really need this info (below) ? -->
+                <!-- TODO: need to show a warning when there's no spaces left on the trip -->
+                <% # @booking.trip_maximum_number_of_guests - @booking.trip_guest_count %>
+            </dd>
+            <% end %>
+            <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-4">
+              Total cost
+            </dt>
+            <dd class="h1 mb-0 font-serif">
+              <%= @booking.human_readable_full_cost %>
+            </dd>
+          </dl>
+        </aside>
+      </div>
+      <div class="col-lg-8 col-xl-7 mb-4 order-lg-1">
+        <%= render "new_form", booking: @booking %>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
+</main>
