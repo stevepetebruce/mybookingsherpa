@@ -7,8 +7,7 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
     let(:create_attributes) do
       {
         description: "#{guest.email}",
-        payment_method: stripe_payment_method,
-        use_test_api: booking.organisation_on_trial?
+        payment_method: stripe_payment_method
       }
     end
     let(:booking) { FactoryBot.create(:booking, guest: guest) }
@@ -19,10 +18,11 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
       let!(:guest) { FactoryBot.create(:guest, stripe_customer_id: nil) }
 
       it "should create a new customer in Stripe and return its id" do
-        pending 'Jan 2020 rush job'
         expect(External::StripeApi::Customer).
           to receive(:create).
-          with(create_attributes).
+          with(create_attributes,
+               stripe_account: booking.organisation_stripe_account_id,
+               use_test_api: booking.organisation_on_trial?).
           and_return(double(id: stripe_customer_id))
 
         expect(id).to eq stripe_customer_id
@@ -37,12 +37,11 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
         and_return(double(deleted?: false, present?: true))
       end
 
+      let!(:booking) { FactoryBot.create(:booking, guest: guest, stripe_customer_id: stripe_customer_id) }
       let!(:guest) { FactoryBot.create(:guest, stripe_customer_id: stripe_customer_id) }
 
       it "should not create a new customer and return existing stripe_customer_id" do
-        pending 'Jan 2020 rush job'
-        expect(External::StripeApi::Customer).
-          not_to receive(:create)
+        expect(External::StripeApi::Customer).not_to receive(:create)
 
         expect(id).to eq stripe_customer_id
       end
@@ -61,10 +60,11 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
       let!(:new_stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
 
       it "should create a new customer and return new stripe_customer_id" do
-        pending 'Jan 2020 rush job'
         expect(External::StripeApi::Customer).
           to receive(:create).
-          with(create_attributes).
+          with(create_attributes,
+               stripe_account: booking.organisation_stripe_account_id,
+               use_test_api: booking.organisation_on_trial?).
           and_return(double(id: new_stripe_customer_id))
 
         expect(id).to eq new_stripe_customer_id
@@ -83,10 +83,11 @@ RSpec.describe Bookings::StripeCustomer, type: :model do
       let!(:guest) { FactoryBot.create(:guest, stripe_customer_id: deleted_stripe_customer_id) }
 
       it "should create a new customer in Stripe and return its id" do
-        pending 'Jan 2020 rush job'
         expect(External::StripeApi::Customer).
           to receive(:create).
-          with(create_attributes).
+          with(create_attributes,
+               stripe_account: booking.organisation_stripe_account_id,
+               use_test_api: booking.organisation_on_trial?).
           and_return(double(id: stripe_customer_id))
 
         expect(id).to eq stripe_customer_id
