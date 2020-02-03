@@ -41,7 +41,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
                   body: "#{file_fixture("stripe_api/successful_payment_methods_list.json").read}",
                   headers: {})
 
-      FactoryBot.create(:payment, amount: deposit_amount, booking: booking)
+      FactoryBot.create(:payment, :success, amount: deposit_amount, booking: booking)
     end
 
     context "booking whose full_payment is required" do

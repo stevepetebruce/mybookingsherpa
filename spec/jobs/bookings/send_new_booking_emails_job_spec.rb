@@ -12,6 +12,7 @@ RSpec.describe Bookings::SendNewBookingEmailsJob, type: :job do
     context "booking that is not paying outstanding amount (ie, this is deposit or full payment)" do
       before do 
         FactoryBot.create(:payment,
+                          :success,
                           amount: [booking.full_cost, deposit_amount].sample,
                           booking: booking,
                           stripe_payment_intent_id: stripe_payment_intent_id)
@@ -25,10 +26,12 @@ RSpec.describe Bookings::SendNewBookingEmailsJob, type: :job do
     context "booking that is paying outstanding amount" do
       before do
         FactoryBot.create(:payment,
+                          :success,
                           amount: deposit_amount,
                           booking: booking,
                           stripe_payment_intent_id: stripe_payment_intent_id )
         FactoryBot.create(:payment,
+                          :success,
                           amount: outstanding_amount,
                           booking: booking,
                           stripe_payment_intent_id: "pm_#{Faker::Crypto.md5}" )
