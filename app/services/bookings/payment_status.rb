@@ -20,7 +20,7 @@ module Bookings
     end
 
     def total_paid
-      @total_paid ||= @booking&.payments&.pluck(:amount)&.compact&.reduce(:+)&.presence || 0
+      @total_paid ||= @booking&.payments&.success&.pluck(:amount)&.compact&.reduce(:+)&.presence || 0
     end
 
     def update

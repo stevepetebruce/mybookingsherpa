@@ -41,7 +41,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
                   body: "#{file_fixture("stripe_api/successful_payment_methods_list.json").read}",
                   headers: {})
 
-      FactoryBot.create(:payment, amount: deposit_amount, booking: booking)
+      FactoryBot.create(:payment, :success, amount: deposit_amount, booking: booking)
     end
 
     context "booking whose full_payment is required" do
@@ -50,7 +50,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           to receive(:payment_required?).
           and_return(true)
 
-        allow(External::StripeApi::PaymentIntent).to receive(:create)
+        allow(External::StripeApi::PaymentIntent).to receive(:create).and_return(double(id: "pi_#{Faker::Crypto.md5}"))
       end
 
       let(:payment_required?) { true }
@@ -70,7 +70,6 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       end
 
       it "should call External::StripeApi::PaymentIntent#create" do
-        pending 'great run of late jan 2020'
         perform
 
         expect(External::StripeApi::PaymentIntent).

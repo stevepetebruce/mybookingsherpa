@@ -7,31 +7,26 @@ RSpec.describe Bookings::PaymentStatus, type: :model do
     subject(:new_payment_status) { described_class.new(booking).new_payment_status }
 
     context "a booking with no payments" do
-      it "should set the booking's new_payment_status to yellow" do
-        expect(new_payment_status).to eq :payment_required
-      end
+      it { expect(new_payment_status).to eq :payment_required }
     end
 
     context "a booking with a payment that is pending" do
-      # TODO
+      let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking) }
+
+      it { expect(new_payment_status).to eq :payment_pending }
     end
 
     context "a booking that has paid the deposit for the trip" do
       let(:deposit_amount) { booking.full_cost * 0.5 }
-      let!(:payment) { FactoryBot.create(:payment, amount: deposit_amount, booking: booking) }
+      let!(:payment) { FactoryBot.create(:payment, :success, amount: deposit_amount, booking: booking) }
 
-      it "should set the booking's new_payment_status to yellow" do
-        pending 'great rush job late jan 2020'
-        expect(new_payment_status).to eq :payment_required
-      end
+      it { expect(new_payment_status).to eq :payment_required }
     end
 
     context "a booking whose last payment failed" do
       let!(:payment) { FactoryBot.create(:payment, :failed, booking: booking) }
 
-      it "should set the booking's new_payment_status to red" do
-        expect(new_payment_status).to eq :payment_failed
-      end
+      it { expect(new_payment_status).to eq :payment_failed }
     end
   end
 end

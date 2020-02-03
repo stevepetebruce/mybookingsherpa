@@ -75,6 +75,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
       context "deposit has been paid" do
         let!(:deposit_payment) do
           FactoryBot.create(:payment,
+                            :success,
                             amount: trip.deposit_cost,
                             booking: booking)
         end
@@ -96,6 +97,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
       context "deposit has been paid" do
         let!(:deposit_payment) do
           FactoryBot.create(:payment,
+                            :success,
                             amount: trip.deposit_cost,
                             booking: booking)
         end
@@ -151,6 +153,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
     context "deposit has been paid" do
       let!(:deposit_payment) do
         FactoryBot.create(:payment,
+                          :success,
                           amount: trip.deposit_cost,
                           booking: booking)
       end
