@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe External::StripeApi::PaymentIntent, type: :model do
   describe "#create" do
-    subject(:create) { described_class.create(attributes, use_test_api: use_test_api) }
+    subject(:create) { described_class.create(attributes, stripe_account_id, use_test_api: use_test_api) }
 
     context "valid and successful" do
       let(:attributes) do
@@ -19,6 +19,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             }
         }
       end
+      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
       let!(:use_test_api) { [true, false].sample }
 
       before do
@@ -30,7 +31,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
       end
 
       it "should call the Stripe PaymentIntents API with the correct attributes" do
-        expect(Stripe::PaymentIntent).to receive(:create).with(attributes)
+        expect(Stripe::PaymentIntent).to receive(:create).with(attributes, stripe_account: stripe_account_id)
 
         create
       end
@@ -41,6 +42,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         let!(:currency) { %w[eur, gbp, usd].sample }
         let!(:customer) { "cus_#{Faker::Crypto.md5}" }
         let!(:destination) {  "acct_#{Faker::Bank.account_number(16)}" }
+        let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
 
         let(:attributes) do
           {
@@ -73,7 +75,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         end
 
         it "should sanitize the attributes and make a successful call to the Stripe API" do
-          expect(Stripe::PaymentIntent).to receive(:create).with(sanitized_attributes)
+          expect(Stripe::PaymentIntent).to receive(:create).with(sanitized_attributes, stripe_account: stripe_account_id)
 
           create
         end
@@ -99,6 +101,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
             }
         }
       end
+      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
       let!(:use_test_api) { [true, false].sample }
 
       it "should not make the call to Stripe (it's throws a Stripe::InvalidRequestError: Invalid positive integer)" do
@@ -110,17 +113,17 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
   end
 
   describe "#retrieve" do
-    subject(:retrieve) { described_class.retrieve(stripe_payment_intent_id, use_test_api: use_test_api) }
+    subject(:retrieve) { described_class.retrieve(stripe_payment_intent_id, stripe_account_id, use_test_api: use_test_api) }
 
     context "valid and successful" do
       let!(:stripe_payment_intent_id) { "cus_#{Faker::Crypto.md5}" }
+      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
       let!(:use_test_api) { [true, false].sample }
 
       before { allow(Stripe::PaymentIntent).to receive(:retrieve) }
 
       it "should call the Stripe PaymentIntents API with the correct attributes" do
-        pending 'Jan 2020 rush job'
-        expect(Stripe::PaymentIntent).to receive(:retrieve).with(stripe_payment_intent_id)
+        expect(Stripe::PaymentIntent).to receive(:retrieve).with(stripe_payment_intent_id, stripe_account: stripe_account_id)
 
         retrieve
       end

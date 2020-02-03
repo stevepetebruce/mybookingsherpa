@@ -2,15 +2,20 @@ require "rails_helper"
 
 RSpec.describe External::StripeApi::Customer, type: :model do
   describe "#create" do
-    subject(:create) { described_class.create(attributes) }
-    let(:use_test_api) { [true, false].sample }
+    subject(:create) do
+      described_class.create(attributes,
+                             stripe_account: stripe_account,
+                             use_test_api: use_test_api)
+    end
+
+    let!(:stripe_account) { "acct_#{Faker::Bank.account_number(16)}" }
+    let!(:use_test_api) { [true, false].sample }
     
     context "successfully creates customer" do
       let!(:attributes) do
         {
           description: "Customer for #{Faker::Internet.email}",
-          payment_method: "pm_#{Faker::Crypto.md5}",
-          use_test_api: use_test_api
+          payment_method: "pm_#{Faker::Crypto.md5}"
         }
       end
       let(:expected_attributes) do
@@ -21,8 +26,9 @@ RSpec.describe External::StripeApi::Customer, type: :model do
       end
 
       it "should call Stripe::Customer#create" do
-        pending 'Jan 2020 rush job'
-        expect(Stripe::Customer).to receive(:create).with(expected_attributes)
+        expect(Stripe::Customer).
+          to receive(:create).
+          with(expected_attributes, stripe_account: stripe_account)
 
         create
       end
