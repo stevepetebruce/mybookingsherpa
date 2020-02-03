@@ -2,8 +2,6 @@ require "rails_helper"
 
 RSpec.describe External::StripeApi::PaymentIntent, type: :model do
   describe "#create" do
-    subject(:create) { described_class.create(attributes, stripe_account_id, use_test_api: use_test_api) }
-
     context "valid and successful" do
       let(:attributes) do
         {
@@ -30,84 +28,98 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
                     headers: {})
       end
 
-      it "should call the Stripe PaymentIntents API with the correct attributes" do
-        expect(Stripe::PaymentIntent).to receive(:create).with(attributes, stripe_account: stripe_account_id)
+      context "without a stripe_account_id" do
+        subject(:create) { described_class.create(attributes, use_test_api: use_test_api) }
 
-        create
-      end
-
-      context "a statement_descriptor_suffix with non-alphanumeric characters in" do
-        let!(:amount) { Faker::Number.between(1_000, 10_000) }
-        let!(:application_fee_amount) { [0, 200, 400].sample }
-        let!(:currency) { %w[eur, gbp, usd].sample }
-        let!(:customer) { "cus_#{Faker::Crypto.md5}" }
-        let!(:destination) {  "acct_#{Faker::Bank.account_number(16)}" }
-        let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
-
-        let(:attributes) do
-          {
-            amount: amount,
-            application_fee_amount: application_fee_amount,
-            currency: currency,
-            customer: customer,
-            setup_future_usage: "off_session",
-            statement_descriptor_suffix: "Ivy's Big Adventure Berlin 2017",
-            transfer_data:
-              {
-                destination: destination
-              }
-          }
-        end
-
-        let(:sanitized_attributes) do
-          {
-            amount: amount,
-            application_fee_amount: application_fee_amount,
-            currency: currency,
-            customer: customer,
-            setup_future_usage: "off_session",
-            statement_descriptor_suffix: "Ivy_s Big Adventure Berlin 2017",
-            transfer_data:
-              {
-                destination: destination
-              }
-          }
-        end
-
-        it "should sanitize the attributes and make a successful call to the Stripe API" do
-          expect(Stripe::PaymentIntent).to receive(:create).with(sanitized_attributes, stripe_account: stripe_account_id)
+        it "should call the Stripe PaymentIntents API with the correct attributes" do
+          expect(Stripe::PaymentIntent).to receive(:create).with(attributes)
 
           create
         end
       end
 
-      it "should return a Stripe PaymentIntent object" do
-        # TODO: need to get a payment intent response and return it (may be using the wrong fixture ^)
-      end
-    end
+      context "with a stripe_account_id" do
+        subject(:create) { described_class.create(attributes, stripe_account_id, use_test_api: use_test_api) }
 
-    context "when the amount (owed/ to be paid) is zero" do
-      let(:attributes) do
-        {
-          amount: 0,
-          application_fee_amount: [0, 200, 400].sample,
-          currency: %w[eur, gbp, usd].sample,
-          customer: "cus_#{Faker::Crypto.md5}",
-          setup_future_usage: %w[off_session on_session].sample,
-          statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
-          transfer_data:
+        it "should call the Stripe PaymentIntents API with the correct attributes" do
+          expect(Stripe::PaymentIntent).to receive(:create).with(attributes, stripe_account: stripe_account_id)
+
+          described_class.create(attributes, stripe_account_id, use_test_api: use_test_api)
+        end
+
+        context "a statement_descriptor_suffix with non-alphanumeric characters in" do
+          let!(:amount) { Faker::Number.between(1_000, 10_000) }
+          let!(:application_fee_amount) { [0, 200, 400].sample }
+          let!(:currency) { %w[eur, gbp, usd].sample }
+          let!(:customer) { "cus_#{Faker::Crypto.md5}" }
+          let!(:destination) {  "acct_#{Faker::Bank.account_number(16)}" }
+          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+
+          let(:attributes) do
             {
-              destination: "acct_#{Faker::Bank.account_number(16)}"
+              amount: amount,
+              application_fee_amount: application_fee_amount,
+              currency: currency,
+              customer: customer,
+              setup_future_usage: "off_session",
+              statement_descriptor_suffix: "Ivy's Big Adventure Berlin 2017",
+              transfer_data:
+                {
+                  destination: destination
+                }
             }
-        }
-      end
-      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
-      let!(:use_test_api) { [true, false].sample }
+          end
 
-      it "should not make the call to Stripe (it's throws a Stripe::InvalidRequestError: Invalid positive integer)" do
-        expect(Stripe::PaymentIntent).to_not receive(:create)
+          let(:sanitized_attributes) do
+            {
+              amount: amount,
+              application_fee_amount: application_fee_amount,
+              currency: currency,
+              customer: customer,
+              setup_future_usage: "off_session",
+              statement_descriptor_suffix: "Ivy_s Big Adventure Berlin 2017",
+              transfer_data:
+                {
+                  destination: destination
+                }
+            }
+          end
 
-        create
+          it "should sanitize the attributes and make a successful call to the Stripe API" do
+            expect(Stripe::PaymentIntent).to receive(:create).with(sanitized_attributes, stripe_account: stripe_account_id)
+
+            create
+          end
+        end
+
+        it "should return a Stripe PaymentIntent object" do
+          # TODO: need to get a payment intent response and return it (may be using the wrong fixture ^)
+        end
+
+        context "when the amount (owed/ to be paid) is zero" do
+          let(:attributes) do
+            {
+              amount: 0,
+              application_fee_amount: [0, 200, 400].sample,
+              currency: %w[eur, gbp, usd].sample,
+              customer: "cus_#{Faker::Crypto.md5}",
+              setup_future_usage: %w[off_session on_session].sample,
+              statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+              transfer_data:
+                {
+                  destination: "acct_#{Faker::Bank.account_number(16)}"
+                }
+            }
+          end
+          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+          let!(:use_test_api) { [true, false].sample }
+
+          it "should not make the call to Stripe (it's throws a Stripe::InvalidRequestError: Invalid positive integer)" do
+            expect(Stripe::PaymentIntent).to_not receive(:create)
+
+            create
+          end
+        end
       end
     end
   end
