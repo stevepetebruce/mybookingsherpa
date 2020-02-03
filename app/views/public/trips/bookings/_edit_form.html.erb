@@ -1,10 +1,10 @@
 <%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }, data: { controller: "country-auto-select" }) do |form| %>
   <ul class="formline">
     <li>
-      <h4 class="font-weight-bold">Personal Details</h4>
+      <h4 class="font-weight-bold font-serif">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :name, "Full Name" %>
+          <%= form.label :name, "Full Name", class: "text-uppercase text-secondary" %>
           <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your name" %>
@@ -16,7 +16,7 @@
           <% end %>
         </div>
         <div class="col-md-6 mb-3">
-          <%= form.label :email %>
+          <%= form.label :email, class: "text-uppercase text-secondary" %>
           <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :email), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter a valid email" %>
@@ -28,7 +28,7 @@
           <% end %>
         </div>
         <div class="col-md-4 mb-3">
-          <%= form.label :phone_number %>
+          <%= form.label :phone_number, class: "text-uppercase text-secondary" %>
           <% if @booking.organisation_on_trial? %>
             <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), readonly: @booking.organisation_on_trial? %>
           <% else %>
@@ -44,7 +44,7 @@
           <% end %>
         </div>
         <div class="col-md-4 mb-3">
-          <%= form.label :date_of_birth %>
+          <%= form.label :date_of_birth, class: "text-uppercase text-secondary" %>
           <%= form.date_field :date_of_birth, value: trial_example_dob_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth),readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your date my birth" %>
@@ -56,7 +56,7 @@
           <% end %>
         </div>
         <div class="col-md-4 mb-3">
-          <%= form.label :country %>
+          <%= form.label :country, class: "text-uppercase text-secondary" %>
           <% if @booking.organisation_on_trial? %>
             <%= form.select :country, options_for_select([trial_example_country]), {} , { class: "form-control customselect", style: "background-color: #e9ecef;" } %>
           <% else %>
@@ -67,10 +67,10 @@
       <hr class="mb-5 mb-4">
     </li>
     <li>
-      <h4 class="font-weight-bold">In Case of Emergency (ICE)</h4>
+      <h4 class="font-weight-bold font-serif">In Case of Emergency (ICE)</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :next_of_kin_name, "Name" %>
+          <%= form.label :next_of_kin_name, "Name", class: "text-uppercase text-secondary" %>
           <%= form.text_field :next_of_kin_name, value: trial_example_ice_name_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             Please enter the name of your emergency contact
@@ -82,7 +82,7 @@
           <% end %>
         </div>
         <div class="col-md-6 mb-3">
-          <%= form.label :next_of_kin_phone_number, "Phone number" %>
+          <%= form.label :next_of_kin_phone_number, "Phone number", class: "text-uppercase text-secondary" %>
           <% if @booking.organisation_on_trial? %>
             <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
           <% else %>
@@ -101,7 +101,7 @@
       <hr class="mb-5">
     </li>
     <li>
-      <h4 class="mb-4 font-weight-bold">Dietary and Health Requirements (optional)</h4>
+      <h4 class="mb-4 font-weight-bold font-serif">Dietary and Health Requirements (optional)</h4>
       <div class="custom-multiselect mb-4">
         <div class="selectbox">
            <select class="form-control customselect">
@@ -111,7 +111,7 @@
         </div>
         <div id="selectoptions" data-target="checkbox-dropdown.selectOptionsContainer">
           <div class="row selectoptionblock">
-            <div class="col-12"><h4 class="font-weight-bold">Dietary requirements</h4></div>
+            <div class="col-12"><h4 class="font-weight-bold font-serif">Dietary requirements</h4></div>
             <% DietaryRequirement::POSSIBLE_DIETARY_REQUIREMENTS.each do |dietary_requirement| %>
               <div class="col-12 col-md-4">
                 <label class="checkcontainer">
@@ -124,7 +124,7 @@
           </div>
           <div class="row selectoptionblock">
             <div class="col-12">
-              <h4 class="font-weight-bold">Food Allergies</h4>
+              <h4 class="font-weight-bold font-serif">Food Allergies</h4>
             </div>
             <% Allergy::POSSIBLE_FOOD_ALLERGIES.each do |allergy| %>
               <div class="col-12 col-md-4">
@@ -136,7 +136,7 @@
               </div>
             <% end %>
             <div class="col-12 mt-4">
-              <h4 class="font-weight-bold">Medical Allergies</h4>
+              <h4 class="font-weight-bold font-serif">Medical Allergies</h4>
             </div>
             <% Allergy::POSSIBLE_MEDICAL_ALLERGIES.each do |allergy| %>
               <div class="col-12 col-md-4">
@@ -152,7 +152,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 mb-3">
-          <%= form.label(:other_information, "Medical/Other information") %>
+          <%= form.label(:other_information, "Medical/Other information", class: "text-uppercase text-secondary") %>
           <%= form.text_area(:other_information, class: "form-control") %>
         </div>
       </div>
