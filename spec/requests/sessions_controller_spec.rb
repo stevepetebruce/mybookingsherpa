@@ -31,11 +31,10 @@ RSpec.describe "SessionsController", type: :request do
         end
 
         it "redirects to the guest page" do
-          # pending "have removed these routes for launch Jan 2020"
-          # do_request(params: params)
+          do_request(params: params)
 
-          # expect(response.code).to eq "302"
-          # expect(response).to redirect_to(guides_trips_path)
+          expect(response.code).to eq "302"
+          expect(response).to redirect_to(guides_trips_path)
         end
       end
     end
@@ -73,11 +72,10 @@ RSpec.describe "SessionsController", type: :request do
         end
 
         it "redirects to the guest page" do
-          # pending "have removed these routes for launch Jan 2020"
-          # do_request
+          do_request
 
-          # expect(response.code).to eq "302"
-          # expect(response).to redirect_to(new_guide_session_path)
+          expect(response.code).to eq "302"
+          expect(response).to redirect_to(new_guide_session_path)
         end
       end
     end

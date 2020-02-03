@@ -15,9 +15,8 @@ module Bookings
 
     # If, in exceptional case that, the delay allowed for booking creation is not long enough
     def raise_payment_without_booking_error
-      raise PaymentWithoutBookingException(amount: @amount,
-                                           payment_id: payment.id,
-                                           stripe_payment_intent_id: @stripe_payment_intent_id)
+      raise PaymentWithoutBookingError, "Attempted to create a payment without an associated booking" \
+        "Payment id: #{@payment_id} . StripePaymentIntent id: #{@stripe_payment_intent_id} . Amount: #{@amount} ."
     end
 
     def payment
@@ -25,17 +24,5 @@ module Bookings
     end
   end
 
-  class PaymentWithoutBookingError < StandardError
-    def initialize(amount:, payment_id:, stripe_payment_intent_id:)
-      @amount = amount, 
-      @payment_id = payment_id
-      @stripe_payment_intent_id = stripe_payment_intent_id
-    end
-
-    def to_s
-      "Attempted to create a payment without an associated booking" \
-        "Payment id: #{@payment_id} . StripePaymentIntent id: #{@stripe_payment_intent_id} ." \
-        "Amount: #{@amount} ."
-    end
-  end
+  class PaymentWithoutBookingError < StandardError; end
 end
