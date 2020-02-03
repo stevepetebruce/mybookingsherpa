@@ -34,6 +34,16 @@ module Webhooks
         @event ||= Stripe::Webhook.construct_event(payload, signature_header, end_point_secret)
       end
 
+      def failed_payment_jobs
+        Bookings::UpdateFailedPaymentJob.perform_in(time_to_allow_for_booking_creation,
+                                                    stripe_payment_intent_id,
+                                                    amount)
+
+        Bookings::SendFailedPaymentEmailsJob.perform_in(time_to_allow_for_booking_creation,
+                                                        stripe_payment_intent_id,
+                                                        payment_failure_message) if payment_failure_message #TODO: this is a little fragile: assumes there's no charge objects in a failed on_session payment_intent
+      end
+
       def handle_event
         case event.type
         when "payment_intent.created"
@@ -41,8 +51,7 @@ module Webhooks
         when "payment_intent.succeeded"
           successful_payment_jobs
         when "payment_intent.payment_failed"
-          payment.update(amount: amount, status: "failed")
-          send_failed_payment_emails if payment_failure_message #TODO: this is a little fragile: assumes there's no charge objects in a failed on_session payment_intent
+          failed_payment_jobs
         else
           # TODO: Email guest and guide...?
           head :bad_request and return
@@ -55,26 +64,12 @@ module Webhooks
         request.body.read
       end
 
-      def payment
-        if booking
-          booking.payments.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
-        else
-          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
-        end
-      end
-
       def payment_failure_message
         event&.data&.object&.charges&.first&.failure_message
       end
 
       def payment_intent
         @payment_intent ||= event.data.object
-      end
-
-      def send_failed_payment_emails
-        Bookings::SendFailedPaymentEmailsJob.perform_in(time_to_allow_for_booking_creation,
-                                                        stripe_payment_intent_id,
-                                                        payment_failure_message)
       end
 
       def signature_header

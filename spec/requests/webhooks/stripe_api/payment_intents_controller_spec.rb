@@ -23,15 +23,18 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
       context "payment_intent.succeeded event - without pre-existing booking" do
         before do
           allow(Bookings::SendNewBookingEmailsJob).to receive(:perform_in)
-          allow(Bookings::UpdateSuccessfulPaymentJob).to receive(:perform_in)
         end
 
+        let(:amount_received) { 90_000 } # from successful_status_without_booking_id.json
         let(:event) do
           JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let!(:payment) { FactoryBot.create(:payment, :pending, stripe_payment_intent_id: "pi_1FVH25ESypPNvvdYGDo6X9H1") }
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
+        let(:stripe_payment_intent_id) { "pi_1FVH25ESypPNvvdYGDo6X9H1" }
+        let(:time_to_allow_for_booking_creation) { ENV.fetch("BOOKING_EMAILS_SENDING_DELAY", "1").to_i.minutes }
 
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
@@ -39,12 +42,11 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           expect(response).to be_successful
         end
 
-        it "should create a new payment" do
-          # TODO: not anymore: the payment will be created in the bookings controller - we just update its status here
-          pending 'great rush job late jan 2020'
-          expect { do_request(params: params, headers: headers) }.to change { Payment.count }.by(1)
-          expect(Payment.last.amount).to eq 90_000 # from successful_status_without_booking_id.json
-          expect(Payment.last.success?).to eq true
+        it "should update the payment" do
+          do_request(params: params, headers: headers)
+
+          expect(payment.reload.amount).to eq 90_000 # from successful_status_without_booking_id.json
+          expect(payment.success?).to eq true
         end
 
         it "should send out the new booking emails to the guest and guide" do
@@ -54,15 +56,12 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         end
 
         it "should call Bookings::UpdateSuccessfulPaymentJob" do
+          allow(Bookings::UpdateSuccessfulPaymentJob).to receive(:perform_in)
           # "We are now allowing time for the booking to be created - so just check the job is run"
           do_request(params: params, headers: headers)
-          expect(Bookings::UpdateSuccessfulPaymentJob).to have_received(:perform_in)
-
-          # TODO:
-          #.with(correct_params)
-          # time_to_allow_for_booking_creation,
-          # amount_received,
-          # stripe_payment_intent_id
+          expect(Bookings::UpdateSuccessfulPaymentJob).
+            to have_received(:perform_in).
+            with(time_to_allow_for_booking_creation, amount_received, stripe_payment_intent_id)
         end
       end
 
@@ -73,26 +72,23 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
+        let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking, stripe_payment_intent_id: "pi_1FVH25ESypPNvvdYGDo6X9H1") }
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
         it "should respond with a success status code" do
-          pending 'great rush job late jan 2020'
           do_request(params: params, headers: headers)
 
           expect(response).to be_successful
         end
 
-        it "should create a new payment associated with this booking" do
-          pending 'great rush job late jan 2020'
+        it "should update the payment associated with this booking" do
           do_request(params: params, headers: headers)
 
-          expect(booking.payments.count).to eq 1
           expect(booking.payments.first.amount).to eq 90_000 # from payment_intent_successful_status_with_booking_id.json
           expect(booking.payments.first.success?).to eq true
         end
 
         it "should send out the new booking emails to the guest and guide" do
-          pending 'great rush job late jan 2020'
           expect { do_request(params: params, headers: headers) }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
       end
@@ -127,6 +123,7 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           end
           let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
           let(:params) { event }
+          let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking, stripe_payment_intent_id: "pi_1FlQxUESypPNvvdYM2c3ClZd") }
           let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
           it "should respond with a success status code" do
@@ -157,6 +154,7 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           end
           let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
           let(:params) { event }
+          let!(:payment) { FactoryBot.create(:payment, :pending, stripe_payment_intent_id: "pi_1FlQxUESypPNvvdYM2c3ClZd") }
           let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
           it "should respond with a success status code" do
@@ -178,7 +176,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           end
           let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
           let(:params) { event }
+          let!(:payment) { FactoryBot.create(:payment, :pending, stripe_payment_intent_id: "pi_1FpvMcESypPNvvdY6K40w074") }
           let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
+
 
           it "should respond with a success status code (and not throw an app error)" do
             do_request(params: params, headers: headers)
@@ -186,10 +186,11 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
             expect(response).to be_successful
           end
 
-          it "should create a payment with a failed status" do
-            expect { do_request(params: params, headers: headers) }.to change { Payment.count }.from(0).to(1)
-
-            expect(Payment.last.failed?).to eq true
+          it "should update the payment with a failed status" do
+            expect { do_request(params: params, headers: headers) }.
+              to change { payment.reload.status }.
+              from("pending").
+              to("failed")
           end
         end
       end
