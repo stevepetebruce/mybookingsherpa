@@ -9,12 +9,12 @@
 @import 'custom/content';
 @import 'custom/navigation';
 @import 'custom/onboarding';
-@import 'custom/public-customer';
 @import 'custom/public-customer-edit';
 
 ////////// Import components //////////
 @import 'custom/components/alerts';
 @import 'custom/components/avatars';
+@import 'custom/components/background';
 @import 'custom/components/buttons';
 @import 'custom/components/cards';
 @import 'custom/components/clipboard';
@@ -26,6 +26,7 @@
 @import 'custom/components/lists';
 @import 'custom/components/onboarding-pointers';
 @import 'custom/components/onboarding-messages';
+@import 'custom/components/read-more';
 @import 'custom/components/stripe';
 @import 'custom/components/tabs';
 @import 'custom/components/tooltip';

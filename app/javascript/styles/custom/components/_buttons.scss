@@ -58,6 +58,11 @@
   &[class*=outline] {
     border-width: 1px;
   }
+
+  &:hover,
+    .btn-group & {
+      box-shadow: none;
+    }
 }
 
 // buttons colors

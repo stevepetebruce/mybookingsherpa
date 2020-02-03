@@ -8,6 +8,6 @@ export default class extends Controller {
   }
 
   toggleReadMore() {
-    this.toggleLinkSourceTarget.style.display = (this.tripDescriptionSourceTarget.innerHTML.length < 160) ? "none" : "inline";
+    this.toggleLinkSourceTarget.style.visibility = (this.tripDescriptionSourceTarget.innerHTML.length < 120) ? "hidden" : "visible";
   }
 }

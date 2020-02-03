@@ -4,14 +4,14 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 
-<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation payment-form", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_account_id: booking.organisation_stripe_account_id }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_account_id: booking.organisation_stripe_account_id }) do |form| %>
   <% # reinstate error / warning notices %>
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
-  <h4 class="mb-3 font-weight-bold">Your Details</h4>
+  <h4 class="mb-3 font-weight-bold font-serif">Your Details</h4>
   <div class="row">
     <div class="col-md-12 mb-3">
-      <%= form.label :name, "Full Name" %>
+      <%= form.label :name, "Full Name", class: "text-uppercase text-secondary" %>
       <%= form.text_field :name, value: trial_example_full_name_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true, readonly: booking.organisation_on_trial? %>
       <div class="invalid-feedback">
         <%= "Please enter your name" %>
@@ -23,8 +23,8 @@ An extra step - but a definite confirmation from the user.
     <% end %>
     </div>
   </div>
-  <div class="mb-3">
-    <%= form.label :email %>
+  <div class="mb-5">
+    <%= form.label :email, class: "text-uppercase text-secondary" %>
     <%= form.text_field :email, value: trial_example_email_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:email].present?} form-control", autofocus: auto_focus(booking, form_field: :email), required: true, readonly: booking.organisation_on_trial? %>
     <div class="invalid-feedback">
       Please enter a valid email
@@ -35,17 +35,16 @@ An extra step - but a definite confirmation from the user.
       </div>
     <% end %>
   </div>
-  <hr class="mb-5 mb-4">
-  <h4 class="mb-3 font-weight-bold">
+  <h4 class="mb-3 font-weight-bold font-serif">
     <% if @booking.only_paying_deposit? %>Deposit <% end %>Payment of <%= @booking.human_readable_amount_due %>
-    </h4>
+  </h4>
   <div class="row">
     <div class="col-md-12 mb-3">
       <% if booking.organisation_on_trial? %>
-        <span>Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
+        <span class="text-uppercase text-secondary">Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
       <% else %>
-        <label for="card-element">Credit or debit card</label>
+        <label for="card-element" class="text-uppercase text-secondary">Credit or debit card</label>
         <div data-target="stripe--payment-intent.cardElement">
           <!-- A Stripe Element will be inserted here. -->
         </div>
