@@ -192,12 +192,13 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. Card declined")
           end
 
-          it "should create a guest and a booking with a stripe_customer_id" do
+          it "should create a guest and a booking with a stripe_customer_id and stripe_payment_method_id" do
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
             expect(Booking.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_payment_method_id).to_not be_nil
           end
         end
 
@@ -215,13 +216,14 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. RateLimitError. Please try again or contact Guide for help.")
           end
 
-          it "should create a guest and a booking with a stripe_customer_id" do
+          it "should create a guest and a booking with a stripe_customer_id and stripe_payment_method_id" do
             # Should it? What if the call to create the customer failed too?
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
             expect(Booking.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_payment_method_id).to_not be_nil
           end
         end
 
@@ -263,13 +265,14 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(flash[:alert]).to eq("Payment unsuccessful. AuthenticationError. Please try again or contact Guide for help.")
           end
 
-          it "should still create a guest and a booking with a stripe_customer_id" do
+          it "should still create a booking and a guest with a stripe_customer_id" do
             # Should it? What if the call to create the customer failed too?
             do_request(params: params)
 
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
             expect(Booking.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_payment_method_id).to_not be_nil
           end
         end
 
@@ -294,6 +297,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
             expect(Booking.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_payment_method_id).to_not be_nil
           end
         end
 
@@ -318,6 +322,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             expect(Guest.count).to eq 1
             expect(Booking.count).to eq 1
             expect(Booking.last.stripe_customer_id).to_not be_nil
+            expect(Booking.last.stripe_payment_method_id).to_not be_nil
           end
         end
       end
