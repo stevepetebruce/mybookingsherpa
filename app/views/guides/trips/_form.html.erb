@@ -127,7 +127,10 @@
             <div class="container mb-xl-5 pt-4">
               <div class="row justify-content-center text-center">
                 <div class="col-lg-10">
-                  <h1 class="display-1 font-serif" data-target="trip-preview.namePreview">Trip Name</h1>
+                  <h1 class="display-1 font-serif mb-2" data-target="trip-preview.namePreview">Trip Name</h1>
+                  <h4 class="text-uppercase mb-1" data-target="trip-preview.datePreview">
+                    Start date - End date
+                  </h4>
                   <div id="summary">
                     <p class="px-sm-5 mx-sm-5 collapse" id="collapseSummary" data-target="trip-preview.descriptionPreview toggle-trip-description.tripDescriptionSource">
                       Trip description will be displayed here...
@@ -145,12 +148,11 @@
               <div class="col-lg-4 col-xl-4 offset-xl-1 mb-5 order-lg-12">
                 <aside class="bg-white shadow rounded mt-lg-n5 p-4">
                   <dl class="mb-0">
-                    <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-4">
-                      Dates
+                    <dt class="h3 font-serif pb-4 pt-1 text-center border-bottom">
+                      Trip Cost
                     </dt>
-                    <dd class="h2 border-bottom mb-0 pb-4 font-serif" data-target="trip-preview.datePreview">Start date - End date</dd>
                     <div data-target="trip-preview.depositWrapper" style="display: none;">
-                      <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-4">
+                      <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-2">
                         Deposit due now
                       </dt>
                       <dd class="h2 mb-0 font-serif"><span data-target="currency-select.symbol"><%= Currency.iso_to_symbol(@current_organisation.currency) %></span><span data-target="trip-preview.depositPreview">💰</span></dd>
