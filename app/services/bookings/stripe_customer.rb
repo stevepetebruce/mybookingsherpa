@@ -32,9 +32,13 @@ module Bookings
     end
 
     def customer_does_not_exist_in_stripe?
-      return false if retrieved_customer.present?
+      !customer_exists_in_stripe?
+    end
+
+    def customer_exists_in_stripe?
+      return true if retrieved_customer.present?
     rescue Stripe::InvalidRequestError
-      true
+      false
     end
 
     def new_customer
