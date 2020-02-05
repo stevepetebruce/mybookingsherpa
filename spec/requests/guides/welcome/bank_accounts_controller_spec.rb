@@ -78,76 +78,97 @@ RSpec.describe "Guides::Welcome::BankAccountsController", type: :request do
                     headers: {})
       end
 
-      it "should create the bank account (and track this event)" do
-        do_request(params: params)
-
-        expect(onboarding.reload.events.first["name"]).to eq("new_bank_account_created")
-      end
-
-      it "should redirect_to the guides_trips_path" do
-        do_request(params: params)
-
-        expect(response.code).to eq "302"
-        expect(response).to redirect_to guides_trips_path(completed_set_up: true)
-      end
-
-      context "organisation with a solo founder" do
-        before { organisation.onboarding.track_event("new_solo_account_chosen") }
-
-        it "should complete onboarding" do
+      context "bank_account_created == true" do
+        it "should create the bank account (and track this event)" do
           do_request(params: params)
 
-          expect(onboarding.reload.complete).to eq true
-          expect(onboarding.find_event("trial_ended")).to_not be_nil
+          expect(onboarding.reload.events.first["name"]).to eq("new_bank_account_created")
         end
 
-        it "should call the DestroyTrialGuestsJob job" do
-          expect(Onboardings::DestroyTrialGuestsJob).
-            to receive(:perform_later).
-            with(organisation)
+        it "should redirect_to the guides_trips_path" do
+          do_request(params: params)
+
+          expect(response.code).to eq "302"
+          expect(response).to redirect_to guides_trips_path(completed_set_up: true)
+        end
+
+        context "organisation with a solo founder" do
+          before { organisation.onboarding.track_event("new_solo_account_chosen") }
+
+          it "should complete onboarding" do
+            do_request(params: params)
+
+            expect(onboarding.reload.complete).to eq true
+            expect(onboarding.find_event("trial_ended")).to_not be_nil
+          end
+
+          it "should call the DestroyTrialGuestsJob job" do
+            expect(Onboardings::DestroyTrialGuestsJob).
+              to receive(:perform_later).
+              with(organisation)
+
+              do_request(params: params)
+          end
+        end
+
+        context "organisation that's a company with directors/owners" do
+          it "should complete onboarding" do
+            do_request(params: params)
+
+            expect(onboarding.reload.complete).to eq true
+            expect(onboarding.find_event("trial_ended")).to_not be_nil
+          end
+
+          it "should call the DestroyTrialGuestsJob job" do
+            expect(Onboardings::DestroyTrialGuestsJob).
+              to receive(:perform_later).
+              with(organisation)
 
             do_request(params: params)
+          end
+        end
+
+        context "organisation where the guide has not completed Stripe account onboarding" do
+          before do
+            stub_request(:get, "https://api.stripe.com/v1/accounts/#{stripe_account_id}").
+            to_return(status: 200,
+                      body: "#{file_fixture("stripe_api/successful_company_account_payouts_not_enabled.json").read}",
+                      headers: {})
+          end
+
+          it "should not complete onboarding" do
+            do_request(params: params)
+
+            expect(onboarding.reload.complete).to eq false
+            expect(onboarding.find_event("trial_ended")).to be_nil
+          end
+
+          it "should not call the DestroyTrialGuestsJob job" do
+            expect(Onboardings::DestroyTrialGuestsJob).
+              to_not receive(:perform_later).
+              with(organisation)
+
+            do_request(params: params)
+          end
         end
       end
 
-      context "organisation that's a company with directors/owners" do
-        it "should complete onboarding" do
-          do_request(params: params)
-
-          expect(onboarding.reload.complete).to eq true
-          expect(onboarding.find_event("trial_ended")).to_not be_nil
-        end
-
-        it "should call the DestroyTrialGuestsJob job" do
-          expect(Onboardings::DestroyTrialGuestsJob).
-            to receive(:perform_later).
-            with(organisation)
-
-          do_request(params: params)
-        end
-      end
-
-      context "organisation where the guide has not completed Stripe account onboarding" do
+      context "bank_account_created == false" do
         before do
-          stub_request(:get, "https://api.stripe.com/v1/accounts/#{stripe_account_id}").
-          to_return(status: 200,
-                    body: "#{file_fixture("stripe_api/successful_company_account_payouts_not_enabled.json").read}",
-                    headers: {})
+          allow(External::StripeApi::ExternalAccount).to receive(:create).and_return(double(status: "errored"))
         end
 
-        it "should not complete onboarding" do
+        it "should track this failed account event" do
           do_request(params: params)
 
-          expect(onboarding.reload.complete).to eq false
-          expect(onboarding.find_event("trial_ended")).to be_nil
+          expect(onboarding.reload.events.first["name"]).to eq("new_bank_account_creation_failed")
         end
 
-        it "should not call the DestroyTrialGuestsJob job" do
-          expect(Onboardings::DestroyTrialGuestsJob).
-            to_not receive(:perform_later).
-            with(organisation)
-
+        it "should not update the organisartion's onboarding fields" do
           do_request(params: params)
+
+          expect(onboarding.reload.bank_account_complete).to eq false
+          expect(onboarding.reload.stripe_account_complete).to eq false
         end
       end
     end
