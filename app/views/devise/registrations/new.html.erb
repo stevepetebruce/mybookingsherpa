@@ -33,34 +33,33 @@
 </div>
 <!-- modal end -->
 
-<div class="container-fluid full-height">
-  <div class="row row-height">
-    <div class="col-lg-4 content-left" style="">
-      <div class="content-left-wrapper bg_img">
-        <div class="wrapper">
-          <div class="py-4 text-center">
-            <h1 class="font-weight-bold pb-4">MyBookingSherpa</h1>
-            <h4 class="pb-4">Welcome to the world of instant card payments for all your bookings</h4>
-          </div>
-        </div>
-      </div>
+<header class="site-header bg-skew bg-skew-light">
+  <div class="container">
+    <nav class="navbar navbar-brand navbar-expand-lg navbar-light no-nav py-3" aria-label="Main navigation">
+      <img src="<%= asset_pack_path 'media/images/logos/logo.svg' %>" />
+    </nav>
+  </div>
+</header>
+<section class="container">
+  <div class="row justify-content-lg-between pt-2 py-lg-5">
+    <div class="col-lg-6 col-xl-6 my-lg-4 text-center text-lg-left px-lg-5">
+      <h1 class="mb-5 font-weight-bold">Welcome to the world of instant card payments for all your bookings.</h1>
+      <h3 class="mb-4">No commitment, no minimum contract, no annoying sales people... <i class="font-weight-bold">just a free trial.</i></h3>
     </div>
-    <div class="col-lg-7 content-right px-0">
-      <div class="mt-3">
-        <span class="text-center">
-          <h1 class="font-weight-bold">Start free trial</h1>
-        </span>
+    <div class="col-lg-6 col-xl-6">
+      <div class="bg-white rounded shadow p-4 px-lg-5 mt-lg-n5">
+        <h2 class="font-weight-bold mb-4 text-center">Start free trial</h2>
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>
           <div class="col-md-12 mb-3">
-            <%= f.label :email_address %>
+            <%= f.label :email_address, class: "text-uppercase" %>
             <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, value: params[:email], class: "form-control" %>
             <div class="invalid-feedback">
               Please enter a vali Email Address
             </div>
           </div>
           <div class="col-md-12 mb-3">
-            <%= f.label :password %>
+            <%= f.label :password, class: "text-uppercase" %>
             <% if @minimum_password_length %>
               <span class="small"><i>(<%= @minimum_password_length %> characters minimum)</i></span>
             <% end %>
@@ -72,10 +71,9 @@
           <div class="col-md-12 -mb-3 text-center">
             <%= f.submit "START MY FREE TRIAL", class: "btn btn-primary btn-lg rounded mt-4 mb-4" %>
           </div>
-          <div class="col-md-12 mt-0 mb-3">
+          <div class="col-md-12 mt-0 mb-3 text-center">
             <small>
-            No commitment, no minimum contract, no annoying sales people... just a free trial.<br/>
-            By continuing, I agree to MyBookingSherpa's <a href="#" class="font-italic text-primary" data-toggle="modal" data-target="#tosModal">terms and conditions</a>
+            By continuing, I agree to MyBookingSherpa's <a href="#" class="text-primary" data-toggle="modal" data-target="#tosModal">terms and conditions</a>
             </small>
           </div>
           <div class="col-md-12 mb-4 text-center">
@@ -87,4 +85,4 @@
       </div>
     </div>
   </div>
-</div>
+</section>
