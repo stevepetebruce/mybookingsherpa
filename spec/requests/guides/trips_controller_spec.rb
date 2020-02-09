@@ -269,7 +269,7 @@ RSpec.describe "Guides::TripsController", type: :request do
           it "should show the welcome screen" do
             do_request
 
-            expect(response.body).to include("Let's create your first trip")
+            expect(response.body).to include("Now let's create your first trip")
           end
         end
       end
