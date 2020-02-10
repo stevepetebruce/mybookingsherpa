@@ -121,7 +121,7 @@
       <h2 class="font-weight-bold">Live Preview</h2>
     </div>
     <div class="container-fluid">
-      <div class="row border card card-shadow card-rounded d-flex flex-row" style="overflow: hidden;">
+      <div class="row border card card-shadow card-rounded" style="overflow: hidden;">
         <main id="main" data-controller="toggle-trip-description">
           <section class="d-flex align-items-center bg-skew overflow-hidden text-white" style="transform: skewY(0deg);">
             <div class="container mb-xl-5 pt-4">
@@ -176,17 +176,17 @@
                 <h4 class="mb-3 font-weight-bold">Your Details</h4>
                 <div class="row">
                   <div class="col-md-12 mb-3">
-                    <label for="booking_name">Full Name</label>
+                    <label for="booking_name" class="text-uppercase">Full Name</label>
                     <input class="form-control" required="required" readonly="readonly" type="text">
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="booking_email">Email</label>
+                  <label for="booking_email" class="text-uppercase">Email</label>
                   <input class="form-control" required="required" readonly="readonly" type="text">
                 </div>
                 <hr class="mb-5 mb-4">
                 <div class="row">
-                  <div class="col-md-12 mb-3">
+                  <div class="col-md-12 mb-3 text-uppercase">
                     <span>Credit or debit card number</span> <span style="padding-left: 235px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
                     <input type="text" name="fake_card_details" id="fake_card_details" class="form-control" required="required" readonly="readonly">
                   </div>
