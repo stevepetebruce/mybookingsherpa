@@ -26,7 +26,19 @@ module Public
 
         attach_stripe_customer_and_payment_method_to_booking
 
-        @booking.organisation_on_trial? ? test_create : live_create
+        if @booking.save && payment.update(booking: @booking)
+          run_trial_tasks if @booking.organisation_on_trial?
+
+          redirect_to url_for controller: "bookings",
+                              action: "edit",
+                              id: @booking.id,
+                              subdomain: @booking.organisation_subdomain_or_www,
+                              tld_length: tld_length
+        # TODO:
+        # else
+        #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
+        #   render :new
+        end
       end
 
       # GET /bookings/1/edit
@@ -62,32 +74,6 @@ module Public
         @booking ||= set_booking
 
         @hide_in_trial_banner = @booking.trip.bookings.count == 1 ? true : false
-      end
-
-      def live_create
-        if @booking.save && update_or_create_payment
-          redirect_to url_for controller: "bookings",
-                              action: "edit",
-                              id: @booking.id,
-                              subdomain: @booking.organisation_subdomain_or_www,
-                              tld_length: tld_length
-        # TODO:
-        # else
-        #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
-        #   render :new
-        end
-      end
-
-      def test_create
-        @booking.save
-        Payment.create(booking: @booking, amount: @booking.amount_due)
-
-        send_trial_emails
-        redirect_to url_for controller: "bookings",
-                            action: "edit",
-                            id: @booking.id,
-                            subdomain: @booking.organisation_subdomain_or_www,
-                            tld_length: tld_length
       end
 
       def allergies
@@ -140,10 +126,14 @@ module Public
         @booking.created_at > TIMEOUT_WINDOW_MINUTES.minutes.ago
       end
 
-      def update_or_create_payment
-        Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).
-          first_or_create.
-          update(booking: @booking)
+      def payment
+        @payment ||=
+          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
+      end
+
+      def run_trial_tasks
+        send_trial_emails
+        payment.update(status: :success)
       end
 
       def send_trial_emails
