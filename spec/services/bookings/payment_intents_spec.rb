@@ -21,7 +21,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
               booking_id: booking.id
             },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_"),
           }).
           to_return(status: 200,
                     body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
@@ -52,7 +52,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { "booking_id": booking.id },
             setup_future_usage: "off_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
         end
 
@@ -76,7 +76,8 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")          }
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
+          }
         end
 
         it "should call External::StripeApi::PaymentIntent#create with the correct attributes" do
@@ -99,7 +100,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
         end
 
@@ -138,7 +139,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { "booking_id": booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_")
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }).
           to_return(status: 200,
                     body: "#{file_fixture("stripe_api/successful_payment_intent.json").read}",
@@ -162,7 +163,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { booking_id: booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_"),
           }
         end
 
