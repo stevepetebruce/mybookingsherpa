@@ -161,41 +161,17 @@
             </div>
           </div>
         <% else %>
-          <div class="card card-shadow card-rounded mt-5 offset-md-1 col-md-10">
-            <div class="card-body p-0 row overflow-hidden">
-              <div class="col-lg-5 content-left">
-                <div class="content-left-wrapper bg_img">
-                  <div class="wrapper">
-                    <div class="py-4 text-center">
-                      <h2 class="font-weight-bold">Welcome...</h2>
-                      <% if current_guide.name.present? %>
-                        <h2 class="font-weight-bold"><%= current_guide.name %></h2>
-                      <% end %>
-                      <h4 class="pb-4">To the world of instant card payments.</h4>
-                      <h5>This will be glorious...</h5>
-                      <h5>You will talk about this day to your grandchildren.</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-7 content-right">
-                <div class="mt-2">
-                  <h1 class="font-weight-bold">Let's create your first trip</h1>
-                  <h4 class="mt-4">All you need is...</h4>
-                  <ul class="list-unstyled">
-                    <li><i class="la la-check text-primary mr-1"></i> Trip name and description</li>
-                    <!-- <li><i class="la la-check text-primary mr-1"></i> Trip description</li> -->
-                    <li><i class="la la-check text-primary mr-1"></i> Start and end date</li>
-                    <!-- <li><i class="la la-check text-primary mr-1"></i> Number of guests</li> -->
-                    <li><i class="la la-check text-primary mr-1"></i> Price and deposit</li>
-                  </ul>
-                  <div class="col text-center">
-                    <a class="btn btn-primary btn-lg rounded uppercase my-3" href="/guides/trips/new" role="button">Let's go</a>
-                  </div>
+          <section class="container">
+            <div class="row justify-content-center pt-5">
+              <div class="bg-white rounded shadow p-4 px-lg-5 col-md-6 my-auto">
+                <h2 class="font-weight-bold mb-4 text-center">Thanks for signing up</h2>
+                <h4 class="mb-4 text-center">Now let's create your first trip</h4>
+                <div class="col text-center">
+                  <a class="btn btn-primary btn-lg rounded uppercase mt-4 mb-4" href="/guides/trips/new" role="button">Let's go</a>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         <% end %>
       </div>
     </div>
