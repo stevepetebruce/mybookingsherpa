@@ -26,6 +26,11 @@ module Webhooks
         @booking ||= Booking.find(@payment_intent.metadata.booking_id)
       end
 
+      def check_payment_exists
+        # TODO: test this
+        head :not_found and return unless Payment.find_by_stripe_payment_intent_id(stripe_payment_intent_id)
+      end
+
       def end_point_secret
         ENV.fetch("STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS")
       end
@@ -49,8 +54,10 @@ module Webhooks
         when "payment_intent.created"
         when "payment_intent.amount_capturable_updated"
         when "payment_intent.succeeded"
+          check_payment_exists
           successful_payment_jobs
         when "payment_intent.payment_failed"
+          check_payment_exists
           failed_payment_jobs
         else
           # TODO: Email guest and guide...?
