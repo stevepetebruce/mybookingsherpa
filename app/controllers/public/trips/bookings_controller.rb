@@ -127,13 +127,14 @@ module Public
       end
 
       def payment
-        @payment ||=
-          Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
+        Payment.where(stripe_payment_intent_id: stripe_payment_intent_id).first_or_create
       end
 
       def run_trial_tasks
+        # puts '!!! - @booking.amount_due ' + @booking.amount_due.inspect
+        puts "!!!! - here - !!!!"
         send_trial_emails
-        payment.update(amount: @booking.amount_due, status: :success)
+        payment.update(amount: @booking.reload.amount_due, status: :success)
       end
 
       def send_trial_emails

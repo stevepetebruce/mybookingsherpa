@@ -24,7 +24,9 @@ module Bookings
     end
 
     def update
-      @booking.update(payment_status: new_payment_status)
+      # puts "!!!!! - new_payment_status - !!!"
+      # puts '!!! - new_payment_status ' + new_payment_status.inspect
+      @booking.reload.update(payment_status: new_payment_status)
     end
 
     private
