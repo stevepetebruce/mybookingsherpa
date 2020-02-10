@@ -41,7 +41,7 @@ An extra step - but a definite confirmation from the user.
   <div class="row">
     <div class="col-md-12 mb-3">
       <% if booking.organisation_on_trial? %>
-        <span class="text-uppercase text-secondary">Credit or debit card number</span> <span style="padding-left: 265px;">MM / YY</span> <span style="padding-left: 18px;">CVC</span>
+        <span class="text-uppercase text-secondary">Credit or debit card number</span> <span style="padding-left: 233px;">MM / YY</span> <span style="padding-left: 20px;">CVC</span>
         <%= text_field_tag :fake_card_details, "4242 4242 4242 4242                                                          #{1.year.from_now.strftime("%m / %y")}    123", class: "form-control", required: true, readonly: true %>
       <% else %>
         <label for="card-element" class="text-uppercase text-secondary">Credit or debit card</label>
