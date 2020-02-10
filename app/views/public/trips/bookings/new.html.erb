@@ -63,10 +63,10 @@
             <%= image_tag url_for(@booking.organisation_logo_image), class: "d-block mx-auto p-4" %>
           <% end %>
           <dl class="mb-0">
-            <% if @booking.only_paying_deposit? %>
             <dt class="h3 font-serif pb-4 pt-1 text-center border-bottom">
               Trip Cost
             </dt>
+            <% if @booking.only_paying_deposit? %>
             <dt class="h4 font-weight-light text-uppercase text-secondary mb-2 pt-2">
               Deposit due now
             </dt>
