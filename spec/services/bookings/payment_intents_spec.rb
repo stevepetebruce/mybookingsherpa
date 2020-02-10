@@ -188,7 +188,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             currency: booking.currency,
             metadata: { booking_id: booking.id },
             setup_future_usage: "on_session",
-            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ")
+            statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
         end
 
