@@ -133,7 +133,7 @@ module Public
 
       def run_trial_tasks
         send_trial_emails
-        payment.update(status: :success)
+        payment.update(amount: @booking.amount_due, status: :success)
       end
 
       def send_trial_emails
