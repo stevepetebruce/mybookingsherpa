@@ -3,10 +3,10 @@
     <div class="container mb-xl-5 pt-4">
       <div class="row justify-content-center text-center">
         <div class="col-lg-10">
-          <h1 class="display-1 font-serif <%= 'cancelled-trip' if @booking.trip_cancelled? %>" data-target="trip-title.tripNameSource"><%= @booking.trip_name %></h1>
-          <h3>
+          <h1 class="display-1 font-serif mb-2 <%= 'cancelled-trip' if @booking.trip_cancelled? %>" data-target="trip-title.tripNameSource"><%= @booking.trip_name %></h1>
+          <h4 class="text-uppercase mb-1">
             <%= "#{@booking.start_date.day} - #{@booking.end_date.day} #{Date::MONTHNAMES[@booking.end_date.month]}" %>
-          </h3>
+          </h4>
           <div id="summary">
             <p class="px-sm-5 mx-sm-5 collapse" id="collapseSummary" data-target="toggle-trip-description.tripDescriptionSource">
               <%= @booking.trip_description %>
