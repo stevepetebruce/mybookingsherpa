@@ -3,12 +3,12 @@
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
   <hr class="mb-5 mb-4">
-  <h4 class="mb-3 font-weight-bold">
+  <h4 class="mb-3 font-weight-bold font-serif">
     Outstanding Payment now due: <%= @booking.human_readable_failed_amount_due %>
-    </h4>
+  </h4>
   <div class="row">
     <div class="col-md-12 mb-3">
-      <label for="card-element">Credit or debit card</label>
+      <label for="card-element text-uppercase">Credit or debit card</label>
       <div data-target="stripe--payment-intent.cardElement">
         <!-- A Stripe Element will be inserted here. -->
       </div>
@@ -16,8 +16,8 @@
       <div data-target="stripe--payment-intent.cardErrors" role="alert"></div>
     </div>
   </div>
-  <div class="actions">
-    <%= form.submit "Update card details", class: "btn btn-primary btn-lg btn-block mt-4 mb-4", data: { target: "stripe--payment-intent.submitButton" } %>
+  <div class="actions text-center">
+    <%= form.submit "Update card details", class: "btn btn-primary btn-lg rounded uppercase mt-4 mb-4", data: { target: "stripe--payment-intent.submitButton" } %>
   </div>
   <%= hidden_field_tag :payment_intent_id, @payment_intent.id %>
 <% end %>
