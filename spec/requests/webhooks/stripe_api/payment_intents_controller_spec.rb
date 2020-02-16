@@ -143,56 +143,6 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
             expect(booking.last_payment_failed?).to eq true
           end
         end
-
-        context "without pre-existing booking" do
-          before do
-            allow(Bookings::SendFailedPaymentEmailsJob).to receive(:perform_in)
-          end
-
-          let(:event) do
-            JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed_without_booking_id.json").read}")
-          end
-          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-          let(:params) { event }
-          let!(:payment) { FactoryBot.create(:payment, :pending, stripe_payment_intent_id: "pi_1FlQxUESypPNvvdYM2c3ClZd") }
-          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
-
-          it "should respond with a success status code" do
-            do_request(params: params, headers: headers)
-
-            expect(response).to be_successful
-          end
-
-          it "should send out the failed payment emails to the guest and guide" do
-            # "We are now allowing time for the booking to be created - so just check the job is run"
-            do_request(params: params, headers: headers)
-            expect(Bookings::SendFailedPaymentEmailsJob).to have_received(:perform_in)
-          end
-        end
-
-        context "with a failed in_session SCA attempt" do
-          let(:event) do
-            JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_payment_failed_in_session_payment_intent.json").read}")
-          end
-          let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
-          let(:params) { event }
-          let!(:payment) { FactoryBot.create(:payment, :pending, stripe_payment_intent_id: "pi_1FpvMcESypPNvvdY6K40w074") }
-          let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
-
-
-          it "should respond with a success status code (and not throw an app error)" do
-            do_request(params: params, headers: headers)
-
-            expect(response).to be_successful
-          end
-
-          it "should update the payment with a failed status" do
-            expect { do_request(params: params, headers: headers) }.
-              to change { payment.reload.status }.
-              from("pending").
-              to("failed")
-          end
-        end
       end
 
       context "bad request" do 

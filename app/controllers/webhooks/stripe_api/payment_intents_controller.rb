@@ -23,7 +23,7 @@ module Webhooks
       def booking
         return if payment_intent.metadata.as_json.dig("booking_id").nil?
 
-        @booking ||= Booking.find(@payment_intent.metadata.booking_id)
+        @booking ||= Booking.find(payment_intent.metadata.booking_id)
       end
 
       def payment_exists
@@ -40,13 +40,12 @@ module Webhooks
       end
 
       def failed_payment_jobs
-        Bookings::UpdateFailedPaymentJob.perform_in(time_to_allow_for_booking_creation,
-                                                    stripe_payment_intent_id,
-                                                    amount)
+        Bookings::UpdateFailedPaymentJob.perform_async(booking.id,
+                                                       stripe_payment_intent_id,
+                                                       amount)
 
-        Bookings::SendFailedPaymentEmailsJob.perform_in(time_to_allow_for_booking_creation,
-                                                        stripe_payment_intent_id,
-                                                        payment_failure_message) if payment_failure_message #TODO: this is a little fragile: assumes there's no charge objects in a failed on_session payment_intent
+        Bookings::SendFailedPaymentEmailsJob.perform_async(booking.id,
+                                                           payment_failure_message)
       end
 
       def handle_event
@@ -57,7 +56,6 @@ module Webhooks
           head :not_found and return unless payment_exists
           successful_payment_jobs
         when "payment_intent.payment_failed"
-          head :not_found and return unless payment_exists
           failed_payment_jobs
         else
           # TODO: Email guest and guide...?
