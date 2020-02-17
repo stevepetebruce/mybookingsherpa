@@ -20,7 +20,8 @@ module Bookings
     end
 
     def payment
-      @payment ||= Payment.find_by_stripe_payment_intent_id(@stripe_payment_intent_id)
+      @payment ||=
+        Payment.find_or_create_by(stripe_payment_intent_id: @stripe_payment_intent_id)
     end
   end
 
