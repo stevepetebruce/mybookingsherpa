@@ -21,6 +21,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
             currency: booking.currency,
             customer: stripe_customer_id,
             metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
               booking_id: booking.id
             },
             off_session: true,
@@ -62,7 +63,10 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
           confirm: true,
           currency: booking.currency,
           customer: stripe_customer_id,
-          metadata: { booking_id: booking.id },
+          metadata: {
+            base_domain: ENV.fetch("BASE_DOMAIN"),
+            booking_id: booking.id
+          },
           off_session: true,
           payment_method: booking.stripe_payment_method_id,
           statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),

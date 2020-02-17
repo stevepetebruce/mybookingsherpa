@@ -52,7 +52,10 @@ module Bookings
         confirm: confirm?,
         currency: @booking.currency,
         customer: @booking.stripe_customer_id,
-        metadata: { booking_id: @booking.id },
+        metadata: {
+          base_domain: ENV.fetch("BASE_DOMAIN"),
+          booking_id: @booking.id
+        },
         off_session: off_session?,
         payment_method: @booking.stripe_payment_method_id,
         setup_future_usage: setup_future_usage,

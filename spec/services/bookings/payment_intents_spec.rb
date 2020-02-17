@@ -18,6 +18,7 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             confirm: false,
             currency: booking.currency,
             metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
               booking_id: booking.id
             },
             setup_future_usage: "on_session",
@@ -50,7 +51,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             amount: booking.deposit_cost,
             confirm: false,
             currency: booking.currency,
-            metadata: { "booking_id": booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              "booking_id": booking.id
+            },
             setup_future_usage: "off_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
@@ -74,7 +78,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: false,
             currency: booking.currency,
-            metadata: { "booking_id": booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              "booking_id": booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
@@ -98,7 +105,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: false,
             currency: booking.currency,
-            metadata: { "booking_id": booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              "booking_id": booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
@@ -137,7 +147,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: false,
             currency: booking.currency,
-            metadata: { "booking_id": booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              "booking_id": booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }).
@@ -161,7 +174,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: false,
             currency: booking.currency,
-            metadata: { booking_id: booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              booking_id: booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_"),
           }
@@ -186,7 +202,10 @@ RSpec.describe Bookings::PaymentIntents, type: :model do
             application_fee_amount: (booking.full_cost * 0.01).to_i,
             confirm: false,
             currency: booking.currency,
-            metadata: { booking_id: booking.id },
+            metadata: {
+              base_domain: ENV.fetch("BASE_DOMAIN"),
+              booking_id: booking.id
+            },
             setup_future_usage: "on_session",
             statement_descriptor_suffix: booking.trip_name.truncate(22, separator: " ").gsub(/[^a-zA-Z0-9\s\\.]/, "_")
           }
