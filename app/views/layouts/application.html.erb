@@ -23,7 +23,7 @@
     <% if Rails.env.production? %>
       <%= render "layouts/vendor_code/google_tag_manager_body" %>
     <% end %>
-    <div class="page-wrapper">
+    <div class="page-wrapper" data-controller="onboard-pointer">
       <%= render "layouts/nav_bar" %>
       <% if show_in_trial_banner? %>
         <%= render partial: "layouts/in_trial_banner", locals: { extra_top_margin: true } %>
