@@ -26,8 +26,9 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         end
 
         let(:amount_received) { 90_000 } # from successful_status_without_booking_id.json
-        let(:event) do
-          JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}")
+        let!(:event) do
+          FactoryBot.create(:stripe_event,
+                            json: JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_without_booking_id.json").read}"))
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
@@ -67,8 +68,10 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
 
       context "payment_intent.succeeded event - with pre-existing booking" do
         let!(:booking) { FactoryBot.create(:booking, id: "2f2a2255-8b43-4574-9d33-b7f56d624026") } # from: successful_status_with_booking_id
-        let(:event) do 
-          JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_with_booking_id.json").read}")
+        let!(:event) do
+          FactoryBot.create(:stripe_event,
+                            meant_for_this_environment: true,
+                            json: JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/successful_status_with_booking_id.json").read}"))
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
@@ -119,7 +122,8 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         context "with pre-existing booking" do
           let!(:booking) { FactoryBot.create(:booking, id: "a90ce8e2-9af8-4b79-9035-b48390884565") } # from: unsuccessful_status_amount_payment_failed.json
           let(:event) do
-            JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed_with_booking_id.json").read}")
+            FactoryBot.create(:stripe_event,
+                              json: JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_amount_payment_failed_with_booking_id.json").read}"))
           end
           let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
           let(:params) { event }
@@ -146,19 +150,24 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
       end
 
       context "bad request" do 
-        let(:event) do 
-          JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_bad_request.json").read}")
+        let(:event) do
+          FactoryBot.create(:stripe_event,
+                            json: JSON.parse("#{file_fixture("/stripe_api/webhooks/payment_intents/unsuccessful_status_bad_request.json").read}"))
         end
         let(:headers) { { "Stripe-Signature" => stripe_event_signature(event.to_json, secret) } }
         let(:params) { event }
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
-        it "should respond with a success status code" do
+        it "should respond with a bad status code" do
           do_request(params: params, headers: headers)
 
           expect(response.code).to eq("400")
         end
         # TODO: should also probably do something else on our side...
+      end
+
+      context "not_meant_for_this_environment = true" do
+        # TODO: Need to test this...
       end
     end
   end

@@ -48,8 +48,12 @@ module Webhooks
         when "payment_intent.created"
         when "payment_intent.amount_capturable_updated"
         when "payment_intent.succeeded"
+          head :ok and return if not_meant_for_this_environment?
+
           successful_payment_jobs
         when "payment_intent.payment_failed"
+          head :ok and return if not_meant_for_this_environment?
+
           failed_payment_jobs
         else
           # TODO: Email guest and guide...?
@@ -57,6 +61,10 @@ module Webhooks
         end
 
         head :ok
+      end
+
+      def not_meant_for_this_environment?
+        payment_intent.metadata.as_json.dig("base_domain") != ENV.fetch("BASE_DOMAIN")
       end
 
       def payload
