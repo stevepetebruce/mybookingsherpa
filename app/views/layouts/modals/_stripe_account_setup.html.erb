@@ -1,4 +1,4 @@
-<div class="modal fade display-modal-lg" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" aria-hidden="true">
+<div class="modal fade display-modal-lg" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" aria-hidden="true" data-controller="item-loading">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -22,7 +22,7 @@
                   <li><i class="la la-check text-primary mr-1"></i> And finally your bank account number, allowing you to receive instant card payments</li>
                 </ul>
                 <div class="text-center my-4">
-                  <%= link_to stripe_account_link, class: "btn btn-primary btn-lg rounded uppercase" do %>
+                  <%= link_to stripe_account_link, class: "btn btn-primary btn-lg rounded uppercase", data: { action: "click->item-loading#loadingIcon", target: "item-loading.loadingButton" } do %>
                     Set up my account
                   <% end %>
                 </div>
