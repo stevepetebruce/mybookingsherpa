@@ -34,10 +34,9 @@ module Public
                               id: @booking.id,
                               subdomain: @booking.organisation_subdomain_or_www,
                               tld_length: tld_length
-        # TODO:
-        # else
-        #   flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
-        #   render :new
+        else
+          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
+          render :new
         end
       end
 
