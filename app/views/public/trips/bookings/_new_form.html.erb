@@ -4,7 +4,7 @@ ex: a modal with the summary payment to be made?
 An extra step - but a definite confirmation from the user.
 -->
 
-<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_account_id: booking.organisation_stripe_account_id }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_trip_bookings_path(@trip.slug), class: "needs-validation", html: { novalidate: :novalidate }, method: :post, data: { controller: "stripe--payment-intent", stripe__payment_intent_key: booking.stripe_publishable_key, stripe__payment_intent_secret: @payment_intent.client_secret, target: "stripe--payment-intent.form", stripe__payment_intent_create_booking_url: public_trip_bookings_path, stripe__payment_intent_connected_account_id: booking.organisation_stripe_account_id}) do |form| %>
   <% # reinstate error / warning notices %>
   <!-- <div class="alert alert-warning" role="alert"><%= notice %></div>
   <div class="alert alert-warning" role="alert"><%= alert %></div> -->
@@ -12,20 +12,20 @@ An extra step - but a definite confirmation from the user.
   <div class="row">
     <div class="col-md-12 mb-3">
       <%= form.label :name, "Full Name", class: "text-uppercase text-secondary" %>
-      <%= form.text_field :name, value: trial_example_full_name_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true, readonly: booking.organisation_on_trial? %>
+      <%= form.text_field :name, value: trial_example_full_name_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:name].present?} form-control", data: { target: "stripe--payment-intent.field" }, autofocus: auto_focus(booking, form_field: :name, default_auto_focus: true), required: true, readonly: booking.organisation_on_trial?, pattern: Regex::NAME_FORM.source %>
       <div class="invalid-feedback">
-        <%= "Please enter your name" %>
+        <%= "Please enter a valid name" %>
       </div>
       <% if @booking.errors[:name].present? %>
-      <div class="invalid-feedback" style="display: block;">
-        Please enter a valid name
-      </div>
-    <% end %>
+        <div class="invalid-feedback" style="display: block;">
+          Please enter a valid name
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="mb-5">
     <%= form.label :email, class: "text-uppercase text-secondary" %>
-    <%= form.text_field :email, value: trial_example_email_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:email].present?} form-control", autofocus: auto_focus(booking, form_field: :email), required: true, readonly: booking.organisation_on_trial? %>
+    <%= form.text_field :email, value: trial_example_email_or_nil(booking), class: "#{ 'is-invalid' if @booking.errors[:email].present?} form-control", data: { target: "stripe--payment-intent.field" }, autofocus: auto_focus(booking, form_field: :email), required: true, readonly: booking.organisation_on_trial?, pattern: Regex::EMAIL_FORM.source %>
     <div class="invalid-feedback">
       Please enter a valid email
     </div>

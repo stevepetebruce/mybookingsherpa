@@ -4,8 +4,9 @@
 // https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment
 import { Controller } from "stimulus";
 
+// TODO: could possibly extend the form_validation_controller... as we're duplicating alot of it here
 export default class extends Controller {
-  static targets = ["cardElement", "cardErrors", "form", "submitButton"]
+  static targets = ["cardElement", "cardErrors", "field", "form", "submitButton"]
 
   connect() {
     if (!this.hasCardElementTarget) { return; } // handle the in trial pretend form
@@ -22,17 +23,38 @@ export default class extends Controller {
       event.preventDefault();
       this.submitButtonTarget.disabled = true;
 
-      const {paymentIntent, error} = await stripe.handleCardPayment(
+      if (this.formTarget.checkValidity() === true) {
+        const {paymentIntent, error} = await stripe.handleCardPayment(
         this.data.get("secret"), card);
 
-      if (error) {
-        this.cardErrorsTarget.textContent = error.message;
-        this.submitButtonTarget.disabled = false;
-      } else if (paymentIntent.requires_action) {
-        this.authenticationRequired(paymentIntent);
+        if (error) {
+          this.cardErrorsTarget.textContent = error.message;
+          this.submitButtonTarget.disabled = false;
+        } else if (paymentIntent.requires_action) {
+          this.authenticationRequired(paymentIntent);
+        } else {
+          this.handlePaymentMethod(paymentIntent.payment_method);
+        }
       } else {
-        this.handlePaymentMethod(paymentIntent.payment_method);
+        this.formTarget.classList.add("was-validated");
+        this.submitButtonTarget.disabled = false;
+        this.addFormFieldsValidationHandlers();
       }
+    });
+  }
+
+  addFormFieldsValidationHandlers() {
+    this.fieldTargets.forEach((input) => {
+      input.addEventListener(("input"), () => {
+        if (input.checkValidity()) {
+          input.classList.remove("is-invalid")
+          input.classList.add("is-valid");
+        } else {
+          input.classList.remove("is-valid")
+          input.classList.add("is-invalid");
+        }
+        this.enableSubmitButtonIfValid();
+      });
     });
   }
 
@@ -84,6 +106,10 @@ export default class extends Controller {
         iconColor: "#fa755a"
       }
     };
+  }
+
+  enableSubmitButtonIfValid() {
+    this.submitButtonTarget.disabled = !this.formTarget.checkValidity();
   }
 
   handlePaymentMethod(paymentMethod) {
