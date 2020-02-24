@@ -31,7 +31,7 @@ module OnboardingHelper
 
   def show_onboarding_explainer_element?(trip, count)
     # ie: if first trip has no bookings.
-    @current_organisation.on_trial? && trip.bookings.count.zero? && count.zero?
+    @current_organisation.on_trial? && @current_organisation.bookings.count.zero? && count.zero?
   end
 
   def stripe_account_link(type="custom_account_verification")
