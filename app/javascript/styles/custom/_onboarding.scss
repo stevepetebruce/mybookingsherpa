@@ -222,4 +222,8 @@
     margin: 0 4px;
     border-radius: 2px;
   }
+  &.public{
+    position: relative;
+    display: block;
+  }
 }
