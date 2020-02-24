@@ -33,7 +33,7 @@ export default class extends Controller {
       this.datePreviewTarget.innerHTML = `${startDate} ${startMonth}`;
     }
 
-    this.setTripName();
+    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
     
     this.descriptionPreviewTarget.innerHTML = this.descriptionInputTarget.value || "Trip description will be displayed here...";
 
@@ -70,16 +70,6 @@ export default class extends Controller {
       document.getElementsByClassName("container")[0].scrollIntoView({behavior: "smooth"});
     }
   }
-
-  setTripName() {
-    this.namePreviewTarget.innerHTML = this.nameInputTarget.value || "Trip Name";
-
-    if(this.namePreviewTarget.innerHTML !== "Trip Name") {
-      this.namePreviewTarget.innerHTML = this.nameInputTarget.value.split("").map((letter, i) => {
-        return((letter === "-") ? `-<br>` : `${letter}`);
-      }).join("");
-    }
-  } 
 
   roundPrices() {
     const depositPreviewAmount = this.fullCostInputTarget.value * (this.depositPercentageInputTarget.value / 100);
