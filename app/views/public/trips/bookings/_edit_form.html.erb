@@ -1,4 +1,4 @@
-<%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }, data: { action: "form-validation#checkValidity", controller: "country-auto-select form-validation" }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }, data: { action: "form-validation#checkValidity", controller: "country-auto-select form-validation", target: "trip-preview.form form-validation.form" }) do |form| %>
   <ul class="formline">
     <li>
       <h4 class="font-weight-bold font-serif">Personal Details</h4>
@@ -160,6 +160,6 @@
     </li>
   </ul>
   <div class="text-center mt-4">
-    <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg rounded uppercase" %>
+    <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg rounded uppercase", data: { target: "form-validation.submitButton" } %>
   </div>
 <% end %>

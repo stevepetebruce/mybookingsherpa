@@ -1,11 +1,11 @@
 <div data-controller="copy-date currency-select trip-preview toggle-trip-description">
-  <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { target: "trip-preview.form" } ) do |form| %>
+  <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { action: "form-validation#checkValidity", controller: "form-validation", target: "trip-preview.form form-validation.form" } ) do |form| %>
     <div class="row form-group mb-3 justify-content-md-center mt-3">
       <div class="col-md-4">
         <h4 class="font-weight-bold text-muted"><%= form.label :trip_name %></h4>
       </div>
       <div class="col-md-6">
-        <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
+        <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "form_validation.field trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
         <div class="invalid-feedback">
           Please enter a valid trip name
         </div>
@@ -21,7 +21,7 @@
         <h4 class="font-weight-bold text-muted"><%= form.label :a_brief_description_of_your_trip, "A brief description of your trip", class: "mb-0" %><br><small class="text-muted">(maximum characters: 500)</small></h4>
       </div>
       <div class="col-md-6">
-        <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
+        <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "form_validation.field trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
         <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
         <div class="invalid-feedback">
           Please enter a valid description
@@ -204,7 +204,7 @@
     </div>
     <div class="mt-5 mb-1 text-center">
       <button type="submit" disabled style="display: none" aria-hidden="true"></button>
-      <button class="btn btn-primary btn-lg rounded uppercase" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
+      <button class="btn btn-primary btn-lg rounded uppercase" data-target="form-validation.submitButton" type="submit"><%= @trip.new_record? ? "Add my trip" : "UPDATE MY TRIP" %></button>
       <% if @current_organisation.trips.exists? %>
         <div class="mt-5">
           <%= link_to "Cancel and return to My Trips", guides_trips_path, class: "text-primary" %>
