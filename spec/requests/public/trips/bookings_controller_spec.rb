@@ -160,170 +160,143 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
           end
         end
 
-        context "unsuccesful" do
+        context "unsuccessful" do
           context "user enters an invalid email address" do
             let(:email) { Faker::Lorem.word }
 
             it "should redirect back with error message" do
-              # pending 'sca work - come back to...'
-              # do_request(params: params)
+              do_request(params: params)
 
-              # expect(Guest.count).to eq 0
-              # expect(Booking.count).to eq 0
+              expect(Guest.count).to eq 0
+              expect(Booking.count).to eq 0
 
-              # expect(response.code).to eq "200"
-              # expect(response.body).to include("Please enter a valid email")
+              expect(response.code).to eq "302"
             end
           end
 
-          # TODO: need to look at what Stripe errors may come back from the PaymentIntents API
-          # and cover them here....
-
           context "user enters an card that attaches to the customer but the charge fails" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::CardError.new("Card declined", nil, json_body: { error: { message: "Card declined" }}))
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful. Card declined")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful.")
             end
 
-            it "should create a guest and a booking with a stripe_customer_id and stripe_payment_method_id" do
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
-              expect(Booking.last.stripe_payment_method_id).to_not be_nil
             end
           end
 
           context "user experiences rate limiting of the Stripe API" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::RateLimitError.new)
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful. RateLimitError. Please try again or contact Guide for help.")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful.")
             end
 
-            it "should create a guest and a booking with a stripe_customer_id and stripe_payment_method_id" do
-              # Should it? What if the call to create the customer failed too?
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
-              expect(Booking.last.stripe_payment_method_id).to_not be_nil
             end
           end
 
           context "invalid parameter sent to Stripe API" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::InvalidRequestError.new("Invalid request", nil))
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful.  Invalid request. Please try again or contact Guide for help.")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful. Invalid")
             end
 
-            it "should still create a guest and a booking with a stripe_customer_id" do
-              # Should it? What if the call to create the customer failed too?
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
             end
           end
 
           context "authentication error" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::AuthenticationError.new)
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful. AuthenticationError. Please try again or contact Guide for help.")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful.")
             end
 
-            it "should still create a booking and a guest with a stripe_customer_id" do
-              # Should it? What if the call to create the customer failed too?
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
-              expect(Booking.last.stripe_payment_method_id).to_not be_nil
             end
           end
 
           context "API connection error" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::APIConnectionError.new)
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful. APIConnectionError. Please try again or contact Guide for help.")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful.")
             end
 
-            it "should still create a guest and a booking with a stripe_customer_id" do
-              # Should it? What if the call to create the customer failed too?
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
-              expect(Booking.last.stripe_payment_method_id).to_not be_nil
             end
           end
 
           context "General Stripe API error" do
             before do
-              allow(Stripe::Charge).to receive(:create).
+              allow(Stripe::PaymentIntent).to receive(:create).
                 and_raise(Stripe::StripeError.new)
             end
 
             it "should redirect back with error message" do
               do_request(params: params)
 
-              pending 'SCA: need to test this when webhook comes in with this error'
-              expect(response.code).to eq "200"
-              expect(flash[:alert]).to eq("Payment unsuccessful. StripeError. Please try again or contact Guide for help.")
+              expect(response.code).to eq "302"
+              expect(flash[:alert]).to include("Payment unsuccessful.")
             end
 
-            it "should still create a guest and a booking with a stripe_customer_id" do
-              # Should it? What if the call to create the customer failed too?
+            it "should still create a guest and a booking" do
               do_request(params: params)
 
               expect(Guest.count).to eq 1
               expect(Booking.count).to eq 1
-              expect(Booking.last.stripe_customer_id).to_not be_nil
-              expect(Booking.last.stripe_payment_method_id).to_not be_nil
             end
           end
         end
