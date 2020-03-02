@@ -22,11 +22,15 @@ module Public
       def create
         @guest = Guest.find_or_create_by(email: booking_params[:email])
         @booking = @trip.bookings.new(booking_params.merge(guest: @guest))
-        @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
 
-        attach_stripe_customer_and_payment_method_to_booking
+        begin
+          @payment_intent = ::Bookings::PaymentIntents.find_or_create(@booking)
+          attach_stripe_customer_and_payment_method_to_booking
+        rescue Stripe::StripeError => e
+          @stripe_api_error = "Payment unsuccessful. #{e}. Please try again or contact the guide"
+        end
 
-        if @booking.save && payment.update(booking: @booking)
+        if @booking.save && payment.update(booking: @booking) && !defined?(@stripe_api_error)
           run_trial_tasks if @booking.organisation_on_trial?
 
           redirect_to url_for controller: "bookings",
@@ -35,8 +39,8 @@ module Public
                               subdomain: @booking.organisation_subdomain_or_www,
                               tld_length: tld_length
         else
-          flash.now[:alert] = @stripe_api_error || @booking.errors.full_messages.to_sentence
-          render :new
+          redirect_to new_public_trip_booking_path(@trip.slug),
+                      flash: { alert: @stripe_api_error || @booking.errors.full_messages.to_sentence }
         end
       end
 
