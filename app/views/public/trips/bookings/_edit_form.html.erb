@@ -1,11 +1,11 @@
-<%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }, data: { controller: "country-auto-select" }) do |form| %>
+<%= form_with(model: booking, local: true, url: public_booking_path(@booking), class: "needs-validation", html: { novalidate: :novalidate }, data: { action: "form-validation#checkValidity", controller: "country-auto-select form-validation", target: "trip-preview.form form-validation.form" }) do |form| %>
   <ul class="formline">
     <li>
       <h4 class="font-weight-bold font-serif">Personal Details</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :name, "Full Name", class: "text-uppercase text-secondary" %>
-          <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :name), readonly: @booking.organisation_on_trial? %>
+          <%= form.text_field :name, class: "#{'is-invalid' if @booking.errors[:name].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your name" %>
           </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <%= form.label :email, class: "text-uppercase text-secondary" %>
-          <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :email), readonly: @booking.organisation_on_trial? %>
+          <%= form.text_field :email, class: "#{'is-invalid' if @booking.errors[:email].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :email), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter a valid email" %>
           </div>
@@ -30,9 +30,9 @@
         <div class="col-md-4 mb-3">
           <%= form.label :phone_number, class: "text-uppercase text-secondary" %>
           <% if @booking.organisation_on_trial? %>
-            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), readonly: @booking.organisation_on_trial? %>
+            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), readonly: @booking.organisation_on_trial? %>
           <% else %>
-            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
+            <%= form.text_field :phone_number, value: trial_example_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :phone_number, default_auto_focus: true), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
           <% end %>
           <div class="invalid-feedback">
             <%= "Please enter your phone number" %>
@@ -45,7 +45,7 @@
         </div>
         <div class="col-md-4 mb-3">
           <%= form.label :date_of_birth, class: "text-uppercase text-secondary" %>
-          <%= form.date_field :date_of_birth, value: trial_example_dob_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :date_of_birth),readonly: @booking.organisation_on_trial? %>
+          <%= form.date_field :date_of_birth, value: trial_example_dob_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :date_of_birth),readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             <%= "Please enter your date my birth" %>
           </div>
@@ -71,7 +71,7 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <%= form.label :next_of_kin_name, "Name", class: "text-uppercase text-secondary" %>
-          <%= form.text_field :next_of_kin_name, value: trial_example_ice_name_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name), readonly: @booking.organisation_on_trial? %>
+          <%= form.text_field :next_of_kin_name, value: trial_example_ice_name_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_name].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_name), readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
             Please enter the name of your emergency contact
           </div>
@@ -84,9 +84,9 @@
         <div class="col-md-6 mb-3">
           <%= form.label :next_of_kin_phone_number, "Phone number", class: "text-uppercase text-secondary" %>
           <% if @booking.organisation_on_trial? %>
-            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
+            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
           <% else %>
-            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
+            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
           <% end %>
           <div class="invalid-feedback">
             Please enter a valid phone number of your emergency contact
@@ -160,6 +160,6 @@
     </li>
   </ul>
   <div class="text-center mt-4">
-    <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg rounded uppercase" %>
+    <%= form.submit "Complete Booking", class: "btn btn-primary btn-lg rounded uppercase", data: { target: "form-validation.submitButton" } %>
   </div>
 <% end %>

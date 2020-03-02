@@ -9,21 +9,21 @@
           <div class="card card-shadow card-rounded mt-4">
             <div class="card-body row mb-4 justify-content-md-center">
               <div class="col-12 col-sm-12 col-md-10">
-                <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe--bank-account.formDetails" }) do |form| %>
+                <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { controller: "form-validation", target: "form-validation.form stripe--bank-account.formDetails" }) do |form| %>
                 <div class="col-md-12 mt-3 mb-3">
                   <h4 class="mb-3 font-weight-bold">Your Banking Details</h4>
                   <%= label_tag :account_holder_name %>
-                  <%= text_field_tag :account_holder_name, nil, class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.accountHolderName stripe--bank-account.required", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
+                  <%= text_field_tag :account_holder_name, nil, class: "form-control", autofocus: true, required: true, data: { target: "form_validation.field stripe--bank-account.accountHolderName stripe--bank-account.required", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
                   <div class="text-danger d-none" data-target="account_holder_name-error">Please enter your name</div>
                 </div>
                 <div class="col-md-12 mb-3">
                   <%= label_tag "Account number" %><span class="small"><i>(full IBAN, if in EU)</i></span>
-                  <%= text_field_tag :account_number, nil, class: "form-control", autofocus: true, required: true, data: { target: "stripe--bank-account.accountNumber stripe--bank-account.required", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
+                  <%= text_field_tag :account_number, nil, class: "form-control", autofocus: true, required: true, data: { target: "form_validation.field stripe--bank-account.accountNumber stripe--bank-account.required", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
                   <div class="text-danger d-none" data-target="account_number-error">Please enter your bank account number</div>
                 </div>
                 <div class="col-md-12 mb-3">
                   <%= label_tag "Sort code/Routing number" %> <span class="small"><i>(optional if in EU)</i></span>
-                  <%= text_field_tag :routing_number, nil, class: "form-control", autofocus: true, data: { target: "stripe--bank-account.routingNumber", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
+                  <%= text_field_tag :routing_number, nil, class: "form-control", autofocus: true, data: { target: "form_validation.field stripe--bank-account.routingNumber", action: "keyup->stripe--bank-account#hideErrorEnableSubmitBtn" } %>
                   <div class="text-danger d-none" data-target="routing_number-error">Please enter your sort code/routing number</div>
                 </div>
                 <div class="row pl-3">
@@ -41,7 +41,7 @@
                 <!-- TODO: look at this... this will not always be an individual -->
                 <div class="text-center">
                   <%= hidden_field_tag :account_holder_type, "individual", data: { target: "stripe--bank-account.accountHolderType" } %>
-                  <%= submit_tag "Complete Banking Setup", class: "btn btn-primary btn-lg rounded uppercase mt-4 mb-3", data: { target: "stripe--bank-account.submitBtn" } %>
+                  <%= submit_tag "Complete Banking Setup", class: "btn btn-primary btn-lg rounded uppercase mt-4 mb-3", data: { target: "stripe--bank-account.submitBtn form_validation.submitButton" } %>
                   <% end %>
                   <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "-needs-validation", html: { class: "new-guide-account-form", novalidate: :novalidate }, data: { target: "stripe--bank-account.formToken" }) do |form| %>
                     <%= form.hidden_field :token_account, data: { target: "stripe--bank-account.tokenAccount" } %>
