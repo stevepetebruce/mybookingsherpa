@@ -5,7 +5,7 @@
         <h4 class="font-weight-bold text-muted"><%= form.label :trip_name %></h4>
       </div>
       <div class="col-md-6">
-        <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: " trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
+        <%= form.text_field :name, class: "form-control #{'is-invalid' if @trip.errors[:name].present?}", data: { action: "keyup->trip-preview#previewUpdate", target: "trip-preview.nameInput" }, required: true, autofocus: auto_focus(@trip, form_field: :name) %>
         <div class="invalid-feedback">
           Please enter a valid trip name
         </div>
@@ -21,7 +21,7 @@
         <h4 class="font-weight-bold text-muted"><%= form.label :a_brief_description_of_your_trip, "A brief description of your trip", class: "mb-0" %><br><small class="text-muted">(maximum characters: 500)</small></h4>
       </div>
       <div class="col-md-6">
-        <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: " trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
+        <%= form.text_area :description, class: "#{'is-invalid' if @trip.errors[:description].present?} form-control", data: { action: "keyup->trip-preview#previewUpdate keyup->toggle-trip-description#toggleReadMore", target: "trip-preview.descriptionInput" }, required: true, rows: 4, maxlength: 500, autofocus: auto_focus(@trip, form_field: :description) %>
         <span data-target="trip-preview.descriptionMax" class="text-danger"></span>
         <div class="invalid-feedback">
           Please enter a valid description
@@ -39,7 +39,7 @@
       </div>
       <div class="col-md-3">
         <%= form.label :start_date %>
-        <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate", target: " trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
+        <%= form.date_field :start_date, class: "#{'is-invalid' if @trip.errors[:start_date].present?} form-control", data: { action: "change->trip-preview#previewUpdate", target: "trip-preview.startDateInput copy-date.startDateInput" }, required: true, autofocus: auto_focus(@trip, form_field: :start_date) %>
         <div class="invalid-feedback">
           Please enter a valid start date
         </div>
