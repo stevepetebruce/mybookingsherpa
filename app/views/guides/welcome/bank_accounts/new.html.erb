@@ -9,7 +9,7 @@
           <div class="card card-shadow card-rounded mt-4">
             <div class="card-body row mb-4 justify-content-md-center">
               <div class="col-12 col-sm-12 col-md-10">
-                <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { controller: "stripe--bank-account", target: "stripe--bank-account.formDetails" }) do |form| %>
+                <%= form_with(url: guides_welcome_bank_accounts_path, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { target: "stripe--bank-account.formDetails" }) do |form| %>
                 <div class="col-md-12 mt-3 mb-3">
                   <h4 class="mb-3 font-weight-bold">Your Banking Details</h4>
                   <%= label_tag :account_holder_name %>
