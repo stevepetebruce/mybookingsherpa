@@ -97,7 +97,7 @@
                             </div>
                           </div>
                           <!-- Loop throuh individual in trip -->
-                          <% trip.bookings.each do |booking| %>
+                          <% trip.bookings.most_recent.each do |booking| %>
                             <%= link_to guides_booking_path(booking) do %>
                               <div class="row ticket-card pt-2 pb-2">
                                 <div class="d-sm-none d-md-block d-none position-relative">

@@ -47,7 +47,7 @@
           <%= form.label :date_of_birth, class: "text-uppercase text-secondary" %>
           <%= form.date_field :date_of_birth, value: trial_example_dob_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:date_of_birth].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :date_of_birth),readonly: @booking.organisation_on_trial? %>
           <div class="invalid-feedback">
-            <%= "Please enter your date my birth" %>
+            <%= "Please enter your date of birth" %>
           </div>
           <% if @booking.errors[:date_of_birth].present? %>
             <div class="invalid-feedback" style="display: block;">
@@ -89,11 +89,11 @@
             <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
           <% end %>
           <div class="invalid-feedback">
-            Please enter a valid phone number of your emergency contact
+            Please enter a valid phone number for your emergency contact
           </div>
           <% if @booking.errors[:next_of_kin_phone_number].present? %>
             <div class="invalid-feedback" style="display: block;">
-              Please enter a valid phone number of your emergency contact
+              Please enter a valid phone number for your emergency contact
             </div>
           <% end %>
         </div>
