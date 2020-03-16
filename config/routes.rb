@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   devise_scope :guide do
     authenticated :guide do
-      root "guides/trips#index", as: :authenticated_guide
+      root "guides/trips#new", welcome_to_my_booking_sherpa: :hello, as: :authenticated_guide
     end
 
     unauthenticated do
