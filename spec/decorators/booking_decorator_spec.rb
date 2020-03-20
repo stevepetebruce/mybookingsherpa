@@ -277,7 +277,12 @@ RSpec.describe BookingDecorator, type: :model do
       let!(:deposit_percentage) { Faker::Number.between(10, 25) }
       let!(:full_cost) { Faker::Number.between(5000, 10_000) }
       let(:outstanding_amount) { trip.full_cost - trip.deposit_cost }
-      let!(:trip) { FactoryBot.create(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
+      let!(:trip) do
+        FactoryBot.create(:trip,
+                          deposit_percentage: deposit_percentage,
+                          full_cost: full_cost,
+                          full_payment_window_weeks: Faker::Number.between(1, 10))
+      end
 
       it "should return the correct value" do
         expect(human_readable_full_cost_minus_deposit).to eq "#{Currency.iso_to_symbol(booking.currency)}#{Currency.human_readable(outstanding_amount)}"
@@ -297,7 +302,11 @@ RSpec.describe BookingDecorator, type: :model do
 
     context "trip with a full_payment_date" do
       let!(:full_payment_window_weeks) { Faker::Number.between(5, 10) }
-      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: full_payment_window_weeks) }
+      let(:trip) do
+        FactoryBot.create(:trip,
+                          deposit_percentage: Faker::Number.between(10, 50),
+                          full_payment_window_weeks: full_payment_window_weeks)
+      end
 
       it "should return the corect date in the correct format" do
         expect(human_readable_full_payment_date).to match(/\A[0-9]{2}-[0-9]{2}-[0-9]{4}\z/)
@@ -338,6 +347,27 @@ RSpec.describe BookingDecorator, type: :model do
       end
 
       it "should be true" do
+        expect(only_paying_deposit?).to be false
+      end
+    end
+
+    context "when the deposit is 50pc of the trip full cost and has been paid already" do
+      let!(:booking) { FactoryBot.create(:booking, trip: trip) }
+      let!(:deposit_percentage) { 50 }
+      let!(:full_cost) { Faker::Number.between(5000, 10_000) }
+      let!(:payment) { FactoryBot.create(:payment, :success, amount: booking.deposit_cost, booking: booking) }
+      let!(:trip) do
+        FactoryBot.create(:trip,
+                          deposit_percentage: deposit_percentage,
+                          full_cost: full_cost,
+                          full_payment_window_weeks: Faker::Number.between(1, 10))
+      end
+
+
+      it "should be false" do
+        # NB: need to check this...
+        # in Bookings::CostCalculator#calculate_amount_due returns full amount
+        # binding.pry
         expect(only_paying_deposit?).to be false
       end
     end

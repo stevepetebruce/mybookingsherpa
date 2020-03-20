@@ -71,6 +71,10 @@ module BookingDecorator
   end
 
   def only_paying_deposit?
+    # TODO: uncomment out this line and test...
+    # last_payment.nil? &&
+    puts 'amount_due ' + amount_due.inspect
+    puts 'deposit_cost ' + deposit_cost.inspect
     amount_due == deposit_cost
   end
 
