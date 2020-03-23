@@ -86,7 +86,7 @@
           <% if @booking.organisation_on_trial? %>
             <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
           <% else %>
-            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), data: { target: "country-auto-select.phoneField" }, readonly: @booking.organisation_on_trial? %>
+            <%= form.text_field :next_of_kin_phone_number, value: trial_example_ice_phone_or_nil(@booking), class: "#{'is-invalid' if @booking.errors[:next_of_kin_phone_number].present?} form-control", data: { target: "form_validation.field country-auto-select.phoneField" }, required: true, autofocus: auto_focus(booking, form_field: :next_of_kin_phone_number), readonly: @booking.organisation_on_trial? %>
           <% end %>
           <div class="invalid-feedback">
             Please enter a valid phone number for your emergency contact
