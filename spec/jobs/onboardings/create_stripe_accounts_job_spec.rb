@@ -7,7 +7,7 @@ RSpec.describe Onboardings::CreateStripeAccountsJob, type: :job do
     subject(:perform_later) { described_class.perform_later(organisation) }
 
     let!(:guide) { FactoryBot.create(:guide) }
-    let!(:organisation) { FactoryBot.create(:organisation) }
+    let!(:organisation) { FactoryBot.create(:organisation, :with_country_specific_data) }
     let(:response_body) do
       "#{file_fixture("stripe_api/successful_individual_account.json").read}"
     end
