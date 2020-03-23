@@ -71,7 +71,7 @@ module BookingDecorator
   end
 
   def only_paying_deposit?
-    amount_due == deposit_cost
+    last_payment.nil? && amount_due == deposit_cost
   end
 
   def only_paid_deposit?
