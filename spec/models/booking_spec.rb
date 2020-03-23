@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Booking, type: :model do
   describe "associations" do
     it { is_expected.to belong_to(:trip) }
-    it { is_expected.to belong_to(:guest) }
+    it { is_expected.to belong_to(:guest).optional(true) }
     it { is_expected.to have_many(:allergies) }
     it { is_expected.to have_many(:dietary_requirements) }
     it { is_expected.to have_many(:payments) }

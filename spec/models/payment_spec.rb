@@ -4,7 +4,7 @@ RSpec.describe Payment, type: :model do
   it { should define_enum_for(:status).with(%i[pending success failed refunded]) }
 
   describe "associations" do
-    it { should belong_to(:booking) }
+    it { should belong_to(:booking).optional(true) }
   end
 
   describe "callbacks" do

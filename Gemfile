@@ -1,12 +1,12 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.6.5"
+ruby "2.7.0"
 
 gem "rails", "~> 5.2.3"
 
 gem "aws-sdk-s3", require: false
-gem "bootsnap", ">= 1.1.0", require: false
+gem "bootsnap", ">= 1.4.6", require: false
 gem "country_select", "~> 4.0"
 gem "devise", ">= 4.6.0"
 gem "faker" # TODO: move back to :development, :test, after user testing.
@@ -25,7 +25,7 @@ group :development, :test do
   gem "pry"
   gem "pry-byebug"
   gem "rspec-rails"
-  gem "shoulda-matchers"
+  gem "shoulda-matchers", ">= 4.3.0"
 end
 
 group :development do

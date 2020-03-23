@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe DietaryRequirement, type: :model do
   describe "associations" do
-    it { should belong_to(:dietary_requirable) }
+    it { should belong_to(:dietary_requirable).optional(true) }
   end
 
   describe "validations" do
