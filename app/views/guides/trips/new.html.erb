@@ -18,4 +18,34 @@
     </div>
   </div>
 </div>
-
+<!-- Sign up and create first trip modal -->
+<% if params[:welcome_to_my_booking_sherpa] %>
+  <div data-controller="modal-onload">
+    <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close dark" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="card col-md-12">
+              <div class="card-body p-0 row">
+                <div class="col-lg-12">
+                  <div class="mt-2">
+                    <div class="text-center">
+                      <h1 class="font-weight-bold">Thanks for signing up</h1>
+                      <h4 class="my-4">Now let's create your first trip</h4>
+                    </div>
+                  </div>
+                    <div class="text-center my-5">
+                      <button type="button" class="btn btn-primary btn-lg rounded uppercase" data-dismiss="modal">Create a Trip</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

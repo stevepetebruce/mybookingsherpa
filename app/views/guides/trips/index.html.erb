@@ -163,11 +163,10 @@
         <% else %>
           <section class="container">
             <div class="row justify-content-center pt-5">
-              <div class="bg-white rounded shadow p-4 px-lg-5 col-md-6 my-auto">
-                <h2 class="font-weight-bold mb-4 text-center">Thanks for signing up</h2>
-                <h4 class="mb-4 text-center">Now let's create your first trip</h4>
+              <div class="p-4 px-lg-5 col-md-8 my-auto">
+                <h2 class="font-weight-bold mb-4 text-center">It looks like you haven't created a trip, yet</h2>
                 <div class="col text-center">
-                  <a class="btn btn-primary btn-lg rounded uppercase mt-4 mb-4" href="/guides/trips/new" role="button">Let's go</a>
+                  <%= link_to "Create my first trip", new_guides_trip_path, class: "btn btn-primary btn-lg rounded uppercase mt-4 mb-4" %>
                 </div>
               </div>
             </div>
