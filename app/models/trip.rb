@@ -6,6 +6,7 @@ class Trip < ApplicationRecord
   DEFAULT_CURRENCY = "eur"
 
   validates :deposit_percentage, numericality: { only_integer: true }, allow_nil: true
+  validate :deposit_and_full_payment_window_both_present
   validates :full_cost, presence: true
   validates :full_payment_window_weeks, numericality: { only_integer: true }, allow_nil: true
   validates :maximum_number_of_guests, presence: true
@@ -81,6 +82,15 @@ class Trip < ApplicationRecord
   end
 
   private
+
+  def deposit_and_full_payment_window_both_present
+    return if deposit_percentage && full_payment_window_weeks ||
+      !full_payment_window_weeks && !deposit_percentage
+
+    errors.add(:base,
+               :deposit_and_full_payment_window_both_present,
+               message: "If you have a deposit you must also have a full payment window")
+  end
 
   def generated_slug
     @generated_slug ||= name.parameterize(separator: "_").truncate(80, omission: "")

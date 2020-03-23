@@ -6,11 +6,17 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(booking.id) }
 
-    let!(:booking) { FactoryBot.create(:booking, :for_trip_with_deposit,  organisation: organisation, stripe_customer_id: stripe_customer_id, stripe_payment_method_id: stripe_payment_method_id) }
-    let(:deposit_amount) { booking.full_cost * 0.10 }
+    let!(:booking) { FactoryBot.create(:booking, trip: trip, organisation: organisation, stripe_customer_id: stripe_customer_id, stripe_payment_method_id: stripe_payment_method_id) }
+    let(:deposit_amount) { booking.full_cost * (deposit_percentage.to_f / 100) }
+    let(:deposit_percentage) { Faker::Number.between(1, 50) }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
     let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
     let!(:stripe_payment_method_id) { "pm_#{Faker::Crypto.md5}" }
+    let(:trip) do
+      FactoryBot.create(:trip,
+                        deposit_percentage: deposit_percentage,
+                        full_payment_window_weeks: 1)
+    end
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/payment_intents").
@@ -45,7 +51,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
       FactoryBot.create(:payment, :success, amount: deposit_amount, booking: booking)
     end
 
-    context "booking whose full_payment is required" do
+    context "booking whose full_payment is required, for a booking that has paid the deposit" do
       before do
         allow_any_instance_of(Bookings::PaymentStatus).
           to receive(:payment_required?).
@@ -58,7 +64,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
 
       let(:expected_attributes) do
         {
-          amount: booking.full_cost,
+          amount: booking.full_cost - deposit_amount,
           application_fee_amount: (booking.full_cost * 0.01).to_i,
           confirm: true,
           currency: booking.currency,

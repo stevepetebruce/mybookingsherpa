@@ -46,10 +46,16 @@ RSpec.describe Trip, type: :model do
     describe "#set_deposit_cost" do
       let!(:expected_deposit_cost) { (((trip.full_cost * (deposit_percentage.to_f / 100)) / 100).ceil()) * 100 }
       let!(:full_cost) { rand(500...1_000) }
-      let!(:trip) { FactoryBot.build(:trip, deposit_percentage: deposit_percentage, full_cost: full_cost) }
+      let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+      let!(:trip) do
+        FactoryBot.build(:trip,
+                        deposit_percentage: deposit_percentage,
+                        full_cost: full_cost,
+                        full_payment_window_weeks: full_payment_window_weeks)
+      end
 
       context "deposit_percentage is not nil" do
-        let!(:deposit_percentage) { rand(10...50) }
+        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
 
         it "should call #set_deposit_cost" do
           expect(trip).to receive(:set_deposit_cost)
@@ -102,6 +108,44 @@ RSpec.describe Trip, type: :model do
       it { should validate_numericality_of(:maximum_number_of_guests).only_integer }
     end
 
+    describe "#deposit_and_full_payment_window_both_present" do
+      subject { trip.valid? }
+
+      let(:trip) do
+        FactoryBot.build(:trip,
+                         deposit_percentage: deposit_percentage,
+                         full_payment_window_weeks: full_payment_window_weeks)
+      end
+
+      context "trip with neither a deposit_percentage or a full_payment_window_weeks set" do
+        let(:deposit_percentage) { nil }
+        let(:full_payment_window_weeks) { nil }
+
+        it { should be true }
+      end
+
+      context "trip with both a deposit_percentage or a full_payment_window_weeks set" do
+        let(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+
+        it { should be true }
+      end
+
+      context "trip with only a deposit_percentage set" do
+        let(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let(:full_payment_window_weeks) { nil }
+
+        it { should be false }
+      end
+
+      context "trip with only a full_payment_window_weeks set" do
+        let(:deposit_percentage) { nil }
+        let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+
+        it { should be false }
+      end
+    end
+
     describe "minimum_number_of_guests_less_than_maximum_number_of_guests" do
       subject { trip.valid? }
 
@@ -112,22 +156,22 @@ RSpec.describe Trip, type: :model do
       end
 
       context "minimum_number_of_guests is less than maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
-        let(:maximum_number_of_guests) { Faker::Number.between(from = 11, to = 20).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(1, 10).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(11, 20).to_i }
 
         it { should be true }
       end
 
       context "minimum_number_of_guests is same as maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(1, 10).to_i }
         let(:maximum_number_of_guests) { minimum_number_of_guests }
 
         it { should be true }
       end
 
       context "minimum_number_of_guests is greater than maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(from = 11, to = 20).to_i }
-        let(:maximum_number_of_guests) { Faker::Number.between(from = 1, to = 10).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(11, 20).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(1, 10).to_i }
 
         it { should be false }
       end
@@ -243,7 +287,11 @@ RSpec.describe Trip, type: :model do
     subject(:full_payment_date) { trip.full_payment_date }
 
     context "trip with a full_payment_window_weeks value" do
-      let(:trip) { FactoryBot.create(:trip, full_payment_window_weeks: rand(2...6)) }
+      let(:trip) do
+        FactoryBot.create(:trip,
+                          deposit_percentage: Faker::Number.between(10, 50),
+                          full_payment_window_weeks: Faker::Number.between(1, 10))
+      end
 
       it "should be the trip_start_date - trip_full_payment_window_weeks" do
         expect(full_payment_date).to eq((trip.start_date - trip.full_payment_window_weeks.weeks))

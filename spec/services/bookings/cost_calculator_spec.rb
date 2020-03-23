@@ -48,24 +48,13 @@ RSpec.describe Bookings::CostCalculator, type: :model do
     end
 
     describe "full cost due" do
+      let!(:deposit_percentage) { Faker::Number.between(10, 50) }
       let(:full_payment_window_weeks) { 4 }
 
-      context "deposit_percentage has not been set" do
-        let!(:deposit_percentage) { nil }
-
+      context "after full payment window (in weeks) has elapsed" do
         it "should be the full cost" do
-          expect(amount_due).to eq(trip.full_cost)
-        end
-      end
-
-      context "deposit_percentage has been set" do
-        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
-
-        context "after full payment window (in weeks) has elapsed" do
-          it "should be the full cost" do
-            travel_to(trip.start_date - 1.week) do
-              expect(amount_due).to eq(trip.full_cost)
-            end
+          travel_to(trip.start_date - 1.week) do
+            expect(amount_due).to eq(trip.full_cost)
           end
         end
       end
@@ -116,24 +105,6 @@ RSpec.describe Bookings::CostCalculator, type: :model do
     end
 
     # Test misc states
-    context "trip has no full payment window set" do
-      let!(:deposit_percentage) { Faker::Number.between(10, 50) }
-      let(:full_payment_window_weeks) { nil }
-
-      it "should be the full trip cost" do
-        expect(amount_due).to eq(trip.full_cost)
-      end
-    end
-
-    context "deposit_percentage is nil" do
-      let(:deposit_percentage) { nil }
-      let(:full_payment_window_weeks) { 4 }
-
-      it "should be the full trip cost" do
-        expect(amount_due).to eq(trip.full_cost)
-      end
-    end
-
     context "deposit_percentage is 0" do
       let(:deposit_percentage) { 0 }
       let(:full_payment_window_weeks) { 4 }

@@ -10,6 +10,7 @@ FactoryBot.define do
 
     trait :with_deposit do
       deposit_percentage { 10 }
+      full_payment_window_weeks { 10 }
     end
 
     after(:build) do |trip|
