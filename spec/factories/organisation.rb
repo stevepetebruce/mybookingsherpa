@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :organisation do
     address { Faker::Address.full_address }
-    country_code { %w[fr gb us].sample }
-    currency { %w[eur gbp usd].sample }
     name { Faker::Name.name }
     stripe_account_id_live { "acct_#{Faker::Bank.account_number(16)}" }
     stripe_account_id_test { "acct_#{Faker::Bank.account_number(16)}" }
@@ -20,6 +18,11 @@ FactoryBot.define do
       after(:create) do |organisation|
         create :subscription, :regular_plan, organisation: organisation
       end
+    end
+
+    trait :with_country_specific_data do
+      country_code { %w[fr gb us].sample }
+      currency { %w[eur gbp usd].sample }
     end
   end
 end
