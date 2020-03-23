@@ -19,5 +19,5 @@ RSpec.describe Plan, type: :model do
     end
   end
 
-  it { should define_enum_for(:charge_type).with([:flat_fee, :percentage ]) }
+  it { should define_enum_for(:charge_type).with_values([:flat_fee, :percentage ]) }
 end

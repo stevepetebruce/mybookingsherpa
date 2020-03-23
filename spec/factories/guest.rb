@@ -11,7 +11,7 @@ FactoryBot.define do
 
     trait :all_booking_fields_complete do
       country_booking { Faker::Address.country_code }
-      date_of_birth_booking { Faker::Date.birthday(18, 65) }
+      date_of_birth_booking { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email_booking { Faker::Internet.email }
       other_information_booking { Faker::Lorem.sentence }
       name_booking { Faker::Name.name }
@@ -23,7 +23,7 @@ FactoryBot.define do
     trait :all_override_fields_complete do
       country { Faker::Address.country_code }
       country_override { country }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       date_of_birth_override { date_of_birth }
       email { Faker::Internet.email }
       email_override { email }

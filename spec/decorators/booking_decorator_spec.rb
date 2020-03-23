@@ -274,14 +274,14 @@ RSpec.describe BookingDecorator, type: :model do
 
     context "a trip with a deposit amount" do
       let!(:booking) { FactoryBot.create(:booking, trip: trip) }
-      let!(:deposit_percentage) { Faker::Number.between(10, 25) }
-      let!(:full_cost) { Faker::Number.between(5000, 10_000) }
+      let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 25) }
+      let!(:full_cost) { Faker::Number.between(from: 5000, to: 10_000) }
       let(:outstanding_amount) { trip.full_cost - trip.deposit_cost }
       let!(:trip) do
         FactoryBot.create(:trip,
                           deposit_percentage: deposit_percentage,
                           full_cost: full_cost,
-                          full_payment_window_weeks: Faker::Number.between(1, 10))
+                          full_payment_window_weeks: Faker::Number.between(from: 1, to: 10))
       end
 
       it "should return the correct value" do
@@ -301,10 +301,10 @@ RSpec.describe BookingDecorator, type: :model do
     subject(:human_readable_full_payment_date) { booking.human_readable_full_payment_date }
 
     context "trip with a full_payment_date" do
-      let!(:full_payment_window_weeks) { Faker::Number.between(5, 10) }
+      let!(:full_payment_window_weeks) { Faker::Number.between(from: 5, to: 10) }
       let(:trip) do
         FactoryBot.create(:trip,
-                          deposit_percentage: Faker::Number.between(10, 50),
+                          deposit_percentage: Faker::Number.between(from: 10, to: 50),
                           full_payment_window_weeks: full_payment_window_weeks)
       end
 
@@ -354,13 +354,13 @@ RSpec.describe BookingDecorator, type: :model do
     context "when the deposit is 50pc of the trip full cost and has been paid already" do
       let!(:booking) { FactoryBot.create(:booking, trip: trip) }
       let!(:deposit_percentage) { 50 }
-      let!(:full_cost) { Faker::Number.between(5000, 10_000) }
+      let!(:full_cost) { Faker::Number.between(from: 5000, to: 10_000) }
       let!(:payment) { FactoryBot.create(:payment, :success, amount: booking.deposit_cost, booking: booking) }
       let!(:trip) do
         FactoryBot.create(:trip,
                           deposit_percentage: deposit_percentage,
                           full_cost: full_cost,
-                          full_payment_window_weeks: Faker::Number.between(1, 10))
+                          full_payment_window_weeks: Faker::Number.between(from: 1, to: 10))
       end
 
 

@@ -13,7 +13,7 @@ FactoryBot.define do
       full_payment_window_weeks { 10 }
     end
 
-    after(:build) do |trip|
+    after(:create) do |trip|
       trip.guides.first.organisation_memberships.create(owner: true,
                                                         organisation: trip.organisation)
     end

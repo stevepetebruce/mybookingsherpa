@@ -24,7 +24,7 @@ RSpec.describe Bookings::UpdateSuccessfulPaymentJob, type: :job do
     end
 
     context "payment without associated booking" do
-      let!(:amount) { Faker::Number.between(50_000, 100_000) }
+      let!(:amount) { Faker::Number.between(from: 50_000, to: 100_000) }
       let!(:payment) do
         FactoryBot.create(:payment,
                           :pending,

@@ -40,7 +40,7 @@ RSpec.describe Booking, type: :model do
     end
   end
 
-  it { should define_enum_for(:payment_status).with(%i[payment_required payment_pending full_amount_paid payment_failed refunded]) }
+  it { should define_enum_for(:payment_status).with_values(%i[payment_required payment_pending full_amount_paid payment_failed refunded]) }
 
   describe "callbacks" do
     let!(:booking) { FactoryBot.build(:booking) }

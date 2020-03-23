@@ -54,7 +54,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             booking:
             {
               country: Faker::Address.country_code,
-              date_of_birth: Faker::Date.birthday(18, 65),
+              date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 65),
               email: email,
               other_information: Faker::Lorem.sentence,
               name: Faker::Name.name,
@@ -313,7 +313,7 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
             booking:
             {
               country: Faker::Address.country_code,
-              date_of_birth: Faker::Date.birthday(18, 65),
+              date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 65),
               email: email,
               other_information: Faker::Lorem.sentence,
               name: Faker::Name.name,

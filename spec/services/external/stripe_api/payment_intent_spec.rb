@@ -5,7 +5,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
     context "valid and successful" do
       let(:attributes) do
         {
-          amount: Faker::Number.between(1_000, 10_000),
+          amount: Faker::Number.between(from: 1_000, to: 10_000),
           application_fee_amount: [0, 200, 400].sample,
           currency: %w[eur, gbp, usd].sample,
           customer: "cus_#{Faker::Crypto.md5}",
@@ -13,11 +13,11 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
           statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
           transfer_data:
             {
-              destination: "acct_#{Faker::Bank.account_number(16)}"
+              destination: "acct_#{Faker::Bank.account_number(digits: 16)}"
             }
         }
       end
-      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
       let!(:use_test_api) { [true, false].sample }
 
       before do
@@ -48,12 +48,12 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
         end
 
         context "a statement_descriptor_suffix with non-alphanumeric characters in" do
-          let!(:amount) { Faker::Number.between(1_000, 10_000) }
+          let!(:amount) { Faker::Number.between(from: 1_000, to: 10_000) }
           let!(:application_fee_amount) { [0, 200, 400].sample }
           let!(:currency) { %w[eur, gbp, usd].sample }
           let!(:customer) { "cus_#{Faker::Crypto.md5}" }
-          let!(:destination) {  "acct_#{Faker::Bank.account_number(16)}" }
-          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+          let!(:destination) {  "acct_#{Faker::Bank.account_number(digits: 16)}" }
+          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
 
           let(:attributes) do
             {
@@ -107,11 +107,11 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
               statement_descriptor_suffix: Faker::Lorem.sentence.truncate(22, separator: " ").gsub(/[^a-zA-Z\s\\.]/, "_"),
               transfer_data:
                 {
-                  destination: "acct_#{Faker::Bank.account_number(16)}"
+                  destination: "acct_#{Faker::Bank.account_number(digits: 16)}"
                 }
             }
           end
-          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+          let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
           let!(:use_test_api) { [true, false].sample }
 
           it "should not make the call to Stripe (it's throws a Stripe::InvalidRequestError: Invalid positive integer)" do
@@ -129,7 +129,7 @@ RSpec.describe External::StripeApi::PaymentIntent, type: :model do
 
     context "valid and successful" do
       let!(:stripe_payment_intent_id) { "cus_#{Faker::Crypto.md5}" }
-      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+      let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
       let!(:use_test_api) { [true, false].sample }
 
       before { allow(Stripe::PaymentIntent).to receive(:retrieve) }

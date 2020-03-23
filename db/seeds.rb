@@ -133,7 +133,7 @@ end
   name = Faker::Name.name
 
   guest = Guest.create(country_booking: Faker::Address.country_code,
-                       date_of_birth_booking: Faker::Date.birthday(18, 65),
+                       date_of_birth_booking: Faker::Date.birthday(min_age: 18, max_age: 65),
                        email: email,
                        email_booking: email,
                        other_information_booking: other_information,

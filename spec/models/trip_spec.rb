@@ -46,7 +46,7 @@ RSpec.describe Trip, type: :model do
     describe "#set_deposit_cost" do
       let!(:expected_deposit_cost) { (((trip.full_cost * (deposit_percentage.to_f / 100)) / 100).ceil()) * 100 }
       let!(:full_cost) { rand(500...1_000) }
-      let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+      let(:full_payment_window_weeks) { Faker::Number.between(from: 1, to: 10) }
       let!(:trip) do
         FactoryBot.build(:trip,
                         deposit_percentage: deposit_percentage,
@@ -55,7 +55,7 @@ RSpec.describe Trip, type: :model do
       end
 
       context "deposit_percentage is not nil" do
-        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
 
         it "should call #set_deposit_cost" do
           expect(trip).to receive(:set_deposit_cost)
@@ -125,14 +125,14 @@ RSpec.describe Trip, type: :model do
       end
 
       context "trip with both a deposit_percentage or a full_payment_window_weeks set" do
-        let(:deposit_percentage) { Faker::Number.between(10, 50) }
-        let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+        let(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
+        let(:full_payment_window_weeks) { Faker::Number.between(from: 1, to: 10) }
 
         it { should be true }
       end
 
       context "trip with only a deposit_percentage set" do
-        let(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
         let(:full_payment_window_weeks) { nil }
 
         it { should be false }
@@ -140,7 +140,7 @@ RSpec.describe Trip, type: :model do
 
       context "trip with only a full_payment_window_weeks set" do
         let(:deposit_percentage) { nil }
-        let(:full_payment_window_weeks) { Faker::Number.between(1, 10) }
+        let(:full_payment_window_weeks) { Faker::Number.between(from: 1, to: 10) }
 
         it { should be false }
       end
@@ -156,22 +156,22 @@ RSpec.describe Trip, type: :model do
       end
 
       context "minimum_number_of_guests is less than maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(1, 10).to_i }
-        let(:maximum_number_of_guests) { Faker::Number.between(11, 20).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(from: 1, to: 10).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(from: 11, to: 20).to_i }
 
         it { should be true }
       end
 
       context "minimum_number_of_guests is same as maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(1, 10).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(from: 1, to: 10).to_i }
         let(:maximum_number_of_guests) { minimum_number_of_guests }
 
         it { should be true }
       end
 
       context "minimum_number_of_guests is greater than maximum_number_of_guests" do
-        let(:minimum_number_of_guests) { Faker::Number.between(11, 20).to_i }
-        let(:maximum_number_of_guests) { Faker::Number.between(1, 10).to_i }
+        let(:minimum_number_of_guests) { Faker::Number.between(from: 11, to: 20).to_i }
+        let(:maximum_number_of_guests) { Faker::Number.between(from: 1, to: 10).to_i }
 
         it { should be false }
       end
@@ -196,7 +196,7 @@ RSpec.describe Trip, type: :model do
       context "valid" do
         context "start_date is before end_date" do
           let(:start_date) { Time.zone.today }
-          let(:end_date) { Faker::Date.between(2.days.from_now, 10.days.from_now) }
+          let(:end_date) { Faker::Date.between(from: 2.days.from_now, to: 10.days.from_now) }
 
           it { should be true }
         end
@@ -211,7 +211,7 @@ RSpec.describe Trip, type: :model do
 
       context "invalid" do
         context "start_date is after end_date" do
-          let(:start_date) { Faker::Date.between(2.days.from_now, 10.days.from_now) }
+          let(:start_date) { Faker::Date.between(from: 2.days.from_now, to: 10.days.from_now) }
           let(:end_date) { Time.zone.today }
 
           it { should be false }
@@ -241,7 +241,7 @@ RSpec.describe Trip, type: :model do
     end
   end
 
-  it { should define_enum_for(:currency).with(%i[eur gbp usd]) }
+  it { should define_enum_for(:currency).with_values(%i[eur gbp usd]) }
 
   describe "#currency" do
     subject { described_class.new(attributes).currency }
@@ -275,7 +275,7 @@ RSpec.describe Trip, type: :model do
   describe "#full_cost" do
     subject(:full_cost) { trip.full_cost }
 
-    let!(:full_cost_in_full_currency) { Faker::Number.between(500, 1_000) }
+    let!(:full_cost_in_full_currency) { Faker::Number.between(from: 500, to: 1_000) }
     let(:trip) { FactoryBot.build(:trip, full_cost: full_cost_in_full_currency) }
 
     it "should convert the amount in full currency units to cents/pennies" do
@@ -289,8 +289,8 @@ RSpec.describe Trip, type: :model do
     context "trip with a full_payment_window_weeks value" do
       let(:trip) do
         FactoryBot.create(:trip,
-                          deposit_percentage: Faker::Number.between(10, 50),
-                          full_payment_window_weeks: Faker::Number.between(1, 10))
+                          deposit_percentage: Faker::Number.between(from: 10, to: 50),
+                          full_payment_window_weeks: Faker::Number.between(from: 1, to: 10))
       end
 
       it "should be the trip_start_date - trip_full_payment_window_weeks" do
@@ -313,8 +313,8 @@ RSpec.describe Trip, type: :model do
     let(:trip) { FactoryBot.build(:trip, minimum_number_of_guests: minimum_number_of_guests) }
 
     context "trip has the minimum_number_of_guests" do
-      let!(:minimum_number_of_guests) { Faker::Number.between(1, 10) }
-      let(:number_of_guests_on_trip) { minimum_number_of_guests + Faker::Number.between(0, 5) }
+      let!(:minimum_number_of_guests) { Faker::Number.between(from: 1, to: 10) }
+      let(:number_of_guests_on_trip) { minimum_number_of_guests + Faker::Number.between(from: 0, to: 5) }
 
       before do
         allow_any_instance_of(Trip).
@@ -328,8 +328,8 @@ RSpec.describe Trip, type: :model do
     end
 
     context "trip does not have the minimum_number_of_guests" do
-      let!(:minimum_number_of_guests) { Faker::Number.between(10, 15) }
-      let(:number_of_guests_on_trip) { minimum_number_of_guests - Faker::Number.between(1, 5) }
+      let!(:minimum_number_of_guests) { Faker::Number.between(from: 10, to: 15) }
+      let(:number_of_guests_on_trip) { minimum_number_of_guests - Faker::Number.between(from: 1, to: 5) }
 
       before do
         allow_any_instance_of(Trip).
