@@ -4,7 +4,7 @@ FactoryBot.define do
 
     trait :flat_fee do
       charge_type { :flat_fee }
-      flat_fee_amount { Faker::Number.decimal(2) }
+      flat_fee_amount { Faker::Number.decimal(l_digits: 2) }
     end
 
     trait :regular do

@@ -8,7 +8,7 @@ RSpec.describe External::StripeApi::Customer, type: :model do
                              use_test_api: use_test_api)
     end
 
-    let!(:stripe_account) { "acct_#{Faker::Bank.account_number(16)}" }
+    let!(:stripe_account) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
     let!(:use_test_api) { [true, false].sample }
     
     context "successfully creates customer" do

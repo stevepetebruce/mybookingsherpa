@@ -23,7 +23,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
                       currency: :gbp,
                       deposit_percentage: deposit_percentage,
                       end_date: 11.weeks.from_now,
-                      full_cost: Faker::Number.between(5_000_0, 10_000_0),
+                      full_cost: Faker::Number.between(from: 5_000_0, to: 10_000_0),
                       full_payment_window_weeks: full_payment_window_weeks,
                       start_date: 8.weeks.from_now)
   end
@@ -33,7 +33,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
 
     describe "deposit due" do
       context "deposit_percentage has been set" do
-        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
 
         context "before full payment window (in weeks) has elapsed" do
           let(:full_payment_window_weeks) { 4 }
@@ -48,7 +48,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
     end
 
     describe "full cost due" do
-      let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+      let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
       let(:full_payment_window_weeks) { 4 }
 
       context "after full payment window (in weeks) has elapsed" do
@@ -69,7 +69,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
                             booking: booking)
         end
 
-        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
         let(:full_payment_window_weeks) { 4 }
 
         context "after full payment window (in weeks) has elapsed" do
@@ -91,7 +91,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
                             booking: booking)
         end
 
-        let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+        let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
         let(:full_payment_window_weeks) { 4 }
 
         context "before full payment window (in weeks) has elapsed" do
@@ -118,7 +118,7 @@ RSpec.describe Bookings::CostCalculator, type: :model do
   describe "#deposit_paid?" do
     subject(:deposit_paid?) { described_class.deposit_paid?(booking) }
 
-    let!(:deposit_percentage) { Faker::Number.between(10, 50) }
+    let!(:deposit_percentage) { Faker::Number.between(from: 10, to: 50) }
     let(:full_payment_window_weeks) { 4 }
 
     context "deposit has been paid" do

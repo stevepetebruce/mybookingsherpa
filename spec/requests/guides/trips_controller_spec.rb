@@ -309,7 +309,7 @@ RSpec.describe "Guides::TripsController", type: :request do
       before { sign_in(guide) }
 
       context "valid and successful" do
-        let!(:full_cost) { Faker::Number.between(500, 1000) }
+        let!(:full_cost) { Faker::Number.between(from: 500, to: 1000) }
         let!(:params) do
           {
             trip: {

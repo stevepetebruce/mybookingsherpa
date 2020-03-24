@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :organisation do
     address { Faker::Address.full_address }
     name { Faker::Name.name }
-    stripe_account_id_live { "acct_#{Faker::Bank.account_number(16)}" }
-    stripe_account_id_test { "acct_#{Faker::Bank.account_number(16)}" }
+    stripe_account_id_live { "acct_#{Faker::Bank.account_number(digits: 16)}" }
+    stripe_account_id_test { "acct_#{Faker::Bank.account_number(digits: 16)}" }
 
     subdomain do 
       domain_word = Faker::Internet.domain_word

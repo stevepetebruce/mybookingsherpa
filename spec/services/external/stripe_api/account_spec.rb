@@ -85,7 +85,7 @@ RSpec.describe External::StripeApi::Account, type: :model do
 
     let(:account_token) { "ct_#{Faker::Crypto.md5}" }
     let(:response_body) { "#{file_fixture("stripe_api/successful_company_account_update.json").read}" }
-    let(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+    let(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/accounts/#{stripe_account_id}").
@@ -103,7 +103,7 @@ RSpec.describe External::StripeApi::Account, type: :model do
     subject(:retrieve) { described_class.retrieve(stripe_account_id) }
 
     let(:response_body) { "#{file_fixture("stripe_api/successful_company_account_update.json").read}" }
-    let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(16)}" }
+    let!(:stripe_account_id) { "acct_#{Faker::Bank.account_number(digits: 16)}" }
 
     before do
       stub_request(:post, "https://api.stripe.com/v1/accounts/acct_1DLYH2ESypPNvvdY").

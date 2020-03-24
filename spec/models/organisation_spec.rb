@@ -10,7 +10,7 @@ RSpec.describe Organisation, type: :model do
     # TODO: has_many: accomodation_providers
   end
 
-  it { should define_enum_for(:currency).with(%i[eur gbp usd]) }
+  it { should define_enum_for(:currency).with_values(%i[eur gbp usd]) }
 
   describe "validations" do
     describe "deposit_percentage" do
@@ -27,12 +27,12 @@ RSpec.describe Organisation, type: :model do
     end
 
     describe "stripe_account_id_test" do
-      it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id_test) }
+      it { should allow_value("acct_#{Faker::Number.number(digits: 15)}").for(:stripe_account_id_test) }
       it { should_not allow_value("!<>*&^%").for(:stripe_account_id_test) }
     end
 
     describe "stripe_account_id_live" do
-      it { should allow_value("acct_#{Faker::Number.number(15)}").for(:stripe_account_id_live) }
+      it { should allow_value("acct_#{Faker::Number.number(digits: 15)}").for(:stripe_account_id_live) }
       it { should_not allow_value("!<>*&^%").for(:stripe_account_id_live) }
     end
 

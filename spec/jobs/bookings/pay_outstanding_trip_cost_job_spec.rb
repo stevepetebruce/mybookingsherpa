@@ -8,7 +8,7 @@ RSpec.describe Bookings::PayOutstandingTripCostJob, type: :job do
 
     let!(:booking) { FactoryBot.create(:booking, trip: trip, organisation: organisation, stripe_customer_id: stripe_customer_id, stripe_payment_method_id: stripe_payment_method_id) }
     let(:deposit_amount) { booking.full_cost * (deposit_percentage.to_f / 100) }
-    let(:deposit_percentage) { Faker::Number.between(1, 50) }
+    let(:deposit_percentage) { Faker::Number.between(from: 1, to: 50) }
     let(:organisation) { FactoryBot.create(:organisation, :on_regular_plan) }
     let!(:stripe_customer_id) { "cus_#{Faker::Crypto.md5}" }
     let!(:stripe_payment_method_id) { "pm_#{Faker::Crypto.md5}" }

@@ -11,7 +11,7 @@ FactoryBot.define do
 
     trait :all_fields_complete do
       country { Faker::Address.country_code }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email { Faker::Internet.email }
       other_information { Faker::Lorem.sentence }
       name { Faker::Name.name }
@@ -27,7 +27,7 @@ FactoryBot.define do
 
     trait :complete_with_allergies do
       country { Faker::Address.country_code }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email { Faker::Internet.email }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
@@ -40,7 +40,7 @@ FactoryBot.define do
 
     trait :complete_with_dietary_requirements do
       country { Faker::Address.country_code }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email { Faker::Internet.email }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
@@ -53,7 +53,7 @@ FactoryBot.define do
 
     trait :complete_with_other_information do
       country { Faker::Address.country_code }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email { Faker::Internet.email }
       other_information { Faker::Lorem.sentence }
       name { Faker::Name.name }
@@ -64,7 +64,7 @@ FactoryBot.define do
 
     trait :complete_without_any_issues do
       country { Faker::Address.country_code }
-      date_of_birth { Faker::Date.birthday(18, 65) }
+      date_of_birth { Faker::Date.birthday(min_age: 18, max_age: 65) }
       email { Faker::Internet.email }
       name { Faker::Name.name }
       next_of_kin_name { Faker::Name.name }
