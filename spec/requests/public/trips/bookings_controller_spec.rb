@@ -357,6 +357,15 @@ RSpec.describe "Public::Trips::BookingsController", type: :request do
         context "valid and successful" do
           let!(:email) { Faker::Internet.email }
 
+          before do
+            @queue_adapter = ActiveJob::Base.queue_adapter
+            (ActiveJob::Base.descendants << ActiveJob::Base).each(&:disable_test_adapter)
+          end
+
+          after do
+            (ActiveJob::Base.descendants << ActiveJob::Base).each { |job| job.enable_test_adapter(@queue_adapter) }
+          end
+            
           it "should send out the new booking email to the guest and trip provider" do
             expect { do_request(params: params) }.to change { ActionMailer::Base.deliveries.count }.by(2)
           end
