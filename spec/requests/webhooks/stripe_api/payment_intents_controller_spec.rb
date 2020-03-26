@@ -78,6 +78,15 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
         let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking, stripe_payment_intent_id: "pi_1FVH25ESypPNvvdYGDo6X9H1") }
         let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
 
+        before do
+          @queue_adapter = ActiveJob::Base.queue_adapter
+          (ActiveJob::Base.descendants << ActiveJob::Base).each(&:disable_test_adapter)
+        end
+
+        after do
+          (ActiveJob::Base.descendants << ActiveJob::Base).each { |job| job.enable_test_adapter(@queue_adapter) }
+        end
+
         it "should respond with a success status code" do
           do_request(params: params, headers: headers)
 
@@ -129,6 +138,15 @@ RSpec.describe "Webhooks::StripeApi::PaymentIntentsController", type: :request d
           let(:params) { event }
           let!(:payment) { FactoryBot.create(:payment, :pending, booking: booking, stripe_payment_intent_id: "pi_1FlQxUESypPNvvdYM2c3ClZd") }
           let(:secret) { ENV["STRIPE_WEBBOOK_SECRET_PAYMENT_INTENTS"] }
+
+          before do
+            @queue_adapter = ActiveJob::Base.queue_adapter
+            (ActiveJob::Base.descendants << ActiveJob::Base).each(&:disable_test_adapter)
+          end
+
+          after do
+            (ActiveJob::Base.descendants << ActiveJob::Base).each { |job| job.enable_test_adapter(@queue_adapter) }
+          end
 
           it "should respond with a success status code" do
             do_request(params: params, headers: headers)
