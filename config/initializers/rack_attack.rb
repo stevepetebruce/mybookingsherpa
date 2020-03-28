@@ -24,7 +24,7 @@ unless Rails.env.test?
 
   # NB: Requests are blocked if the return value is truthy
   Rack::Attack.blocklist("block all access to scrapers hitting get /1, etc") do |request|
-    request.path.end_with?("/1", "/.env") && request.get?
+    request.path.end_with?("/1", "/.env", "/blog") && request.get?
   end
 
   # By IP adress:
