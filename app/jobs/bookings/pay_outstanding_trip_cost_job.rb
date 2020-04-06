@@ -7,13 +7,18 @@ module Bookings
     MINIMUM_APPLICATION_FEE = 200 # £/€/$2
 
     def perform(booking_id)
+      puts "PayOutstandingTripCostJob booking_id: #{booking_id}"
+
       @booking = Booking.find(booking_id)
 
+      puts "full_payment_required? #{full_payment_required?}"
       # TODO: look at this... this job fails when in trial: return if @booking.organisation_on_trial?
       return unless full_payment_required?
 
-      @booking.payments.create(status: :pending,
-                               stripe_payment_intent_id: payment_intent.id)
+      payment = @booking.payments.create(status: :pending,
+                                         stripe_payment_intent_id: payment_intent.id)
+
+      puts "payment created. #{payment.inspect}"
     end
 
     private
