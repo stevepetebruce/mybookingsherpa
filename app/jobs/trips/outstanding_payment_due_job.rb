@@ -6,17 +6,17 @@ module Trips
 
     def perform(trip)
       puts "OutstandingPaymentDueJob for #{trip.id} #{trip.name}"
-      puts "trip.full_payment_date.nil? #{trip.full_payment_date.nil?}"
-      puts "trip.full_payment_date > Time.zone.now #{trip.full_payment_date > Time.zone.now}" if trip.full_payment_date
+      puts "trip.full_payment_date.nil?  #{trip.id}  #{trip.full_payment_date.nil?}"
+      puts "trip.full_payment_date > Time.zone.now  #{trip.id}  #{trip.full_payment_date > Time.zone.now}" if trip.full_payment_date
 
       return if trip.full_payment_date.nil? ||
                 trip.full_payment_date > Time.zone.now
 
       if trip.has_minimum_number_of_guests?
-        puts "trip.has_minimum_number_of_guests"
+        puts "trip.has_minimum_number_of_guests #{trip.id} #{trip.name}"
         collect_outstanding_payment(trip)
       else
-        puts "! trip.has_minimum_number_of_guests - CancelTripEmailJob"
+        puts "! trip.has_minimum_number_of_guests - CancelTripEmailJob #{trip.id} #{trip.name}"
         Trips::CancelTripEmailJob.perform_later(trip)
       end
     end
@@ -26,7 +26,7 @@ module Trips
     def collect_outstanding_payment(trip)
       trip.bookings.each do |booking|
         puts "collect_outstanding_payment booking: #{booking.id}"
-        puts "outstanding_payment_required?(booking) #{outstanding_payment_required?(booking)}"
+        puts "outstanding_payment_required?(booking) booking: #{booking.id} #{outstanding_payment_required?(booking)}"
 
         next unless outstanding_payment_required?(booking)
 
