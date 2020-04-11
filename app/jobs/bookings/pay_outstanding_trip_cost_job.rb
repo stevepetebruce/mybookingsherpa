@@ -11,14 +11,15 @@ module Bookings
 
       @booking = Booking.find(booking_id)
 
-      puts "full_payment_required? #{full_payment_required?}"
+      puts "full_payment_required? booking_id: #{booking_id} #{full_payment_required?}"
       # TODO: look at this... this job fails when in trial: return if @booking.organisation_on_trial?
       return unless full_payment_required?
 
       payment = @booking.payments.create(status: :pending,
                                          stripe_payment_intent_id: payment_intent.id)
 
-      puts "payment created. #{payment.inspect}"
+      puts "payment created.  booking_id: #{booking_id} #{payment.inspect}"
+      puts "payment errors.  booking_id: #{booking_id} #{payment.errors.inspect}"
     end
 
     private
