@@ -1,7 +1,7 @@
 module Bookings
   # Determines what params to use in the creation of Stripe PaymentIntents API
   class PaymentIntents
-    MINIMUM_APPLICATION_FEE = 200 # £/€/$2
+    MINIMUM_APPLICATION_FEE = 400 # £/€/$4
 
     def initialize(booking)
       @booking = booking

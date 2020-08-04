@@ -4,8 +4,6 @@ module Bookings
     include Sidekiq::Worker
     sidekiq_options queue: :default, retry: 0
 
-    MINIMUM_APPLICATION_FEE = 200 # £/€/$2
-
     def perform(booking_id)
       @booking = Booking.find(booking_id)
 
