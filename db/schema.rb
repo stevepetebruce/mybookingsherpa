@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_210824) do
+ActiveRecord::Schema.define(version: 2020_08_04_180417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_210824) do
     t.integer "full_payment_window_weeks"
     t.string "country_code"
     t.string "stripe_account_id_test"
+    t.string "background_color"
   end
 
   create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
