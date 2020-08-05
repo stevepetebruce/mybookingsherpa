@@ -1,3 +1,12 @@
+<style>
+  <% if @booking.organisation.background_color? %>
+    /* TODO: Pete need to look at this */
+    .bg-skew {
+      background_color: <%= @booking.organisation.background_color %>
+    }
+  <% end %>
+</style>
+
 <main id="main" data-controller="toggle-trip-description">
   <section class="d-flex align-items-center bg-skew bg-skew-primary overflow-hidden text-white">
     <div class="container mb-xl-5 pt-4">
