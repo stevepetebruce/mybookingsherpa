@@ -1,3 +1,12 @@
+<style>
+  <% if @booking.organisation.background_color? %>
+    /* TODO: Pete need to look at this */
+    .bg-skew {
+      background_color: <%= @booking.organisation.background_color %>
+    }
+  <% end %>
+</style>
+
 <% if @booking.organisation_on_trial? %>
   <div data-controller="modal-onload">
     <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
