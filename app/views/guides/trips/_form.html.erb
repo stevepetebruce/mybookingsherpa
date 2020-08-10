@@ -1,3 +1,11 @@
+<style>
+  <% if @current_organisation.background_color? %>
+    .bg-skew::before {
+      background: <%= @current_organisation.background_color %>
+    }
+  <% end %>
+</style>
+
 <div data-controller="copy-date currency-select trip-preview toggle-trip-description">
   <%= form_with(model: @trip, url: url, local: true, class: "needs-validation", html: { novalidate: :novalidate }, data: { action: "form-validation#checkValidity", controller: "form-validation", target: "trip-preview.form form-validation.form" } ) do |form| %>
     <div class="row form-group mb-3 justify-content-md-center mt-3">
@@ -147,6 +155,9 @@
             <div class="row">
               <div class="col-lg-4 col-xl-4 offset-xl-1 mb-5 order-lg-12">
                 <aside class="bg-white shadow rounded mt-lg-n5 p-4">
+                  <% if @current_organisation.logo_image.attached? %>
+                    <%= image_tag url_for(@current_organisation.organisation_logo_image), class: "d-block mx-auto p-4" %>
+                  <% end %>
                   <dl class="mb-0">
                     <dt class="h3 font-serif pb-4 pt-1 text-center border-bottom">
                       Trip Cost

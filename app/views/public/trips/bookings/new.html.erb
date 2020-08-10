@@ -1,8 +1,7 @@
 <style>
   <% if @booking.organisation.background_color? %>
-    /* TODO: Pete need to look at this */
-    .bg-skew {
-      background_color: <%= @booking.organisation.background_color %>
+    .bg-skew::before {
+      background: <%= @booking.organisation.background_color %>
     }
   <% end %>
 </style>
