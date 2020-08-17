@@ -34,7 +34,7 @@ module OnboardingHelper
     @current_organisation.on_trial? && @current_organisation.bookings.count.zero? && count.zero?
   end
 
-  def stripe_account_link(type="custom_account_verification")
+  def stripe_account_link(type="account_onboarding")
     External::StripeApi::AccountLink.
       create(@current_organisation.stripe_account_id_live,
              failure_url: guides_welcome_stripe_account_link_failure_url,

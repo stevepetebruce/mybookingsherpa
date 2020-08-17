@@ -15,14 +15,14 @@ module External
       def create
         Stripe::AccountLink.create({
           account: @stripe_account_id,
-          collect: "currently_due",
+          collect: "eventually_due",
           failure_url: @failure_url,
           success_url: @success_url,
           type: @type
         }).url
       end
 
-      def self.create(stripe_account_id, failure_url:, success_url:, type: "custom_account_verification")
+      def self.create(stripe_account_id, failure_url:, success_url:, type: "account_onboarding")
         new(stripe_account_id, failure_url, success_url, type).create
       end
     end

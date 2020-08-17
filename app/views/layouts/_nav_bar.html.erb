@@ -29,7 +29,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <% if @current_organisation&.onboarding_complete? && @current_organisation&.stripe_account_id %>
-            <%= link_to stripe_account_link, target: "_blank", class: "dropdown-item" do %>
+            <%= link_to stripe_account_link("account_update"), target: "_blank", class: "dropdown-item" do %>
               <i class="la la-user"></i> Manage Account
             <% end %>
           <% end %>

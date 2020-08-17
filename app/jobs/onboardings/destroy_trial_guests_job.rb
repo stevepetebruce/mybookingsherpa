@@ -9,6 +9,7 @@ module Onboardings
 
       @organisation = organisation
       trial_guests.destroy_all
+      # TODO: could post an event to update the logged in users' view
     end
 
     private
