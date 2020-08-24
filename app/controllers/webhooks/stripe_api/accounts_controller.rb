@@ -1,10 +1,16 @@
 module Webhooks
   module StripeApi
     class AccountsController < ApplicationController
+      include Onboardings::Tracking
+
       protect_from_forgery except: :create
 
       def create
-        organisation.onboarding.update(stripe_account_complete: stripe_account_complete?) if organisation
+        if organisation && !organisation.onboarding.complete?
+          organisation.onboarding.update(stripe_account_complete: stripe_account_complete?)
+          onboarding_complete_jobs if organisation.onboarding.reload.complete?
+        end
+
         head :ok
       end
 
@@ -16,6 +22,11 @@ module Webhooks
 
       def event
         @event ||= Stripe::Webhook.construct_event(payload, signature_header, end_point_secret)
+      end
+
+      def onboarding_complete_jobs
+        track_onboarding_event("trial_ended")
+        Onboardings::DestroyTrialGuestsJob.perform_later(organisation)
       end
 
       def organisation

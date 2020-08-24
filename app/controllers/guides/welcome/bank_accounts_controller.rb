@@ -9,21 +9,29 @@ module Guides
       before_action :authenticate_guide!
 
       def new
-        redirect_to guides_trips_path unless only_bank_account_required?
+        if bank_account_not_set_up?
+          render :new
+        else
+          redirect_to guides_trips_path(just_completed_set_up: just_completed_set_up?) and return
+        end
       end
 
       def create
         # TODO: create / capture raw_stripe_api_response
         if bank_account_created?
-          bank_account_complete_tasks
-
-          redirect_to guides_trips_path(completed_set_up: true)
+          track_onboarding_event("new_bank_account_created")
+          @current_organisation.onboarding.update(bank_account_complete: true)
+          redirect_to guides_trips_path(just_completed_set_up: just_completed_set_up?)
         else
           track_onboarding_event("new_bank_account_creation_failed")
           flash.now[:alert] = "Problem creating bank account. Please try again or contact support."
           render "new"
         end
       end
+
+      # def edit
+      #   # TODO: will be when the guide needs to edit their bank account
+      # end
 
       private
 
@@ -36,17 +44,8 @@ module Guides
         stripe_external_account.status == "new"
       end
 
-      def bank_account_complete_tasks
-        return if @current_organisation.onboarding_complete? # Don't want to delete genuine bookings
-
-        track_onboarding_event("new_bank_account_created")
-        @current_organisation.onboarding.update(bank_account_complete: true,
-                                                stripe_account_complete: stripe_account_complete?)
-
-        if @current_organisation.onboarding.reload.complete?
-          track_onboarding_event("trial_ended")
-          Onboardings::DestroyTrialGuestsJob.perform_later(@current_organisation)
-        end
+      def just_completed_set_up?
+        @current_organisation.onboarding.just_completed_set_up?
       end
 
       def assign_current_organisation
@@ -54,8 +53,12 @@ module Guides
         @current_organisation ||= current_guide&.organisation_memberships&.owners&.first&.organisation
       end
 
-      def only_bank_account_required?
-        stripe_account_requirements == ["external_account"] || stripe_account_requirements.empty?
+      def bank_account_not_set_up?
+        stripe_account_requirements.include?("external_account")
+      end
+
+      def identity_verification_required?
+        stripe_account_requirements.select { |x| x =~ /individual.verification/ }.any?
       end
 
       def stripe_account
@@ -63,12 +66,16 @@ module Guides
           External::StripeApi::Account.retrieve(@current_organisation.stripe_account_id_live)
       end
 
-      def stripe_account_complete?
-        stripe_account.charges_enabled && stripe_account.payouts_enabled
-      end
-
       def stripe_account_requirements
         @stripe_account_requirements ||= stripe_account.requirements.currently_due
+      end
+
+      def stripe_connect_hosted_onboarding_path
+        External::StripeApi::AccountLink.
+          create(@current_organisation.stripe_account_id_live,
+                 failure_url: guides_welcome_stripe_account_link_failure_url,
+                 success_url: new_guides_welcome_bank_account_url,
+                 type: "account_onboarding")
       end
 
       def stripe_external_account

@@ -17,6 +17,11 @@ class Onboarding < ApplicationRecord
     events.select { |event| event["name"] == event_name }&.first
   end
 
+  def just_completed_set_up?
+    complete? &&
+      find_event("trial_ended").presence["created_at"] > 5.minutes.ago
+  end
+
   def solo_founder?
     events.select { |event| event["name"] == "new_solo_account_chosen" }.any?
   end

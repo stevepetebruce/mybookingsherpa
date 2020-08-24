@@ -12,7 +12,7 @@
               </a>
             </span>
           </h1>
-          <% if params[:completed_set_up] %>
+          <% if params[:just_completed_set_up].presence == "true" %>
             <div class="card card-shadow card-rounded" data-controller="modal-onload">
           <% else %>
             <div class="card card-shadow card-rounded">
@@ -177,7 +177,7 @@
   </div>
 </div>
 <!-- Onboarding modal -->
-<% if params[:completed_set_up] %>
+<% if params[:just_completed_set_up].presence == "true" %>
   <div data-controller="modal-onload" data-modal-onload-onclose-redirect-url="<%= guides_trips_url %>">
     <div class="modal fade" id="onloadModal" tabindex="-1" role="dialog" aria-labelledby="trialModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
